@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Baston - Responsive Admin Dashboard Template</title>
+    <title>Clinta APanel</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="<?= $template ?>assets/media/image/favicon.png"/>
@@ -43,7 +43,16 @@
                             <i class="ti-menu"></i>
                         </a>
                     </li>
-
+<?php //$hour = date('H'); // Get the current hour in 24-hour format
+//
+//if ($hour >= 18) {
+//    echo "Good evening!";
+//} elseif ($hour >= 12) {
+//    echo "Good afternoon!";
+//} else {
+//    echo "Good morning!";
+//}
+//?>
                 </ul>
             </div>
 
