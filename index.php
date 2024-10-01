@@ -31,12 +31,12 @@ define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('PATH', 'http://localhost/admin.dright.pk/');
-    define('TEMPLATE', 'http://localhost/admin.dright.pk/assets/');
+    define('TEMPLATE', 'http://localhost/admin.dright.pk/template/');
     define('DB_USER', 'root');
     define('DB_PASS', '');
 } else {
     define('PATH', 'http://admin.dright.pk/');
-    define('TEMPLATE', 'http://admin.dright.pk/assets/');
+    define('TEMPLATE', 'http://admin.dright.pk/template/');
 
     define('DB_USER', '127.0.0.1');
     define('DB_PASS', '127.0.0.1');
