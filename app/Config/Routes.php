@@ -9,6 +9,8 @@ $routes->setAutoRoute(true);
 
 $routes->get('/', 'Home::index');
 $routes->get('table', 'Home::table');
+$routes->get('login', 'Home::login');
+
 $routes->group('support-ticket', static function ($routes) {
     $routes->get('/', 'SupportTickets::index');
     $routes->get('add', 'SupportTickets::index');
