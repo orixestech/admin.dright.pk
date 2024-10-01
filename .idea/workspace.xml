@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a887c5d6-5c68-44ed-a14a-60042c1c8898" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/template/assets/css/app.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/template/assets/css/app.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Config/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Config/Database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/Clinta aPanel.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Clinta aPanel.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +55,7 @@
       <workItem from="1727758911535" duration="300000" />
       <workItem from="1727761821127" duration="975000" />
       <workItem from="1727764149774" duration="35000" />
-      <workItem from="1727767028121" duration="73000" />
+      <workItem from="1727767028121" duration="1343000" />
     </task>
     <servers />
   </component>

@@ -29,7 +29,7 @@ class Database extends Config
         'hostname'     => 'localhost',
         'username'     => DB_USER,
         'password'     => DB_PASS,
-        'database'     => 'clinta_maindb',
+        'database'     => DB_NAME,
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,

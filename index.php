@@ -32,15 +32,17 @@ define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('PATH', 'http://localhost/admin.dright.net/');
     define('TEMPLATE', 'http://localhost/admin.dright.net/template/');
+
     define('DB_USER', 'root');
     define('DB_PASS', '');
+    define('DB_NAME', 'clinta_maindb');
 } else {
     define('PATH', 'http://admin.dright.net/');
     define('TEMPLATE', 'http://admin.dright.net/template/');
 
-    define('DB_USER', '127.0.0.1');
-    define('DB_PASS', '127.0.0.1');
-    define('DB_DB', '127.0.0.1');
+    define('DB_USER', '');
+    define('DB_PASS', '');
+    define('DB_NAME', 'clinta_maindb');
 }
 // Ensure the current directory is pointing to the front controller's directory
 if (getcwd() . DIRECTORY_SEPARATOR !== FCPATH) {
