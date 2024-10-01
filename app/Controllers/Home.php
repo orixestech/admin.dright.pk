@@ -12,10 +12,7 @@ class Home extends BaseController
 //    }
     public function index(){
         $UserData = new Main();
-
-
-        $data['Med'] = $UserData->AllFruit();
-
+        $data['Med'] = $UserData->AllMED();
         echo view('home',$data);
 
     }

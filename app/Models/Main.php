@@ -32,7 +32,7 @@ class Main extends Model
 //        return $data;
 //    }
 
-    public function AllFruit()
+    public function AllMED()
     {
         $Crud = new Crud();
         $SQL = 'SELECT * FROM `medicines` Order By `MedicineTitle` ';
