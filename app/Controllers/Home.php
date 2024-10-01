@@ -28,4 +28,11 @@ class Home extends BaseController
         echo view('footer',$data);
 
     }
+    public function table(){
+        $data = $this->data;
+        echo view('header',$data);
+        echo view('table',$data);
+        echo view('footer',$data);
+
+    }
 }
