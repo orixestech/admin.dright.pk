@@ -118,7 +118,7 @@
             <ul id="apps">
                 <li class="navigation-divider">Support Ticket</li>
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?=$path?>support-ticket/dashboard">
                                 <span class="nav-link-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -134,15 +134,15 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="apexchart.html">Add</a>
+                            <a href="<?= $path?>support-ticket/add">Add</a>
                         </li>
                         <li>
-                            <a href="justgage.html">All </a>
+                            <a href="<?= $path?>support-ticket">All </a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="file-manager.html">
+                    <a href="<?= $path?>support-ticket/pending">
                         <span class="nav-link-icon" data-feather="file"></span>
                         <span>Pending</span>
                     </a>
