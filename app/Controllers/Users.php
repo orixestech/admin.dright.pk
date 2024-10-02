@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 
-class Tasks extends BaseController
+class Users extends BaseController
 {
     var $data = array();
 
@@ -27,16 +27,16 @@ class Tasks extends BaseController
         $data['page'] = getSegment(2);
 
         echo view('header', $data);
-        if ($data['page'] == 'assigned_task') {
-            echo view('task_system/assigned_task', $data);
+        if ($data['page'] == 'access_level') {
+            echo view('users/access_level', $data);
         }elseif ($data['page'] == 'add'){
-            echo view('task_system/main_form', $data);
+            echo view('users/main_form', $data);
 
         }elseif ($data['page'] == 'update'){
-            echo view('task_system/main_form', $data);
+            echo view('users/main_form', $data);
 
         } else {
-            echo view('task_system/index', $data);
+            echo view('users/index', $data);
 
         }
         echo view('footer', $data);

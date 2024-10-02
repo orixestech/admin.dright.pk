@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-body">
-        <h6 class="card-title">Add Support Ticket</h6>
+        <h6 class="card-title">Add Task</h6>
         <form class="needs-validation" novalidate="">
             <div class="form-row">
                 <div class="col-md-4 mb-3">

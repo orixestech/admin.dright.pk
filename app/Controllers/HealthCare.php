@@ -2,8 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\Blog;
 
-class Tasks extends BaseController
+class SupportTickets extends BaseController
 {
     var $data = array();
 
@@ -27,16 +28,16 @@ class Tasks extends BaseController
         $data['page'] = getSegment(2);
 
         echo view('header', $data);
-        if ($data['page'] == 'assigned_task') {
-            echo view('task_system/assigned_task', $data);
+        if ($data['page'] == 'pending') {
+            echo view('support_ticket/pending', $data);
         }elseif ($data['page'] == 'add'){
-            echo view('task_system/main_form', $data);
+            echo view('support_ticket/main_form', $data);
 
         }elseif ($data['page'] == 'update'){
-            echo view('task_system/main_form', $data);
+            echo view('support_ticket/main_form', $data);
 
         } else {
-            echo view('task_system/index', $data);
+            echo view('support_ticket/index', $data);
 
         }
         echo view('footer', $data);

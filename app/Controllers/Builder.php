@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 
-class Tasks extends BaseController
+class Builder extends BaseController
 {
     var $data = array();
 
@@ -27,16 +27,23 @@ class Tasks extends BaseController
         $data['page'] = getSegment(2);
 
         echo view('header', $data);
-        if ($data['page'] == 'assigned_task') {
-            echo view('task_system/assigned_task', $data);
-        }elseif ($data['page'] == 'add'){
-            echo view('task_system/main_form', $data);
+        if ($data['page'] == 'add') {
+            echo view('builder/main_form', $data);
 
-        }elseif ($data['page'] == 'update'){
-            echo view('task_system/main_form', $data);
+        } elseif ($data['page'] == 'update') {
+            echo view('builder/main_form', $data);
+
+        } elseif ($data['page'] == 'hospital') {
+            echo view('builder/main_form', $data);
+
+        } elseif ($data['page'] == 'images') {
+            echo view('builder/main_form', $data);
+
+        } elseif ($data['page'] == 'banners') {
+            echo view('builder/main_form', $data);
 
         } else {
-            echo view('task_system/index', $data);
+            echo view('builder/index', $data);
 
         }
         echo view('footer', $data);
@@ -46,7 +53,7 @@ class Tasks extends BaseController
     {
         $data = $this->data;
         echo view('header', $data);
-        echo view('support_ticket/dashboard', $data);
+        echo view('builder/dashboard', $data);
         echo view('footer', $data);
     }
 

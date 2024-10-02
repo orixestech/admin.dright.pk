@@ -192,7 +192,7 @@
                 <!--                    </ul>-->
                 <!--                </li>-->
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?=$path?>task/dashboard">
                                 <span class="nav-link-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -201,7 +201,7 @@
 
                 </li>
                 <li>
-                    <a href="avatar.html">
+                    <a href="<?=$path?>task/">
                                 <span class="nav-link-icon">
                                     <i data-feather="aperture"></i>
                                 </span>
@@ -209,7 +209,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="icons.html">
+                    <a href="<?=$path?>task/assigned_task">
                                 <span class="nav-link-icon">
                                     <i data-feather="anchor"></i>
                                 </span>
@@ -389,7 +389,7 @@
             <ul id="pages">
                 <li class="navigation-divider">Builder</li>
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?=$path?>builder/dashboard">
                                 <span class="nav-link-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -417,28 +417,28 @@
                 <!--                    </ul>-->
                 <!--                </li>-->
                 <li>
-                    <a href="timeline.html">
+                    <a href="<?=$path?>builder/">
                         <span class="nav-link-icon" data-feather="hash"></span>
                         <span>Doctors</span>
                     </a>
                 </li>
                 <li>
-                    <a href="search-result.html">
+                    <a href="<?=$path?>builder/hospital">
                         <span class="nav-link-icon" data-feather="search"></span>
                         <span>Hospital</span>
                     </a>
                 </li>
                 <li>
-                    <a href="blank-page.html">
+                    <a href="<?=$path?>builder/images">
                         <span class="nav-link-icon" data-feather="layout"></span>
                         <span>Images</span>
 
                     </a>
                 </li>
                 <li>
-                    <a href="404.html" target="_blank">
+                    <a href="<?=$path?>builder/banners" target="_blank">
                         <span class="nav-link-icon" data-feather="frown"></span>
-                        <span>Banner</span>
+                        <span>Banners</span>
                     </a>
                 </li>
                 <!--                <li>-->
