@@ -29,10 +29,10 @@ class Tasks extends BaseController
         echo view('header', $data);
         if ($data['page'] == 'assigned_task') {
             echo view('task_system/assigned_task', $data);
-        }elseif ($data['page'] == 'add'){
+        } elseif ($data['page'] == 'add') {
             echo view('task_system/main_form', $data);
 
-        }elseif ($data['page'] == 'update'){
+        } elseif ($data['page'] == 'update') {
             echo view('task_system/main_form', $data);
 
         } else {
