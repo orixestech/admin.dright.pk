@@ -9,11 +9,11 @@
     <!-- Logo -->
     <div class="navigation-header">
         <a class="navigation-logo" href=index.html>
-            <img class="logo" src="<?= $template ?>assets/media/image/logo/logo.png" alt="logo">
-            <img class="dark-logo" src="<?= $template ?>assets/media/image/logo/dark-logo.png" alt="dark logo">
-            <img class="small-logo" src="<?= $template ?>assets/media/image/logo/small-logo.png" alt="small logo">
-            <img class="small-dark-logo" src="<?= $template ?>assets/media/image/logo/small-dark-logo.png"
-                 alt="small dark logo">
+            <img class="logo" src="<?= $template ?>logo.png" style="width: 46%;" alt="logo">
+<!--            <img class="dark-logo" src="--><?php //= $template ?><!--assets/media/image/logo/dark-logo.png" alt="dark logo">-->
+<!--            <img class="small-logo" src="--><?php //= $template ?><!--assets/media/image/logo/small-logo.png" alt="small logo">-->
+<!--            <img class="small-dark-logo" src="--><?php //= $template ?><!--assets/media/image/logo/small-dark-logo.png"-->
+<!--                 alt="small dark logo">-->
         </a>
         <a href="#" class="small-navigation-toggler"></a>
     </div>
