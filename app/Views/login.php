@@ -4,22 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Baston - Responsive Admin Dashboard Template</title>
-
-    <!-- Favicon -->
+    <title>D-Right aPanel</title>
     <link rel="shortcut icon" href="<?= $template ?>assets/media/image/favicon.png"/>
-
-    <!-- Plugin styles -->
     <link rel="stylesheet" href="<?= $template ?>vendors/bundle.css" type="text/css">
-
-    <!-- App styles -->
     <link rel="stylesheet" href="<?= $template ?>assets/css/app.min.css" type="text/css">
-
-    <!-- Plugin scripts -->
     <script src="<?= $template ?>vendors/bundle.js"></script>
 </head>
 <body class="form-membership"
-      style="background: url(http://localhost/admin.dright.net/template/login-bg.png);background-repeat: no-repeat;background-position: top left;background-size: cover;">
+      style="background: url(<?= $template ?>login-bg.png);background-repeat: no-repeat;background-position: top left;background-size: cover;">
 
 <div class="form-wrapper">
 
