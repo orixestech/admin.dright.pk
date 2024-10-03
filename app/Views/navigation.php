@@ -10,13 +10,6 @@
     <div class="navigation-header">
         <a class="navigation-logo" href=index.html>
             <img class="logo" src="<?= $template ?>logo.png" style="width: 46%;" alt="logo">
-            <!--            <img class="dark-logo" src="-->
-            <?php //= $template ?><!--assets/media/image/logo/dark-logo.png" alt="dark logo">-->
-            <!--            <img class="small-logo" src="-->
-            <?php //= $template ?><!--assets/media/image/logo/small-logo.png" alt="small logo">-->
-            <!--            <img class="small-dark-logo" src="-->
-            <?php //= $template ?><!--assets/media/image/logo/small-dark-logo.png"-->
-            <!--                 alt="small dark logo">-->
         </a>
         <a href="#" class="small-navigation-toggler"></a>
     </div>
@@ -153,47 +146,7 @@
             </ul>
             <ul id="components">
                 <li class="navigation-divider">Task System</li>
-                <!--                <li>-->
-                <!--                    <a href="#">-->
-                <!--                                <span class="nav-link-icon">-->
-                <!--                                    <i data-feather="layers"></i>-->
-                <!--                                </span>-->
-                <!--                        <span>Basic Components</span>-->
-                <!--                    </a>-->
-                <!--                    <ul>-->
-                <!--                        <li>-->
-                <!--                            <a  href="alert.html">Alerts</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="accordion.html">Accordion</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="buttons.html">Buttons</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="dropdown.html">Dropdown</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="list-group.html">List Group</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="pagination.html">Pagination</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="typography.html">Typography</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="media-object.html">Media Object</a>-->
-                <!--                        </li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="progress.html">Progress</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="modal.html">Modal</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="spinners.html">Spinners</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="navs.html">Navs</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="tab.html">Tab</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="tooltip.html">Tooltip</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a  href="popovers.html">Popovers</a></li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
+
                 <li>
                     <a href="<?= $path ?>task/dashboard">
                                 <span class="nav-link-icon">
@@ -304,36 +257,6 @@
                             <a href="popovers.html">Popovers</a></li>
                     </ul>
                 </li>
-                <!--                <li>-->
-                <!--                    <a href="custom-forms.html">-->
-                <!--                        <span class="nav-link-icon" data-feather="disc"></span>-->
-                <!--                        <span>Custom Forms</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
-                <!--                <li>-->
-                <!--                    <a href="advanced-forms.html">-->
-                <!--                        <span class="nav-link-icon" data-feather="framer"></span>-->
-                <!--                        <span>Advanced Forms</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
-                <!--                <li>-->
-                <!--                    <a href="form-validation.html">-->
-                <!--                        <span class="nav-link-icon" data-feather="toggle-left"></span>-->
-                <!--                        <span>Form Validation</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
-                <!--                <li>-->
-                <!--                    <a href="form-wizard.html">-->
-                <!--                        <span class="nav-link-icon" data-feather="sliders"></span>-->
-                <!--                        <span>Form Wizard</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
-                <!--                <li>-->
-                <!--                    <a href="form-repeater.html">-->
-                <!--                        <span class="nav-link-icon" data-feather="repeat"></span>-->
-                <!--                        <span>Form Repeater</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
             </ul>
             <ul id="plugins">
                 <li class="navigation-divider">Extended</li>
@@ -370,24 +293,6 @@
                         <span>Default Lookups</span>
                     </a>
                 </li>
-
-                <!--                <li>-->
-                <!--                    <a href="#">-->
-                <!--                        <span class="nav-link-icon" data-feather="activity"></span>-->
-                <!--                        <span>Charts</span>-->
-                <!--                    </a>-->
-                <!--                    <ul>-->
-                <!--                        <li>-->
-                <!--                            <a href="apexchart.html">Apex Chart</a>-->
-                <!--                        </li>-->
-                <!--                        <li>-->
-                <!--                            <a href="justgage.html">Justgage</a>-->
-                <!--                        </li>-->
-                <!--                        <li>-->
-                <!--                            <a href="peity.html">Peity</a>-->
-                <!--                        </li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
             </ul>
             <ul id="pages">
                 <li class="navigation-divider">Builder</li>
@@ -400,25 +305,6 @@
                     </a>
 
                 </li>
-                <!--                <li>-->
-                <!--                    <a href="#">-->
-                <!--                        <span class="nav-link-icon" data-feather="users"></span>-->
-                <!--                        <span>User Pages</span>-->
-                <!--                    </a>-->
-                <!--                    <ul>-->
-                <!--                        <li>-->
-                <!--                            <a href="profile.html">Profile</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a href="user-list.html">User List</a></li>-->
-                <!--                        <li>-->
-                <!--                            <a href="user-edit.html">User Edit</a></li>-->
-                <!--                        <li><a href="login.html" target="_blank">Login</a></li>-->
-                <!--                        <li><a href="register.html" target="_blank">Register</a></li>-->
-                <!--                        <li><a href="recovery-password.html" target="_blank">Recovery Password</a>-->
-                <!--                        </li>-->
-                <!--                        <li><a href="lock-screen.html" target="_blank">Lock Screen</a></li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
                 <li>
                     <a href="<?= $path ?>builder/">
                         <span class="nav-link-icon" data-feather="hash"></span>
@@ -444,18 +330,6 @@
                         <span>Banners</span>
                     </a>
                 </li>
-                <!--                <li>-->
-                <!--                    <a href="503.html" target="_blank">-->
-                <!--                        <span class="nav-link-icon" data-feather="frown"></span>-->
-                <!--                        <span>503</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
-                <!--                <li>-->
-                <!--                    <a href="mean-at-work.html" target="_blank">-->
-                <!--                        <span class="nav-link-icon" data-feather="tool"></span>-->
-                <!--                        <span>Mean at Work</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
             </ul>
             <ul id="other">
                 <li class="navigation-divider">Pharmacy</li>
@@ -486,38 +360,6 @@
                             <a href="justgage.html">Listing</a>
                         </li>
                     </ul>
-                </li>
-                <!--                <li>-->
-                <!--                    <a href="#">-->
-                <!--                                <span class="nav-link-icon">-->
-                <!--                                    <i data-feather="mail"></i>-->
-                <!--                                </span>-->
-                <!--                        <span>Email Templates</span>-->
-                <!--                    </a>-->
-                <!--                    <ul>-->
-                <!--                        <li><a target="_blank" href="email-template-basic.html">Basic</a></li>-->
-                <!--                        <li><a target="_blank" href="email-template-alert.html">Alert</a></li>-->
-                <!--                        <li><a target="_blank" href="email-template-billing.html">Billing</a></li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
-                <!--                <li>-->
-                <!--                    <a href="#">-->
-                <!--                                <span class="nav-link-icon">-->
-                <!--                                    <i data-feather="menu"></i>-->
-                <!--                                </span>-->
-                <!--                        <span>Menu Level</span>-->
-                <!--                    </a>-->
-                <!--                    <ul>-->
-                <!--                        <li>-->
-                <!--                            <a href="#">Menu Level</a>-->
-                <!--                            <ul>-->
-                <!--                                <li>-->
-                <!--                                    <a href="#">Menu Level </a>-->
-                <!--                                </li>-->
-                <!--                            </ul>-->
-                <!--                        </li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
             </ul>
             <ul id="users">
                 <li class="navigation-divider">Users</li>
@@ -571,25 +413,7 @@
                     </a>
 
                 </li>
-
-
-                <!--                    <a href="#">-->
-                <!--                                <span class="nav-link-icon">-->
-                <!--                                    <i data-feather="menu"></i>-->
-                <!--                                </span>-->
-                <!--                        <span>Menu Level</span>-->
-                <!--                    </a>-->
-                <!--                    <ul>-->
-                <!--                        <li>-->
-                <!--                            <a href="#">Menu Level</a>-->
-                <!--                            <ul>-->
-                <!--                                <li>-->
-                <!--                                    <a href="#">Menu Level </a>-->
-                <!--                                </li>-->
-                <!--                            </ul>-->
-                <!--                        </li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
+                
             </ul>
         </div>
         <!-- ./ Menu body -->
