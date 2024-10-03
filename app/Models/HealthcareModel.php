@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Main extends Model
+class HealthcareModel extends Model
 {
 
     var $data = array();
@@ -32,6 +32,13 @@ class Main extends Model
 //        return $data;
 //    }
 
+    public function Diet()
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `public_diet` where `Category`=\'fruits\' Order By `Name` ';
+//        $Admin = $Crud->ExecuteSQL($SQL);
+        return $SQL;
+    }
     public
     function get_fruit_datatables($keyword='')
     {
@@ -55,4 +62,5 @@ class Main extends Model
 //        print_r($records);exit();
         return count($records);
     }
+
 }

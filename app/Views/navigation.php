@@ -176,7 +176,7 @@
             <ul id="forms">
                 <li class="navigation-divider">Health Care</li>
                 <li>
-                    <a href="<?= $path ?>">
+                    <a href="<?= $path ?>health-care/dashboard">
                                 <span class="nav-link-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -193,17 +193,17 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="alert.html">Alerts</a></li>
+                            <a href="<?= $path ?>health-care/fruit">Fruit</a></li>
                         <li>
-                            <a href="accordion.html">Accordion</a></li>
-                        <li>
-                            <a href="buttons.html">Buttons</a></li>
-                        <li>
-                            <a href="dropdown.html">Dropdown</a></li>
-                        <li>
-                            <a href="list-group.html">List Group</a></li>
-                        <li>
-                            <a href="pagination.html">Pagination</a></li>
+                            <a href="<?= $path ?>health-care/vegetable">Vegetable</a></li>
+<!--                        <li>-->
+<!--                            <a href="buttons.html">Buttons</a></li>-->
+<!--                        <li>-->
+<!--                            <a href="dropdown.html">Dropdown</a></li>-->
+<!--                        <li>-->
+<!--                            <a href="list-group.html">List Group</a></li>-->
+<!--                        <li>-->
+<!--                            <a href="pagination.html">Pagination</a></li>-->
 
                     </ul>
                 </li>

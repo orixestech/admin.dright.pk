@@ -10,6 +10,9 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->get('table', 'Home::table');
 $routes->get('login', 'Home::login');
+$routes->post('/fruit_search_filter', 'Home::fruit_search_filter');
+$routes->post('/clear_session', 'Home::clear_session');
+$routes->post('fruit-data', 'HealthCare::fetch_fruit');
 
 $routes->group('support-ticket', static function ($routes) {
     $routes->get('/', 'SupportTickets::index');
@@ -40,6 +43,16 @@ $routes->group('users', static function ($routes) {
     $routes->post('submit', 'Users::user_form_submit');
     $routes->post('delete', 'Users::delete');
     $routes->get('update/(:num)', 'Users::index');
+});
+$routes->group('health-care', static function ($routes) {
+    $routes->get('/', 'HealthCare::index');
+    $routes->get('add', 'HealthCare::index');
+    $routes->get('dashboard', 'HealthCare::dashboard');
+    $routes->get('fruit', 'HealthCare::index');
+    $routes->get('vegetable', 'HealthCare::index');
+    $routes->post('submit', 'HealthCare::user_form_submit');
+    $routes->post('delete', 'HealthCare::delete');
+    $routes->get('update/(:num)', 'HealthCare::index');
 });
 $routes->group('pharmacy', static function ($routes) {
     $routes->get('dashboard', 'Pharmacy::dashboard');

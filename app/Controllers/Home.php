@@ -32,6 +32,41 @@ class Home extends BaseController
         echo view('footer', $data);
 
     }
+    public function fruit_search_filter()
+    {
+        $session = session();
+        $Categories = $this->request->getVar( 'Categories' );
+
+
+        $AllFilter = array (
+            'Categories' => $Categories,
+
+        );
+
+
+//        print_r($AllCVFilter);exit;
+        $session->set( 'FruitFilters', $AllFilter );
+
+        $response[ 'status' ] = "success";
+        $response[ 'message' ] = "Filters Updated Successfully";
+
+        echo json_encode( $response );
+    }
+
+
+    public
+    function clear_session()
+    {
+        $session = session();
+        $SessionName = $this->request->getVar( 'SessionName' );
+
+        $session->set( $SessionName, array () );
+
+        $response = array ();
+        $response[ 'status' ] = 'success';
+        $response[ 'message' ] = "Filters Updated Successfully";
+        echo json_encode( $response );
+    }
 
     public function login()
     {

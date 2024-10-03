@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Models\Blog;
+use App\Models\HealthcareModel;
 
-class SupportTickets extends BaseController
+
+class HealthCare extends BaseController
 {
     var $data = array();
 
@@ -26,18 +27,26 @@ class SupportTickets extends BaseController
     {
         $data = $this->data;
         $data['page'] = getSegment(2);
+        $fruits = new \App\Models\HealthcareModel();
 
         echo view('header', $data);
         if ($data['page'] == 'pending') {
-            echo view('support_ticket/pending', $data);
-        }elseif ($data['page'] == 'add'){
-            echo view('support_ticket/main_form', $data);
+            echo view('health_care/pending', $data);
+        } elseif ($data['page'] == 'add') {
+            echo view('health_care/main_form', $data);
 
-        }elseif ($data['page'] == 'update'){
-            echo view('support_ticket/main_form', $data);
+        } elseif ($data['page'] == 'fruit') {
+            $data['fruit'] = $fruits->Diet();
+            echo view('health_care/fruit', $data);
+
+        } elseif ($data['page'] == 'vegetable') {
+            echo view('health_care/vegetable', $data);
+
+        } elseif ($data['page'] == 'update') {
+            echo view('health_care/main_form', $data);
 
         } else {
-            echo view('support_ticket/index', $data);
+            echo view('health_care/index', $data);
 
         }
         echo view('footer', $data);
@@ -47,9 +56,41 @@ class SupportTickets extends BaseController
     {
         $data = $this->data;
         echo view('header', $data);
-        echo view('support_ticket/dashboard', $data);
+        echo view('healthcare/dashboard', $data);
         echo view('footer', $data);
     }
 
+    public function fetch_fruit()
+    {
+        $Admin = new HealthcareModel();
+        $Data = $Admin->get_fruit_datatables();
+        $totalfilterrecords = $Admin->count_fruit_datatables();
+//        print_r($Data);
+//        exit();
+
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = (isset($record['Image']) && $record['Image'] != '')
+                ? '<img src="'. PATH .'upload/diet/'.$record['Image'].'" class="img-thumbnail" style="height:80px;">'
+                : '<img class="img-thumbnail" style="height:40px;" src="'. PATH .'upload/diet/images.png">';
+
+            $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
+           $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+
+        echo json_encode($response);
+    }
 
 }
