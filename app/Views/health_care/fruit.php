@@ -12,7 +12,7 @@
                 <th>Name</th>
 <!--                <th>Age</th>-->
 <!--                <th>Nutritional Items</th>-->
-                <th>Actions</th>
+<!--                <th>Actions</th>-->
             </tr>
             </thead>
            <tbody>
@@ -24,7 +24,7 @@
                 <th>Name</th>
 <!--                <th>Age</th>-->
 <!--                <th>Nutritional Items</th>-->
-                <th>Actions</th>
+<!--                <th>Actions</th>-->
             </tr>
             </tfoot>
         </table>
