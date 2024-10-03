@@ -2,9 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Models\Blog;
 
-class SupportTickets extends BaseController
+class Pharmacy extends BaseController
 {
     var $data = array();
 
@@ -29,15 +28,15 @@ class SupportTickets extends BaseController
 
         echo view('header', $data);
         if ($data['page'] == 'pending') {
-            echo view('support_ticket/pending', $data);
+            echo view('pharmacy/pending', $data);
         }elseif ($data['page'] == 'add'){
-            echo view('support_ticket/main_form', $data);
+            echo view('pharmacy/main_form', $data);
 
         }elseif ($data['page'] == 'update'){
-            echo view('support_ticket/main_form', $data);
+            echo view('pharmacy/main_form', $data);
 
         } else {
-            echo view('support_ticket/index', $data);
+            echo view('pharmacy/index', $data);
 
         }
         echo view('footer', $data);
@@ -47,7 +46,7 @@ class SupportTickets extends BaseController
     {
         $data = $this->data;
         echo view('header', $data);
-        echo view('support_ticket/dashboard', $data);
+        echo view('pharmacy/dashboard', $data);
         echo view('footer', $data);
     }
 

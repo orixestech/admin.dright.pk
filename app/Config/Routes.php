@@ -34,13 +34,31 @@ $routes->group('builder', static function ($routes) {
 $routes->group('users', static function ($routes) {
     $routes->get('/', 'Users::index');
     $routes->get('add', 'Users::index');
-    $routes->get('access_level', 'Users::index');
+    $routes->get('access-level', 'Users::index');
+    $routes->get('admin-activites', 'Users::index');
     $routes->get('dashboard', 'Users::dashboard');
     $routes->post('submit', 'Users::user_form_submit');
     $routes->post('delete', 'Users::delete');
     $routes->get('update/(:num)', 'Users::index');
 });
-$routes->group('tasks', static function ($routes) {
+$routes->group('pharmacy', static function ($routes) {
+    $routes->get('dashboard', 'Pharmacy::dashboard');
+});
+$routes->group('medicine', static function ($routes) {
+    $routes->get('/', 'Pharmacy::index');
+    $routes->get('add', 'Pharmacy::index');
+    $routes->post('submit', 'Pharmacy::user_form_submit');
+    $routes->post('delete', 'Pharmacy::delete');
+    $routes->get('update/(:num)', 'Pharmacy::index');
+});
+$routes->group('therapy', static function ($routes) {
+    $routes->get('/', 'Pharmacy::index');
+    $routes->get('add', 'Pharmacy::index');
+    $routes->post('submit', 'Pharmacy::user_form_submit');
+    $routes->post('delete', 'Pharmacy::delete');
+    $routes->get('update/(:num)', 'Pharmacy::index');
+});
+$routes->group('task', static function ($routes) {
     $routes->get('/', 'Tasks::index');
     $routes->get('add', 'Tasks::index');
     $routes->get('assigned_task', 'Tasks::index');

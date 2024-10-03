@@ -1,6 +1,6 @@
 <div class="page-header">
     <div class="page-title">
-        <h3>Analytics Dashboard</h3>
+        <h3>Pharamcy Dashboard</h3>
         <div>
             <div id="analytics-dashboard-daterangepicker" class="btn btn-outline-light">
                 <i class="ti-calendar mr-2 text-muted"></i>

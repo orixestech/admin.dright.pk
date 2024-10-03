@@ -46,7 +46,7 @@ class Tasks extends BaseController
     {
         $data = $this->data;
         echo view('header', $data);
-        echo view('support_ticket/dashboard', $data);
+        echo view('task_system/dashboard', $data);
         echo view('footer', $data);
     }
 

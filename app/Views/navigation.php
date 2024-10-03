@@ -21,7 +21,7 @@
         <div class="navigation-menu-tab">
             <ul>
                 <li>
-                    <a href="#" data-menu-target="#dashboards">
+                    <a href="<?=$path?>" >
                                 <span class="menu-tab-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -98,19 +98,19 @@
 
         <!-- Menu body -->
         <div class="navigation-menu-body">
-            <ul id="dashboards">
-                <li class="navigation-divider">Dashboards</li>
-
-                <li>
-                    <a class="active"
-                       href="<?= $path ?>">
-                        <span class="nav-link-icon" data-feather="bar-chart-2"></span>
-                        <span>Analytics</span>
-                        <!--                        <span class="badge badge-success">New</span>-->
-                    </a>
-                </li>
-
-            </ul>
+<!--            <ul id="dashboards">-->
+<!--                <li class="navigation-divider">Dashboards</li>-->
+<!---->
+<!--                <li>-->
+<!--                    <a class="active"-->
+<!--                       href="--><?php //= $path ?><!--">-->
+<!--                        <span class="nav-link-icon" data-feather="bar-chart-2"></span>-->
+<!--                        <span>Analytics</span>-->
+<!--                        <                        <span class="badge badge-success">New</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!---->
+<!--            </ul>-->
             <ul id="apps">
                 <li class="navigation-divider">Support Ticket</li>
                 <li>
@@ -334,16 +334,25 @@
             <ul id="other">
                 <li class="navigation-divider">Pharmacy</li>
                 <li>
+                    <a href="<?= $path ?>pharmacy/dashboard">
+                                <span class="nav-link-icon">
+                                    <i data-feather="pie-chart"></i>
+                                </span>
+                        <span>Dashboard</span>
+                    </a>
+
+                </li>
+                <li>
                     <a href="#">
                         <span class="nav-link-icon" data-feather="activity"></span>
                         <span>Medicine</span>
                     </a>
                     <ul>
                         <li>
-                            <a href="apexchart.html">Add</a>
+                            <a href="<?= $path ?>medicine/add">Add</a>
                         </li>
                         <li>
-                            <a href="justgage.html">Listing</a>
+                            <a href="<?= $path ?>medicine/">Listing</a>
                         </li>
                     </ul>
                 </li>
@@ -354,17 +363,17 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="apexchart.html">Add</a>
+                            <a href="<?= $path ?>therapy/add">Add</a>
                         </li>
                         <li>
-                            <a href="justgage.html">Listing</a>
+                            <a href="<?= $path ?>therapy/">Listing</a>
                         </li>
                     </ul>
             </ul>
             <ul id="users">
                 <li class="navigation-divider">Users</li>
                 <li>
-                    <a href="<?= $path ?>">
+                    <a href="<?= $path ?>users/dashboard">
                                 <span class="nav-link-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -379,15 +388,15 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="apexchart.html">Add</a>
+                            <a href="<?= $path ?>users/add">Add</a>
                         </li>
                         <li>
-                            <a href="justgage.html">All Users</a>
+                            <a href="<?= $path ?>users">All Users</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="<?= $path ?>">
+                    <a href="<?= $path ?>users/access-level">
                                 <span class="nav-link-icon">
                                     <i data-feather="mail"></i>
                                 </span>

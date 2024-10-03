@@ -35,6 +35,9 @@ class Users extends BaseController
         }elseif ($data['page'] == 'update'){
             echo view('users/main_form', $data);
 
+        }elseif ($data['page'] == 'admin-activites'){
+            echo view('users/admin_activites', $data);
+
         } else {
             echo view('users/index', $data);
 
