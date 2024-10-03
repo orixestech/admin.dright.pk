@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Clinta APanel</title>
+    <title>D-Right aPanel</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="<?= $template ?>assets/media/image/favicon.png"/>
@@ -26,6 +26,11 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="<?= $template ?>vendors/bundle.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        localStorage.setItem('path', '<?=$path?>');
+        localStorage.setItem('template', '<?= $template ?>');
+    </script>
+    <script type="text/javascript" src="<?= $template ?>custom.js"></script>
 
 </head>
 <body>

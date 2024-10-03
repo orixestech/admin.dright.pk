@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="card-body">
-        <h6 class="card-title mb-0">DataTable Fixed Height</h6>
+        <h6 class="card-title mb-0">Support Tickets</h6>
     </div>
     <div class="table-responsive">
         <table id="example2" class="table table-striped table-bordered">

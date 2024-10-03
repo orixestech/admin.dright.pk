@@ -9,11 +9,14 @@
     <!-- Logo -->
     <div class="navigation-header">
         <a class="navigation-logo" href=index.html>
-            <img class="logo" src="<?= $template ?>assets/media/image/logo/logo.png" alt="logo">
-            <img class="dark-logo" src="<?= $template ?>assets/media/image/logo/dark-logo.png" alt="dark logo">
-            <img class="small-logo" src="<?= $template ?>assets/media/image/logo/small-logo.png" alt="small logo">
-            <img class="small-dark-logo" src="<?= $template ?>assets/media/image/logo/small-dark-logo.png"
-                 alt="small dark logo">
+            <img class="logo" src="<?= $template ?>logo.png" style="width: 46%;" alt="logo">
+            <!--            <img class="dark-logo" src="-->
+            <?php //= $template ?><!--assets/media/image/logo/dark-logo.png" alt="dark logo">-->
+            <!--            <img class="small-logo" src="-->
+            <?php //= $template ?><!--assets/media/image/logo/small-logo.png" alt="small logo">-->
+            <!--            <img class="small-dark-logo" src="-->
+            <?php //= $template ?><!--assets/media/image/logo/small-dark-logo.png"-->
+            <!--                 alt="small dark logo">-->
         </a>
         <a href="#" class="small-navigation-toggler"></a>
     </div>
@@ -118,7 +121,7 @@
             <ul id="apps">
                 <li class="navigation-divider">Support Ticket</li>
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?= $path ?>support-ticket/dashboard">
                                 <span class="nav-link-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -134,15 +137,15 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="apexchart.html">Add</a>
+                            <a href="<?= $path ?>support-ticket/add">Add</a>
                         </li>
                         <li>
-                            <a href="justgage.html">All </a>
+                            <a href="<?= $path ?>support-ticket">All </a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a href="file-manager.html">
+                    <a href="<?= $path ?>support-ticket/pending">
                         <span class="nav-link-icon" data-feather="file"></span>
                         <span>Pending</span>
                     </a>
@@ -192,7 +195,7 @@
                 <!--                    </ul>-->
                 <!--                </li>-->
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?= $path ?>task/dashboard">
                                 <span class="nav-link-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -201,7 +204,7 @@
 
                 </li>
                 <li>
-                    <a href="avatar.html">
+                    <a href="<?= $path ?>task/">
                                 <span class="nav-link-icon">
                                     <i data-feather="aperture"></i>
                                 </span>
@@ -209,7 +212,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="icons.html">
+                    <a href="<?= $path ?>task/assigned_task">
                                 <span class="nav-link-icon">
                                     <i data-feather="anchor"></i>
                                 </span>
@@ -220,7 +223,7 @@
             <ul id="forms">
                 <li class="navigation-divider">Health Care</li>
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?= $path ?>">
                                 <span class="nav-link-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -335,7 +338,7 @@
             <ul id="plugins">
                 <li class="navigation-divider">Extended</li>
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?= $path ?>">
                                 <span class="nav-link-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -389,7 +392,7 @@
             <ul id="pages">
                 <li class="navigation-divider">Builder</li>
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?= $path ?>builder/dashboard">
                                 <span class="nav-link-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -417,28 +420,28 @@
                 <!--                    </ul>-->
                 <!--                </li>-->
                 <li>
-                    <a href="timeline.html">
+                    <a href="<?= $path ?>builder/">
                         <span class="nav-link-icon" data-feather="hash"></span>
                         <span>Doctors</span>
                     </a>
                 </li>
                 <li>
-                    <a href="search-result.html">
+                    <a href="<?= $path ?>builder/hospital">
                         <span class="nav-link-icon" data-feather="search"></span>
                         <span>Hospital</span>
                     </a>
                 </li>
                 <li>
-                    <a href="blank-page.html">
+                    <a href="<?= $path ?>builder/images">
                         <span class="nav-link-icon" data-feather="layout"></span>
                         <span>Images</span>
 
                     </a>
                 </li>
                 <li>
-                    <a href="404.html" target="_blank">
+                    <a href="<?= $path ?>builder/banners" target="_blank">
                         <span class="nav-link-icon" data-feather="frown"></span>
-                        <span>Banner</span>
+                        <span>Banners</span>
                     </a>
                 </li>
                 <!--                <li>-->
@@ -519,7 +522,7 @@
             <ul id="users">
                 <li class="navigation-divider">Users</li>
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?= $path ?>">
                                 <span class="nav-link-icon">
                                     <i data-feather="pie-chart"></i>
                                 </span>
@@ -542,7 +545,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?= $path ?>">
                                 <span class="nav-link-icon">
                                     <i data-feather="mail"></i>
                                 </span>
@@ -551,7 +554,7 @@
 
                 </li>
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?= $path ?>">
                                 <span class="nav-link-icon">
                                     <i data-feather="mail"></i>
                                 </span>
@@ -560,7 +563,7 @@
 
                 </li>
                 <li>
-                    <a href="<?=$path?>">
+                    <a href="<?= $path ?>">
                                 <span class="nav-link-icon">
                                     <i data-feather="mail"></i>
                                 </span>
@@ -570,24 +573,23 @@
                 </li>
 
 
-
-                    <!--                    <a href="#">-->
-                    <!--                                <span class="nav-link-icon">-->
-                    <!--                                    <i data-feather="menu"></i>-->
-                    <!--                                </span>-->
-                    <!--                        <span>Menu Level</span>-->
-                    <!--                    </a>-->
-                    <!--                    <ul>-->
-                    <!--                        <li>-->
-                    <!--                            <a href="#">Menu Level</a>-->
-                    <!--                            <ul>-->
-                    <!--                                <li>-->
-                    <!--                                    <a href="#">Menu Level </a>-->
-                    <!--                                </li>-->
-                    <!--                            </ul>-->
-                    <!--                        </li>-->
-                    <!--                    </ul>-->
-                    <!--                </li>-->
+                <!--                    <a href="#">-->
+                <!--                                <span class="nav-link-icon">-->
+                <!--                                    <i data-feather="menu"></i>-->
+                <!--                                </span>-->
+                <!--                        <span>Menu Level</span>-->
+                <!--                    </a>-->
+                <!--                    <ul>-->
+                <!--                        <li>-->
+                <!--                            <a href="#">Menu Level</a>-->
+                <!--                            <ul>-->
+                <!--                                <li>-->
+                <!--                                    <a href="#">Menu Level </a>-->
+                <!--                                </li>-->
+                <!--                            </ul>-->
+                <!--                        </li>-->
+                <!--                    </ul>-->
+                <!--                </li>-->
             </ul>
         </div>
         <!-- ./ Menu body -->
