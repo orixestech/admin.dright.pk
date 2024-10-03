@@ -106,10 +106,10 @@ if ( !function_exists( 'LoadFile' ) ) {
 
     }
 }
-if (!function_exists('Code')) {
-    function Code($id, $prefix = 'AIMS-')
+if ( !function_exists( 'Code' ) ) {
+    function Code( $id, $prefix = 'AIMS-' )
     {
-        $str = $prefix . str_repeat("0", 6 - strlen($id)) . $id;
+        $str = $prefix . str_repeat( "0", 6 - strlen( $id ) ) . $id;
         return $str;
     }
 }
@@ -158,7 +158,8 @@ if ( !function_exists( 'TreatmentSlug' ) ) {
         } while ( $blogCNT > 0 );
         return $Slug;
     }
-}if ( !function_exists( 'ConditionSlug' ) ) {
+}
+if ( !function_exists( 'ConditionSlug' ) ) {
     function ConditionSlug( $Title )
     {
         $Crud = new \App\Models\Crud();
