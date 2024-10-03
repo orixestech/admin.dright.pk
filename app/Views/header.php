@@ -33,7 +33,7 @@
     <script type="text/javascript" src="<?= $template ?>custom.js"></script>
 
 </head>
-<body>
+<body class="small-navigation">
 
 
 <!-- Layout wrapper -->
