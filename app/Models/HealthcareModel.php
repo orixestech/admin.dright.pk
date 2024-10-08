@@ -39,11 +39,18 @@ class HealthcareModel extends Model
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
-    public
-    function get_fruit_datatables($keyword='')
+    public function GetNutritionalCountByItem($item)
     {
         $Crud = new Crud();
-        $item='fruits';
+        $SQL = 'SELECT COUNT(`UID`) as CNT FROM `public_diet_facts` WHERE `DietID` = \'' . $item . '\'';
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
+    public
+    function get_diet_datatables($item)
+    {
+        $Crud = new Crud();
+
         $SQL = $this->Diet($item);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
@@ -55,10 +62,9 @@ class HealthcareModel extends Model
     }
 
     public
-    function count_fruit_datatables($keyword='')
+    function count_diet_datatables($item)
     {
         $Crud = new Crud();
-        $item='fruits';
 
         $SQL = $this->Diet($item);
         $records = $Crud->ExecuteSQL($SQL);

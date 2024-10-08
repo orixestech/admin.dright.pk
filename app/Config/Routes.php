@@ -51,7 +51,11 @@ $routes->group('diet', static function ($routes) {
     $routes->get('add', 'HealthCare::index');
     $routes->get('dashboard', 'HealthCare::dashboard');
     $routes->get('fruit', 'HealthCare::index');
+    $routes->get('pulses-grains', 'HealthCare::index');
+    $routes->get('dry-fruites', 'HealthCare::index');
     $routes->get('miscellaneous', 'HealthCare::index');
+    $routes->post('pulses-grains-data', 'HealthCare::fetch_grains');
+
     $routes->get('vegetable', 'HealthCare::index');
     $routes->post('submit', 'HealthCare::user_form_submit');
     $routes->post('delete', 'HealthCare::delete');

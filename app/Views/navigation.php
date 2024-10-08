@@ -199,6 +199,11 @@
                         <li>
                             <a href="<?= $path ?>diet/miscellaneous">Miscellaneous</a></li>
                         <li>
+                        <li>
+                            <a href="<?= $path ?>diet/pulses-grains">Pulses & Grains</a></li>
+                        <li>     <li>
+                            <a href="<?= $path ?>diet/miscellaneous">Miscellaneous</a></li>
+                        <li>
 <!--                            <a href="dropdown.html">Dropdown</a></li>-->
 <!--                        <li>-->
 <!--                            <a href="list-group.html">List Group</a></li>-->
