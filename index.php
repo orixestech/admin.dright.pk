@@ -40,7 +40,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('PATH', 'http://admin.dright.net/');
     define('TEMPLATE', 'http://admin.dright.net/template/');
 
-    define('HOST', '');
+    define('HOST', '117.20.29.46');
     define('DB_USER', 'clinta_maindb');
     define('DB_PASS', 'clinta_maindb');
     define('DB_NAME', 'clinta_maindb');
