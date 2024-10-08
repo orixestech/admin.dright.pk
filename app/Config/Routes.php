@@ -46,7 +46,7 @@ $routes->group('users', static function ($routes) {
     $routes->post('delete', 'Users::delete');
     $routes->get('update/(:num)', 'Users::index');
 });
-$routes->group('health-care', static function ($routes) {
+$routes->group('diet', static function ($routes) {
     $routes->get('/', 'HealthCare::index');
     $routes->get('add', 'HealthCare::index');
     $routes->get('dashboard', 'HealthCare::dashboard');

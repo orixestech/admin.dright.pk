@@ -5,11 +5,12 @@
         <h6 class="card-title mb-0">Vegetable</h6>
     </div>
     <div class="table-responsive">
-        <table id="fruits" class="table table-striped table-bordered">
+        <table id="vegetable" class="table table-striped table-bordered">
             <thead>            <tr>
                 <th>Sr No</th>
                 <th>Image</th>
                 <th>Name</th>
+                <th>UrduName</th>
                 <!--                <th>Age</th>-->
                 <!--                <th>Nutritional Items</th>-->
                 <!--                <th>Actions</th>-->
@@ -32,7 +33,7 @@
 
     <script>
         $(document).ready(function (){
-            $('#fruits').DataTable({
+            $('#vegetable').DataTable({
                 "scrollY": "800px",
                 "scrollCollapse": true,
                 "searching": false,
