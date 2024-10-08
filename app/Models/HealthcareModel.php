@@ -91,6 +91,32 @@ class HealthcareModel extends Model
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);
+    }   public
+    function get_miscellaneous_datatables($keyword='')
+    {
+        $Crud = new Crud();
+        $food='miscellaneous';
+
+        $SQL = $this->Diet($food);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+
+    public
+    function count_miscellaneous_datatables($keyword='')
+    {
+        $Crud = new Crud();
+        $food='miscellaneous';
+
+        $SQL = $this->Diet($food);
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+        return count($records);
     }
 
 }

@@ -196,9 +196,9 @@
                             <a href="<?= $path ?>health-care/fruit">Fruit</a></li>
                         <li>
                             <a href="<?= $path ?>health-care/vegetable">Vegetable</a></li>
-<!--                        <li>-->
-<!--                            <a href="buttons.html">Buttons</a></li>-->
-<!--                        <li>-->
+                        <li>
+                            <a href="<?= $path ?>health-care/miscellaneous">Miscellaneous</a></li>
+                        <li>
 <!--                            <a href="dropdown.html">Dropdown</a></li>-->
 <!--                        <li>-->
 <!--                            <a href="list-group.html">List Group</a></li>-->

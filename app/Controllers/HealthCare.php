@@ -36,13 +36,16 @@ class HealthCare extends BaseController
             echo view('health_care/main_form', $data);
 
         } elseif ($data['page'] == 'fruit') {
-            $item='fruits';
+//            $item='fruits';
 
-            $data['fruit'] = $fruits->Diet($item);
+//            $data['fruit'] = $fruits->Diet($item);
             echo view('health_care/fruit', $data);
 
         } elseif ($data['page'] == 'vegetable') {
             echo view('health_care/vegetable', $data);
+
+        } elseif ($data['page'] == 'miscellaneous') {
+            echo view('health_care/miscellaneous', $data);
 
         } elseif ($data['page'] == 'update') {
             echo view('health_care/main_form', $data);
@@ -98,6 +101,37 @@ class HealthCare extends BaseController
         $Admin = new HealthcareModel();
         $Data = $Admin->get_vegetable_datatables();
         $totalfilterrecords = $Admin->count_vegetable_datatables();
+//        print_r($Data);
+//        exit();
+
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = (isset($record['Image']) && $record['Image'] != '')
+                ? '<img src="'. PATH .'upload/diet/'.$record['Image'].'" class="img-thumbnail" style="height:80px;">'
+                : '<img class="img-thumbnail" style="height:40px;" src="'. PATH .'upload/diet/images.png">';
+
+            $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
+           $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+
+        echo json_encode($response);
+    }  public function fetch_miscellaneous()
+    {
+        $Admin = new HealthcareModel();
+        $Data = $Admin->get_miscellaneous_datatables();
+        $totalfilterrecords = $Admin->count_miscellaneous_datatables();
 //        print_r($Data);
 //        exit();
 
