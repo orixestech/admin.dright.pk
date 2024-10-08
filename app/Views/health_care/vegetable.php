@@ -11,8 +11,7 @@
                 <th>Image</th>
                 <th>Name</th>
                 <th>Urdu Name</th>
-                <!--                <th>Age</th>-->
-                <!--                <th>Nutritional Items</th>-->
+                <th>Nutritional Items</th>
                 <!--                <th>Actions</th>-->
             </tr>
             </thead>
@@ -23,8 +22,8 @@
                 <th>Sr No</th>
                 <th>Image</th>
                 <th>Name</th>
-                <!--                <th>Age</th>-->
-                <!--                <th>Nutritional Items</th>-->
+                <th>Urdu Name</th>
+                 <th>Nutritional Items</th>
                 <!--                <th>Actions</th>-->
             </tr>
             </tfoot>

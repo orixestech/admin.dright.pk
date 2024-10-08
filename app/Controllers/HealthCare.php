@@ -108,7 +108,7 @@ class HealthCare extends BaseController
     }     public function fetch_dry_fruit()
     {
         $Healthcare = new HealthcareModel();
-        $item='fruits';
+        $item='dry-fruites';
         $Data = $Healthcare->get_diet_datatables($item);
         $totalfilterrecords = $Healthcare->count_diet_datatables($item);
 //        print_r($Data);

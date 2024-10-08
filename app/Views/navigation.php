@@ -202,7 +202,7 @@
                         <li>
                             <a href="<?= $path ?>diet/pulses-grains">Pulses & Grains</a></li>
                         <li>     <li>
-                            <a href="<?= $path ?>diet/miscellaneous">Miscellaneous</a></li>
+                            <a href="<?= $path ?>diet/dry-fruits">Dry Fruits</a></li>
                         <li>
 <!--                            <a href="dropdown.html">Dropdown</a></li>-->
 <!--                        <li>-->
