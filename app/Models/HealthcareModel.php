@@ -32,10 +32,10 @@ class HealthcareModel extends Model
 //        return $data;
 //    }
 
-    public function Diet()
+    public function Diet($item)
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `public_diet` where `Category`=\'fruits\' Order By `Name` ';
+        $SQL = 'SELECT * FROM `public_diet` where `Category`=\'' . $item . '\' Order By `Name` ';
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
@@ -43,7 +43,8 @@ class HealthcareModel extends Model
     function get_fruit_datatables($keyword='')
     {
         $Crud = new Crud();
-        $SQL = $this->Diet();
+        $item='fruits';
+        $SQL = $this->Diet($item);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -57,7 +58,36 @@ class HealthcareModel extends Model
     function count_fruit_datatables($keyword='')
     {
         $Crud = new Crud();
-        $SQL = $this->Diet();
+        $item='fruits';
+
+        $SQL = $this->Diet($item);
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+        return count($records);
+    }
+    public
+    function get_vegetable_datatables($keyword='')
+    {
+        $Crud = new Crud();
+        $food='vegetables';
+
+        $SQL = $this->Diet($food);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+
+    public
+    function count_vegetable_datatables($keyword='')
+    {
+        $Crud = new Crud();
+        $food='vegetables';
+
+        $SQL = $this->Diet($food);
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);

@@ -33,7 +33,7 @@
 <script>
     $(document).ready(function (){
         $('#fruits').DataTable({
-            "scrollY": "200px",
+            "scrollY": "800px",
             "scrollCollapse": true,
             "searching": false,
             "processing": true,

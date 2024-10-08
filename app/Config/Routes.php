@@ -13,6 +13,7 @@ $routes->get('login', 'Home::login');
 $routes->post('/fruit_search_filter', 'Home::fruit_search_filter');
 $routes->post('/clear_session', 'Home::clear_session');
 $routes->post('fruit-data', 'HealthCare::fetch_fruit');
+$routes->post('vegetable-data', 'HealthCare::fetch_vegetable');
 
 $routes->group('support-ticket', static function ($routes) {
     $routes->get('/', 'SupportTickets::index');
