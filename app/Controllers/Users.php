@@ -27,6 +27,7 @@ class Users extends BaseController
     {
         $data = $this->data;
         $data['page'] = getSegment(2);
+        $Users= new SystemUser();
 
         echo view('header', $data);
         if ($data['page'] == 'access_level') {
@@ -41,6 +42,8 @@ class Users extends BaseController
             echo view('users/admin_activites', $data);
 
         } else {
+//            $Data = $Users->systemusers();
+//print_r($Data);exit();
             echo view('users/index', $data);
 
         }
@@ -57,10 +60,11 @@ class Users extends BaseController
 
     public function fetch_users()
     {
-        $Healthcare = new SystemUser();
-        $Data = $Healthcare->get_users_datatables();
-        $totalfilterrecords = $Healthcare->count_users_datatables();
-
+//        echo 'hhhhhh';exit();
+        $Users= new SystemUser();
+        $Data = $Users->get_users_datatables();
+        $totalfilterrecords = $Users->count_users_datatables();
+//            print_r($Data);exit();
 
         $dataarr = array();
         $cnt = $_POST['start'];

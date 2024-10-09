@@ -53,6 +53,7 @@ $routes->group('diet', static function ($routes) {
     $routes->get('add', 'HealthCare::index');
     $routes->get('dashboard', 'HealthCare::dashboard');
     $routes->get('fruit', 'HealthCare::index');
+    $routes->get('detail/(:num)', 'HealthCare::index');
     $routes->get('pulses-grains', 'HealthCare::index');
     $routes->get('dry-fruits', 'HealthCare::index');
     $routes->get('miscellaneous', 'HealthCare::index');

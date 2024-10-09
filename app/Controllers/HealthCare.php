@@ -53,6 +53,9 @@ class HealthCare extends BaseController
         } elseif ($data['page'] == 'dry-fruits') {
             echo view('health_care/dry-fruites', $data);
 
+        } elseif ($data['page'] == 'detail') {
+            echo view('health_care/detail', $data);
+
         } elseif ($data['page'] == 'update') {
             echo view('health_care/main_form', $data);
 
