@@ -50,7 +50,7 @@ class HealthCare extends BaseController
         }  elseif ($data['page'] == 'pulses-grains') {
             echo view('health_care/pulses-grains', $data);
 
-        } elseif ($data['page'] == 'dry-fruites') {
+        } elseif ($data['page'] == 'dry-fruits') {
             echo view('health_care/dry-fruites', $data);
 
         } elseif ($data['page'] == 'update') {
@@ -105,7 +105,8 @@ class HealthCare extends BaseController
         );
 
         echo json_encode($response);
-    }     public function fetch_dry_fruit()
+    }
+    public function fetch_dry_fruit()
     {
         $Healthcare = new HealthcareModel();
         $item='dry-fruites';
