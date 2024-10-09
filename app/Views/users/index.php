@@ -11,7 +11,7 @@
                 <th>Full Name</th>
                 <th>Email</th>
                 <th>Type</th>
-              
+
                 <!--                <th>Actions</th>-->
             </tr>
             </thead>

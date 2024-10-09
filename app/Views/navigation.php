@@ -9,7 +9,7 @@
     <!-- Logo -->
     <div class="navigation-header">
         <a class="navigation-logo" href=index.html>
-            <img class="logo" src="<?= $template ?>logo.png" style="width: 46%;" alt="logo">
+            <img class="logo" src="<?= $template ?>logo.png" style="width: 100%;" alt="logo">
         </a>
         <a href="#" class="small-navigation-toggler"></a>
     </div>
