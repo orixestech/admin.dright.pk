@@ -105,7 +105,8 @@ class HealthCare extends BaseController
         );
 
         echo json_encode($response);
-    }     public function fetch_dry_fruit()
+    }
+    public function fetch_dry_fruit()
     {
         $Healthcare = new HealthcareModel();
         $item='dry-fruites';

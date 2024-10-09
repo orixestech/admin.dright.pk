@@ -41,6 +41,8 @@ $routes->group('users', static function ($routes) {
     $routes->get('add', 'Users::index');
     $routes->get('access-level', 'Users::index');
     $routes->get('admin-activites', 'Users::index');
+    $routes->post('users-data', 'Users::fetch_users');
+
     $routes->get('dashboard', 'Users::dashboard');
     $routes->post('submit', 'Users::user_form_submit');
     $routes->post('delete', 'Users::delete');

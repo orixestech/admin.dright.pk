@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 
+use App\Models\SystemUser;
+
 class Users extends BaseController
 {
     var $data = array();
@@ -53,5 +55,32 @@ class Users extends BaseController
         echo view('footer', $data);
     }
 
+    public function fetch_users()
+    {
+        $Healthcare = new SystemUser();
+        $Data = $Healthcare->get_users_datatables();
+        $totalfilterrecords = $Healthcare->count_users_datatables();
 
+
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['FullName']) ? htmlspecialchars($record['FullName']) : '';
+            $data[] = isset($record['Email']) ? htmlspecialchars($record['Email']) : '';
+            $data[] = isset($record['AccessLevel']) ? htmlspecialchars($record['AccessLevel']) : '';
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+
+        echo json_encode($response);
+    }
 }
