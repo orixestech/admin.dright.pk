@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="card-body">
-        <h6 class="card-title mb-0">Fruit DataTable Fixed Height</h6>
+        <h6 class="card-title mb-0">Dry Fruits</h6>
     </div>
     <div class="table-responsive">
         <table id="fruits" class="table table-striped table-bordered">
@@ -47,7 +47,7 @@
             "pageLength": 100,
             "autoWidth": true,
             "ajax": {
-                "url": "<?= $path ?>fruit-data",
+                "url": "<?= $path ?>diet/dry-fruits-data",
                 "type": "POST"
             }
         });});

@@ -57,7 +57,7 @@ $routes->group('diet', static function ($routes) {
     $routes->get('dry-fruits', 'HealthCare::index');
     $routes->get('miscellaneous', 'HealthCare::index');
     $routes->post('pulses-grains-data', 'HealthCare::fetch_grains');
-    $routes->post('dry-fruits/-data', 'HealthCare::fetch_dry_fruit');
+    $routes->post('dry-fruits-data', 'HealthCare::fetch_dry_fruit');
 
     $routes->get('vegetable', 'HealthCare::index');
     $routes->post('submit', 'HealthCare::user_form_submit');
