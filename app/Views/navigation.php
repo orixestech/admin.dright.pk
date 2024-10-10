@@ -28,7 +28,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#apps">
+                    <a href="#"
+                       data-menu-target="#apps" <?= ($segment_a == 'support-ticket' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="globe"></i>
                         </span>
@@ -36,7 +37,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#components">
+                    <a href="#" data-menu-target="#components" <?= ($segment_a == 'task' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="layers"></i>
                         </span>
@@ -44,7 +45,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#forms">
+                    <a href="#" data-menu-target="#forms" <?= ($segment_a == 'health-care' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i class="pe-is-w-thermometer-1-f"></i>
                         </span>
@@ -103,7 +104,7 @@
             <!--                <li>-->
             <!--                    <a class="active"-->
             <!--                       href="--><?php //= $path 
-                                                ?><!--">-->
+            ?><!--">-->
             <!--                        <span class="nav-link-icon" data-feather="bar-chart-2"></span>-->
             <!--                        <span>Analytics</span>-->
             <!--                        <                        <span class="badge badge-success">New</span>-->
@@ -447,9 +448,9 @@
 <!-- ./ Navigation -->
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         $(".navigation-menu-tab ul li a").hover(
-            function() {
+            function () {
                 $(this).click();
             }
         );

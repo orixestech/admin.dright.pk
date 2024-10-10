@@ -25,12 +25,13 @@ class Main extends Model
         $data['segment_a'] = getSegment(1);
         $data['segment_b'] = getSegment(2);
         $data['segment_c'] = getSegment(3);
+        print_r($data);
 
         return $data;
     }
 
     public
-    function get_fruit_datatables($keyword='')
+    function get_fruit_datatables($keyword = '')
     {
         $Crud = new Crud();
         $SQL = $this->Diet();
@@ -44,7 +45,7 @@ class Main extends Model
     }
 
     public
-    function count_fruit_datatables($keyword='')
+    function count_fruit_datatables($keyword = '')
     {
         $Crud = new Crud();
         $SQL = $this->Diet();
