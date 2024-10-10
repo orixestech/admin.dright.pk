@@ -9311,8 +9311,9 @@ pre[class*=language-] {
         display: block;
     }
 
+
     body.small-navigation:not(.horizontal-navigation) .navigation .navigation-header .navigation-logo img:not(.small-logo) {
-        display: none;
+        /* display: none; */
     }
 
     body.small-navigation:not(.horizontal-navigation) .navigation .navigation-header .small-navigation-toggler {

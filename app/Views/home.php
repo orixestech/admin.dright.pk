@@ -30,7 +30,7 @@
                     <h2 class="mb-3">13,596</h2>
                     <div class="progress" style="height: 5px">
                         <div class="progress-bar bg-success" role="progressbar" style="width: 22%;"
-                             aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                            aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                     <h2 class="mb-3">43,596</h2>
                     <div class="progress" style="height: 5px">
                         <div class="progress-bar bg-secondary" role="progressbar" style="width: 50%;"
-                             aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                            aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                     <h2 class="mb-3">16,869</h2>
                     <div class="progress" style="height: 5px">
                         <div class="progress-bar bg-warning" role="progressbar" style="width: 78%;"
-                             aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                            aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                     <h2 class="mb-3">28.50%</h2>
                     <div class="progress" style="height: 5px">
                         <div class="progress-bar bg-info" role="progressbar" style="width: 40%;"
-                             aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                            aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
             </div>
@@ -80,56 +80,56 @@
                 <ul class="nav nav-pills-outline nav-analiytics-style" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                           aria-controls="home" aria-selected="true">
-                                <span class="d-flex flex-column">
-                                    <span>Users</span>
-                                    <span class="font-size-25">14,2 B</span>
-                                    <span class="small text-success">
-                                        <i class="ti-arrow-up mr-1"></i> %22,1
-                                    </span>
+                            aria-controls="home" aria-selected="true">
+                            <span class="d-flex flex-column">
+                                <span>Users</span>
+                                <span class="font-size-25">14,2 B</span>
+                                <span class="small text-success">
+                                    <i class="ti-arrow-up mr-1"></i> %22,1
                                 </span>
+                            </span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                           aria-controls="profile" aria-selected="false">
-                                <span class="d-flex flex-column">
-                                    <span>Conversations</span>
-                                    <span class="font-size-25">2,9 B</span>
-                                    <span class="small text-success">
-                                        <i class="ti-arrow-up mr-1"></i> %17,5
-                                    </span>
+                            aria-controls="profile" aria-selected="false">
+                            <span class="d-flex flex-column">
+                                <span>Conversations</span>
+                                <span class="font-size-25">2,9 B</span>
+                                <span class="small text-success">
+                                    <i class="ti-arrow-up mr-1"></i> %17,5
                                 </span>
+                            </span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                           aria-controls="contact" aria-selected="false">
-                                <span class="d-flex flex-column">
-                                    <span>Bounce Rate</span>
-                                    <span class="font-size-25">%50,02</span>
-                                    <span class="small text-danger">
-                                        <i class="ti-arrow-down mr-1"></i> %1,5
-                                    </span>
+                            aria-controls="contact" aria-selected="false">
+                            <span class="d-flex flex-column">
+                                <span>Bounce Rate</span>
+                                <span class="font-size-25">%50,02</span>
+                                <span class="small text-danger">
+                                    <i class="ti-arrow-down mr-1"></i> %1,5
                                 </span>
+                            </span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="contact-tab2" data-toggle="tab" href="#contact2" role="tab"
-                           aria-controls="contact2" aria-selected="false">
-                                <span class="d-flex flex-column">
-                                    <span>Session Duration</span>
-                                    <span class="font-size-25">1 dk. 59 sn.</span>
-                                    <span class="small text-danger">
-                                        <i class="ti-arrow-down mr-1"></i> %13,9
-                                    </span>
+                            aria-controls="contact2" aria-selected="false">
+                            <span class="d-flex flex-column">
+                                <span>Session Duration</span>
+                                <span class="font-size-25">1 dk. 59 sn.</span>
+                                <span class="small text-danger">
+                                    <i class="ti-arrow-down mr-1"></i> %13,9
                                 </span>
+                            </span>
                         </a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel"
-                         aria-labelledby="home-tab">
+                        aria-labelledby="home-tab">
                         <div id="analytics-tab-1"></div>
                     </div>
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -158,8 +158,8 @@
                                 </a>
                                 <div class="dropdown">
                                     <a href="#" data-toggle="dropdown"
-                                       class="btn btn-outline-light btn-floating btn-sm"
-                                       aria-haspopup="true" aria-expanded="false">
+                                        class="btn btn-outline-light btn-floating btn-sm"
+                                        aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
@@ -213,8 +213,8 @@
                                 </a>
                                 <div class="dropdown">
                                     <a href="#" data-toggle="dropdown"
-                                       class="btn btn-outline-light btn-floating btn-sm"
-                                       aria-haspopup="true" aria-expanded="false">
+                                        class="btn btn-outline-light btn-floating btn-sm"
+                                        aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
@@ -229,90 +229,90 @@
                     <div class="table-responsive">
                         <table class="table table-striped mb-0">
                             <thead>
-                            <tr>
-                                <th>Page Title</th>
-                                <th>Percentage (%)</th>
-                                <th class="text-right">Value</th>
-                            </tr>
+                                <tr>
+                                    <th>Page Title</th>
+                                    <th>Percentage (%)</th>
+                                    <th class="text-right">Value</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>
-                                    <a href="#">/index.html</a>
-                                </td>
-                                <td>
-                                    <div class="progress" style="height: 5px">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 65%;"
-                                             aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-right">65.35%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">/about.html</a>
-                                </td>
-                                <td>
-                                    <div class="progress" style="height: 5px">
-                                        <div class="progress-bar bg-warning" role="progressbar"
-                                             style="width: 51%;"
-                                             aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-right">51.20%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">/product.html</a>
-                                </td>
-                                <td>
-                                    <div class="progress" style="height: 5px">
-                                        <div class="progress-bar bg-danger" role="progressbar"
-                                             style="width: 39%;"
-                                             aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-right">39.10%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">/categories.html</a>
-                                </td>
-                                <td>
-                                    <div class="progress" style="height: 5px">
-                                        <div class="progress-bar bg-primary" role="progressbar"
-                                             style="width: 40%;"
-                                             aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-right">40%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">/contact.html</a>
-                                </td>
-                                <td>
-                                    <div class="progress" style="height: 5px">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                             style="width: 80%;"
-                                             aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-right">80%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">/users.html</a>
-                                </td>
-                                <td>
-                                    <div class="progress" style="height: 5px">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                             style="width: 80%;"
-                                             aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </td>
-                                <td class="text-right">80%</td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#">/index.html</a>
+                                    </td>
+                                    <td>
+                                        <div class="progress" style="height: 5px">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 65%;"
+                                                aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">65.35%</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#">/about.html</a>
+                                    </td>
+                                    <td>
+                                        <div class="progress" style="height: 5px">
+                                            <div class="progress-bar bg-warning" role="progressbar"
+                                                style="width: 51%;"
+                                                aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">51.20%</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#">/product.html</a>
+                                    </td>
+                                    <td>
+                                        <div class="progress" style="height: 5px">
+                                            <div class="progress-bar bg-danger" role="progressbar"
+                                                style="width: 39%;"
+                                                aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">39.10%</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#">/categories.html</a>
+                                    </td>
+                                    <td>
+                                        <div class="progress" style="height: 5px">
+                                            <div class="progress-bar bg-primary" role="progressbar"
+                                                style="width: 40%;"
+                                                aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">40%</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#">/contact.html</a>
+                                    </td>
+                                    <td>
+                                        <div class="progress" style="height: 5px">
+                                            <div class="progress-bar bg-success" role="progressbar"
+                                                style="width: 80%;"
+                                                aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">80%</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#">/users.html</a>
+                                    </td>
+                                    <td>
+                                        <div class="progress" style="height: 5px">
+                                            <div class="progress-bar bg-success" role="progressbar"
+                                                style="width: 80%;"
+                                                aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">80%</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -328,8 +328,8 @@
                                 </a>
                                 <div class="dropdown">
                                     <a href="#" data-toggle="dropdown"
-                                       class="btn btn-outline-light btn-floating btn-sm"
-                                       aria-haspopup="true" aria-expanded="false">
+                                        class="btn btn-outline-light btn-floating btn-sm"
+                                        aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
@@ -344,60 +344,60 @@
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
-                            <tr>
-                                <th></th>
-                                <th>Browser</th>
-                                <th>Sessions</th>
-                                <th>Bounce Rate</th>
-                                <th class="text-right">Conversion Rate</th>
-                            </tr>
+                                <tr>
+                                    <th></th>
+                                    <th>Browser</th>
+                                    <th>Sessions</th>
+                                    <th>Bounce Rate</th>
+                                    <th class="text-right">Conversion Rate</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-chrome"></i>
-                                </td>
-                                <td>Google Chrome</td>
-                                <td>13,41</td>
-                                <td>40.95%</td>
-                                <td class="text-right">19.45%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-firefox"></i>
-                                </td>
-                                <td>Firefox</td>
-                                <td>13,41</td>
-                                <td>40.95%</td>
-                                <td class="text-right">19.45%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-edge"></i>
-                                </td>
-                                <td>Edge</td>
-                                <td>13,41</td>
-                                <td>40.95%</td>
-                                <td class="text-right">19.45%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-safari"></i>
-                                </td>
-                                <td>Safari</td>
-                                <td>13,41</td>
-                                <td>40.95%</td>
-                                <td class="text-right">19.45%</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <i class="fa fa-opera"></i>
-                                </td>
-                                <td>Opera</td>
-                                <td>13,41</td>
-                                <td>40.95%</td>
-                                <td class="text-right">19.45%</td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fa fa-chrome"></i>
+                                    </td>
+                                    <td>Google Chrome</td>
+                                    <td>13,41</td>
+                                    <td>40.95%</td>
+                                    <td class="text-right">19.45%</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fa fa-firefox"></i>
+                                    </td>
+                                    <td>Firefox</td>
+                                    <td>13,41</td>
+                                    <td>40.95%</td>
+                                    <td class="text-right">19.45%</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fa fa-edge"></i>
+                                    </td>
+                                    <td>Edge</td>
+                                    <td>13,41</td>
+                                    <td>40.95%</td>
+                                    <td class="text-right">19.45%</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fa fa-safari"></i>
+                                    </td>
+                                    <td>Safari</td>
+                                    <td>13,41</td>
+                                    <td>40.95%</td>
+                                    <td class="text-right">19.45%</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="fa fa-opera"></i>
+                                    </td>
+                                    <td>Opera</td>
+                                    <td>13,41</td>
+                                    <td>40.95%</td>
+                                    <td class="text-right">19.45%</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -458,10 +458,10 @@
                         <div class="d-flex align-items-end mb-3">
                             <h1 class="mb-0 line-height-30">2,793</h1>
                             <span class="text-success small ml-2 d-flex align-items-center">
-                                    <span class="ti-arrow-up mr-2"></span>
-                                    <span
-                                            class="badge badge-success rounded d-inline-flex align-items-center">4.9%</span>
-                                </span>
+                                <span class="ti-arrow-up mr-2"></span>
+                                <span
+                                    class="badge badge-success rounded d-inline-flex align-items-center">4.9%</span>
+                            </span>
                         </div>
                         <p>Measures your user's sources that generate traffic
                             metrics

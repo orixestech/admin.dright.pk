@@ -33,6 +33,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('PATH', 'http://localhost/admin.dright.net/');
     define('TEMPLATE', 'http://localhost/admin.dright.net/template/');
 
+    define('DB_HOST', '127.0.0.1');
     define('DB_USER', 'root');
     define('DB_PASS', '');
     define('DB_NAME', 'clinta_maindb');
@@ -40,8 +41,9 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('PATH', 'http://admin.dright.net/');
     define('TEMPLATE', 'http://admin.dright.net/template/');
 
-    define('DB_USER', '');
-    define('DB_PASS', '');
+    define('DB_HOST', '117.20.29.46');
+    define('DB_USER', 'clinta_maindb');
+    define('DB_PASS', 'clinta_maindb');
     define('DB_NAME', 'clinta_maindb');
 }
 // Ensure the current directory is pointing to the front controller's directory
