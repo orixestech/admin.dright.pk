@@ -44,7 +44,6 @@ class Builder extends BaseController
 
         } else {
             echo view('builder/index', $data);
-
         }
         echo view('footer', $data);
     }

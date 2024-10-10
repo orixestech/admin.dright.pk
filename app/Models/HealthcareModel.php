@@ -32,18 +32,26 @@ class HealthcareModel extends Model
 //        return $data;
 //    }
 
-    public function Diet()
+    public function Diet($item)
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `public_diet` where `Category`=\'fruits\' Order By `Name` ';
+        $SQL = 'SELECT * FROM `public_diet` where `Category`=\'' . $item . '\' Order By `Name` ';
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
-    public
-    function get_fruit_datatables($keyword='')
+    public function GetNutritionalCountByItem($item)
     {
         $Crud = new Crud();
-        $SQL = $this->Diet();
+        $SQL = 'SELECT COUNT(`UID`) as CNT FROM `public_diet_facts` WHERE `DietID` = \'' . $item . '\'';
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
+    public
+    function get_diet_datatables($item)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->Diet($item);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -54,10 +62,64 @@ class HealthcareModel extends Model
     }
 
     public
-    function count_fruit_datatables($keyword='')
+    function count_diet_datatables($item)
     {
         $Crud = new Crud();
-        $SQL = $this->Diet();
+
+        $SQL = $this->Diet($item);
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+        return count($records);
+    }
+    public
+    function get_vegetable_datatables($keyword='')
+    {
+        $Crud = new Crud();
+        $food='vegetables';
+
+        $SQL = $this->Diet($food);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+
+    public
+    function count_vegetable_datatables($keyword='')
+    {
+        $Crud = new Crud();
+        $food='vegetables';
+
+        $SQL = $this->Diet($food);
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+        return count($records);
+    }   public
+    function get_miscellaneous_datatables($keyword='')
+    {
+        $Crud = new Crud();
+        $food='miscellaneous';
+
+        $SQL = $this->Diet($food);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+
+    public
+    function count_miscellaneous_datatables($keyword='')
+    {
+        $Crud = new Crud();
+        $food='miscellaneous';
+
+        $SQL = $this->Diet($food);
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);

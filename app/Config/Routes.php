@@ -13,6 +13,8 @@ $routes->get('login', 'Home::login');
 $routes->post('/fruit_search_filter', 'Home::fruit_search_filter');
 $routes->post('/clear_session', 'Home::clear_session');
 $routes->post('fruit-data', 'HealthCare::fetch_fruit');
+$routes->post('vegetable-data', 'HealthCare::fetch_vegetable');
+$routes->post('miscellaneous-data', 'HealthCare::fetch_miscellaneous');
 
 $routes->group('support-ticket', static function ($routes) {
     $routes->get('/', 'SupportTickets::index');
@@ -39,16 +41,25 @@ $routes->group('users', static function ($routes) {
     $routes->get('add', 'Users::index');
     $routes->get('access-level', 'Users::index');
     $routes->get('admin-activites', 'Users::index');
+    $routes->post('users-data', 'Users::fetch_users');
+
     $routes->get('dashboard', 'Users::dashboard');
     $routes->post('submit', 'Users::user_form_submit');
     $routes->post('delete', 'Users::delete');
     $routes->get('update/(:num)', 'Users::index');
 });
-$routes->group('health-care', static function ($routes) {
+$routes->group('diet', static function ($routes) {
     $routes->get('/', 'HealthCare::index');
     $routes->get('add', 'HealthCare::index');
     $routes->get('dashboard', 'HealthCare::dashboard');
     $routes->get('fruit', 'HealthCare::index');
+    $routes->get('detail/(:num)', 'HealthCare::index');
+    $routes->get('pulses-grains', 'HealthCare::index');
+    $routes->get('dry-fruits', 'HealthCare::index');
+    $routes->get('miscellaneous', 'HealthCare::index');
+    $routes->post('pulses-grains-data', 'HealthCare::fetch_grains');
+    $routes->post('dry-fruits-data', 'HealthCare::fetch_dry_fruit');
+
     $routes->get('vegetable', 'HealthCare::index');
     $routes->post('submit', 'HealthCare::user_form_submit');
     $routes->post('delete', 'HealthCare::delete');

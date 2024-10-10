@@ -2,16 +2,18 @@
 
 <div class="card">
     <div class="card-body">
-        <h6 class="card-title mb-0">Fruit DataTable Fixed Height</h6>
+        <h6 class="card-title mb-0">Pluses and Grains DataTable Fixed Height</h6>
     </div>
     <div class="table-responsive">
-        <table id="fruits" class="table table-striped table-bordered">
+        <table id="pulses" class="table table-striped table-bordered">
             <thead>            <tr>
                 <th>Sr No</th>
                 <th>Image</th>
                 <th>Name</th>
                 <th>Urdu Name</th>
                 <th>Nutritional Items</th>
+<!--                <th>Age</th>-->
+<!--                <th>Nutritional Items</th>-->
 <!--                <th>Actions</th>-->
             </tr>
             </thead>
@@ -24,6 +26,8 @@
                 <th>Name</th>
                 <th>Urdu Name</th>
                 <th>Nutritional Items</th>
+<!--                <th>Age</th>-->
+<!--                <th>Nutritional Items</th>-->
 <!--                <th>Actions</th>-->
             </tr>
             </tfoot>
@@ -32,7 +36,7 @@
 
 <script>
     $(document).ready(function (){
-        $('#fruits').DataTable({
+        $('#pulses').DataTable({
             "scrollY": "800px",
             "scrollCollapse": true,
             "searching": false,
@@ -43,7 +47,7 @@
             "pageLength": 100,
             "autoWidth": true,
             "ajax": {
-                "url": "<?= $path ?>fruit-data",
+                "url": "<?= $path ?>diet/pulses-grains-data",
                 "type": "POST"
             }
         });});

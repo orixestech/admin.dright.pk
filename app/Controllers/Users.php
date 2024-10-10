@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 
+use App\Models\SystemUser;
+
 class Users extends BaseController
 {
     var $data = array();
@@ -25,6 +27,7 @@ class Users extends BaseController
     {
         $data = $this->data;
         $data['page'] = getSegment(2);
+        $Users= new SystemUser();
 
         echo view('header', $data);
         if ($data['page'] == 'access_level') {
@@ -39,6 +42,8 @@ class Users extends BaseController
             echo view('users/admin_activites', $data);
 
         } else {
+//            $Data = $Users->systemusers();
+//print_r($Data);exit();
             echo view('users/index', $data);
 
         }
@@ -53,5 +58,33 @@ class Users extends BaseController
         echo view('footer', $data);
     }
 
+    public function fetch_users()
+    {
+//        echo 'hhhhhh';exit();
+        $Users= new SystemUser();
+        $Data = $Users->get_users_datatables();
+        $totalfilterrecords = $Users->count_users_datatables();
+//            print_r($Data);exit();
 
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['FullName']) ? htmlspecialchars($record['FullName']) : '';
+            $data[] = isset($record['Email']) ? htmlspecialchars($record['Email']) : '';
+            $data[] = isset($record['AccessLevel']) ? htmlspecialchars($record['AccessLevel']) : '';
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+
+        echo json_encode($response);
+    }
 }
