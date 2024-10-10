@@ -10,6 +10,8 @@ class Home extends BaseController
 
     public function __construct()
     {
+        $this->MainModel = new Main();
+        $this->data = $this->MainModel->DefaultVariable();
         $this->data['template'] = TEMPLATE;
         $this->data['path'] = PATH;
     }

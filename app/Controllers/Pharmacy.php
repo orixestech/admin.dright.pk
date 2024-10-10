@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 
+use App\Models\PharmacyModal;
+
 class Pharmacy extends BaseController
 {
     var $data = array();
@@ -49,6 +51,37 @@ class Pharmacy extends BaseController
         echo view('pharmacy/dashboard', $data);
         echo view('footer', $data);
     }
+    public function fetch_medicine()
+    {
+        $PharmacyModal = new PharmacyModal();
+        $Data = $PharmacyModal->get_datatables();
+        $totalfilterrecords = $PharmacyModal->count_datatables();
+//        print_r($Data);
+//        exit();
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['PharmaCompanyUID']) ? htmlspecialchars($record['PharmaCompanyUID']) : '';
+            $data[] = isset($record['MedicineTitle']) ? htmlspecialchars($record['MedicineTitle']) : '';
+            $data[] = isset($record['Ingredients']) ? htmlspecialchars($record['Ingredients']) : '';
+            $data[] = isset($record['DosageForm']) ? htmlspecialchars($record['DosageForm']) : '';
+            $data[] = isset($record['Packing']) ? htmlspecialchars($record['Packing']) : '';
+            $data[] = isset($record['TradePrice']) ? htmlspecialchars($record['TradePrice']) : '';
+            $data[] = isset($record['RetailPrice']) ? htmlspecialchars($record['RetailPrice']) : '';
+            $dataarr[] = $data;
+        }
 
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+
+        echo json_encode($response);
+    }
 
 }

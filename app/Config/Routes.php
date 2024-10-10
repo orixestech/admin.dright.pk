@@ -57,7 +57,7 @@ $routes->group('diet', static function ($routes) {
     $routes->get('pulses-grains', 'HealthCare::index');
     $routes->get('dry-fruits', 'HealthCare::index');
     $routes->get('miscellaneous', 'HealthCare::index');
-    $routes->post('pulses-grains-data', 'HealthCare::fetch_grains');
+    $routes->get('dry-fruits', 'HealthCare::index');
     $routes->post('dry-fruits-data', 'HealthCare::fetch_dry_fruit');
 
     $routes->get('vegetable', 'HealthCare::index');
@@ -74,6 +74,8 @@ $routes->group('medicine', static function ($routes) {
     $routes->post('submit', 'Pharmacy::user_form_submit');
     $routes->post('delete', 'Pharmacy::delete');
     $routes->get('update/(:num)', 'Pharmacy::index');
+    $routes->post('medicine-data', 'HealthCare::fetch_medicine');
+
 });
 $routes->group('therapy', static function ($routes) {
     $routes->get('/', 'Pharmacy::index');
