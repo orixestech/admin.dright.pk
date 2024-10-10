@@ -9254,7 +9254,7 @@ pre[class*=language-] {
 .layout-wrapper .content-wrapper .content-body .content {
     flex: 1;
     padding: 30px;
-    padding-top: 120px;
+    padding-top: 40px;
     padding-left: 410px;
     padding-bottom: 0;
 }
@@ -9400,7 +9400,7 @@ pre[class*=language-] {
     }
 
     body.small-navigation:not(.horizontal-navigation) .content-footer {
-        margin-left: 120px;
+        /*margin-left: 120px;*/
     }
 
     body.horizontal-navigation .header {
@@ -9969,7 +9969,7 @@ small {
     left: 380px;
     top: 0;
     background-color: white;
-    padding: 30px;
+    padding: 10px 30px;
 }
 
 .header .avatar {
