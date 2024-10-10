@@ -25,7 +25,6 @@ class Main extends Model
         $data['segment_a'] = getSegment(1);
         $data['segment_b'] = getSegment(2);
         $data['segment_c'] = getSegment(3);
-        print_r($data);
 
         return $data;
     }
