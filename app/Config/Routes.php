@@ -73,6 +73,15 @@ $routes->group('lookups', static function ($routes) {
     $routes->post('lookup-data', 'Lookup::fetch_lookups');
 
 });
+
+$routes->group('franchises', static function ($routes) {
+    $routes->get('/', 'HealthCare::index');
+
+});
+$routes->group('representative', static function ($routes) {
+    $routes->get('/', 'HealthCare::index');
+
+});
 $routes->group('medicine', static function ($routes) {
     $routes->get('/', 'Pharmacy::index');
     $routes->get('add', 'Pharmacy::index');

@@ -526,7 +526,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?= $path ?>franchises">
                         <span class="nav-link-icon">
                             <i data-feather="book"></i>
                         </span>
@@ -534,7 +534,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?= $path ?>representative/">
                         <span class="nav-link-icon">
                             <i data-feather="disc"></i>
                         </span>
