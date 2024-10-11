@@ -139,7 +139,8 @@
                         <span>Pending</span>
                     </a>
                 </li>
-            </ul>    <ul id="lookups">
+            </ul>
+            <ul id="lookups">
                 <li class="navigation-divider">Lookups</li>
                 <li>
                     <a href="<?= $path ?>lookups/dashboard">
@@ -155,6 +156,30 @@
                         <span class="nav-link-icon" data-feather="check-circle"></span>
                         <span>Lookups</span>
                     </a>
+                </li>
+            </ul> <ul id="customers">
+                <li class="navigation-divider">Customers</li>
+                <li>
+                    <a href="<?= $path ?>customers/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="pie-chart"></i>
+                        </span>
+                        <span>Dashboard</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Customers</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<?= $path ?>customers/">All</a></li>
+                        <li>
+                            <a href="<?= $path ?>customers/add">Add</a></li></ul>
                 </li>
             </ul>
             <ul id="components">
