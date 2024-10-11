@@ -45,7 +45,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#forms" <?= ($segment_a == 'health-care' ? 'class="active"' : '') ?>>
+                    <a href="#" data-menu-target="#forms" <?= ($segment_a == 'diet' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i class="pe-is-w-thermometer-1-f"></i>
                         </span>
@@ -177,7 +177,7 @@
             <ul id="forms">
                 <li class="navigation-divider">Health Care</li>
                 <li>
-                    <a href="<?= $path ?>health-care/dashboard">
+                    <a href="<?= $path ?>diet/dashboard">
                         <span class="nav-link-icon">
                             <i data-feather="pie-chart"></i>
                         </span>
@@ -194,11 +194,17 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= $path ?>health-care/fruit">Fruit</a>
-                        </li>
+                            <a href="<?= $path ?>diet/fruit">Fruit</a></li>
                         <li>
-                            <a href="<?= $path ?>health-care/vegetable">Vegetable</a>
-                        </li>
+                            <a href="<?= $path ?>diet/vegetable">Vegetable</a></li>
+                        <li>
+                            <a href="<?= $path ?>diet/miscellaneous">Miscellaneous</a></li>
+                        <li>
+                        <li>
+                            <a href="<?= $path ?>diet/pulses-grains">Pulses & Grains</a></li>
+                        <li>     <li>
+                            <a href="<?= $path ?>diet/dry-fruits">Dry Fruits</a></li>
+                        <li>
                         <!--                        <li>-->
                         <!--                            <a href="buttons.html">Buttons</a></li>-->
                         <!--                        <li>-->
@@ -217,36 +223,6 @@
                         </span>
                         <span>Branches</span>
                     </a>
-                    <ul>
-
-                        <li>
-                            <a href="typography.html">Typography</a>
-                        </li>
-                        <li>
-                            <a href="media-object.html">Media Object</a>
-                        </li>
-                        <li>
-                            <a href="progress.html">Progress</a>
-                        </li>
-                        <li>
-                            <a href="modal.html">Modal</a>
-                        </li>
-                        <li>
-                            <a href="spinners.html">Spinners</a>
-                        </li>
-                        <li>
-                            <a href="navs.html">Navs</a>
-                        </li>
-                        <li>
-                            <a href="tab.html">Tab</a>
-                        </li>
-                        <li>
-                            <a href="tooltip.html">Tooltip</a>
-                        </li>
-                        <li>
-                            <a href="popovers.html">Popovers</a>
-                        </li>
-                    </ul>
                 </li>
                 <li>
                     <a href="#">
@@ -255,23 +231,7 @@
                         </span>
                         <span>RCC</span>
                     </a>
-                    <ul>
-                        <li>
-                            <a href="spinners.html">Spinners</a>
-                        </li>
-                        <li>
-                            <a href="navs.html">Navs</a>
-                        </li>
-                        <li>
-                            <a href="tab.html">Tab</a>
-                        </li>
-                        <li>
-                            <a href="tooltip.html">Tooltip</a>
-                        </li>
-                        <li>
-                            <a href="popovers.html">Popovers</a>
-                        </li>
-                    </ul>
+
                 </li>
             </ul>
             <ul id="plugins">
