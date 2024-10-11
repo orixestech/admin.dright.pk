@@ -85,6 +85,14 @@
                     </a>
                 </li>
                 <li>
+                    <a href="#" data-menu-target="#lookups">
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Lookups</span>
+                    </a>
+                </li>
+                <li>
                     <a href="#">
                         <span class="menu-tab-icon">
                             <i data-feather="clock"></i>

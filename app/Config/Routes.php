@@ -68,6 +68,11 @@ $routes->group('diet', static function ($routes) {
 $routes->group('pharmacy', static function ($routes) {
     $routes->get('dashboard', 'Pharmacy::dashboard');
 });
+$routes->group('lookups', static function ($routes) {
+    $routes->get('/', 'Lookup::index');
+    $routes->post('lookup-data', 'Lookup::fetch_lookups');
+
+});
 $routes->group('medicine', static function ($routes) {
     $routes->get('/', 'Pharmacy::index');
     $routes->get('add', 'Pharmacy::index');
