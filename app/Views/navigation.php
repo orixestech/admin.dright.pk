@@ -85,9 +85,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= $path ?>lookups">
+                    <a href="" data-menu-target="#lookups" <?= ($segment_a == 'lookups' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
-                            <i data-feather="pie-chart"></i>
+                            <i data-feather="users"></i>
                         </span>
                         <span>Lookups</span>
                     </a>
@@ -106,20 +106,7 @@
 
         <!-- Menu body -->
         <div class="navigation-menu-body">
-            <!--            <ul id="dashboards">-->
-            <!--                <li class="navigation-divider">Dashboards</li>-->
-            <!---->
-            <!--                <li>-->
-            <!--                    <a class="active"-->
-            <!--                       href="--><?php //= $path 
-            ?><!--">-->
-            <!--                        <span class="nav-link-icon" data-feather="bar-chart-2"></span>-->
-            <!--                        <span>Analytics</span>-->
-            <!--                        <                        <span class="badge badge-success">New</span>-->
-            <!--                    </a>-->
-            <!--                </li>-->
-            <!---->
-            <!--            </ul>-->
+
             <ul id="apps">
                 <li class="navigation-divider">Support Ticket</li>
                 <li>
@@ -150,6 +137,23 @@
                     <a href="<?= $path ?>support-ticket/pending">
                         <span class="nav-link-icon" data-feather="file"></span>
                         <span>Pending</span>
+                    </a>
+                </li>
+            </ul>    <ul id="lookups">
+                <li class="navigation-divider">Lookups</li>
+                <li>
+                    <a href="<?= $path ?>lookups/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="pie-chart"></i>
+                        </span>
+                        <span>Dashboard</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="<?= $path ?>lookups/">
+                        <span class="nav-link-icon" data-feather="check-circle"></span>
+                        <span>Lookups</span>
                     </a>
                 </li>
             </ul>
