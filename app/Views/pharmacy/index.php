@@ -49,7 +49,7 @@
                 "pageLength": 100,
                 "autoWidth": true,
                 "ajax": {
-                    "url": "<?= $path ?>fruit-data",
+                    "url": "<?= $path ?>medicine/medicine-data",
                     "type": "POST"
                 }
             });});
