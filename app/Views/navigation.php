@@ -37,11 +37,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#components" <?= ($segment_a == 'task' ? 'class="active"' : '') ?>>
+                    <a href="#"
+                       data-menu-target="#investigation" <?= ($segment_a == 'investigation' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="layers"></i>
                         </span>
-                        <span>Task System</span>
+                        <span>Investigation</span>
                     </a>
                 </li>
                 <li>
@@ -90,6 +91,58 @@
                             <i data-feather="users"></i>
                         </span>
                         <span>Lookups</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=""
+                       data-menu-target="#clinta_members" <?= ($segment_a == 'clinta_members' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Clinta Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" data-menu-target="#diseases" <?= ($segment_a == 'diseases' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Diseases</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=""
+                       data-menu-target="#laboratories" <?= ($segment_a == 'laboratories' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Laboratories</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=""
+                       data-menu-target="#investigation" <?= ($segment_a == 'investigation' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Investigation</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=""
+                       data-menu-target="#laboratories" <?= ($segment_a == 'specialities' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Specialities</span>
+                    </a>
+                </li> <li>
+                    <a href=""
+                       data-menu-target="#document" <?= ($segment_a == 'document' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Documentations</span>
                     </a>
                 </li>
                 <li>
@@ -157,7 +210,8 @@
                         <span>Lookups</span>
                     </a>
                 </li>
-            </ul> <ul id="customers">
+            </ul>
+            <ul id="customers">
                 <li class="navigation-divider">Customers</li>
                 <li>
                     <a href="<?= $path ?>customers/dashboard">
@@ -179,11 +233,168 @@
                         <li>
                             <a href="<?= $path ?>customers/">All</a></li>
                         <li>
-                            <a href="<?= $path ?>customers/add">Add</a></li></ul>
+                            <a href="<?= $path ?>customers/add">Add</a></li>
+                    </ul>
                 </li>
             </ul>
-            <ul id="components">
-                <li class="navigation-divider">Task System</li>
+            <ul id="clinta_members">
+                <li class="navigation-divider">Customers</li>
+                <li>
+                    <a href="<?= $path ?>customers/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="pie-chart"></i>
+                        </span>
+                        <span>Dashboard</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Customers</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<?= $path ?>customers/">All</a></li>
+                        <li>
+                            <a href="<?= $path ?>customers/add">Add</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul id="diseases">
+                <li class="navigation-divider">Diseases</li>
+                <li>
+                    <a href="<?= $path ?>customers/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="pie-chart"></i>
+                        </span>
+                        <span>Dashboard</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Diseases</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<?= $path ?>customers/">All</a></li>
+                        <li>
+                            <a href="<?= $path ?>customers/add">Add</a></li>
+                    </ul>
+                </li>
+            </ul>  <ul id="document">
+                <li class="navigation-divider">Documentations</li>
+                <li>
+                    <a href="<?= $path ?>customers/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="pie-chart"></i>
+                        </span>
+                        <span>Dashboard</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Diet Plan</span>
+                    </a>
+
+                </li>  <li>
+                    <a href="#">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Workout</span>
+                    </a>
+
+                </li>  <li>
+                    <a href="#">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Tips and Guide</span>
+                    </a>
+
+                </li>  <li>
+                    <a href="#">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Faqs</span>
+                    </a>
+
+                </li><li>
+                    <a href="#">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Exercises</span>
+                    </a>
+
+                </li>
+            </ul>
+            <ul id="laboratories">
+                <li class="navigation-divider">Laboratories</li>
+                <li>
+                    <a href="<?= $path ?>customers/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="pie-chart"></i>
+                        </span>
+                        <span>Dashboard</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Laboratories</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<?= $path ?>customers/">All</a></li>
+                        <li>
+                            <a href="<?= $path ?>customers/add">Add</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul id="Specialities">
+                <li class="navigation-divider">Specialities</li>
+                <li>
+                    <a href="<?= $path ?>customers/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="pie-chart"></i>
+                        </span>
+                        <span>Dashboard</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Specialities</span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<?= $path ?>customers/">All</a></li>
+                        <li>
+                            <a href="<?= $path ?>customers/add">Add</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul id="investigation">
+                <li class="navigation-divider">investigation</li>
 
                 <li>
                     <a href="<?= $path ?>task/dashboard">
@@ -199,7 +410,7 @@
                         <span class="nav-link-icon">
                             <i data-feather="aperture"></i>
                         </span>
-                        <span>My Task</span>
+                        <span>Lab Reports</span>
                     </a>
                 </li>
                 <li>
@@ -207,7 +418,7 @@
                         <span class="nav-link-icon">
                             <i data-feather="anchor"></i>
                         </span>
-                        <span>Assigned Task</span>
+                        <span>Radiology</span>
                     </a>
                 </li>
             </ul>
@@ -239,17 +450,18 @@
                         <li>
                         <li>
                             <a href="<?= $path ?>diet/pulses-grains">Pulses & Grains</a></li>
-                        <li>     <li>
+                        <li>
+                        <li>
                             <a href="<?= $path ?>diet/dry-fruits">Dry Fruits</a></li>
                         <li>
-                        <!--                        <li>-->
-                        <!--                            <a href="buttons.html">Buttons</a></li>-->
-                        <!--                        <li>-->
-                        <!--                            <a href="dropdown.html">Dropdown</a></li>-->
-                        <!--                        <li>-->
-                        <!--                            <a href="list-group.html">List Group</a></li>-->
-                        <!--                        <li>-->
-                        <!--                            <a href="pagination.html">Pagination</a></li>-->
+                            <!--                        <li>-->
+                            <!--                            <a href="buttons.html">Buttons</a></li>-->
+                            <!--                        <li>-->
+                            <!--                            <a href="dropdown.html">Dropdown</a></li>-->
+                            <!--                        <li>-->
+                            <!--                            <a href="list-group.html">List Group</a></li>-->
+                            <!--                        <li>-->
+                            <!--                            <a href="pagination.html">Pagination</a></li>-->
 
                     </ul>
                 </li>
@@ -345,7 +557,7 @@
                 </li>
             </ul>
             <ul id="other">
-                <li class="navigation-divider">Pharmacy</li>
+                <li class="navigation-divider">Medicine</li>
                 <li>
                     <a href="<?= $path ?>pharmacy/dashboard">
                         <span class="nav-link-icon">
@@ -367,21 +579,33 @@
                         <li>
                             <a href="<?= $path ?>medicine/">Listing</a>
                         </li>
+                        <li>
+                            <a href="<?= $path ?>medicine/">Take Type</a>
+                        </li>
+                        <li>
+                            <a href="<?= $path ?>medicine/">Forms</a>
+                        </li>
+                        <li>
+                            <a href="<?= $path ?>medicine/">Timing</a>
+                        </li>
+                        <li>
+                            <a href="<?= $path ?>medicine/">Company</a>
+                        </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#">
-                        <span class="nav-link-icon" data-feather="tool"></span>
-                        <span>Therapy</span>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="<?= $path ?>therapy/add">Add</a>
-                        </li>
-                        <li>
-                            <a href="<?= $path ?>therapy/">Listing</a>
-                        </li>
-                    </ul>
+<!--                <li>-->
+<!--                    <a href="#">-->
+<!--                        <span class="nav-link-icon" data-feather="tool"></span>-->
+<!--                        <span>Therapy</span>-->
+<!--                    </a>-->
+<!--                    <ul>-->
+<!--                        <li>-->
+<!--                            <a href="--><?php //= $path ?><!--therapy/add">Add</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="--><?php //= $path ?><!--therapy/">Listing</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
             </ul>
             <ul id="users">
                 <li class="navigation-divider">Users</li>
