@@ -20,7 +20,7 @@
         <div class="navigation-menu-tab">
             <ul>
                 <li>
-                    <a href="<?= $path ?>">
+                    <a href=""      data-menu-target="#dashboards" <?= ($segment_a == 'dashboards' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="pie-chart"></i>
                         </span>
@@ -235,6 +235,57 @@
                         <li>
                             <a href="<?= $path ?>customers/add">Add</a></li>
                     </ul>
+                </li>
+            </ul> <ul id="dashboards">
+                <li class="navigation-divider">Dashboards</li>
+                <li>
+                    <a href="<?= $path ?>">
+                        <span class="nav-link-icon">
+                            <i data-feather="pie-chart"></i>
+                        </span>
+                        <span>Dashboard</span>
+                    </a>
+
+                </li>
+                <li>
+                    <a href="<?= $path ?>support-ticket/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>HealthCare Dashbaord</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $path ?>investigation/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Investigation Dashbaord</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $path ?>pharmacy/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Pharmacy Dashbaord</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $path ?>users/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Users Dashbaord</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $path ?>support-ticket/dashboard">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>HealthCare Dashbaord</span>
+                    </a>
                 </li>
             </ul>
             <ul id="clinta_members">
