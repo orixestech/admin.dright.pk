@@ -101,6 +101,14 @@
                         </span>
                         <span>Clinta Members</span>
                     </a>
+                </li> <li>
+                    <a href=""
+                       data-menu-target="#customers" <?= ($segment_a == 'customers' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Customers</span>
+                    </a>
                 </li>
                 <li>
                     <a href="" data-menu-target="#diseases" <?= ($segment_a == 'diseases' ? 'class="active"' : '') ?>>
@@ -236,7 +244,8 @@
                             <a href="<?= $path ?>customers/add">Add</a></li>
                     </ul>
                 </li>
-            </ul> <ul id="dashboards">
+            </ul>
+            <ul id="dashboards">
                 <li class="navigation-divider">Dashboards</li>
                 <li>
                     <a href="<?= $path ?>">
