@@ -85,9 +85,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= $path ?>lookups" data-menu-target="#lookups" <?= ($segment_a == 'lookups' ? 'class="active"' : '') ?>>
+                    <a href="<?= $path ?>lookups">
                         <span class="menu-tab-icon">
-                            <i data-feather="users"></i>
+                            <i data-feather="pie-chart"></i>
                         </span>
                         <span>Lookups</span>
                     </a>
