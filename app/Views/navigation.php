@@ -85,7 +85,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#lookups">
+                    <a href="<?= $path ?>lookups" data-menu-target="#lookups" <?= ($segment_a == 'lookups' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="users"></i>
                         </span>
