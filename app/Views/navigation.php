@@ -54,7 +54,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#plugins">
+                    <a href="#" data-menu-target="#plugins" <?= ($segment_a == 'extended' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="gift"></i>
                         </span>
@@ -62,7 +62,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#pages">
+                    <a href="#" data-menu-target="#pages" <?= ($segment_a == 'builder' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="copy"></i>
                         </span>
@@ -70,7 +70,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#other">
+                    <a href="#" data-menu-target="#other" <?= ($segment_a == 'medicine' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="arrow-up-right"></i>
                         </span>
@@ -78,7 +78,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#users">
+                    <a href="#" data-menu-target="#users" <?= ($segment_a == 'users' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="users"></i>
                         </span>
@@ -348,7 +348,8 @@
                             <a href="<?= $path ?>customers/add">Add</a></li>
                     </ul>
                 </li>
-            </ul>  <ul id="document">
+            </ul>
+            <ul id="document">
                 <li class="navigation-divider">Documentations</li>
                 <li>
                     <a href="<?= $path ?>document/dashboard">
@@ -546,7 +547,7 @@
             <ul id="plugins">
                 <li class="navigation-divider">Extended</li>
                 <li>
-                    <a href="<?= $path ?>">
+                    <a href="<?= $path ?>extended/dashboard">
                         <span class="nav-link-icon">
                             <i data-feather="pie-chart"></i>
                         </span>
@@ -555,25 +556,25 @@
 
                 </li>
                 <li>
-                    <a href="sweet-alert.html">
+                    <a href="<?= $path ?>extended">
                         <span class="nav-link-icon" data-feather="alert-triangle"></span>
                         <span>Database Compare</span>
                     </a>
                 </li>
                 <li>
-                    <a href="lightbox.html">
+                    <a href="<?= $path ?>extended">
                         <span class="nav-link-icon" data-feather="crop"></span>
                         <span>Profiles</span>
                     </a>
                 </li>
                 <li>
-                    <a href="toast.html">
+                    <a href="<?= $path ?>extended">
                         <span class="nav-link-icon" data-feather="clipboard"></span>
                         <span>Default Configuration</span>
                     </a>
                 </li>
                 <li>
-                    <a href="tour.html">
+                    <a href="<?= $path ?>extended">
                         <span class="nav-link-icon" data-feather="sliders"></span>
                         <span>Default Lookups</span>
                     </a>
@@ -702,7 +703,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>">
+                    <a href="<?= $path ?>users">
                         <span class="nav-link-icon">
                             <i data-feather="mail"></i>
                         </span>
@@ -711,7 +712,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>">
+                    <a href="<?= $path ?>users">
                         <span class="nav-link-icon">
                             <i data-feather="mail"></i>
                         </span>
