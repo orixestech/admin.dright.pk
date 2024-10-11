@@ -351,7 +351,7 @@
             </ul>  <ul id="document">
                 <li class="navigation-divider">Documentations</li>
                 <li>
-                    <a href="<?= $path ?>customers/dashboard">
+                    <a href="<?= $path ?>document/dashboard">
                         <span class="nav-link-icon">
                             <i data-feather="pie-chart"></i>
                         </span>
@@ -360,7 +360,7 @@
 
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?= $path ?>document/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
@@ -368,7 +368,7 @@
                     </a>
 
                 </li>  <li>
-                    <a href="#">
+                    <a href="<?= $path ?>document/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
@@ -376,7 +376,7 @@
                     </a>
 
                 </li>  <li>
-                    <a href="#">
+                    <a href="<?= $path ?>document/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
@@ -384,7 +384,7 @@
                     </a>
 
                 </li>  <li>
-                    <a href="#">
+                    <a href="<?= $path ?>document/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
@@ -392,7 +392,7 @@
                     </a>
 
                 </li><li>
-                    <a href="#">
+                    <a href="<?= $path ?>document/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
@@ -404,7 +404,7 @@
             <ul id="laboratories">
                 <li class="navigation-divider">Laboratories</li>
                 <li>
-                    <a href="<?= $path ?>customers/dashboard">
+                    <a href="<?= $path ?>laboratories/dashboard">
                         <span class="nav-link-icon">
                             <i data-feather="pie-chart"></i>
                         </span>
@@ -413,7 +413,7 @@
 
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?= $path ?>laboratories/dashboard">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
@@ -421,16 +421,16 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= $path ?>customers/">All</a></li>
+                            <a href="<?= $path ?><?= $path ?>laboratories/">All</a></li>
                         <li>
-                            <a href="<?= $path ?>customers/add">Add</a></li>
+                            <a href="<?= $path ?>laboratories/add">Add</a></li>
                     </ul>
                 </li>
             </ul>
             <ul id="Specialities">
                 <li class="navigation-divider">Specialities</li>
                 <li>
-                    <a href="<?= $path ?>customers/dashboard">
+                    <a href="<?= $path ?>specialities/dashboard">
                         <span class="nav-link-icon">
                             <i data-feather="pie-chart"></i>
                         </span>
@@ -447,9 +447,9 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= $path ?>customers/">All</a></li>
+                            <a href="<?= $path ?>specialities/">All</a></li>
                         <li>
-                            <a href="<?= $path ?>customers/add">Add</a></li>
+                            <a href="<?= $path ?>specialities/add">Add</a></li>
                     </ul>
                 </li>
             </ul>
@@ -457,7 +457,7 @@
                 <li class="navigation-divider">investigation</li>
 
                 <li>
-                    <a href="<?= $path ?>task/dashboard">
+                    <a href="<?= $path ?>investigation/dashboard">
                         <span class="nav-link-icon">
                             <i data-feather="pie-chart"></i>
                         </span>
@@ -466,7 +466,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>task/">
+                    <a href="<?= $path ?>investigation/">
                         <span class="nav-link-icon">
                             <i data-feather="aperture"></i>
                         </span>
@@ -474,7 +474,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= $path ?>task/assigned_task">
+                    <a href="<?= $path ?>investigation/">
                         <span class="nav-link-icon">
                             <i data-feather="anchor"></i>
                         </span>

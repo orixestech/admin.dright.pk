@@ -146,7 +146,7 @@ $routes->group('clinta_members', static function ($routes) {
     $routes->post('submit', 'Customers::customer_form_submit');
     $routes->post('delete', 'Customers::delete');
     $routes->get('update/(:num)', 'Customers::index');
-});$routes->group('investigation', static function ($routes) {
+});$routes->group('laboratories', static function ($routes) {
     $routes->get('/', 'Customers::index');
     $routes->get('add', 'Customers::index');
     $routes->post('submit', 'Customers::customer_form_submit');
