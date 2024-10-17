@@ -44,7 +44,7 @@ class HealthcareModel extends Model
         $Crud = new Crud();
         $SQL = 'SELECT COUNT(`UID`) as CNT FROM `public_diet_facts` WHERE `DietID` = \'' . $item . '\'';
         $Admin = $Crud->ExecuteSQL($SQL);
-        return $Admin;
+        return $Admin[0]['CNT'];
     }
     public
     function get_diet_datatables($item)

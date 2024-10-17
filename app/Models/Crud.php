@@ -9,6 +9,8 @@ class Crud extends Model
 
     var $data = array ();
 
+
+
     public function __construct()
     {
         $this->data[ 'path' ] = PATH;

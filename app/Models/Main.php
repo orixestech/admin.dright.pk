@@ -30,26 +30,9 @@ class Main extends Model
     }
 
     public
-    function get_fruit_datatables($keyword = '')
-    {
-        $Crud = new Crud();
-        $SQL = $this->Diet();
-        if ($_POST['length'] != -1)
-            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
-//        echo nl2br($SQL); exit;
-        $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
 
-        return $records;
-    }
-
-    public
-    function count_fruit_datatables($keyword = '')
-    {
-        $Crud = new Crud();
-        $SQL = $this->Diet();
-        $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
-        return count($records);
+    function RandFileName() {
+        $key = substr( md5( rand( 100, 9999999 ) . "|" . date( "U" ) ), 10, 10 );
+        return $key;
     }
 }

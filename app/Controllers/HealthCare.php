@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Crud;
 use App\Models\HealthcareModel;
 use App\Models\Main;
 
@@ -48,7 +49,7 @@ class HealthCare extends BaseController
         } elseif ($data['page'] == 'miscellaneous') {
             echo view('health_care/miscellaneous', $data);
 
-        }  elseif ($data['page'] == 'pulses-grains') {
+        } elseif ($data['page'] == 'pulses-grains') {
             echo view('health_care/pulses-grains', $data);
 
         } elseif ($data['page'] == 'dry-fruits') {
@@ -78,7 +79,7 @@ class HealthCare extends BaseController
     public function fetch_fruit()
     {
         $Healthcare = new HealthcareModel();
-        $item='fruits';
+        $item = 'fruits';
         $Data = $Healthcare->get_diet_datatables($item);
         $totalfilterrecords = $Healthcare->count_diet_datatables($item);
 //        print_r($Data);
@@ -87,18 +88,18 @@ class HealthCare extends BaseController
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
-            $Nitems=$Healthcare->GetNutritionalCountByItem($record['UID']);
+            $Nitems = $Healthcare->GetNutritionalCountByItem($record['UID']);
             $cnt++;
             $data = array();
             $data[] = $cnt;
             $data[] = (isset($record['Image']) && $record['Image'] != '')
-                ? '<img src="'. PATH .'upload/diet/'.$record['Image'].'" class="img-thumbnail" style="height:80px;">'
-                : '<img class="img-thumbnail" style="height:40px;" src="'. PATH .'upload/diet/images.png">';
+                ? '<img src="' . PATH . 'upload/diet/' . $record['Image'] . '" class="img-thumbnail" style="height:80px;">'
+                : '<img class="img-thumbnail" style="height:40px;" src="' . PATH . 'upload/diet/images.png">';
 
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['UrduName']) ? htmlspecialchars($record['UrduName']) : '';
-            $data[] = isset($Nitems) ? $Nitems: '';
-           $dataarr[] = $data;
+            $data[] = isset($Nitems) ? $Nitems : '';
+            $dataarr[] = $data;
         }
 
         $response = array(
@@ -110,10 +111,11 @@ class HealthCare extends BaseController
 
         echo json_encode($response);
     }
+
     public function fetch_dry_fruit()
     {
         $Healthcare = new HealthcareModel();
-        $item='dry-fruites';
+        $item = 'dry-fruites';
         $Data = $Healthcare->get_diet_datatables($item);
         $totalfilterrecords = $Healthcare->count_diet_datatables($item);
 //        print_r($Data);
@@ -122,18 +124,18 @@ class HealthCare extends BaseController
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
-            $Nitems=$Healthcare->GetNutritionalCountByItem($record['UID']);
+            $Nitems = $Healthcare->GetNutritionalCountByItem($record['UID']);
             $cnt++;
             $data = array();
             $data[] = $cnt;
             $data[] = (isset($record['Image']) && $record['Image'] != '')
-                ? '<img src="'. PATH .'upload/diet/'.$record['Image'].'" class="img-thumbnail" style="height:80px;">'
-                : '<img class="img-thumbnail" style="height:40px;" src="'. PATH .'upload/diet/images.png">';
+                ? '<img src="' . PATH . 'upload/diet/' . $record['Image'] . '" class="img-thumbnail" style="height:80px;">'
+                : '<img class="img-thumbnail" style="height:40px;" src="' . PATH . 'upload/diet/images.png">';
 
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['UrduName']) ? htmlspecialchars($record['UrduName']) : '';
-            $data[] = isset($Nitems) ? $Nitems: '';
-           $dataarr[] = $data;
+            $data[] = isset($Nitems) ? $Nitems : '';
+            $dataarr[] = $data;
         }
 
         $response = array(
@@ -145,10 +147,11 @@ class HealthCare extends BaseController
 
         echo json_encode($response);
     }
+
     public function fetch_grains()
     {
         $Healthcare = new HealthcareModel();
-        $item='pulses-grains';
+        $item = 'pulses-grains';
         $Data = $Healthcare->get_diet_datatables($item);
         $totalfilterrecords = $Healthcare->count_diet_datatables($item);
 //        print_r($Data);
@@ -157,18 +160,18 @@ class HealthCare extends BaseController
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
-            $Nitems=$Healthcare->GetNutritionalCountByItem($record['UID']);
+            $Nitems = $Healthcare->GetNutritionalCountByItem($record['UID']);
             $cnt++;
             $data = array();
             $data[] = $cnt;
             $data[] = (isset($record['Image']) && $record['Image'] != '')
-                ? '<img src="'. PATH .'upload/diet/'.$record['Image'].'" class="img-thumbnail" style="height:80px;">'
-                : '<img class="img-thumbnail" style="height:40px;" src="'. PATH .'upload/diet/images.png">';
+                ? '<img src="' . PATH . 'upload/diet/' . $record['Image'] . '" class="img-thumbnail" style="height:80px;">'
+                : '<img class="img-thumbnail" style="height:40px;" src="' . PATH . 'upload/diet/images.png">';
 
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['UrduName']) ? htmlspecialchars($record['UrduName']) : '';
-            $data[] = isset($Nitems) ? $Nitems: '';
-           $dataarr[] = $data;
+            $data[] = isset($Nitems) ? $Nitems : '';
+            $dataarr[] = $data;
         }
 
         $response = array(
@@ -180,6 +183,7 @@ class HealthCare extends BaseController
 
         echo json_encode($response);
     }
+
     public function fetch_vegetable()
     {
         $Healthcare = new HealthcareModel();
@@ -190,19 +194,19 @@ class HealthCare extends BaseController
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
-            $Nitems=$Healthcare->GetNutritionalCountByItem($record['UID']);
+            $Nitems = $Healthcare->GetNutritionalCountByItem($record['UID']);
 
             $cnt++;
             $data = array();
             $data[] = $cnt;
             $data[] = (isset($record['Image']) && $record['Image'] != '')
-                ? '<img src="'. PATH .'upload/diet/'.$record['Image'].'" class="img-thumbnail" style="height:80px;">'
-                : '<img class="img-thumbnail" style="height:40px;" src="'. PATH .'upload/diet/images.png">';
+                ? '<img src="' . PATH . 'upload/diet/' . $record['Image'] . '" class="img-thumbnail" style="height:80px;">'
+                : '<img class="img-thumbnail" style="height:40px;" src="' . PATH . 'upload/diet/images.png">';
 
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['UrduName']) ? htmlspecialchars($record['UrduName']) : '';
-            $data[] = isset($Nitems) ? $Nitems: '';
-           $dataarr[] = $data;
+            $data[] = isset($Nitems) ? $Nitems : '';
+            $dataarr[] = $data;
         }
 
         $response = array(
@@ -214,6 +218,7 @@ class HealthCare extends BaseController
 
         echo json_encode($response);
     }
+
     public function fetch_miscellaneous()
     {
         $Healthcare = new HealthcareModel();
@@ -223,19 +228,19 @@ class HealthCare extends BaseController
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
-            $Nitems=$Healthcare->GetNutritionalCountByItem($record['UID']);
+            $Nitems = $Healthcare->GetNutritionalCountByItem($record['UID']);
 
             $cnt++;
             $data = array();
             $data[] = $cnt;
             $data[] = (isset($record['Image']) && $record['Image'] != '')
-                ? '<img src="'. PATH .'upload/diet/'.$record['Image'].'" class="img-thumbnail" style="height:80px;">'
-                : '<img class="img-thumbnail" style="height:40px;" src="'. PATH .'upload/diet/images.png">';
+                ? '<img src="' . PATH . 'upload/diet/' . $record['Image'] . '" class="img-thumbnail" style="height:80px;">'
+                : '<img class="img-thumbnail" style="height:40px;" src="' . PATH . 'upload/diet/images.png">';
 
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['UrduName']) ? htmlspecialchars($record['UrduName']) : '';
-            $data[] = isset($Nitems) ? $Nitems: '';
-           $dataarr[] = $data;
+            $data[] = isset($Nitems) ? $Nitems : '';
+            $dataarr[] = $data;
         }
 
         $response = array(
@@ -247,5 +252,74 @@ class HealthCare extends BaseController
 
         echo json_encode($response);
     }
+
+    public function item_form_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Item = $this->request->getVar('Item');
+
+        $filename = "";
+
+        if ($_FILES['Image']['tmp_name']) {
+            $ext = @end(@explode(".", basename($_FILES['Image']['name'])));
+            $uploaddir = ROOT . "/upload/diet/";
+            $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
+
+            if (move_uploaded_file($_FILES['Image']['tmp_name'], $uploaddir . $uploadfile)) {
+                $filename = $uploadfile;
+            }
+        }
+
+//        print_r($filename);exit();
+        if ($id == 0) {
+            foreach ($Item as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+            if ($filename != "") {
+                $record['Image'] = $filename;
+            }
+            $RecordId = $Crud->AddRecord("public_diet", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Item Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($Item as $key => $value) {
+                $record[$key] = $value;
+            }
+            if ($filename != "") {
+                $record['Image'] = $filename;
+            }
+
+            $Crud->UpdateRecord("public_diet", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = 'Item Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
+
+    public function get_item_record()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("public_diet", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Item Record Get Successfully...!';
+        echo json_encode($response);
+    }
+
+
 
 }
