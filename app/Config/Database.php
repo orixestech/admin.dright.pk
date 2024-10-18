@@ -50,6 +50,27 @@ class Database extends Config
         ],
     ];
 
+    public array $website_db = [
+        'DSN'          => '',
+        'hostname'     => '127.0.0.1',
+        'username'     => 'clinta_doctwebsite',
+        'password'     => 'ClintaWebsite147',
+        'database'     => 'clinta_websites',
+        'DBDriver' => 'Postgre',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug' => true,
+        'charset' => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre' => '',
+        'encrypt' => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port' => 5432,
+        'numberNative' => false,
+    ];
+
     //    /**
     //     * Sample database connection for SQLite3.
     //     *

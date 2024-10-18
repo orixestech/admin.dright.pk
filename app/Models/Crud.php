@@ -7,45 +7,45 @@ use CodeIgniter\Model;
 class Crud extends Model
 {
 
-    var $data = array ();
+    var $data = array();
 
 
 
     public function __construct()
     {
-        $this->data[ 'path' ] = PATH;
-        $this->data[ 'template' ] = TEMPLATE;
+        $this->data['path'] = PATH;
+        $this->data['template'] = TEMPLATE;
     }
 
-    public function UploadFile( $inputName, $DBRef = '', $single = true )
+    public function UploadFile($inputName, $DBRef = '', $single = true)
     {
-//		echo "<pre>";print_r($inputName);
-//		echo "<pre>";print_r($_FILES);exit;
-        if ( $single ) {
+        //		echo "<pre>";print_r($inputName);
+        //		echo "<pre>";print_r($_FILES);exit;
+        if ($single) {
             $recordids = '';
-            if ( isset( $_FILES[ $inputName ][ 'tmp_name' ] ) && $_FILES[ $inputName ][ 'tmp_name' ] != "" ) {
+            if (isset($_FILES[$inputName]['tmp_name']) && $_FILES[$inputName]['tmp_name'] != "") {
 
                 $file = [
-                    'type' => $_FILES[ $inputName ][ 'type' ],
-                    'tmp_name' => $_FILES[ $inputName ][ 'tmp_name' ],
+                    'type' => $_FILES[$inputName]['type'],
+                    'tmp_name' => $_FILES[$inputName]['tmp_name'],
                     // 'error' => $_FILES[$inputName]['error'],
-                    'size' => $_FILES[ $inputName ][ 'size' ]
+                    'size' => $_FILES[$inputName]['size']
                 ];
-                $recordid = $this->uploadAsFile( $file, $DBRef );
+                $recordid = $this->uploadAsFile($file, $DBRef);
                 $recordids = $recordid;
             }
         } else {
-            $recordids = array ();
+            $recordids = array();
 
-            if ( isset( $_FILES[ $inputName ][ 'tmp_name' ][ 0 ] ) && $_FILES[ $inputName ][ 'tmp_name' ][ 0 ] != "" ) {
-                for ( $a = 0; $a < count( $_FILES[ $inputName ][ 'name' ] ); $a++ ) {
+            if (isset($_FILES[$inputName]['tmp_name'][0]) && $_FILES[$inputName]['tmp_name'][0] != "") {
+                for ($a = 0; $a < count($_FILES[$inputName]['name']); $a++) {
                     $file = [
-                        'type' => $_FILES[ $inputName ][ 'type' ][ $a ],
-                        'tmp_name' => $_FILES[ $inputName ][ 'tmp_name' ][ $a ],
+                        'type' => $_FILES[$inputName]['type'][$a],
+                        'tmp_name' => $_FILES[$inputName]['tmp_name'][$a],
                         // 'error' => $_FILES[$inputName]['error'][$a],
                         // 'size' => $_FILES[$inputName]['size'][$a]
                     ];
-                    $recordid = $this->uploadAsFile( $file, $DBRef );
+                    $recordid = $this->uploadAsFile($file, $DBRef);
                     $recordids[] = $recordid;
                 }
             }
@@ -54,44 +54,55 @@ class Crud extends Model
         return $recordids;
     }
 
-    public function UploadFileFromURL( $fileUrl, $DBRef = '' )
+    public function UploadFileFromURL($fileUrl, $DBRef = '')
     {
-        $fileContents = file_get_contents( $fileUrl );
-        $tempFilePath = sys_get_temp_dir() . '/' . basename( $fileUrl );
-        file_put_contents( $tempFilePath, $fileContents );
-        $finfo = finfo_open( FILEINFO_MIME_TYPE );
-        $mimeType = finfo_file( $finfo, $tempFilePath );
-        finfo_close( $finfo );
-        $fileSize = filesize( $tempFilePath );
+        $fileContents = file_get_contents($fileUrl);
+        $tempFilePath = sys_get_temp_dir() . '/' . basename($fileUrl);
+        file_put_contents($tempFilePath, $fileContents);
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $tempFilePath);
+        finfo_close($finfo);
+        $fileSize = filesize($tempFilePath);
         $file = [
             'type' => $mimeType,
             'tmp_name' => $tempFilePath,
             'size' => $fileSize
         ];
-        $recordid = $this->uploadAsFile( $file, $DBRef );
-        unlink( $tempFilePath );
+        $recordid = $this->uploadAsFile($file, $DBRef);
+        unlink($tempFilePath);
         return $recordid;
     }
 
     public
-    function ExecuteSQL( $Query, $view = false )
+    function ExecuteSQL($Query, $view = false)
     {
         $db = \Config\Database::connect();
-        $records = $db->query( $Query )->getResult( 'array' );
-        if ( $view )
+        $records = $db->query($Query)->getResult('array');
+        if ($view)
             echo $db->getLastQuery() . "<hr>";
         $db->close();
         return $records;
     }
 
     public
-    function AddRecord( $table, $records, $view = false )
+    function ExecutePgSQL($Query, $view = false)
+    {
+        $pgsql = \Config\Database::connect('website_db');
+        $records = $pgsql->query($Query)->getResult('array');
+        if ($view)
+            echo $pgsql->getLastQuery() . "<hr>";
+        $pgsql->close();
+        return $records;
+    }
+
+    public
+    function AddRecord($table, $records, $view = false)
     {
         $db = \Config\Database::connect();
         $db->db_debug = false;
-        $builder = $db->table( $table );
-        $builder->insert( $records );
-        if ( $view ) {
+        $builder = $db->table($table);
+        $builder->insert($records);
+        if ($view) {
             $QUERY = $db->getLastQuery() . ";<br>";
             // $Main = new Main();
             //  $Main->SendEmail('info@orixestech.com', 'Umrah Furas :: Insert Query Error', $QUERY);
@@ -103,12 +114,12 @@ class Crud extends Model
     }
 
     public
-    function DeleteRecord( $table, $where )
+    function DeleteRecord($table, $where)
     {
         $db = \Config\Database::connect();
-        $builder = $db->table( $table );
-        if ( count( $where ) > 0 ) {
-            $builder->where( $where );
+        $builder = $db->table($table);
+        if (count($where) > 0) {
+            $builder->where($where);
         }
         $builder->delete();
         $db->close();
@@ -117,23 +128,23 @@ class Crud extends Model
     }
 
     public
-    function SingleRecord( $table, $wheres = array (), $view = false )
+    function SingleRecord($table, $wheres = array(), $view = false)
     {
         $db = \Config\Database::connect();
-        $builder = $db->table( $table );
+        $builder = $db->table($table);
 
-        $builder->select( '*' );
-        if ( count( $wheres ) > 0 ) {
-            $builder->where( $wheres );
+        $builder->select('*');
+        if (count($wheres) > 0) {
+            $builder->where($wheres);
         }
         $query = $builder->get();
         $record = (array)$query->getRowArray();
-        if ( !is_array( $record ) ) {
-            $record = array ();
+        if (!is_array($record)) {
+            $record = array();
         }
         //print_r($record);
         //$record = $query->getRowArray();
-        if ( $view ) echo $db->getLastQuery() . "<hr>";
+        if ($view) echo $db->getLastQuery() . "<hr>";
 
         $db->close();
         return $record;
@@ -155,14 +166,14 @@ class Crud extends Model
     }
 
     public
-    function UpdateRecord( $table, $records, $where )
+    function UpdateRecord($table, $records, $where)
     {
         $db = \Config\Database::connect();
-        $builder = $db->table( $table );
-        if ( count( $where ) > 0 ) {
-            $builder->where( $where );
+        $builder = $db->table($table);
+        if (count($where) > 0) {
+            $builder->where($where);
         }
-        $builder->update( $records );
+        $builder->update($records);
         // echo $db->getLastQuery() . "<hr>";
 
 
@@ -171,28 +182,28 @@ class Crud extends Model
     }
 
     public
-    function ListRecords( $table, $wheres = array (), $order = array (), $limit = 0 )
+    function ListRecords($table, $wheres = array(), $order = array(), $limit = 0)
     {
         $db = \Config\Database::connect();
-        $builder = $db->table( $table );
+        $builder = $db->table($table);
 
-        $builder->select( '*' );
-        if ( count( $wheres ) > 0 ) {
-            $builder->where( $wheres );
+        $builder->select('*');
+        if (count($wheres) > 0) {
+            $builder->where($wheres);
         }
-        if ( count( $order ) > 0 ) {
-            foreach ( $order as $ordK => $ordV ) {
-                $builder->orderBy( $ordK, $ordV );
+        if (count($order) > 0) {
+            foreach ($order as $ordK => $ordV) {
+                $builder->orderBy($ordK, $ordV);
             }
         }
-        if ( $limit > 0 ) {
-            $builder->limit( $limit );
+        if ($limit > 0) {
+            $builder->limit($limit);
         }
 
         $query = $builder->get();
         $records = $query->getResultArray();
-        if ( !is_array( $records ) ) {
-            $records = array ();
+        if (!is_array($records)) {
+            $records = array();
         }
 
         //echo $db->getLastQuery() . "<hr>";
@@ -200,22 +211,20 @@ class Crud extends Model
         return $records;
     }
 
-    public function UploadAsFile( $file, $dbRef = '' )
+    public function UploadAsFile($file, $dbRef = '')
     {
         $recordid = '';
-        $records = array ();
-        $records[ 'SystemDate' ] = 'now()';
-        $records[ 'Ext' ] = $file[ 'type' ];
-        $records[ 'Size' ] = $file[ 'size' ];
-        $records[ 'DBRef' ] = $dbRef;
-        if ( isset( $file[ 'tmp_name' ] ) ) {
-            $file_content = file_get_contents( $file[ "tmp_name" ] );
-            $file_content = base64_encode( $file_content );
-            $records[ 'Content' ] = $file_content;
-            $recordid = $this->AddRecord( 'public."Files"', $records );
-
+        $records = array();
+        $records['SystemDate'] = 'now()';
+        $records['Ext'] = $file['type'];
+        $records['Size'] = $file['size'];
+        $records['DBRef'] = $dbRef;
+        if (isset($file['tmp_name'])) {
+            $file_content = file_get_contents($file["tmp_name"]);
+            $file_content = base64_encode($file_content);
+            $records['Content'] = $file_content;
+            $recordid = $this->AddRecord('public."Files"', $records);
         }
         return $recordid;
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Crud;
 use App\Models\Main;
 
 class Home extends BaseController
@@ -17,11 +18,11 @@ class Home extends BaseController
     public function testing()
     {
         $data = $this->data;
-
-        $UserData = new Main();
-        $data['Med'] = $UserData->AllMED();
-//        echo view('header');
-
+        echo '<pre>';
+        $Crud = new Crud();
+        $Query = 'SELECT "UID", "Heading" FROM public."banner"';
+        $records = $Crud->ExecutePgSQL($Query);
+        print_r($records);
     }
 
     public function index()
@@ -30,27 +31,26 @@ class Home extends BaseController
         echo view('header', $data);
         echo view('home', $data);
         echo view('footer', $data);
-
     }
     public function fruit_search_filter()
     {
         $session = session();
-        $Categories = $this->request->getVar( 'Categories' );
+        $Categories = $this->request->getVar('Categories');
 
 
-        $AllFilter = array (
+        $AllFilter = array(
             'Categories' => $Categories,
 
         );
 
 
-//        print_r($AllCVFilter);exit;
-        $session->set( 'FruitFilters', $AllFilter );
+        //        print_r($AllCVFilter);exit;
+        $session->set('FruitFilters', $AllFilter);
 
-        $response[ 'status' ] = "success";
-        $response[ 'message' ] = "Filters Updated Successfully";
+        $response['status'] = "success";
+        $response['message'] = "Filters Updated Successfully";
 
-        echo json_encode( $response );
+        echo json_encode($response);
     }
 
 
@@ -58,14 +58,14 @@ class Home extends BaseController
     function clear_session()
     {
         $session = session();
-        $SessionName = $this->request->getVar( 'SessionName' );
+        $SessionName = $this->request->getVar('SessionName');
 
-        $session->set( $SessionName, array () );
+        $session->set($SessionName, array());
 
-        $response = array ();
-        $response[ 'status' ] = 'success';
-        $response[ 'message' ] = "Filters Updated Successfully";
-        echo json_encode( $response );
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = "Filters Updated Successfully";
+        echo json_encode($response);
     }
 
     public function login()
@@ -80,6 +80,5 @@ class Home extends BaseController
         echo view('header', $data);
         echo view('table', $data);
         echo view('footer', $data);
-
     }
 }
