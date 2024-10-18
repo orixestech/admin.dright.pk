@@ -74,9 +74,9 @@
         response = AjaxUploadResponse("diet/submit", formdata);
         if (response.status === 'success') {
             $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
-            // setTimeout(function () {
-            //     location.reload();
-            // }, 500);
+            setTimeout(function () {
+                location.reload();
+            }, 500);
         } else {
             $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');
         }

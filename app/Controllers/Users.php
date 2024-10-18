@@ -3,8 +3,9 @@
 namespace App\Controllers;
 
 
-use App\Models\SystemUser;
+use App\Models\Crud;
 use App\Models\Main;
+use App\Models\SystemUser;
 
 class Users extends BaseController
 {
@@ -28,23 +29,18 @@ class Users extends BaseController
     {
         $data = $this->data;
         $data['page'] = getSegment(2);
-        $Users= new SystemUser();
+        $Users = new SystemUser();
 
         echo view('header', $data);
         if ($data['page'] == 'access_level') {
             echo view('users/access_level', $data);
-        }elseif ($data['page'] == 'add'){
+        } elseif ($data['page'] == 'add') {
             echo view('users/main_form', $data);
 
-        }elseif ($data['page'] == 'update'){
-            echo view('users/main_form', $data);
-
-        }elseif ($data['page'] == 'admin-activites'){
+        } elseif ($data['page'] == 'admin-activites') {
             echo view('users/admin_activites', $data);
 
         } else {
-//            $Data = $Users->systemusers();
-//print_r($Data);exit();
             echo view('users/index', $data);
 
         }
@@ -61,12 +57,9 @@ class Users extends BaseController
 
     public function fetch_users()
     {
-//        echo 'hhhhhh';exit();
-        $Users= new SystemUser();
+        $Users = new SystemUser();
         $Data = $Users->get_users_datatables();
         $totalfilterrecords = $Users->count_users_datatables();
-//            print_r($Data);exit();
-
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
@@ -76,6 +69,19 @@ class Users extends BaseController
             $data[] = isset($record['FullName']) ? htmlspecialchars($record['FullName']) : '';
             $data[] = isset($record['Email']) ? htmlspecialchars($record['Email']) : '';
             $data[] = isset($record['AccessLevel']) ? htmlspecialchars($record['AccessLevel']) : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateUser(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteUser(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+
+            </div>
+        </div>
+    </td>';
             $dataarr[] = $data;
         }
 
@@ -85,7 +91,63 @@ class Users extends BaseController
             "recordsFiltered" => $totalfilterrecords,
             "data" => $dataarr
         );
+        echo json_encode($response);
+    }
+    public function user_form_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
 
+        $id = $this->request->getVar('UID');
+        $User = $this->request->getVar('User');
+
+
+        if ($id == 0) {
+            foreach ($User as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+
+            $RecordId = $Crud->AddRecord("system_users", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'User Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($User as $key => $value) {
+                $record[$key] = $value;
+            }
+            $Crud->UpdateRecord("system_users", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = 'User Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
+    public function delete_user()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+        $Crud->DeleteRecord("system_users", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = 'User Deleted Successfully...!';
+        echo json_encode($response);
+    }
+    public function get_item_record()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("system_users", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
     }
 }

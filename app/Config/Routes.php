@@ -38,15 +38,14 @@ $routes->group('builder', static function ($routes) {
 });
 $routes->group('users', static function ($routes) {
     $routes->get('/', 'Users::index');
-    $routes->get('add', 'Users::index');
     $routes->get('access-level', 'Users::index');
     $routes->get('admin-activites', 'Users::index');
     $routes->post('users-data', 'Users::fetch_users');
+    $routes->post('get-record', 'Users::get_item_record');
 
     $routes->get('dashboard', 'Users::dashboard');
     $routes->post('submit', 'Users::user_form_submit');
-    $routes->post('delete', 'Users::delete');
-    $routes->get('update/(:num)', 'Users::index');
+    $routes->post('delete', 'Users::delete_user');
 });
 $routes->group('diet', static function ($routes) {
     $routes->get('/', 'HealthCare::index');
@@ -159,7 +158,9 @@ $routes->group('clinta_members', static function ($routes) {
     $routes->post('submit', 'Customers::customer_form_submit');
     $routes->post('delete', 'Customers::delete');
     $routes->get('update/(:num)', 'Customers::index');
-});$routes->group('laboratories', static function ($routes) {
+});
+
+$routes->group('laboratories', static function ($routes) {
     $routes->get('/', 'Customers::index');
     $routes->get('add', 'Customers::index');
     $routes->post('submit', 'Customers::customer_form_submit');

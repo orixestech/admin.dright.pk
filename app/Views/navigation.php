@@ -680,18 +680,10 @@
 
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?= $path ?>users">
                         <span class="nav-link-icon" data-feather="users"></span>
                         <span>User</span>
                     </a>
-                    <ul>
-                        <li>
-                            <a href="<?= $path ?>users/add">Add</a>
-                        </li>
-                        <li>
-                            <a href="<?= $path ?>users">All Users</a>
-                        </li>
-                    </ul>
                 </li>
                 <li>
                     <a href="<?= $path ?>users/access-level">
