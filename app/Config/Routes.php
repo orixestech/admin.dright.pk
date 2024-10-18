@@ -53,18 +53,23 @@ $routes->group('diet', static function ($routes) {
     $routes->get('add', 'HealthCare::index');
     $routes->get('dashboard', 'HealthCare::dashboard');
     $routes->get('fruit', 'HealthCare::index');
-    $routes->get('detail/(:num)', 'HealthCare::index');
     $routes->get('pulses-grains', 'HealthCare::index');
     $routes->get('dry-fruits', 'HealthCare::index');
     $routes->get('miscellaneous', 'HealthCare::index');
     $routes->get('dry-fruits', 'HealthCare::index');
     $routes->post('dry-fruits-data', 'HealthCare::fetch_dry_fruit');
+    $routes->post('pulses-grains-data', 'HealthCare::fetch_grains');
     $routes->post('get-record', 'HealthCare::get_item_record');
-
     $routes->get('vegetable', 'HealthCare::index');
     $routes->post('submit', 'HealthCare::item_form_submit');
-    $routes->post('delete', 'HealthCare::delete');
-    $routes->get('update/(:num)', 'HealthCare::index');
+    $routes->post('detail-submit', 'HealthCare::diet_submit');
+    $routes->post('delete', 'HealthCare::delete_item');
+    $routes->get('fruit-detail/(:num)', 'HealthCare::diet');
+    $routes->get('dry-fruites-detail/(:num)', 'HealthCare::diet');
+    $routes->get('miscellaneous-detail/(:num)', 'HealthCare::diet');
+    $routes->get('pulses-grains-detail/(:num)', 'HealthCare::diet');
+    $routes->get('vegetable-detail/(:num)', 'HealthCare::diet');
+
 });
 $routes->group('pharmacy', static function ($routes) {
     $routes->get('dashboard', 'Pharmacy::dashboard');

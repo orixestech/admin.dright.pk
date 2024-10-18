@@ -34,13 +34,8 @@ class HealthCare extends BaseController
         echo view('header', $data);
         if ($data['page'] == 'pending') {
             echo view('health_care/pending', $data);
-        } elseif ($data['page'] == 'add') {
-            echo view('health_care/main_form', $data);
-
         } elseif ($data['page'] == 'fruit') {
-//            $item='fruits';
 
-//            $data['fruit'] = $fruits->Diet($item);
             echo view('health_care/fruit', $data);
 
         } elseif ($data['page'] == 'vegetable') {
@@ -55,16 +50,43 @@ class HealthCare extends BaseController
         } elseif ($data['page'] == 'dry-fruits') {
             echo view('health_care/dry-fruites', $data);
 
-        } elseif ($data['page'] == 'detail') {
-            echo view('health_care/detail', $data);
-
-        } elseif ($data['page'] == 'update') {
-            echo view('health_care/main_form', $data);
-
         } else {
             echo view('health_care/index', $data);
 
         }
+        echo view('footer', $data);
+    }
+    public function diet()
+    {
+        $data = $this->data;
+        $data['page'] = getSegment(2);
+        $data['item_uid'] = getSegment(3);
+        $healthcare= new \App\Models\HealthcareModel();
+
+        echo view('header', $data);
+//        if ($data['page'] == 'fruit-detail') {
+            $record=$healthcare->GetDietDataByID($data['item_uid']);
+            $data['Record']=$record[0];
+//            echo '<pre>';
+//            print_r( $data['Record']);exit();
+            $data['NutritionalArray']=$healthcare->NutritionalArray();
+            echo view('health_care/detail', $data);
+//        } elseif ($data['page'] == 'vegetable-detail') {
+//            echo view('health_care/detail', $data);
+//
+//        } elseif ($data['page'] == 'miscellaneous-detail') {
+//            echo view('health_care/detail', $data);
+//
+//        } elseif ($data['page'] == 'pulses-grains-detail') {
+//            echo view('health_care/detail', $data);
+//
+//        } elseif ($data['page'] == 'dry-fruits-detail') {
+//            echo view('health_care/detail', $data);
+//
+//        } else {
+//            echo view('health_care/index', $data);
+//
+//        }
         echo view('footer', $data);
     }
 
@@ -99,6 +121,20 @@ class HealthCare extends BaseController
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['UrduName']) ? htmlspecialchars($record['UrduName']) : '';
             $data[] = isset($Nitems) ? $Nitems : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateItem(' . htmlspecialchars($record['UID']) . ', \'fruits\')">Update</a>
+                <a class="dropdown-item" onclick="DeleteItem(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                <a class="dropdown-item" onclick="ItemDetail(' . htmlspecialchars($record['UID']) . ')">Diet Details</a>
+            </div>
+        </div>
+    </td>';
+
             $dataarr[] = $data;
         }
 
@@ -135,6 +171,21 @@ class HealthCare extends BaseController
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['UrduName']) ? htmlspecialchars($record['UrduName']) : '';
             $data[] = isset($Nitems) ? $Nitems : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateItem(' . htmlspecialchars($record['UID']) . ', \'dry-fruites\')">Update</a>
+                <a class="dropdown-item" onclick="DeleteItem(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                           <a class="dropdown-item" onclick="ItemDetail(' . htmlspecialchars($record['UID']) . ')">Diet Details</a>
+
+            </div>
+        </div>
+    </td>';
+
             $dataarr[] = $data;
         }
 
@@ -171,6 +222,21 @@ class HealthCare extends BaseController
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['UrduName']) ? htmlspecialchars($record['UrduName']) : '';
             $data[] = isset($Nitems) ? $Nitems : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateItem(' . htmlspecialchars($record['UID']) . ', \'pulses-grains\')">Update</a>
+                <a class="dropdown-item" onclick="DeleteItem(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                          <a class="dropdown-item" onclick="ItemDetail(' . htmlspecialchars($record['UID']) . ')">Diet Details</a>
+
+           </div>
+        </div>
+    </td>';
+
             $dataarr[] = $data;
         }
 
@@ -206,6 +272,21 @@ class HealthCare extends BaseController
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['UrduName']) ? htmlspecialchars($record['UrduName']) : '';
             $data[] = isset($Nitems) ? $Nitems : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateItem(' . htmlspecialchars($record['UID']) . ', \'vegetables\')">Update</a>
+                <a class="dropdown-item" onclick="DeleteItem(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                           <a class="dropdown-item" onclick="ItemDetail(' . htmlspecialchars($record['UID']) . ')">Diet Details</a>
+
+            </div>
+        </div>
+    </td>';
+
             $dataarr[] = $data;
         }
 
@@ -240,6 +321,21 @@ class HealthCare extends BaseController
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['UrduName']) ? htmlspecialchars($record['UrduName']) : '';
             $data[] = isset($Nitems) ? $Nitems : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateItem(' . htmlspecialchars($record['UID']) . ', \'miscellaneous\')">Update</a>
+                <a class="dropdown-item" onclick="DeleteItem(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                        <a class="dropdown-item" onclick="ItemDetail(' . htmlspecialchars($record['UID']) . ')">Diet Details</a>
+
+            </div>
+        </div>
+    </td>';
+
             $dataarr[] = $data;
         }
 
@@ -306,6 +402,39 @@ class HealthCare extends BaseController
 
         echo json_encode($response);
     }
+ public function diet_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $fact = $this->request->getVar('fact');
+        $diet_id = $this->request->getVar('diet_id');
+//        print_r($fact);exit();
+        $Crud = new Crud();
+//            echo 'fefeg';exit();
+        $Crud->DeleteRecord( "public_diet_facts", array ( "DietID" => $diet_id ) );
+
+            foreach ($fact as $key => $value) {
+                $record['OptionID'] = ((isset($key)) ? $key : '');
+                $record['Value'] = ((isset($value)) ? $value : '');
+                $record['DietID'] = ((isset($diet_id)) ? $diet_id : '');
+                $RecordId = $Crud->AddRecord("public_diet_facts", $record);
+                if (isset($RecordId) && $RecordId > 0) {
+                    $response['status'] = 'success';
+                    $response['message'] = 'Nutritional  Added Successfully...!';
+                } else {
+                    $response['status'] = 'fail';
+                    $response['message'] = 'Nutritional  Didnt Submitted Successfully...!';
+                }
+
+            }
+
+
+
+        echo json_encode($response);
+    }
 
     public function get_item_record()
     {
@@ -320,6 +449,16 @@ class HealthCare extends BaseController
         echo json_encode($response);
     }
 
+    public function delete_item()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
 
+        $Crud->DeleteRecord("public_diet", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = 'Diet Deleted Successfully...!';
+        echo json_encode($response);
+    }
 
 }

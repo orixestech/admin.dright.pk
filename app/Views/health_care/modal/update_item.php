@@ -8,7 +8,7 @@
                 <input type="hidden" name="UID" id="UID" value="">
                 <input type="hidden" name="Item[Category]" id="Category" value="">
             <div class="modal-header">
-                <h5 class="modal-title">Add Item</h5>
+                <h5 class="modal-title">Update Item</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="ti-close"></i>
                 </button>
@@ -39,6 +39,10 @@
                             <input type="file" class="custom-file-input" id="Image"  name="Image">
                             <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
+                    </div>
+                    <div class="clearfix"><br></div>
+                    <div class="col-sm-12">
+                        <div  id="ImageHTML"></div>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="validationCustom02">Description</label>

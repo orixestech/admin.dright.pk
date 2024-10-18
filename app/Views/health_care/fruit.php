@@ -1,30 +1,31 @@
-
 <br>
 <link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
 
 <div class="card">
     <div class="card-body">
-        <h4 class="card-title mb-2">Fruit</h4>
-            <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
-            <button type="button" onclick="AddItem('fruits')" class="btn btn-primary mr-2 mb-2" data-toggle="modal" data-target="#exampleModal">
+        <h4>Fruit
+            <span style="float: right;">            <button type="button" onclick="AddItem('fruits')"
+                                                            class="btn btn-primary "
+                                                            data-toggle="modal" data-target="#exampleModal">
               Add Item
             </button>
-            </div>
-
+           </span>
+        </h4>
     </div>
     <div class="table-responsive">
         <table id="fruits" class="table table-striped table-bordered">
-            <thead>            <tr>
+            <thead>
+            <tr>
                 <th>Sr No</th>
                 <th>Image</th>
                 <th>Name</th>
                 <th>Urdu Name</th>
                 <th>Nutritional Items</th>
-<!--                <th>Actions</th>-->
+                <th>Actions</th>
             </tr>
             </thead>
-           <tbody>
-           </tbody>
+            <tbody>
+            </tbody>
             <tfoot>
             <tr>
                 <th>Sr No</th>
@@ -32,47 +33,91 @@
                 <th>Name</th>
                 <th>Urdu Name</th>
                 <th>Nutritional Items</th>
-<!--                <th>Actions</th>-->
+                <th>Actions</th>
             </tr>
+            <div class="mt-5" id="Response"></div>
+
             </tfoot>
         </table>
     </div>
     <?php echo view('health_care/modal/add_item'); ?>
     <?php echo view('health_care/modal/update_item'); ?>
 
-<script>
-    $(document).ready(function (){
-        $('#fruits').DataTable({
-            "scrollY": "800px",
-            "scrollCollapse": true,
-            "searching": false,
-            "processing": true,
-            "serverSide": true,
-            "responsive": true,
-            "lengthMenu": [[100, 500, 1000, -1], [100, 500, 1000, 'All']],
-            "pageLength": 100,
-            "autoWidth": true,
-            "ajax": {
-                "url": "<?= $path ?>fruit-data",
-                "type": "POST"
+    <script>
+        $(document).ready(function () {
+            $('#fruits').DataTable({
+                "scrollY": "800px",
+                "scrollCollapse": true,
+                "searching": false,
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                "lengthMenu": [[100, 500, 1000, -1], [100, 500, 1000, 'All']],
+                "pageLength": 100,
+                "autoWidth": true,
+                "ajax": {
+                    "url": "<?= $path ?>fruit-data",
+                    "type": "POST"
+                }
+            });
+        });
+
+    </script>
+    <script>
+        function AddItem(item) {
+            $('#AddItemModal form#AddItemForm input#Category').val(item);
+            $('#AddItemModal').modal('show');
+
+        }
+        function ItemDetail(id) {
+            location.href = "<?=$path?>diet/fruit-detail/" + id;
+        }
+        function UpdateItem(id, item) {
+            var Items = AjaxResponse("diet/get-record", "id=" + id);
+
+            // Set form fields
+            $('#UpdateItemModal form#UpdateItemForm input#Category').val(item);
+            $('#UpdateItemModal form#UpdateItemForm input#UID').val(Items.record.UID);
+            $('#UpdateItemModal form#UpdateItemForm input#Name').val(Items.record.Name);
+            $('#UpdateItemModal form#UpdateItemForm input#UrduName').val(Items.record.UrduName);
+            $('#UpdateItemModal form#UpdateItemForm textarea#Description').val(Items.record.Description);
+
+            // Define the image path
+            var path = '<?=$path?>'; // assuming `path` is available from the backend
+            var imageHTML;
+
+            // Check if an image exists, otherwise show a default image
+            if (Items.record.Image) {
+                imageHTML = '<img src="' + path + 'upload/diet/' + Items.record.Image + '" style="height:100px;">';
+            } else {
+                imageHTML = '<img src="' + path + 'upload/diet/images.png" style="height:100px;">';
             }
-        });});
 
-</script>
-<script>
-    function AddItem(item) {
-        $('#AddItemModal form#AddItemForm input#Category').val(item);
-        $('#AddItemModal').modal('show');
+            // Set the image HTML in the modal
+            $('#UpdateItemModal form#UpdateItemForm #ImageHTML').html(imageHTML);
 
-    }
-    function UpdateItem(id, item) {
-        var Items = AjaxResponse("categories/get-record", "id=" + id);
-        $('#UpdateItemModal form#UpdateItemForm input#Category').val(item);
-        $('#UpdateItemModal').modal('show');
+            // Show the modal
+            $('#UpdateItemModal').modal('show');
+        }
 
+        function DeleteItem(id) {
+            if (confirm("Are you Sure U want to Delete this?")) {
+                response = AjaxResponse("diet/delete", "id=" + id);
+                if (response.status == 'success') {
+                    $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    $("#Response").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Deleted</strong>  </div>')
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                }
 
-    }
-</script>
+            }
+        }
+    </script>
     <script src="<?= $template ?>vendors/dataTable/datatables.min.js"></script>
     <script src="<?= $template ?>assets/js/examples/datatable.js"></script>
     <script src="<?= $template ?>vendors/prism/prism.js"></script>
