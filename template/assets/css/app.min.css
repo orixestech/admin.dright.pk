@@ -9104,7 +9104,10 @@ pre[class*=language-] {
 }
 
 .navigation .navigation-menu-tab ul li a:hover .menu-tab-icon {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.15);
+}
+.navigation .navigation-menu-tab ul li a:hover .menu-tab-icon i {
+    background: rgba(0, 0, 0, 0.15);
 }
 
 .navigation .navigation-menu-tab ul li a.active {
@@ -9254,7 +9257,7 @@ pre[class*=language-] {
 .layout-wrapper .content-wrapper .content-body .content {
     flex: 1;
     padding: 30px;
-    padding-top: 40px;
+    padding-top: 60px;
     padding-left: 410px;
     padding-bottom: 0;
 }
