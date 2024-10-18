@@ -20,45 +20,11 @@
         <div class="navigation-menu-tab">
             <ul>
                 <li>
-                    <a href=""      data-menu-target="#dashboards" <?= ($segment_a == 'dashboards' ? 'class="active"' : '') ?>>
+                    <a href="" data-menu-target="#dashboards" <?= ($segment_a == 'dashboards' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="pie-chart"></i>
                         </span>
                         <span>Dashboards</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                       data-menu-target="#apps" <?= ($segment_a == 'support-ticket' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="globe"></i>
-                        </span>
-                        <span>Support Ticket</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                       data-menu-target="#investigation" <?= ($segment_a == 'investigation' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="layers"></i>
-                        </span>
-                        <span>Investigation</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" data-menu-target="#forms" <?= ($segment_a == 'diet' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i class="pe-is-w-thermometer-1-f"></i>
-                        </span>
-                        <span>Health Care</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" data-menu-target="#plugins" <?= ($segment_a == 'extended' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="gift"></i>
-                        </span>
-                        <span>Extended</span>
                     </a>
                 </li>
                 <li>
@@ -70,11 +36,98 @@
                     </a>
                 </li>
                 <li>
+                    <a href="#" data-menu-target="#forms" <?= ($segment_a == 'diet' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i class="pe-is-w-thermometer-1-f"></i>
+                        </span>
+                        <span>Health Care</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=""
+                        data-menu-target="#clinta_members" <?= ($segment_a == 'clinta_members' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Clinta Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=""
+                        data-menu-target="#customers" <?= ($segment_a == 'customers' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Customers</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-menu-target="#plugins" <?= ($segment_a == 'extended' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="gift"></i>
+                        </span>
+                        <span>Extended</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        data-menu-target="#investigation" <?= ($segment_a == 'investigation' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Investigation</span>
+                    </a>
+                </li>
+                <li>
                     <a href="#" data-menu-target="#other" <?= ($segment_a == 'medicine' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="arrow-up-right"></i>
                         </span>
                         <span>Pharmacy</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" data-menu-target="#diseases" <?= ($segment_a == 'diseases' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Diseases</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=""
+                        data-menu-target="#laboratories" <?= ($segment_a == 'laboratories' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Laboratories</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=""
+                        data-menu-target="#investigation" <?= ($segment_a == 'investigation' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Investigation</span>
+                    </a>
+                </li>
+                <li>
+                    <a href=""
+                        data-menu-target="#laboratories" <?= ($segment_a == 'specialities' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Specialities</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        data-menu-target="#apps" <?= ($segment_a == 'support-ticket' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="globe"></i>
+                        </span>
+                        <span>Support Ticket</span>
                     </a>
                 </li>
                 <li>
@@ -95,58 +148,7 @@
                 </li>
                 <li>
                     <a href=""
-                       data-menu-target="#clinta_members" <?= ($segment_a == 'clinta_members' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="users"></i>
-                        </span>
-                        <span>Clinta Members</span>
-                    </a>
-                </li> <li>
-                    <a href=""
-                       data-menu-target="#customers" <?= ($segment_a == 'customers' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="users"></i>
-                        </span>
-                        <span>Customers</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="" data-menu-target="#diseases" <?= ($segment_a == 'diseases' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="users"></i>
-                        </span>
-                        <span>Diseases</span>
-                    </a>
-                </li>
-                <li>
-                    <a href=""
-                       data-menu-target="#laboratories" <?= ($segment_a == 'laboratories' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="users"></i>
-                        </span>
-                        <span>Laboratories</span>
-                    </a>
-                </li>
-                <li>
-                    <a href=""
-                       data-menu-target="#investigation" <?= ($segment_a == 'investigation' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="users"></i>
-                        </span>
-                        <span>Investigation</span>
-                    </a>
-                </li>
-                <li>
-                    <a href=""
-                       data-menu-target="#laboratories" <?= ($segment_a == 'specialities' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="users"></i>
-                        </span>
-                        <span>Specialities</span>
-                    </a>
-                </li> <li>
-                    <a href=""
-                       data-menu-target="#document" <?= ($segment_a == 'document' ? 'class="active"' : '') ?>>
+                        data-menu-target="#document" <?= ($segment_a == 'document' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="users"></i>
                         </span>
@@ -239,9 +241,11 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= $path ?>customers/">All</a></li>
+                            <a href="<?= $path ?>customers/">All</a>
+                        </li>
                         <li>
-                            <a href="<?= $path ?>customers/add">Add</a></li>
+                            <a href="<?= $path ?>customers/add">Add</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -317,9 +321,11 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= $path ?>customers/">All</a></li>
+                            <a href="<?= $path ?>customers/">All</a>
+                        </li>
                         <li>
-                            <a href="<?= $path ?>customers/add">Add</a></li>
+                            <a href="<?= $path ?>customers/add">Add</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -343,9 +349,11 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= $path ?>customers/">All</a></li>
+                            <a href="<?= $path ?>customers/">All</a>
+                        </li>
                         <li>
-                            <a href="<?= $path ?>customers/add">Add</a></li>
+                            <a href="<?= $path ?>customers/add">Add</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -368,7 +376,8 @@
                         <span>Diet Plan</span>
                     </a>
 
-                </li>  <li>
+                </li>
+                <li>
                     <a href="<?= $path ?>document/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
@@ -376,7 +385,8 @@
                         <span>Workout</span>
                     </a>
 
-                </li>  <li>
+                </li>
+                <li>
                     <a href="<?= $path ?>document/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
@@ -384,7 +394,8 @@
                         <span>Tips and Guide</span>
                     </a>
 
-                </li>  <li>
+                </li>
+                <li>
                     <a href="<?= $path ?>document/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
@@ -392,7 +403,8 @@
                         <span>Faqs</span>
                     </a>
 
-                </li><li>
+                </li>
+                <li>
                     <a href="<?= $path ?>document/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
@@ -422,9 +434,11 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= $path ?><?= $path ?>laboratories/">All</a></li>
+                            <a href="<?= $path ?><?= $path ?>laboratories/">All</a>
+                        </li>
                         <li>
-                            <a href="<?= $path ?>laboratories/add">Add</a></li>
+                            <a href="<?= $path ?>laboratories/add">Add</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -448,9 +462,11 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= $path ?>specialities/">All</a></li>
+                            <a href="<?= $path ?>specialities/">All</a>
+                        </li>
                         <li>
-                            <a href="<?= $path ?>specialities/add">Add</a></li>
+                            <a href="<?= $path ?>specialities/add">Add</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -503,17 +519,22 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= $path ?>diet/fruit">Fruit</a></li>
+                            <a href="<?= $path ?>diet/fruit">Fruit</a>
+                        </li>
                         <li>
-                            <a href="<?= $path ?>diet/vegetable">Vegetable</a></li>
+                            <a href="<?= $path ?>diet/vegetable">Vegetable</a>
+                        </li>
                         <li>
-                            <a href="<?= $path ?>diet/miscellaneous">Miscellaneous</a></li>
+                            <a href="<?= $path ?>diet/miscellaneous">Miscellaneous</a>
+                        </li>
                         <li>
                         <li>
-                            <a href="<?= $path ?>diet/pulses-grains">Pulses & Grains</a></li>
+                            <a href="<?= $path ?>diet/pulses-grains">Pulses & Grains</a>
+                        </li>
                         <li>
                         <li>
-                            <a href="<?= $path ?>diet/dry-fruits">Dry Fruits</a></li>
+                            <a href="<?= $path ?>diet/dry-fruits">Dry Fruits</a>
+                        </li>
                         <li>
                             <!--                        <li>-->
                             <!--                            <a href="buttons.html">Buttons</a></li>-->
@@ -654,19 +675,21 @@
                         </li>
                     </ul>
                 </li>
-<!--                <li>-->
-<!--                    <a href="#">-->
-<!--                        <span class="nav-link-icon" data-feather="tool"></span>-->
-<!--                        <span>Therapy</span>-->
-<!--                    </a>-->
-<!--                    <ul>-->
-<!--                        <li>-->
-<!--                            <a href="--><?php //= $path ?><!--therapy/add">Add</a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="--><?php //= $path ?><!--therapy/">Listing</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
+                <!--                <li>-->
+                <!--                    <a href="#">-->
+                <!--                        <span class="nav-link-icon" data-feather="tool"></span>-->
+                <!--                        <span>Therapy</span>-->
+                <!--                    </a>-->
+                <!--                    <ul>-->
+                <!--                        <li>-->
+                <!--                            <a href="--><?php //= $path 
+                                                            ?><!--therapy/add">Add</a>-->
+                <!--                        </li>-->
+                <!--                        <li>-->
+                <!--                            <a href="--><?php //= $path 
+                                                            ?><!--therapy/">Listing</a>-->
+                <!--                        </li>-->
+                <!--                    </ul>-->
             </ul>
             <ul id="users">
                 <li class="navigation-divider">Users</li>
@@ -722,9 +745,9 @@
 <!-- ./ Navigation -->
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
         $(".navigation-menu-tab ul li a").hover(
-            function () {
+            function() {
                 $(this).click();
             }
         );
