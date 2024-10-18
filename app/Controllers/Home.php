@@ -8,6 +8,7 @@ use App\Models\Main;
 class Home extends BaseController
 {
     var $data = array();
+    var $MainModel;
 
     public function __construct()
     {
