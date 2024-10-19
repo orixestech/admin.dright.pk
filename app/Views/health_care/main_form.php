@@ -1,8 +1,11 @@
+<br>
+
 <div class="card">
     <div class="card-body">
-        <h6 class="card-title">Add Support Ticket</h6>
-        <form class="needs-validation" novalidate="">
-            <div class="form-row">
+        <h6 class="card-title">Add RCC</h6>
+        <form method="post" action="" name="AddRCCForm" id="AddRCCForm" class="needs-validation" novalidate=""
+              enctype="multipart/form-data">
+            <input type="hidden" name="UID" id="UID" value="0">            <div class="form-row">
                 <div class="col-md-4 mb-3">
                     <label for="validationCustom01">First name</label>
                     <input type="text" class="form-control" id="validationCustom01"
@@ -83,6 +86,28 @@
       </code></pre>
         </div>
     </div>
+
+<script>
+
+    $(document).ready(function() {
+        $('#Description').summernote();
+    });
+    function AddRCCFormFunction() {
+        var formdata = new window.FormData($("form#AddRCCForm")[0]);
+        var contentbody = $('textarea#Description').summernote('code');
+        formdata.append('Description', contentbody);
+
+        response = AjaxUploadResponse("diet/submit-category", formdata);
+        if (response.status === 'success') {
+            $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
+            setTimeout(function () {
+                location.reload();
+            }, 500);
+        } else {
+            $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');
+        }
+    }
+</script>
 <script>
     (function() {
         'use strict';

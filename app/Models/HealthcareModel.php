@@ -54,11 +54,26 @@ class HealthcareModel extends Model
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
+    public function representatives()
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `representatives` Order By `FullName` ASC';
+//        $Admin = $Crud->ExecuteSQL($SQL);
+        return $SQL;
+    }
 
     public function GetDietDataByID($item)
     {
         $Crud = new Crud();
         $SQL = 'SELECT * FROM `public_diet` where `UID`=\'' . $item . '\'  ';
+        $Admin = $Crud->ExecuteSQL($SQL);
+//        $Admin=$Admin[0];
+        return $Admin;
+    }
+    public function get_rcc_receipts_data_by_id($item)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `representative_receipts` where `RepresentativeUID`=\'' . $item . '\'  ';
         $Admin = $Crud->ExecuteSQL($SQL);
 //        $Admin=$Admin[0];
         return $Admin;
@@ -123,6 +138,31 @@ class HealthcareModel extends Model
         $Crud = new Crud();
 
         $SQL = $this->support_videos();
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+        return count($records);
+    }
+  public
+    function get_representatives_datatables()
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->representatives();
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+
+    public
+    function count_representatives_datatables()
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->representatives();
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);

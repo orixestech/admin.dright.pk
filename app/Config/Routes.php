@@ -93,7 +93,12 @@ $routes->group('franchises', static function ($routes) {
 
 });
 $routes->group('representative', static function ($routes) {
-    $routes->get('/', 'HealthCare::index');
+    $routes->get('/', 'Representatives::index');
+    $routes->get('add', 'Representatives::index');
+    $routes->get('update/(:num)', 'Representatives::index');
+    $routes->post('representatives-data', 'Representatives::fetch_representative');
+    $routes->post('submit', 'Representatives::representatives_form_submit');
+    $routes->post('delete', 'Representatives::delete');
 
 });
 $routes->group('medicine', static function ($routes) {
