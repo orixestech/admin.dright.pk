@@ -60,10 +60,13 @@ $routes->group('diet', static function ($routes) {
     $routes->post('diet-categories-data', 'HealthCare::fetch_diet_categories');
     $routes->post('pulses-grains-data', 'HealthCare::fetch_grains');
     $routes->post('get-record', 'HealthCare::get_item_record');
+    $routes->post('get-record-category', 'HealthCare::get_category_record');
     $routes->get('vegetable', 'HealthCare::index');
     $routes->post('submit', 'HealthCare::item_form_submit');
+    $routes->post('submit-category', 'HealthCare::category_form_submit');
     $routes->post('detail-submit', 'HealthCare::diet_submit');
     $routes->post('delete', 'HealthCare::delete_item');
+    $routes->post('delete-category', 'HealthCare::delete_category');
     $routes->get('fruit-detail/(:num)', 'HealthCare::diet');
     $routes->get('dry-fruites-detail/(:num)', 'HealthCare::diet');
     $routes->get('miscellaneous-detail/(:num)', 'HealthCare::diet');

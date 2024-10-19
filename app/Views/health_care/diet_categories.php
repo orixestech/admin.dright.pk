@@ -1,19 +1,22 @@
 <br>
 <link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
+<link rel="stylesheet" href="<?= $template ?>vendors/select2/css/select2.min.css" type="text/css">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
 
 <div class="card">
     <div class="card-body">
         <h4>Diet Categories
-            <span style="float: right;">            <button type="button" onclick="AddItem('fruits')"
+            <span style="float: right;">            <button type="button" onclick="AddDietCategory()"
                                                             class="btn btn-primary "
                                                             data-toggle="modal" data-target="#exampleModal">
-              Add Item
+              Add
             </button>
            </span>
         </h4>
     </div>
     <div class="table-responsive">
-        <table id="category" class="table table-striped table-bordered">
+        <table id="record" class="table table-striped table-bordered">
             <thead>
             <tr>
                 <th>Sr. No</th>
@@ -30,7 +33,6 @@
             </tbody>
             <tfoot>
             <tr>
-            <tr>
                 <th>Sr. No</th>
                 <th>Category</th>
                 <th>Sub Category</th>
@@ -40,18 +42,21 @@
                 <th>Tolerable upper intake levels (UL)</th>
                 <th >Actions</th>
             </tr>
-            </tr>
             <div class="mt-5" id="Response"></div>
 
             </tfoot>
         </table>
     </div>
-    <?php echo view('health_care/modal/add_item'); ?>
-    <?php echo view('health_care/modal/update_item'); ?>
+    <?php echo view('health_care/modal/add_category'); ?>
+    <?php echo view('health_care/modal/update_category'); ?>
 
     <script>
+
+        // $(document).ready(function() {
+        //     $('#Description').summernote();
+        // });
         $(document).ready(function () {
-            $('#category').DataTable({
+            $('#record').DataTable({
                 "scrollY": "800px",
                 "scrollCollapse": true,
                 "searching": false,
@@ -70,42 +75,29 @@
 
     </script>
     <script>
-        function AddItem(item) {
-            $('#AddItemModal form#AddItemForm input#Category').val(item);
-            $('#AddItemModal').modal('show');
+        function AddDietCategory() {
+            $('#AddDietCategoryModal').modal('show');
 
         }
-        function UpdateItem(id, item) {
-            var Items = AjaxResponse("diet/get-record", "id=" + id);
 
-            // Set form fields
-            $('#UpdateItemModal form#UpdateItemForm input#Category').val(item);
-            $('#UpdateItemModal form#UpdateItemForm input#UID').val(Items.record.UID);
-            $('#UpdateItemModal form#UpdateItemForm input#Name').val(Items.record.Name);
-            $('#UpdateItemModal form#UpdateItemForm input#UrduName').val(Items.record.UrduName);
-            $('#UpdateItemModal form#UpdateItemForm textarea#Description').val(Items.record.Description);
+        function UpdateDietCategory(id) {
+            var Items = AjaxResponse("diet/get-record-category", "id=" + id);
 
-            // Define the image path
-            var path = '<?=$path?>'; // assuming `path` is available from the backend
-            var imageHTML;
-
-            // Check if an image exists, otherwise show a default image
-            if (Items.record.Image) {
-                imageHTML = '<img src="' + path + 'upload/diet/' + Items.record.Image + '" style="height:100px;">';
-            } else {
-                imageHTML = '<img src="' + path + 'upload/diet/images.png" style="height:100px;">';
-            }
-
-            // Set the image HTML in the modal
-            $('#UpdateItemModal form#UpdateItemForm #ImageHTML').html(imageHTML);
-
-            // Show the modal
-            $('#UpdateItemModal').modal('show');
+            $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#UID').val(Items.record.UID);
+            $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#Category').val(Items.record.Category);
+            $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#SubCategory').val(Items.record.SubCategory);
+            $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#Unit').val(Items.record.Unit);
+            $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#EAR').val(Items.record.EAR);
+            $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#RDA').val(Items.record.RDA);
+            $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#UL').val(Items.record.UL);
+            $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#OrderID').val(Items.record.OrderID);
+            $('#UpdateDietCategoryModal form#UpdateDietCategoryForm textarea#Description').val(Items.record.Description);
+            $('#UpdateDietCategoryModal').modal('show');
         }
 
-        function DeleteItem(id) {
+        function DeleteDietCategory(id) {
             if (confirm("Are you Sure U want to Delete this?")) {
-                response = AjaxResponse("diet/delete", "id=" + id);
+                response = AjaxResponse("diet/delete-category", "id=" + id);
                 if (response.status == 'success') {
                     $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
                     setTimeout(function () {
@@ -121,6 +113,7 @@
             }
         }
     </script>
+    <script src="<?= $template ?>vendors/select2/js/select2.min.js"></script>
     <script src="<?= $template ?>vendors/dataTable/datatables.min.js"></script>
     <script src="<?= $template ?>assets/js/examples/datatable.js"></script>
     <script src="<?= $template ?>vendors/prism/prism.js"></script>

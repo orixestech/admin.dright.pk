@@ -42,7 +42,7 @@ class HealthcareModel extends Model
     public function DietCategory()
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `public_diet_category` Order By `Name` ';
+        $SQL = 'SELECT * FROM `public_diet_category` Order By `OrderID` ';
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
@@ -142,7 +142,7 @@ class HealthcareModel extends Model
 
         $SQL = $this->DietCategory();
         $records = $Crud->ExecuteSQL($SQL);
-        print_r($records);exit();
+//        print_r($records);exit();
         return count($records);
     }
 

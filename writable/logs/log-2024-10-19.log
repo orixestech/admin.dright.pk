@@ -1,0 +1,64 @@
+CRITICAL - 2024-10-19 05:36:44 --> ErrorException: foreach() argument must be of type array|object, null given
+[Method: POST, Route: diet/submit-category]
+in APPPATH\Controllers\HealthCare.php on line 474.
+ 1 APPPATH\Controllers\HealthCare.php(474): CodeIgniter\Debug\Exceptions->errorHandler(2, 'foreach() argument must be of type array|object, null given', 'D:\\wamp64\\www\\admin.dright.net\\app\\Controllers\\HealthCare.php', 474)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\HealthCare->category_form_submit()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\HealthCare))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(79): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2024-10-19 05:37:37 --> mysqli_sql_exception: Unknown column 'Units' in 'field list' in D:\wamp64\www\admin.dright.net\system\Database\MySQLi\Connection.php:312
+Stack trace:
+#0 D:\wamp64\www\admin.dright.net\system\Database\MySQLi\Connection.php(312): mysqli->query('INSERT INTO `pu...', 0)
+#1 D:\wamp64\www\admin.dright.net\system\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `pu...')
+#2 D:\wamp64\www\admin.dright.net\system\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `pu...')
+#3 D:\wamp64\www\admin.dright.net\system\Database\BaseBuilder.php(2340): CodeIgniter\Database\BaseConnection->query('INSERT INTO `pu...', Array, false)
+#4 D:\wamp64\www\admin.dright.net\app\Models\Crud.php(104): CodeIgniter\Database\BaseBuilder->insert(Array)
+#5 D:\wamp64\www\admin.dright.net\app\Controllers\HealthCare.php(478): App\Models\Crud->AddRecord('public_diet_cat...', Array)
+#6 D:\wamp64\www\admin.dright.net\system\CodeIgniter.php(933): App\Controllers\HealthCare->category_form_submit()
+#7 D:\wamp64\www\admin.dright.net\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\HealthCare))
+#8 D:\wamp64\www\admin.dright.net\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 D:\wamp64\www\admin.dright.net\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#10 D:\wamp64\www\admin.dright.net\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 D:\wamp64\www\admin.dright.net\index.php(79): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 {main}
+CRITICAL - 2024-10-19 05:37:37 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'Units' in 'field list'
+[Method: POST, Route: diet/submit-category]
+in SYSTEMPATH\Database\BaseConnection.php on line 688.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2340): CodeIgniter\Database\BaseConnection->query('INSERT INTO `public_diet_category` (`Category`, `SubCategory`, `Units`, `EAR`, `RDA`, `UL`, `OrderID`, `Description`) VALUES (:Category:, :SubCategory:, :Units:, :EAR:, :RDA:, :UL:, :OrderID:, :Description:)', [...], false)
+ 2 APPPATH\Models\Crud.php(104): CodeIgniter\Database\BaseBuilder->insert([...])
+ 3 APPPATH\Controllers\HealthCare.php(478): App\Models\Crud->AddRecord('public_diet_category', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\HealthCare->category_form_submit()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\HealthCare))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(79): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-10-19 05:37:37 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'Units' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 317.
+ 1 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `public_diet_category` (`Category`, `SubCategory`, `Units`, `EAR`, `RDA`, `UL`, `OrderID`, `Description`) VALUES (\'ss\', \'sss\', \'22\', \'22\', \'22\', \'2\', \'2\', \'<p>dvsdv<br></p>\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `public_diet_category` (`Category`, `SubCategory`, `Units`, `EAR`, `RDA`, `UL`, `OrderID`, `Description`) VALUES (\'ss\', \'sss\', \'22\', \'22\', \'22\', \'2\', \'2\', \'<p>dvsdv<br></p>\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2340): CodeIgniter\Database\BaseConnection->query('INSERT INTO `public_diet_category` (`Category`, `SubCategory`, `Units`, `EAR`, `RDA`, `UL`, `OrderID`, `Description`) VALUES (:Category:, :SubCategory:, :Units:, :EAR:, :RDA:, :UL:, :OrderID:, :Description:)', [...], false)
+ 4 APPPATH\Models\Crud.php(104): CodeIgniter\Database\BaseBuilder->insert([...])
+ 5 APPPATH\Controllers\HealthCare.php(478): App\Models\Crud->AddRecord('public_diet_category', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\HealthCare->category_form_submit()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\HealthCare))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(79): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2024-10-19 05:37:37 --> [Caused by] mysqli_sql_exception: Unknown column 'Units' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 312.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(312): mysqli->query('INSERT INTO `public_diet_category` (`Category`, `SubCategory`, `Units`, `EAR`, `RDA`, `UL`, `OrderID`, `Description`) VALUES (\'ss\', \'sss\', \'22\', \'22\', \'22\', \'2\', \'2\', \'<p>dvsdv<br></p>\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('INSERT INTO `public_diet_category` (`Category`, `SubCategory`, `Units`, `EAR`, `RDA`, `UL`, `OrderID`, `Description`) VALUES (\'ss\', \'sss\', \'22\', \'22\', \'22\', \'2\', \'2\', \'<p>dvsdv<br></p>\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('INSERT INTO `public_diet_category` (`Category`, `SubCategory`, `Units`, `EAR`, `RDA`, `UL`, `OrderID`, `Description`) VALUES (\'ss\', \'sss\', \'22\', \'22\', \'22\', \'2\', \'2\', \'<p>dvsdv<br></p>\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2340): CodeIgniter\Database\BaseConnection->query('INSERT INTO `public_diet_category` (`Category`, `SubCategory`, `Units`, `EAR`, `RDA`, `UL`, `OrderID`, `Description`) VALUES (:Category:, :SubCategory:, :Units:, :EAR:, :RDA:, :UL:, :OrderID:, :Description:)', [...], false)
+ 5 APPPATH\Models\Crud.php(104): CodeIgniter\Database\BaseBuilder->insert([...])
+ 6 APPPATH\Controllers\HealthCare.php(478): App\Models\Crud->AddRecord('public_diet_category', [...])
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\HealthCare->category_form_submit()
+ 8 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\HealthCare))
+ 9 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(79): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

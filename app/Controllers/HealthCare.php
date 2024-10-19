@@ -56,21 +56,22 @@ class HealthCare extends BaseController
         }
         echo view('footer', $data);
     }
+
     public function diet()
     {
         $data = $this->data;
         $data['page'] = getSegment(2);
         $data['item_uid'] = getSegment(3);
-        $healthcare= new \App\Models\HealthcareModel();
+        $healthcare = new \App\Models\HealthcareModel();
 
         echo view('header', $data);
 //        if ($data['page'] == 'fruit-detail') {
-            $record=$healthcare->GetDietDataByID($data['item_uid']);
-            $data['Record']=$record[0];
+        $record = $healthcare->GetDietDataByID($data['item_uid']);
+        $data['Record'] = $record[0];
 //            echo '<pre>';
 //            print_r( $data['Record']);exit();
-            $data['NutritionalArray']=$healthcare->NutritionalArray();
-            echo view('health_care/detail', $data);
+        $data['NutritionalArray'] = $healthcare->NutritionalArray();
+        echo view('health_care/detail', $data);
 //        } elseif ($data['page'] == 'vegetable-detail') {
 //            echo view('health_care/detail', $data);
 //
@@ -97,6 +98,7 @@ class HealthCare extends BaseController
         echo view('healthcare/dashboard', $data);
         echo view('footer', $data);
     }
+
     public function diet_categories()
     {
         $data = $this->data;
@@ -110,8 +112,8 @@ class HealthCare extends BaseController
         $Healthcare = new HealthcareModel();
         $Data = $Healthcare->get_diet_category_datatables();
         $totalfilterrecords = $Healthcare->count_diet_category_datatables();
-        print_r($Data);
-        exit();
+//        print_r($Data);
+//        exit();
 
         $dataarr = array();
         $cnt = $_POST['start'];
@@ -150,6 +152,7 @@ class HealthCare extends BaseController
 
         echo json_encode($response);
     }
+
     public function fetch_fruit()
     {
         $Healthcare = new HealthcareModel();
@@ -454,7 +457,50 @@ class HealthCare extends BaseController
 
         echo json_encode($response);
     }
- public function diet_submit()
+
+    public function category_form_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Category = $this->request->getVar('DietCategory');
+        $Description = $this->request->getVar('Description');
+
+        if ($id == 0) {
+            foreach ($Category as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+
+            $record['Description'] = $Description;
+//            print_r($record);exit();
+
+            $RecordId = $Crud->AddRecord("public_diet_category", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = ' Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($Category as $key => $value) {
+                $record[$key] = $value;
+            }
+            $record['Description'] = $Description;
+
+
+            $Crud->UpdateRecord("public_diet_category", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = ' Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
+
+    public function diet_submit()
     {
         $Crud = new Crud();
         $Main = new Main();
@@ -466,23 +512,22 @@ class HealthCare extends BaseController
 //        print_r($fact);exit();
         $Crud = new Crud();
 //            echo 'fefeg';exit();
-        $Crud->DeleteRecord( "public_diet_facts", array ( "DietID" => $diet_id ) );
+        $Crud->DeleteRecord("public_diet_facts", array("DietID" => $diet_id));
 
-            foreach ($fact as $key => $value) {
-                $record['OptionID'] = ((isset($key)) ? $key : '');
-                $record['Value'] = ((isset($value)) ? $value : '');
-                $record['DietID'] = ((isset($diet_id)) ? $diet_id : '');
-                $RecordId = $Crud->AddRecord("public_diet_facts", $record);
-                if (isset($RecordId) && $RecordId > 0) {
-                    $response['status'] = 'success';
-                    $response['message'] = 'Nutritional  Added Successfully...!';
-                } else {
-                    $response['status'] = 'fail';
-                    $response['message'] = 'Nutritional  Didnt Submitted Successfully...!';
-                }
-
+        foreach ($fact as $key => $value) {
+            $record['OptionID'] = ((isset($key)) ? $key : '');
+            $record['Value'] = ((isset($value)) ? $value : '');
+            $record['DietID'] = ((isset($diet_id)) ? $diet_id : '');
+            $RecordId = $Crud->AddRecord("public_diet_facts", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Nutritional  Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Nutritional  Didnt Submitted Successfully...!';
             }
 
+        }
 
 
         echo json_encode($response);
@@ -501,6 +546,19 @@ class HealthCare extends BaseController
         echo json_encode($response);
     }
 
+    public function get_category_record()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("public_diet_category", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = ' Record Get Successfully...!';
+        echo json_encode($response);
+    }
+
     public function delete_item()
     {
         $Crud = new Crud();
@@ -510,6 +568,18 @@ class HealthCare extends BaseController
         $response = array();
         $response['status'] = 'success';
         $response['message'] = 'Diet Deleted Successfully...!';
+        echo json_encode($response);
+    }
+
+    public function delete_category()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $Crud->DeleteRecord("public_diet_category", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = 'Deleted Successfully...!';
         echo json_encode($response);
     }
 
