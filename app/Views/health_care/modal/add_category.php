@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="<?= $template ?>vendors/select2/css/select2.min.css" type="text/css">
 
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
@@ -94,28 +93,12 @@
     </div>
 </div>
 
-<script src="<?= $template ?>vendors/select2/js/select2.min.js"></script>
 
 <script>
 
     $(document).ready(function() {
-        // Ensure Summernote is initialized when the modal is opened
-        $('#UpdateDietCategoryModal').on('shown.bs.modal', function () {
-            $('#Description').summernote({
-                height: 200 // set a height for the editor
-            });
-        });
-
-        // Destroy Summernote when the modal is hidden to avoid duplicate initializations
-        $('#UpdateDietCategoryModal').on('hidden.bs.modal', function () {
-            $('#Description').summernote('destroy');
-        });
+        $('#Description').summernote();
     });
-    // $('.select2-example').select2({
-    //     placeholder: 'Select'
-    // });
-
-
     function AddDietCategoryFormFunction() {
         var formdata = new window.FormData($("form#AddDietCategoryForm")[0]);
         var contentbody = $('textarea#Description').summernote('code');

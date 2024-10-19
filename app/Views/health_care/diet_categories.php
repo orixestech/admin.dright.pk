@@ -1,9 +1,10 @@
 <br>
 <link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
 <link rel="stylesheet" href="<?= $template ?>vendors/select2/css/select2.min.css" type="text/css">
+
+<!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
-
 <div class="card">
     <div class="card-body">
         <h4>Diet Categories
@@ -51,10 +52,6 @@
     <?php echo view('health_care/modal/update_category'); ?>
 
     <script>
-
-        // $(document).ready(function() {
-        //     $('#Description').summernote();
-        // });
         $(document).ready(function () {
             $('#record').DataTable({
                 "scrollY": "800px",
@@ -92,6 +89,11 @@
             $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#UL').val(Items.record.UL);
             $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#OrderID').val(Items.record.OrderID);
             $('#UpdateDietCategoryModal form#UpdateDietCategoryForm textarea#Description').val(Items.record.Description);
+            $('#Description').summernote({
+                height: 200 // Adjust the height as necessary
+            });
+
+
             $('#UpdateDietCategoryModal').modal('show');
         }
 
