@@ -49,7 +49,7 @@ $routes->group('users', static function ($routes) {
 });
 $routes->group('diet', static function ($routes) {
     $routes->get('/', 'HealthCare::index');
-    $routes->get('add', 'HealthCare::index');
+    $routes->get('diet-categories', 'HealthCare::diet_categories');
     $routes->get('dashboard', 'HealthCare::dashboard');
     $routes->get('fruit', 'HealthCare::index');
     $routes->get('pulses-grains', 'HealthCare::index');
@@ -57,6 +57,7 @@ $routes->group('diet', static function ($routes) {
     $routes->get('miscellaneous', 'HealthCare::index');
     $routes->get('dry-fruits', 'HealthCare::index');
     $routes->post('dry-fruits-data', 'HealthCare::fetch_dry_fruit');
+    $routes->post('diet-categories-data', 'HealthCare::fetch_diet_categories');
     $routes->post('pulses-grains-data', 'HealthCare::fetch_grains');
     $routes->post('get-record', 'HealthCare::get_item_record');
     $routes->get('vegetable', 'HealthCare::index');

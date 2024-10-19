@@ -97,7 +97,59 @@ class HealthCare extends BaseController
         echo view('healthcare/dashboard', $data);
         echo view('footer', $data);
     }
+    public function diet_categories()
+    {
+        $data = $this->data;
+        echo view('header', $data);
+        echo view('health_care/diet_categories', $data);
+        echo view('footer', $data);
+    }
 
+    public function fetch_diet_categories()
+    {
+        $Healthcare = new HealthcareModel();
+        $Data = $Healthcare->get_diet_category_datatables();
+        $totalfilterrecords = $Healthcare->count_diet_category_datatables();
+        print_r($Data);
+        exit();
+
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['Category']) ? htmlspecialchars($record['Category']) : '';
+            $data[] = isset($record['SubCategory']) ? htmlspecialchars($record['SubCategory']) : '';
+            $data[] = isset($record['Unit']) ? htmlspecialchars($record['Unit']) : '';
+            $data[] = isset($record['EAR']) ? htmlspecialchars($record['EAR']) : '';
+            $data[] = isset($record['RDA']) ? htmlspecialchars($record['RDA']) : '';
+            $data[] = isset($record['UL']) ? htmlspecialchars($record['UL']) : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateDietCategory(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteDietCategory(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+            </div>
+        </div>
+    </td>';
+
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+
+        echo json_encode($response);
+    }
     public function fetch_fruit()
     {
         $Healthcare = new HealthcareModel();

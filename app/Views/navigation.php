@@ -511,11 +511,18 @@
 
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?= $path ?>diet/diet-categories">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
                         <span>Diet Categories</span>
+                    </a></li>
+                <li>
+                    <a href="#">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Diet Facts</span>
                     </a>
                     <ul>
                         <li>
