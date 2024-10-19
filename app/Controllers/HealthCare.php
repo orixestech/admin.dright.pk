@@ -106,6 +106,13 @@ class HealthCare extends BaseController
         echo view('health_care/diet_categories', $data);
         echo view('footer', $data);
     }
+    public function support_videos()
+    {
+        $data = $this->data;
+        echo view('header', $data);
+        echo view('health_care/support_videos', $data);
+        echo view('footer', $data);
+    }
 
     public function fetch_diet_categories()
     {
@@ -136,6 +143,48 @@ class HealthCare extends BaseController
             <div class="dropdown-menu">
                 <a class="dropdown-item" onclick="UpdateDietCategory(' . htmlspecialchars($record['UID']) . ')">Update</a>
                 <a class="dropdown-item" onclick="DeleteDietCategory(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+            </div>
+        </div>
+    </td>';
+
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+
+        echo json_encode($response);
+    }
+    public function fetch_support_videos()
+    {
+        $Healthcare = new HealthcareModel();
+        $Data = $Healthcare->get_support_videos_datatables();
+        $totalfilterrecords = $Healthcare->count_support_videos_datatables();
+//        print_r($Data);
+//        exit();
+
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['Category']) ? htmlspecialchars($record['Category']) : '';
+            $data[] = isset($record['Title']) ? htmlspecialchars($record['Title']) : '';
+            $data[] = isset($record['EmbedCode']) ? htmlspecialchars($record['EmbedCode']) : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateSupportVideo(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteSupportVideo(' . htmlspecialchars($record['UID']) . ')">Delete</a>
             </div>
         </div>
     </td>';
@@ -475,8 +524,6 @@ class HealthCare extends BaseController
             }
 
             $record['Description'] = $Description;
-//            print_r($record);exit();
-
             $RecordId = $Crud->AddRecord("public_diet_category", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $response['status'] = 'success';
@@ -493,6 +540,39 @@ class HealthCare extends BaseController
 
 
             $Crud->UpdateRecord("public_diet_category", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = ' Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
+  public function support_videos_form_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $videos = $this->request->getVar('SupportVideo');
+
+        if ($id == 0) {
+            foreach ($videos as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+            $RecordId = $Crud->AddRecord("support_videos", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = ' Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($videos as $key => $value) {
+                $record[$key] = $value;
+            }
+            $Crud->UpdateRecord("support_videos", $record, array("UID" => $id));
             $response['status'] = 'success';
             $response['message'] = ' Updated Successfully...!';
         }
@@ -545,6 +625,18 @@ class HealthCare extends BaseController
         $response['message'] = 'Item Record Get Successfully...!';
         echo json_encode($response);
     }
+  public function get_record_support_video()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("support_videos", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Item Record Get Successfully...!';
+        echo json_encode($response);
+    }
 
     public function get_category_record()
     {
@@ -577,6 +669,17 @@ class HealthCare extends BaseController
         $id = $_POST['id'];
 
         $Crud->DeleteRecord("public_diet_category", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = 'Deleted Successfully...!';
+        echo json_encode($response);
+    }
+    public function delete_support_video()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $Crud->DeleteRecord("support_videos", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['message'] = 'Deleted Successfully...!';

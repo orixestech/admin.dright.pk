@@ -511,6 +511,14 @@
 
                 </li>
                 <li>
+                    <a href="<?= $path ?>diet/support-videos">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Support Videos</span>
+                    </a></li>
+                <li>
+                <li>
                     <a href="<?= $path ?>diet/diet-categories">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>

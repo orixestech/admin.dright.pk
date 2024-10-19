@@ -42,7 +42,15 @@ class HealthcareModel extends Model
     public function DietCategory()
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `public_diet_category` Order By `OrderID` ';
+        $SQL = 'SELECT * FROM `public_diet_category` Order By `OrderID` ASC';
+//        $Admin = $Crud->ExecuteSQL($SQL);
+        return $SQL;
+    }
+
+    public function support_videos()
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `support_videos` Order By `OrderID` ASC';
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
@@ -92,6 +100,32 @@ class HealthcareModel extends Model
         $SQL = 'SELECT COUNT(`UID`) as CNT FROM `public_diet_facts` WHERE `DietID` = \'' . $item . '\'';
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin[0]['CNT'];
+    }
+
+    public
+    function get_support_videos_datatables()
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->support_videos();
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+
+    public
+    function count_support_videos_datatables()
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->support_videos();
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+        return count($records);
     }
 
     public
