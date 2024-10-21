@@ -84,10 +84,15 @@ $routes->group('pharmacy', static function ($routes) {
 });
 $routes->group('lookups', static function ($routes) {
     $routes->get('/', 'Lookup::index');
+    $routes->get('lookup-options/(:num)', 'Lookup::lookup_option');
     $routes->post('lookup-data', 'Lookup::fetch_lookups');
+    $routes->post('lookup-option-data', 'Lookup::fetch_lookups_options');
     $routes->post('get-record', 'Lookup::get_record');
     $routes->post('submit', 'Lookup::lookup_form_submit');
     $routes->post('delete', 'Lookup::delete_lookup');
+    $routes->post('get-lookup-option-record', 'Lookup::get_lookup_option_record');
+    $routes->post('submit-lookup-option', 'Lookup::lookup_option_form_submit');
+    $routes->post('delete-option', 'Lookup::delete_lookup_option');
 });
 
 $routes->group('franchises', static function ($routes) {

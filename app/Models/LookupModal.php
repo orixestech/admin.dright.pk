@@ -39,6 +39,13 @@ class LookupModal extends Model
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
+    public function LookupOption($LookupID)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `lookups_options` where `Archive`=\'0\' AND  `LookupUID`=\'' . $LookupID . '\' Order By `Name` ASC';
+//        $Admin = $Crud->ExecuteSQL($SQL);
+        return $SQL;
+    }
     public
     function get_datatables()
     {
@@ -58,6 +65,28 @@ class LookupModal extends Model
         $Crud = new Crud();
 
         $SQL = $this->Lookup();
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    }
+    public
+    function get_lookup_option_datatables($LookupID)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->LookupOption($LookupID);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public
+    function count_lookup_optiondatatables($LookupID)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->LookupOption($LookupID);
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }

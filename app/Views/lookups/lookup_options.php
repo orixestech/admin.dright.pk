@@ -2,9 +2,9 @@
 
 <div class="card">
     <div class="card-body">
-        <h4>Lookups
+        <h4>Lookup Options
             <span style="float: right;">
-                <button type="button" onclick="AddLookup()"
+                <button type="button" onclick="AddLookupOption(<?=$UID?>)"
                         class="btn btn-primary "
                         data-toggle="modal" data-target="#exampleModal">
               Add
@@ -13,13 +13,11 @@
     </div>
     <div class="table-responsive">
         <table id="frutis" class="table table-striped table-bordered">
-            <thead>            <tr>
+            <thead>
+            <tr>
                 <th>Sr No</th>
                 <th>Name</th>
-                <th>Key</th>
-                <th>Description</th>
-
-                                <th>Actions</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -28,18 +26,15 @@
             <tr>
                 <th>Sr No</th>
                 <th>Name</th>
-                <th>Key</th>
-                <th>Description</th>
-
-                                <th>Actions</th>
+                <th>Actions</th>
             </tr>
             </tfoot>
         </table>
     </div>
-    <?php echo view('lookups/modal/add_lookup'); ?>
-    <?php echo view('lookups/modal/update_lookup'); ?>
+    <?php echo view('lookups/modal/add_lookup_option'); ?>
+    <?php echo view('lookups/modal/update_lookup_option'); ?>
     <script>
-        $(document).ready(function (){
+        $(document).ready(function () {
             $('#frutis').DataTable({
                 "scrollY": "800px",
                 "scrollCollapse": true,
@@ -51,34 +46,35 @@
                 "pageLength": 100,
                 "autoWidth": true,
                 "ajax": {
-                    "url": "<?= $path ?>lookups/lookup-data",
-                    "type": "POST"
+                    "url": "<?= $path ?>lookups/lookup-option-data",
+                    "type": "POST",
+                    data: {
+                        UID: '<?=$UID?>' // Wrap UID in quotes for string data
+                    }
                 }
-            });});
+            });
+        });
 
     </script>
     <script>
-        function AddLookup() {
-            $('#AddLookupModal').modal('show');
+        function AddLookupOption(id) {
+            $('#AddLookupOptionModal form#AddLookupOptionForm input#LookupUID').val(id);
+            $('#AddLookupOptionModal').modal('show');
 
         }
-        function ViewLookupOption(id) {
-            location.href = "<?=$path?>lookups/lookup-options/" + id;
+
+        function UpdateLookupOption(id,lookupid) {
+            var Items = AjaxResponse("lookups/get-lookup-option-record", "id=" + id);
+
+            $('#UpdateLookupOptionModal form#UpdateLookupOptionForm input#UID').val(Items.record.UID);
+            $('#UpdateLookupOptionModal form#UpdateLookupOptionForm input#LookupUID').val(lookupid);
+            $('#UpdateLookupOptionModal form#UpdateLookupOptionForm input#Name').val(Items.record.Name);
+            $('#UpdateLookupOptionModal').modal('show');
         }
 
-        function UpdateLookup(id) {
-            var Items = AjaxResponse("lookups/get-record", "id=" + id);
-
-            $('#UpdateLookupModal form#UpdateLookupForm input#UID').val(Items.record.UID);
-            $('#UpdateLookupModal form#UpdateLookupForm input#Key').val(Items.record.Key);
-            $('#UpdateLookupModal form#UpdateLookupForm input#Name').val(Items.record.Name);
-            $('#UpdateLookupModal form#UpdateLookupForm textarea#Description').val(Items.record.Description);
-            $('#UpdateLookupModal').modal('show');
-        }
-
-        function DeleteLookup(id) {
+        function DeleteLookupOption(id) {
             if (confirm("Are you Sure U want to Delete this?")) {
-                response = AjaxResponse("lookups/delete", "id=" + id);
+                response = AjaxResponse("lookups/delete-option", "id=" + id);
                 if (response.status == 'success') {
                     $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
                     setTimeout(function () {
