@@ -56,8 +56,6 @@ class DiseasesModel extends Model
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
-
         return $records;
     }
 
@@ -68,7 +66,6 @@ class DiseasesModel extends Model
 
         $SQL = $this->diseases();
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
         return count($records);
     }
 
