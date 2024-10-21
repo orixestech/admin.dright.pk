@@ -2,48 +2,48 @@
 <link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
 <link rel="stylesheet" href="<?= $template ?>vendors/select2/css/select2.min.css" type="text/css">
 
-<!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+
 <div class="card">
     <div class="card-body">
         <h4>Diet Categories
-            <span style="float: right;">            <button type="button" onclick="AddDietCategory()"
-                                                            class="btn btn-primary "
-                                                            data-toggle="modal" data-target="#exampleModal">
-              Add
-            </button>
-           </span>
+            <span style="float: right;"> <button type="button" onclick="AddDietCategory()"
+                    class="btn btn-primary "
+                    data-toggle="modal" data-target="#exampleModal">
+                    Add
+                </button>
+            </span>
         </h4>
     </div>
     <div class="table-responsive">
         <table id="record" class="table table-striped table-bordered">
             <thead>
-            <tr>
-                <th>Sr. No</th>
-                <th>Category</th>
-                <th>Sub Category</th>
-                <th>Units</th>
-                <th>Estimated Average Requirements (EAR)</th>
-                <th>Recommended Dietary Allowances (RDA)</th>
-                <th>Tolerable upper intake levels (UL)</th>
-                <th >Actions</th>
-            </tr>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Category</th>
+                    <th>Sub Category</th>
+                    <th>Units</th>
+                    <th>Estimated Average Requirements (EAR)</th>
+                    <th>Recommended Dietary Allowances (RDA)</th>
+                    <th>Tolerable upper intake levels (UL)</th>
+                    <th>Actions</th>
+                </tr>
             </thead>
             <tbody>
             </tbody>
             <tfoot>
-            <tr>
-                <th>Sr. No</th>
-                <th>Category</th>
-                <th>Sub Category</th>
-                <th>Units</th>
-                <th>Estimated Average Requirements (EAR)</th>
-                <th>Recommended Dietary Allowances (RDA)</th>
-                <th>Tolerable upper intake levels (UL)</th>
-                <th >Actions</th>
-            </tr>
-            <div class="mt-5" id="Response"></div>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Category</th>
+                    <th>Sub Category</th>
+                    <th>Units</th>
+                    <th>Estimated Average Requirements (EAR)</th>
+                    <th>Recommended Dietary Allowances (RDA)</th>
+                    <th>Tolerable upper intake levels (UL)</th>
+                    <th>Actions</th>
+                </tr>
+                <div class="mt-5" id="Response"></div>
 
             </tfoot>
         </table>
@@ -52,7 +52,7 @@
     <?php echo view('health_care/modal/update_category'); ?>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#record').DataTable({
                 "scrollY": "800px",
                 "scrollCollapse": true,
@@ -60,7 +60,10 @@
                 "processing": true,
                 "serverSide": true,
                 "responsive": true,
-                "lengthMenu": [[100, 500, 1000, -1], [100, 500, 1000, 'All']],
+                "lengthMenu": [
+                    [100, 500, 1000, -1],
+                    [100, 500, 1000, 'All']
+                ],
                 "pageLength": 100,
                 "autoWidth": true,
                 "ajax": {
@@ -69,7 +72,6 @@
                 }
             });
         });
-
     </script>
     <script>
         function AddDietCategory() {
@@ -79,7 +81,7 @@
 
         function UpdateDietCategory(id) {
             var Items = AjaxResponse("diet/get-record-category", "id=" + id);
-
+            $('#UpdateDietCategoryModal textarea#Description').summernote('destroy');
             $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#UID').val(Items.record.UID);
             $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#Category').val(Items.record.Category);
             $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#SubCategory').val(Items.record.SubCategory);
@@ -89,12 +91,12 @@
             $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#UL').val(Items.record.UL);
             $('#UpdateDietCategoryModal form#UpdateDietCategoryForm input#OrderID').val(Items.record.OrderID);
             $('#UpdateDietCategoryModal form#UpdateDietCategoryForm textarea#Description').val(Items.record.Description);
-            $('#Description').summernote({
-                height: 200 // Adjust the height as necessary
-            });
-
 
             $('#UpdateDietCategoryModal').modal('show');
+            setTimeout(function() {
+                $('#UpdateDietCategoryModal textarea#Description').summernote();
+            }, 10);
+
         }
 
         function DeleteDietCategory(id) {
@@ -102,12 +104,12 @@
                 response = AjaxResponse("diet/delete-category", "id=" + id);
                 if (response.status == 'success') {
                     $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
-                    setTimeout(function () {
+                    setTimeout(function() {
                         location.reload();
                     }, 1000);
                 } else {
                     $("#Response").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Deleted</strong>  </div>')
-                    setTimeout(function () {
+                    setTimeout(function() {
                         location.reload();
                     }, 1000);
                 }
