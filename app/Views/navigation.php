@@ -341,20 +341,13 @@
 
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?= $path ?>diseases/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
                         <span>Diseases</span>
                     </a>
-                    <ul>
-                        <li>
-                            <a href="<?= $path ?>customers/">All</a>
-                        </li>
-                        <li>
-                            <a href="<?= $path ?>customers/add">Add</a>
-                        </li>
-                    </ul>
+
                 </li>
             </ul>
             <ul id="document">

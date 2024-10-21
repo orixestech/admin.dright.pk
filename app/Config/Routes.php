@@ -132,7 +132,8 @@ $routes->group('customers', static function ($routes) {
     $routes->post('delete', 'Customers::delete');
     $routes->get('update/(:num)', 'Customers::index');
 
-});$routes->group('document', static function ($routes) {
+});
+$routes->group('document', static function ($routes) {
     $routes->get('/', 'Customers::index');
     $routes->get('add', 'Customers::index');
     $routes->post('submit', 'Customers::customer_form_submit');
@@ -142,11 +143,12 @@ $routes->group('customers', static function ($routes) {
 });
 
 $routes->group('diseases', static function ($routes) {
-    $routes->get('/', 'Customers::index');
-    $routes->get('add', 'Customers::index');
-    $routes->post('submit', 'Customers::customer_form_submit');
-    $routes->post('delete', 'Customers::delete');
-    $routes->get('update/(:num)', 'Customers::index');
+    $routes->get('/', 'Disease::index');
+    $routes->post('submit', 'Disease::Disease_form_submit');
+    $routes->post('delete', 'Disease::delete');
+    $routes->post('get-record', 'Disease::get_record');
+    $routes->post('diseases-data', 'Disease::fetch_diseases');
+
 
 });
 $routes->group('investigation', static function ($routes) {
@@ -164,7 +166,8 @@ $routes->group('specialities', static function ($routes) {
     $routes->post('delete', 'Customers::delete');
     $routes->get('update/(:num)', 'Customers::index');
 
-});$routes->group('extended', static function ($routes) {
+});
+$routes->group('extended', static function ($routes) {
     $routes->get('/', 'Customers::index');
     $routes->get('add', 'Customers::index');
     $routes->post('submit', 'Customers::customer_form_submit');

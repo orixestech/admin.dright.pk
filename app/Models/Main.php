@@ -28,6 +28,31 @@ class Main extends Model
 
         return $data;
     }
+    public function LookupsOption($key, $id)
+    {
+        $Crud = new Crud();
+
+        // SQL query to get the UID from the lookups table based on the key
+        $SQL = 'SELECT UID FROM lookups WHERE `Key` = \'' . $key . '\'';
+
+        // Execute the query and get the result
+        $sqlResult1 = $Crud->ExecuteSQL($SQL);
+
+        // Get the lookup UID
+        if (!empty($sqlResult1)) {
+            $lookupId = $sqlResult1[0]['UID'];
+        } else {
+            return []; // Return an empty array if no result found
+        }
+
+        // SQL query to get the lookup options using the lookup UID
+        $SQL2 = 'SELECT * FROM lookups_options WHERE LookupUID = \'' . $lookupId . '\' And Archive = \'' . $id . '\' ORDER BY Name';
+
+        // Execute the second query and get the results
+        $Admin = $Crud->ExecuteSQL($SQL2);
+
+        return $Admin;
+    }
 
     public
 
