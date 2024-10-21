@@ -52,6 +52,7 @@ class Disease extends BaseController
     {
         $Users = new DiseasesModel();
         $Data = $Users->get_diseases_datatables();
+//        print_r($Data);exit();
         $totalfilterrecords = $Users->count_diseases_datatables();
         $dataarr = array();
         $cnt = $_POST['start'];
@@ -60,7 +61,7 @@ class Disease extends BaseController
             $data = array();
             $data[] = $cnt;
             $data[] = isset($record['DiseaseName']) ? htmlspecialchars($record['DiseaseName']) : '';
-            $data[] = isset($record['BodySystem']) ? htmlspecialchars($record['BodySystem']) : '';
+            $data[] = isset($record['Title']) ? htmlspecialchars($record['Title']) : '';
             $data[] = '
     <td class="text-end">
         <div class="dropdown">

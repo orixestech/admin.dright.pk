@@ -34,11 +34,18 @@ class DiseasesModel extends Model
 
     public function diseases()
     {
+
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `diseases` where `Archive`=\'0\' Order By `DiseaseName` ASC';
+//        $SQL = 'SELECT * FROM `diseases` where `Archive`=\'0\' Order By `DiseaseName` ASC';
+
+        $SQL = 'SELECT diseases.*, lookups_options.Name AS Title FROM diseases LEFT JOIN lookups_options ON diseases.BodySystem = lookups_options.UID
+        WHERE diseases.`Archive`=\'0\' ORDER BY diseases.DiseaseName ASC
+
+';
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
+
     public
     function get_diseases_datatables()
     {
