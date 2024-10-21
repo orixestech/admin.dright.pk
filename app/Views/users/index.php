@@ -4,7 +4,8 @@
 <div class="card">
     <div class="card-body">
         <h4>Users
-            <span style="float: right;">            <button type="button" onclick="AddUser()"
+            <span style="float: right;">
+                <button type="button" onclick="AddUser()"
                                                             class="btn btn-primary "
                                                             data-toggle="modal" data-target="#exampleModal">
               Add User

@@ -85,11 +85,14 @@ $routes->group('pharmacy', static function ($routes) {
 $routes->group('lookups', static function ($routes) {
     $routes->get('/', 'Lookup::index');
     $routes->post('lookup-data', 'Lookup::fetch_lookups');
-
+    $routes->post('get-record', 'Lookup::get_record');
+    $routes->post('submit', 'Lookup::lookup_form_submit');
+    $routes->post('delete', 'Lookup::delete_lookup');
 });
 
 $routes->group('franchises', static function ($routes) {
     $routes->get('/', 'HealthCare::index');
+
 
 });
 $routes->group('representative', static function ($routes) {
