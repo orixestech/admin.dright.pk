@@ -42,10 +42,21 @@ $routes->group('users', static function ($routes) {
     $routes->get('admin-activites', 'Users::index');
     $routes->post('users-data', 'Users::fetch_users');
     $routes->post('get-record', 'Users::get_item_record');
-
     $routes->get('dashboard', 'Users::dashboard');
     $routes->post('submit', 'Users::user_form_submit');
     $routes->post('delete', 'Users::delete_user');
+});
+$routes->group('document', static function ($routes) {
+    $routes->get('diet-plan', 'Document::index');
+    $routes->get('workout-plan', 'Document::index');
+    $routes->get('tips-guides', 'Document::index');
+    $routes->get('faq', 'Document::index');
+    $routes->get('exercise', 'Document::index');
+    $routes->post('document-data', 'Document::fetch_document_data');
+    $routes->post('get-record', 'Document::get_record');
+    $routes->get('dashboard', 'Document::dashboard');
+    $routes->post('submit', 'Document::user_form_submit');
+    $routes->post('delete', 'Document::delete_user');
 });
 $routes->group('diet', static function ($routes) {
     $routes->get('/', 'HealthCare::index');
