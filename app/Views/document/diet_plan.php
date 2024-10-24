@@ -86,6 +86,8 @@ $document='diet-plan'
 
             var Items = AjaxResponse("document/get-record", "id=" + id);
             // console.log(Items);
+            $('#UpdateDocumentModal textarea#Description').summernote('destroy');
+
             $('#UpdateDocumentModal form#UpdateDocumentForm input#UID').val(Items.record.UID);
             $('#UpdateDocumentModal form#UpdateDocumentForm input#Heading').val(Items.record.Heading);
             $('#UpdateDocumentModal form#UpdateDocumentForm select#Status').val(Items.record.Status);
