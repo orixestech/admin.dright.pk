@@ -371,7 +371,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>document/">
+                    <a href="<?= $path ?>document/workout-plan">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
@@ -380,7 +380,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>document/">
+                    <a href="<?= $path ?>document/tips-guides">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
@@ -389,7 +389,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>document/">
+                    <a href="<?= $path ?>document/faq">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
@@ -398,7 +398,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>document/">
+                    <a href="<?= $path ?>document/exercise">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
