@@ -1,14 +1,23 @@
 <br>
+<?php
+$document='diet-plan'
+
+?>
 <link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
 <link rel="stylesheet" href="<?= $template ?>vendors/select2/css/select2.min.css" type="text/css">
+
+
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+
 <div class="card">
     <div class="card-body">
-        <h4>Users
+        <h4>FAQ
             <span style="float: right;">
-                <button type="button" onclick="AddUser()"
-                                                            class="btn btn-primary "
-                                                            data-toggle="modal" data-target="#exampleModal">
-              Add User
+                <button type="button" onclick="AddDocument('faq')"
+                        class="btn btn-primary "
+                        data-toggle="modal" data-target="#exampleModal">
+              Add
             </button>
            </span>
         </h4>
@@ -18,9 +27,9 @@
             <thead>
             <tr>
                 <th>Sr No</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Type</th>
+                <th>Title</th>
+                <th>Status</th>
+
                 <th>Actions</th>
             </tr>
             </thead>
@@ -31,7 +40,6 @@
                 <th>Sr No</th>
                 <th>Full Name</th>
                 <th>Email</th>
-                <th>Type</th>
                 <th>Actions</th>
             </tr>
             <div class="mt-5" id="Response"></div>
@@ -39,8 +47,8 @@
             </tfoot>
         </table>
     </div>
-    <?php echo view('users/modal/add'); ?>
-    <?php echo view('users/modal/update'); ?>
+    <?php echo view('document/modal/add'); ?>
+    <?php echo view('document/modal/update'); ?>
 
     <script>
         $(document).ready(function () {
@@ -55,33 +63,44 @@
                 "pageLength": 100,
                 "autoWidth": true,
                 "ajax": {
-                    "url": "<?= $path ?>users/users-data",
-                    "type": "POST"
+                    "url": "<?= $path ?>document/document-data",
+                    "type": "POST",
+                    data: {
+                        Document: 'faq' // Wrap UID in quotes for string data
+                    }
                 }
             });
         });
 
     </script>
     <script>
-        function AddUser() {
-            $('#AddUserModal').modal('show');
+        function AddDocument(document) {
+            $('#AddDocumentModal form#AddDocumentForm input#DocumentID').val(document);
+
+            $('#AddDocumentModal').modal('show');
 
         }
-    
-        function UpdateUser(id) {
-            var Items = AjaxResponse("users/get-record", "id=" + id);
 
-            $('#UpdateUserModal form#UpdateUserForm input#UID').val(Items.record.UID);
-            $('#UpdateUserModal form#UpdateUserForm input#FullName').val(Items.record.FullName);
-            $('#UpdateUserModal form#UpdateUserForm input#Email').val(Items.record.Email);
-            $('#UpdateUserModal form#UpdateUserForm input#Password').val(Items.record.Password);
-            $('#UpdateUserModal form#UpdateUserForm select#AccessLevel').val(Items.record.AccessLevel);
-            $('#UpdateUserModal').modal('show');
+        function UpdateDocument(id,document) {
+            $('#UpdateDocumentModal form#UpdateDocumentForm input#DocumentID').val(document);
+
+            var Items = AjaxResponse("document/get-record", "id=" + id);
+            // console.log(Items);
+            $('#UpdateDocumentModal textarea#Description').summernote('destroy');
+
+            $('#UpdateDocumentModal form#UpdateDocumentForm input#UID').val(Items.record.UID);
+            $('#UpdateDocumentModal form#UpdateDocumentForm input#Heading').val(Items.record.Heading);
+            $('#UpdateDocumentModal form#UpdateDocumentForm select#Status').val(Items.record.Status);
+            $('#UpdateDocumentModal form#UpdateDocumentForm textarea#Description').val(Items.record.Description);
+            $('#UpdateDocumentModal').modal('show');
+            setTimeout(function() {
+                $('#UpdateDocumentModal textarea#Description').summernote();
+            }, 10);
         }
 
-        function DeleteUser(id) {
+        function DeleteDocument(id) {
             if (confirm("Are you Sure U want to Delete this?")) {
-                response = AjaxResponse("users/delete", "id=" + id);
+                response = AjaxResponse("document/delete", "id=" + id);
                 if (response.status == 'success') {
                     $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
                     setTimeout(function () {
