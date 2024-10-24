@@ -40,8 +40,8 @@
             </tfoot>
         </table>
     </div>
-<!--    --><?php //echo view('laboratories/modal/add'); ?>
-<!--    --><?php //echo view('laboratories/modal/update'); ?>
+    <?php echo view('laboratories/modal/add'); ?>
+    <?php echo view('laboratories/modal/update'); ?>
     <script>
         $(document).ready(function (){
             $('#frutis').DataTable({
@@ -71,8 +71,28 @@
             var Items = AjaxResponse("laboratories/get-record", "id=" + id);
 
             $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm input#UID').val(Items.record.UID);
-            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm input#DiseaseName').val(Items.record.DiseaseName);
-            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm select#BodySystem').val(Items.record.BodySystem);
+            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm input#Password').val(Items.record.Password);
+            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm input#Email').val(Items.record.Email);
+            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm input#FullName').val(Items.record.FullName);
+            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm input#ContactNo').val(Items.record.ContactNo);
+            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm input#Address').val(Items.record.Address);
+            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm select#City').val(Items.record.City);
+
+            // Define the image path
+            var path = '<?=$path?>'; // assuming `path` is available from the backend
+            var imageHTML;
+
+            // Check if an image exists, otherwise show a default image
+            if (Items.record.Logo) {
+                imageHTML = '<img src="' + path + 'upload/laboratory/' + Items.record.Logo + '" style="height:100px;">';
+            } else {
+                imageHTML = '<img src="' + path + 'upload/laboratory/images.png" style="height:100px;">';
+            }
+
+            // Set the image HTML in the modal
+            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm #ImageHTML').html(imageHTML);
+
+
             $('#UpdatelaboratoriesModal').modal('show');
         }
 

@@ -33,7 +33,7 @@ class Laboratories extends BaseController
         $data['page'] = getSegment(2);
         $LookupOptionData = new Main();
 
-        $data['cities'] = $LookupOptionData->LookupsOption("cities", 0);
+        $data['city'] = $LookupOptionData->LookupsOption("city", 0);
 
         echo view('header', $data);
 
@@ -110,13 +110,25 @@ class Laboratories extends BaseController
 
         $id = $this->request->getVar('UID');
         $laboratory = $this->request->getVar('laboratory');
+        $filename = "";
 
+        if ($_FILES['Image']['tmp_name']) {
+            $ext = @end(@explode(".", basename($_FILES['Image']['name'])));
+            $uploaddir = ROOT . "/upload/laboratory/";
+            $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
+
+            if (move_uploaded_file($_FILES['Image']['tmp_name'], $uploaddir . $uploadfile)) {
+                $filename = $uploadfile;
+            }
+        }
 
         if ($id == 0) {
             foreach ($laboratory as $key => $value) {
                 $record[$key] = ((isset($value)) ? $value : '');
             }
-
+            if ($filename != "") {
+                $record['Logo'] = $filename;
+            }
             $RecordId = $Crud->AddRecord("laboratories", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $response['status'] = 'success';
@@ -129,6 +141,10 @@ class Laboratories extends BaseController
             foreach ($laboratory as $key => $value) {
                 $record[$key] = $value;
             }
+            if ($filename != "") {
+                $record['Logo'] = $filename;
+            }
+
             $Crud->UpdateRecord("laboratories", $record, array("UID" => $id));
             $response['status'] = 'success';
             $response['message'] = 'Updated Successfully...!';
@@ -139,16 +155,13 @@ class Laboratories extends BaseController
 
     public function delete()
     {
-        $data = $this->data;
-        $UID = $this->request->getVar('id');
-        $Crud = new Crud();
-        $table = "laboratories";
-        $record['Archive'] = 1;
-        $where = array('UID' => $UID);
-        $Crud->UpdateRecord($table, $record, $where);
-        $response['status'] = 'success';
-        $response['message'] = 'Deleted Successfully...!';
 
+        $Crud = new Crud();
+        $id = $_POST['id'];
+        $Crud->DeleteRecord("laboratories", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = ' Deleted Successfully...!';
         echo json_encode($response);
     }
 
