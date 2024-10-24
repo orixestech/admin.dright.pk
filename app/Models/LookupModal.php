@@ -46,6 +46,13 @@ class LookupModal extends Model
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
+    public function LookupOptionBYID($LookupID)
+    {
+        $Crud = new Crud();
+        $sql = 'SELECT * FROM lookups_options WHERE UID =\'' . $LookupID . '\'';  // Use a parameterized query to avoid SQL injection
+        $Admin = $Crud->ExecuteSQL($sql);
+        return $Admin;
+    }
     public
     function get_datatables()
     {

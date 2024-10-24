@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 use App\Models\Crud;
 use App\Models\LaboratoriesModel;
+use App\Models\LookupModal;
 use App\Models\Main;
 use App\Models\DiseasesModel;
 
@@ -52,13 +53,15 @@ class Laboratories extends BaseController
     public function fetch_laboratories()
     {
         $Users = new LaboratoriesModel();
+        $Lookup = new LookupModal();
         $Data = $Users->get_datatables();
         $totalfilterrecords = $Users->count_datatables();
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
             $inquiry = $Users->GetLabInquiryCount($record['UID']);
-
+            $City= $Lookup->LookupOptionBYID($record['City']);
+//            print_r($City);exit();
             $cnt++;
             $data = array();
             $data[] = $cnt;
@@ -67,7 +70,7 @@ class Laboratories extends BaseController
                 : '<img class="img-thumbnail" style="height:40px;" src="' . PATH . 'upload/laboratory/images.png">';
 
             $data[] = isset($record['FullName']) ? htmlspecialchars($record['FullName']) : '';
-            $data[] = isset($record['City']) ? htmlspecialchars($record['City']) : '';
+            $data[] = isset($City[0]['Name']) ? htmlspecialchars($City[0]['Name']) : '';
             $data[] = isset($record['ContactNo']) ? htmlspecialchars($record['ContactNo']) : '';
             $data[] = isset($record['Email']) ? htmlspecialchars($record['Email']) : '';
             $data[] = isset($inquiry['LabInquiryCount']) && $inquiry['LabInquiryCount'] > 0
