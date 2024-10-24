@@ -65,31 +65,31 @@ class Document extends BaseController
     {
         $Users = new DocumentModel();
         $Document = $this->request->getVar('Document');
-
         $Data = $Users->get_datatables($Document);
         $totalfilterrecords = $Users->count_datatables($Document);
+//        print_r($Data);exit();
+
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
             $cnt++;
             $data = array();
             $data[] = $cnt;
-            $data[] = isset($record['FullName']) ? htmlspecialchars($record['FullName']) : '';
-            $data[] = isset($record['Email']) ? htmlspecialchars($record['Email']) : '';
-            $data[] = isset($record['AccessLevel']) ? htmlspecialchars($record['AccessLevel']) : '';
+            $data[] = isset($record['Heading']) ? htmlspecialchars($record['Heading']) : '';
+            $data[] = isset($record['Status']) && $record['Status'] === '0' ? 'active' : 'block';
             $data[] = '
-    <td class="text-end">
-        <div class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                Actions
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="UpdateDocument(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="DeleteDocument(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-
-            </div>
+<td class="text-end">
+    <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Actions
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" onclick="UpdateDocument(\'' . htmlspecialchars($record['UID']) . '\', \'' . htmlspecialchars($Document) . '\')">Update</a>
+            <a class="dropdown-item" onclick="DeleteDocument(' . htmlspecialchars($record['UID']) . ')">Delete</a>
         </div>
-    </td>';
+    </div>
+</td>';
+
             $dataarr[] = $data;
         }
 
@@ -101,7 +101,7 @@ class Document extends BaseController
         );
         echo json_encode($response);
     }
-    public function user_form_submit()
+    public function form_submit()
     {
         $Crud = new Crud();
         $Main = new Main();
@@ -109,49 +109,53 @@ class Document extends BaseController
         $record = array();
 
         $id = $this->request->getVar('UID');
-        $User = $this->request->getVar('User');
+        $Document = $this->request->getVar('Document');
+        $Description = $this->request->getVar('Description');
 
-
+//print_r($User);exit();
         if ($id == 0) {
-            foreach ($User as $key => $value) {
+            foreach ($Document as $key => $value) {
                 $record[$key] = ((isset($value)) ? $value : '');
             }
+            $record['Description'] = $Description;
 
-            $RecordId = $Crud->AddRecord("system_users", $record);
+            $RecordId = $Crud->AddRecord("public_documents", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $response['status'] = 'success';
-                $response['message'] = 'User Added Successfully...!';
+                $response['message'] = ' Added Successfully...!';
             } else {
                 $response['status'] = 'fail';
                 $response['message'] = 'Data Didnt Submitted Successfully...!';
             }
         } else {
-            foreach ($User as $key => $value) {
+            foreach ($Document as $key => $value) {
                 $record[$key] = $value;
             }
-            $Crud->UpdateRecord("system_users", $record, array("UID" => $id));
+            $record['Description'] = $Description;
+
+            $Crud->UpdateRecord("public_documents", $record, array("UID" => $id));
             $response['status'] = 'success';
-            $response['message'] = 'User Updated Successfully...!';
+            $response['message'] = ' Updated Successfully...!';
         }
 
         echo json_encode($response);
     }
-    public function delete_user()
+    public function delete()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
-        $Crud->DeleteRecord("system_users", array("UID" => $id));
+        $Crud->DeleteRecord("public_documents", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
-        $response['message'] = 'User Deleted Successfully...!';
+        $response['message'] = 'Deleted Successfully...!';
         echo json_encode($response);
     }
-    public function get_item_record()
+    public function get_record()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
 
-        $record = $Crud->SingleRecord("system_users", array("UID" => $id));
+        $record = $Crud->SingleRecord("public_documents", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['record'] = $record;

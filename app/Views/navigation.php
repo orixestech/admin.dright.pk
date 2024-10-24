@@ -362,7 +362,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>document/">
+                    <a href="<?= $path ?>document/diet-plan">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>

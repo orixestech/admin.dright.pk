@@ -36,7 +36,7 @@ class DocumentModel extends Model
     public function document($item)
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `public_documents` where `Archive`=\'0\' AND `Category`=\'' . $item . '\' Order By `SystemDate` DESC';
+        $SQL = 'SELECT * FROM `public_documents` where  `Category`=\'' . $item . '\' Order By `SystemDate` DESC';
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }

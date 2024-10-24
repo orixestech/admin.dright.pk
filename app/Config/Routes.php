@@ -55,8 +55,8 @@ $routes->group('document', static function ($routes) {
     $routes->post('document-data', 'Document::fetch_document_data');
     $routes->post('get-record', 'Document::get_record');
     $routes->get('dashboard', 'Document::dashboard');
-    $routes->post('submit', 'Document::user_form_submit');
-    $routes->post('delete', 'Document::delete_user');
+    $routes->post('submit', 'Document::form_submit');
+    $routes->post('delete', 'Document::delete');
 });
 $routes->group('diet', static function ($routes) {
     $routes->get('/', 'HealthCare::index');
@@ -144,14 +144,7 @@ $routes->group('customers', static function ($routes) {
     $routes->get('update/(:num)', 'Customers::index');
 
 });
-$routes->group('document', static function ($routes) {
-    $routes->get('/', 'Customers::index');
-    $routes->get('add', 'Customers::index');
-    $routes->post('submit', 'Customers::customer_form_submit');
-    $routes->post('delete', 'Customers::delete');
-    $routes->get('update/(:num)', 'Customers::index');
 
-});
 
 $routes->group('diseases', static function ($routes) {
     $routes->get('/', 'Disease::index');
