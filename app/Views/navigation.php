@@ -419,20 +419,13 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>laboratories/dashboard">
+                    <a href="<?= $path ?>laboratories/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
                         <span>Laboratories</span>
                     </a>
-                    <ul>
-                        <li>
-                            <a href="<?= $path ?>laboratories/">All</a>
-                        </li>
-                        <li>
-                            <a href="<?= $path ?>laboratories/add">Add</a>
-                        </li>
-                    </ul>
+                
                 </li>
             </ul>
             <ul id="Specialities">
