@@ -87,6 +87,7 @@ class HealthcareModel extends Model
         return $Admin;
     }
 
+
     public function NutritionalArray()
     {
         $Crud = new Crud();

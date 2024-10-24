@@ -155,6 +155,15 @@ $routes->group('diseases', static function ($routes) {
 
 
 });
+$routes->group('laboratories', static function ($routes) {
+    $routes->get('/', 'Laboratories::index');
+    $routes->post('submit', 'Laboratories::laboratories_form_submit');
+    $routes->post('delete', 'Laboratories::delete');
+    $routes->post('get-record', 'Laboratories::get_record');
+    $routes->post('laboratories-data', 'Laboratories::fetch_laboratories');
+
+
+});
 $routes->group('investigation', static function ($routes) {
     $routes->get('/', 'Customers::index');
     $routes->get('add', 'Customers::index');

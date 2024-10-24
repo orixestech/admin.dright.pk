@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class SystemUser extends Model
+class LaboratoriesModel extends Model
 {
 
     var $data = array();
@@ -32,19 +32,19 @@ class SystemUser extends Model
 //        return $data;
 //    }
 
-    public function systemusers()
+    public function laboratories()
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `system_users` where `Archive`=\'0\' Order By `SystemDate` DESC';
+        $SQL = 'SELECT * FROM `laboratories`  Order By `SystemDate` DESC';
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
     public
-    function get_users_datatables()
+    function get_datatables()
     {
         $Crud = new Crud();
 
-        $SQL = $this->systemusers();
+        $SQL = $this->laboratories();
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -53,13 +53,27 @@ class SystemUser extends Model
 
         return $records;
     }
+    public function GetLabInquiryCount($labID)
+    {
+        $Crud = new Crud();
+        $sql = 'SELECT 
+                COUNT(DISTINCT(`lab_inquiries`.`UID`)) AS InquiryCount, 
+                COUNT(`lab_inquiries_data`.`UID`) AS LabInquiryCount 
+            FROM `lab_inquiries`
+            LEFT JOIN `lab_inquiries_data` ON `lab_inquiries`.`UID` = `lab_inquiries_data`.`InquiryID`
+            WHERE `lab_inquiries`.`LabID` =\'' . $labID . '\' 
+            GROUP BY `lab_inquiries`.`UID`';
 
+        $Admin = $Crud->ExecuteSQL($sql);
+
+        return $Admin;
+    }
     public
-    function count_users_datatables()
+    function count_datatables()
     {
         $Crud = new Crud();
 
-        $SQL = $this->systemusers();
+        $SQL = $this->laboratories();
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);

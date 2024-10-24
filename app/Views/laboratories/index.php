@@ -2,9 +2,9 @@
 
 <div class="card">
     <div class="card-body">
-        <h4>Diseases
+        <h4>Laboratories
             <span style="float: right;">
-                <button type="button" onclick="AddDisease()"
+                <button type="button" onclick="Addlaboratories()"
                         class="btn btn-primary "
                         data-toggle="modal" data-target="#exampleModal">
               Add
@@ -15,8 +15,12 @@
         <table id="frutis" class="table table-striped table-bordered">
             <thead>            <tr>
                 <th>Sr No</th>
-                <th>Name</th>
-                <th>Category</th>
+                <th>Logo</th>
+                <th>Full Name</th>
+                <th>City</th>
+                <th>Contact No</th>
+                <th>Email</th>
+                <th>Inquiry</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -25,15 +29,19 @@
             <tfoot>
             <tr>
                 <th>Sr No</th>
-                <th>Name</th>
-                <th>Category</th>
+                <th>Logo</th>
+                <th>Full Name</th>
+                <th>City</th>
+                <th>Contact No</th>
+                <th>Email</th>
+                <th>Inquiry</th>
                 <th>Actions</th>
             </tr>
             </tfoot>
         </table>
     </div>
-    <?php echo view('diseases/modal/add'); ?>
-    <?php echo view('diseases/modal/update'); ?>
+<!--    --><?php //echo view('laboratories/modal/add'); ?>
+<!--    --><?php //echo view('laboratories/modal/update'); ?>
     <script>
         $(document).ready(function (){
             $('#frutis').DataTable({
@@ -47,30 +55,30 @@
                 "pageLength": 100,
                 "autoWidth": true,
                 "ajax": {
-                    "url": "<?= $path ?>diseases/diseases-data",
+                    "url": "<?= $path ?>laboratories/laboratories-data",
                     "type": "POST"
                 }
             });});
 
     </script>
     <script>
-        function AddDisease() {
-            $('#AddDiseaseModal').modal('show');
+        function Addlaboratories() {
+            $('#AddlaboratoriesModal').modal('show');
 
         }
 
-        function UpdateDisease(id) {
-            var Items = AjaxResponse("diseases/get-record", "id=" + id);
+        function Updatelaboratories(id) {
+            var Items = AjaxResponse("laboratories/get-record", "id=" + id);
 
-            $('#UpdateDiseaseModal form#UpdateDiseaseForm input#UID').val(Items.record.UID);
-            $('#UpdateDiseaseModal form#UpdateDiseaseForm input#DiseaseName').val(Items.record.DiseaseName);
-            $('#UpdateDiseaseModal form#UpdateDiseaseForm select#BodySystem').val(Items.record.BodySystem);
-            $('#UpdateDiseaseModal').modal('show');
+            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm input#UID').val(Items.record.UID);
+            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm input#DiseaseName').val(Items.record.DiseaseName);
+            $('#UpdatelaboratoriesModal form#UpdatelaboratoriesForm select#BodySystem').val(Items.record.BodySystem);
+            $('#UpdatelaboratoriesModal').modal('show');
         }
 
-        function DeleteDisease(id) {
+        function Deletelaboratories(id) {
             if (confirm("Are you Sure U want to Delete this?")) {
-                response = AjaxResponse("diseases/delete", "id=" + id);
+                response = AjaxResponse("laboratories/delete", "id=" + id);
                 if (response.status == 'success') {
                     $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
                     setTimeout(function () {

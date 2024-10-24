@@ -427,7 +427,7 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<?= $path ?><?= $path ?>laboratories/">All</a>
+                            <a href="<?= $path ?>laboratories/">All</a>
                         </li>
                         <li>
                             <a href="<?= $path ?>laboratories/add">Add</a>
