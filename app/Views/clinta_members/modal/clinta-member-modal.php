@@ -25,7 +25,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="offset-sm-2 col-sm-10">
-                                    <button onclick="CheckMemberDetailsForm('MemberDetailsForm');" style="float: right;" type="button" class="btn btn-success">Submit</button>
+                                    <button onclick="CheckMemberDetailsForm();" style="float: right;" type="button" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
                         </div>

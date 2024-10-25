@@ -64,15 +64,11 @@
 
     </script>
     <script>
-        function CheckMemberDetailsForm(parent) {
+        function CheckMemberDetailsForm() {
 
-            var validate = $("form#" + parent).validationEngine("validate");
-            if (validate == false) {
-                return false;
-            }
+            var formdata = new window.FormData($("form#MemberDetailsForm")[0]);
 
-            data = $("form#" + parent).serialize();
-            rslt = ajaxreqResponse("clinta_members/check_login_credentials", data);
+            rslt = AjaxUploadResponse("clinta_members/check_login_credentials", formdata);
 
             if (rslt.status == 'success') {
 
@@ -82,7 +78,7 @@
                 $("#ClintaMemberModal form#MemberDetailsForm div#LoginInfoDiv").css('display', 'none');
                 $("#ClintaMemberModal form#MemberDetailsForm div#MemberInfoDiv").css('display', '');
 
-                rslt = ajaxreqResponse("clinta_members/get_user_data_by_id", "member_id=" + MemberID);
+                rslt = AjaxUploadResponse("clinta_members/get_user_data_by_id", "member_id=" + MemberID);
                 if (rslt != null) {
 
                     //alert( rslt.toSource() );
