@@ -302,9 +302,9 @@
                 </li>
             </ul>
             <ul id="clinta_members">
-                <li class="navigation-divider">Customers</li>
+                <li class="navigation-divider">Clinta Member</li>
                 <li>
-                    <a href="<?= $path ?>customers/dashboard">
+                    <a href="<?= $path ?>clinta_members/dashboard">
                         <span class="nav-link-icon">
                             <i data-feather="pie-chart"></i>
                         </span>
@@ -313,20 +313,13 @@
 
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?= $path ?>clinta_members/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
-                        <span>Customers</span>
+                        <span>Clinta Member</span>
                     </a>
-                    <ul>
-                        <li>
-                            <a href="<?= $path ?>customers/">All</a>
-                        </li>
-                        <li>
-                            <a href="<?= $path ?>customers/add">Add</a>
-                        </li>
-                    </ul>
+
                 </li>
             </ul>
             <ul id="diseases">
@@ -425,7 +418,7 @@
                         </span>
                         <span>Laboratories</span>
                     </a>
-                
+
                 </li>
             </ul>
             <ul id="Specialities">

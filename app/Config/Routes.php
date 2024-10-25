@@ -191,11 +191,15 @@ $routes->group('extended', static function ($routes) {
 
 
 $routes->group('clinta_members', static function ($routes) {
-    $routes->get('/', 'Customers::index');
-    $routes->get('add', 'Customers::index');
-    $routes->post('submit', 'Customers::customer_form_submit');
-    $routes->post('delete', 'Customers::delete');
-    $routes->get('update/(:num)', 'Customers::index');
+    $routes->get('/', 'ClintaMember::index');
+    $routes->get('add', 'ClintaMember::index');
+    $routes->post('submit', 'ClintaMember::shift_form_submit');
+    $routes->post('check_login_credentials', 'ClintaMember::check_login_credentials');
+    $routes->post('get_user_data_by_id', 'ClintaMember::get_user_data_by_id');
+    $routes->post('delete', 'ClintaMember::delete');
+    $routes->post('members-data', 'ClintaMember::fetch_members');
+
+    $routes->get('update/(:num)', 'ClintaMember::index');
 });
 
 $routes->group('laboratories', static function ($routes) {
