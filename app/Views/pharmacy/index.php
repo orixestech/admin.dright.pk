@@ -2,20 +2,29 @@
 
 <div class="card">
     <div class="card-body">
-        <h6 class="card-title mb-0">Medicines</h6>
+        <h4>Pharmacy
+            <span style="float: right;">
+                <button type="button" onclick="AddPharmacy()"
+                        class="btn btn-primary "
+                        data-toggle="modal" data-target="#exampleModal">
+              Add
+            </button>
+           </span></h4>
     </div>
     <div class="table-responsive">
-        <table id="fruits" class="table table-striped table-bordered">
+        <table id="frutis" class="table table-striped table-bordered">
             <thead>            <tr>
                 <th>Sr No</th>
-                <th>Company</th>
                 <th>Name</th>
-                <th>Ingredients</th>
-                <th>Dosage Form</th>
-                <th>Packing</th>
-                <th>Trade Price</th>
-                <th>Retail Price </th>
-                <!--                <th>Actions</th>-->
+                <th>City</th>
+                <th>Contact Number</th>
+                <th>Address</th>
+                <th>Sale Agent</th>
+                <th>Mac Address</th>
+                <th>Expire Date</th>
+                <th>Deployment Date</th>
+
+                                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -23,22 +32,28 @@
             <tfoot>
             <tr>
                 <th>Sr No</th>
-                <th>Company</th>
                 <th>Name</th>
-                <th>Ingredients</th>
-                <th>Dosage Form</th>
-                <th>Packing</th>
-                <th>Trade Price</th>
-                <th>Retail Price </th>
-                <!--                <th>Actions</th>-->
+                <th>City</th>
+                <th>Contact Number</th>
+                <th>Address</th>
+                <th>Sale Agent</th>
+                <th>Mac Address</th>
+                <th>Expire Date</th>
+                <th>Deployment Date</th>
+
+                                <th>Actions</th>
             </tr>
+            <div class="mt-4" id="Response"></div>
+
             </tfoot>
         </table>
     </div>
-
+    <?php echo view('pharmacy/modal/add'); ?>
+    <?php echo view('pharmacy/modal/update'); ?>
+    <?php echo view('pharmacy/modal/pharmacy_license'); ?>
     <script>
         $(document).ready(function (){
-            $('#fruits').DataTable({
+            $('#frutis').DataTable({
                 "scrollY": "800px",
                 "scrollCollapse": true,
                 "searching": false,
@@ -49,11 +64,57 @@
                 "pageLength": 100,
                 "autoWidth": true,
                 "ajax": {
-                    "url": "<?= $path ?>medicine/medicine-data",
+                    "url": "<?= $path ?>pharmacy/pharmacy-data",
                     "type": "POST"
                 }
             });});
 
+    </script>
+    <script>
+        function AddPharmacy() {
+            $('#AddPharmacyModal').modal('show');
+
+        } function LoadLicense(id) {
+            var Items = AjaxResponse("pharmacy/get-record", "id=" + id);
+            $('#LicenseFormModal form#LicenseForm input#MAC').val(Items.record.MAC);
+            $('#LicenseFormModal form#LicenseForm input#ExpireDate').val(Items.record.ExpireDate);
+            $('#LicenseFormModal form#LicenseForm textarea#LicenseCode').val(Items.record.LicenseCode);
+            $('#LicenseFormModal').modal('show');
+
+        }
+        function UpdatePharmacy(id) {
+            var Items = AjaxResponse("pharmacy/get-record", "id=" + id);
+
+            $('#UpdatePharmacyModal form#UpdatePharmacyForm input#UID').val(Items.record.UID);
+            $('#UpdatePharmacyModal form#UpdatePharmacyForm input#FullName').val(Items.record.FullName);
+            $('#UpdatePharmacyModal form#UpdatePharmacyForm input#Email').val(Items.record.Email);
+            $('#UpdatePharmacyModal form#UpdatePharmacyForm input#ContactNo').val(Items.record.ContactNo);
+            $('#UpdatePharmacyModal form#UpdatePharmacyForm input#Address').val(Items.record.Address);
+            $('#UpdatePharmacyModal form#UpdatePharmacyForm input#SaleAgent').val(Items.record.SaleAgent);
+            $('#UpdatePharmacyModal form#UpdatePharmacyForm input#DeploymentDate').val(Items.record.DeploymentDate);
+            $('#UpdatePharmacyModal form#UpdatePharmacyForm input#MAC').val(Items.record.MAC);
+            $('#UpdatePharmacyModal form#UpdatePharmacyForm input#ExpireDate').val(Items.record.ExpireDate);
+            $('#UpdatePharmacyModal form#UpdatePharmacyForm select#City').val(Items.record.City);
+            $('#UpdatePharmacyModal').modal('show');
+        }
+
+        function DeletePharmacy(id) {
+            if (confirm("Are you Sure U want to Delete this?")) {
+                response = AjaxResponse("pharmacy/delete", "id=" + id);
+                if (response.status == 'success') {
+                    $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                } else {
+                    $("#Response").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Deleted</strong>  </div>')
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                }
+
+            }
+        }
     </script>
 
     <script src="<?= $template ?>vendors/dataTable/datatables.min.js"></script>

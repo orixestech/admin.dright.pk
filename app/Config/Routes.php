@@ -92,6 +92,12 @@ $routes->group('diet', static function ($routes) {
 });
 $routes->group('pharmacy', static function ($routes) {
     $routes->get('dashboard', 'Pharmacy::dashboard');
+    $routes->get('pharmacy_profile', 'Pharmacy::index');
+    $routes->post('pharmacy-data', 'Pharmacy::fetch_pharmacy');
+    $routes->post('submit', 'Pharmacy::form_submit');
+    $routes->post('delete', 'Pharmacy::delete');
+    $routes->post('get-record', 'Pharmacy::get_record');
+
 });
 $routes->group('lookups', static function ($routes) {
     $routes->get('/', 'Lookup::index');

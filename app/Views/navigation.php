@@ -644,6 +644,15 @@
 
                 </li>
                 <li>
+                    <a href="<?= $path ?>pharmacy/">
+                        <span class="nav-link-icon">
+                            <i data-feather="pie-chart"></i>
+                        </span>
+                        <span>Pharmacy Profile</span>
+                    </a>
+
+                </li>
+                <li>
                     <a href="#">
                         <span class="nav-link-icon" data-feather="activity"></span>
                         <span>Medicine</span>

@@ -32,12 +32,19 @@ class PharmacyModal extends Model
 //        return $data;
 //    }
 
-    public function Medicine()
+    public function pharmacy_profiles()
     {
         $Crud = new Crud();
-        $SQL = "SELECT * FROM `medicines` WHERE `medicines`.`Archive` = '0' ORDER BY `medicines`.`MedicineTitle` ASC";
+        $SQL = "SELECT * FROM `pharmacy_profiles` ORDER BY `pharmacy_profiles`.`FullName` ASC";
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
+    }
+    public function citites()
+    {
+        $Crud = new Crud();
+        $SQL = "SELECT * FROM `cities` ORDER BY `cities`.`FullName` ASC";
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
     }
 
     public
@@ -45,7 +52,7 @@ class PharmacyModal extends Model
     {
         $Crud = new Crud();
 
-        $SQL = $this->Medicine();
+        $SQL = $this->pharmacy_profiles();
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -60,7 +67,7 @@ class PharmacyModal extends Model
     {
         $Crud = new Crud();
 
-        $SQL = $this->Medicine();
+        $SQL = $this->pharmacy_profiles();
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);

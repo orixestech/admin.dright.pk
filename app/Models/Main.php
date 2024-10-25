@@ -28,20 +28,49 @@ class Main extends Model
 
         return $data;
     }
+//    public
+//
+//    function CRYPT( $q, $status ) {
+//        if ( $status == 'hide' ) {
+//            $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
+//            $qEncoded = base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), $q, MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ) );
+//            return ( $qEncoded );
+//        }
+//
+//        if ( $status == 'show' ) {
+//            $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
+//            $qDecoded = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), base64_decode( $q ), MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ), "\0" );
+//            return ( $qDecoded );
+//        }
+//    }
+    function CRYPT($q, $status)
+    {
+        $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
+        $method = 'AES-256-CBC';
+        $key = hash('sha256', $cryptKey);
+
+        if ($status === 'hide') {
+            $qEncoded = base64_encode(($q));
+            return $qEncoded;
+        }
+
+        if ($status === 'show') {
+            $qDecoded = base64_decode($q);
+            return $qDecoded;
+        }
+
+        return null; // in case $status is neither 'hide' nor 'show'
+    }
+
     public
 
-    function CRYPT( $q, $status ) {
-        if ( $status == 'hide' ) {
-            $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
-            $qEncoded = base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), $q, MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ) );
-            return ( $qEncoded );
-        }
-
-        if ( $status == 'show' ) {
-            $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
-            $qDecoded = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), base64_decode( $q ), MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ), "\0" );
-            return ( $qDecoded );
-        }
+    function SeoUrl( $url ) {
+        $url = preg_replace( '/[^a-zA-Z0-9_\/]/', '-', trim( $url ) );
+        $url = strtolower( $url );
+        $url = str_replace( "--", "-", $url );
+        $url = str_replace( "--", "-", $url );
+        $url = str_replace( "--", "-", $url );
+        return base_url( $url );
     }
     public function LookupsOption($key, $id)
     {
