@@ -119,7 +119,6 @@ class Pharmacy extends BaseController
         $id = $this->request->getVar('UID');
         $Pharmacy = $this->request->getVar('Pharmacy');
 
-//print_r($Lookup);exit();
         if ($id == 0) {
             foreach ($Pharmacy as $key => $value) {
                 $record[$key] = ((isset($value)) ? $value : '');
@@ -165,5 +164,30 @@ class Pharmacy extends BaseController
         $response['status'] = 'success';
         $response['message'] = 'Deleted Successfully...!';
         echo json_encode($response);
+    }
+
+    public function search_filter()
+    {
+        $session = session();
+        $Key = $this->request->getVar( 'Key' );
+        $city = $this->request->getVar( 'city' );
+        $MACAddress = $this->request->getVar( 'MACAddress' );
+
+
+        $AllFilter = array (
+            'Key' => $Key,
+            'city' => $city,
+            'MACAddress' => $MACAddress,
+
+        );
+
+
+//        print_r($AllCVFilter);exit;
+        $session->set( 'Filters', $AllFilter );
+
+        $response[ 'status' ] = "success";
+        $response[ 'message' ] = "Filters Updated Successfully";
+
+        echo json_encode( $response );
     }
 }

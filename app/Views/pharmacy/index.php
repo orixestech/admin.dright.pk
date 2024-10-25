@@ -2,18 +2,63 @@
 
 <div class="card">
     <div class="card-body">
-        <h4>Pharmacy
+        <h3>Pharmacy
             <span style="float: right;">
                 <button type="button" onclick="AddPharmacy()"
                         class="btn btn-primary "
                         data-toggle="modal" data-target="#exampleModal">
               Add
             </button>
-           </span></h4>
+           </span></h3>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <h5>Search Filters</h5>
+                <hr>
+                <form method="get" action="#">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label class="form-control-label no-padding-right">Key:</label>
+                                <input type="text" id="Key" name="Key" placeholder="Key" class="form-control"
+                                       data-validation-engine="validate[required]" data-errormessage="Key is required"/>
+
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label class="form-control-label no-padding-right">City :</label>
+                                <select id="city" name="city" class="form-control"
+                                        data-validation-engine="validate[required]">
+                                    <option value="">Please Select</option>
+
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label class="form-control-label no-padding-right">MAC Address:</label>
+                                <input type="text" id="MACAddress" name="MACAddress" placeholder="MAC Address"
+                                       class="form-control " data-validation-engine="validate[required]"
+                                       data-errormessage="MAC Address is required"/>
+                            </div>
+                            <div class="form-group col-md-12" style="float: right">
+                                 <span style="float: right;">
+                                    <button class="btn btn-outline-primary" type="button">Clear</button>
+
+                                <button class="btn btn-outline-success" type="submit">Search!</button>
+                                 </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
     </div>
+
+
     <div class="table-responsive">
         <table id="frutis" class="table table-striped table-bordered">
-            <thead>            <tr>
+            <thead>
+            <tr>
                 <th>Sr No</th>
                 <th>Name</th>
                 <th>City</th>
@@ -24,7 +69,7 @@
                 <th>Expire Date</th>
                 <th>Deployment Date</th>
 
-                                <th>Actions</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -41,7 +86,7 @@
                 <th>Expire Date</th>
                 <th>Deployment Date</th>
 
-                                <th>Actions</th>
+                <th>Actions</th>
             </tr>
             <div class="mt-4" id="Response"></div>
 
@@ -52,7 +97,7 @@
     <?php echo view('pharmacy/modal/update'); ?>
     <?php echo view('pharmacy/modal/pharmacy_license'); ?>
     <script>
-        $(document).ready(function (){
+        $(document).ready(function () {
             $('#frutis').DataTable({
                 "scrollY": "800px",
                 "scrollCollapse": true,
@@ -67,14 +112,17 @@
                     "url": "<?= $path ?>pharmacy/pharmacy-data",
                     "type": "POST"
                 }
-            });});
+            });
+        });
 
     </script>
     <script>
         function AddPharmacy() {
             $('#AddPharmacyModal').modal('show');
 
-        } function LoadLicense(id) {
+        }
+
+        function LoadLicense(id) {
             var Items = AjaxResponse("pharmacy/get-record", "id=" + id);
             $('#LicenseFormModal form#LicenseForm input#MAC').val(Items.record.MAC);
             $('#LicenseFormModal form#LicenseForm input#ExpireDate').val(Items.record.ExpireDate);
@@ -82,6 +130,7 @@
             $('#LicenseFormModal').modal('show');
 
         }
+
         function UpdatePharmacy(id) {
             var Items = AjaxResponse("pharmacy/get-record", "id=" + id);
 

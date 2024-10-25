@@ -15,6 +15,7 @@ $routes->post('/clear_session', 'Home::clear_session');
 $routes->post('fruit-data', 'HealthCare::fetch_fruit');
 $routes->post('vegetable-data', 'HealthCare::fetch_vegetable');
 $routes->post('miscellaneous-data', 'HealthCare::fetch_miscellaneous');
+$routes->post('/clear_session', 'Home::clear_session');
 
 $routes->group('support-ticket', static function ($routes) {
     $routes->get('/', 'SupportTickets::index');
@@ -97,6 +98,8 @@ $routes->group('pharmacy', static function ($routes) {
     $routes->post('submit', 'Pharmacy::form_submit');
     $routes->post('delete', 'Pharmacy::delete');
     $routes->post('get-record', 'Pharmacy::get_record');
+    $routes->post('treatment_search_filter', 'Pharmacy::search_filter');
+
 
 });
 $routes->group('lookups', static function ($routes) {
