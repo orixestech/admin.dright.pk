@@ -10,6 +10,8 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->get('table', 'Home::table');
 $routes->get('login', 'Home::login');
+$routes->post('login-form-submit', 'Home::system_user_login_submit');
+$routes->get('/logout', 'Home::logout');
 $routes->post('/fruit_search_filter', 'Home::fruit_search_filter');
 $routes->post('/clear_session', 'Home::clear_session');
 $routes->post('fruit-data', 'HealthCare::fetch_fruit');
