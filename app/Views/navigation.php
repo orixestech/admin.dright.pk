@@ -43,15 +43,7 @@
                         <span>Health Care</span>
                     </a>
                 </li>
-                <li>
-                    <a href=""
-                        data-menu-target="#clinta_members" <?= ($segment_a == 'clinta_members' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="users"></i>
-                        </span>
-                        <span>Clinta Members</span>
-                    </a>
-                </li>
+
                 <li>
                     <a href=""
                         data-menu-target="#customers" <?= ($segment_a == 'customers' ? 'class="active"' : '') ?>>
@@ -112,15 +104,15 @@
                         <span>Investigation</span>
                     </a>
                 </li>
-                <li>
-                    <a href=""
-                        data-menu-target="#laboratories" <?= ($segment_a == 'specialities' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="users"></i>
-                        </span>
-                        <span>Specialities</span>
-                    </a>
-                </li>
+<!--                <li>-->
+<!--                    <a href=""-->
+<!--                        data-menu-target="#laboratories" --><?php //= ($segment_a == 'specialities' ? 'class="active"' : '') ?><!-->-->
+<!--                        <span class="menu-tab-icon">-->
+<!--                            <i data-feather="users"></i>-->
+<!--                        </span>-->
+<!--                        <span>Specialities</span>-->
+<!--                    </a>-->
+<!--                </li>-->
                 <li>
                     <a href="#"
                         data-menu-target="#apps" <?= ($segment_a == 'support-ticket' ? 'class="active"' : '') ?>>
@@ -549,6 +541,15 @@
                     </a>
                 </li>
                 <li>
+                    <a href="<?= $path ?>clinta_members/">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Clinta Member</span>
+                    </a>
+
+                </li>
+                <li>
                     <a href="<?= $path ?>representative/">
                         <span class="nav-link-icon">
                             <i data-feather="disc"></i>
@@ -628,6 +629,12 @@
                     <a href="<?= $path ?>builder/banners" target="_blank">
                         <span class="nav-link-icon" data-feather="frown"></span>
                         <span>Banners</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $path ?>builder/specialities" target="_blank">
+                        <span class="nav-link-icon" data-feather="frown"></span>
+                        <span>Specialities</span>
                     </a>
                 </li>
             </ul>

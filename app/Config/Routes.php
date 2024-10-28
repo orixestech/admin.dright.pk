@@ -34,9 +34,11 @@ $routes->group('builder', static function ($routes) {
     $routes->get('hospital', 'Builder::index');
     $routes->get('images', 'Builder::index');
     $routes->get('banners', 'Builder::index');
+    $routes->post('get-banners', 'Builder::fetch_banners');
     $routes->get('dashboard', 'Builder::dashboard');
     $routes->post('submit', 'Builder::builder_form_submit');
     $routes->post('delete', 'Builder::delete');
+    $routes->post('delete-banner', 'Builder::delete_banner');
     $routes->get('update/(:num)', 'Builder::index');
 });
 $routes->group('users', static function ($routes) {
