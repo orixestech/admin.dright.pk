@@ -21,9 +21,14 @@ class Home extends BaseController
         $data = $this->data;
         echo '<pre>';
         $Crud = new Crud();
-        $Query = 'SELECT "UID", "Heading" FROM public."banner"';
-        $records = $Crud->ExecutePgSQL($Query);
-        print_r($records);
+        // $Query = 'SELECT "UID", "Heading" FROM public."banner"';
+        // $records = $Crud->ExecutePgSQL($Query);
+        // print_r($records);
+
+
+        $Main = new Main();
+        echo $Main->CRYPT("Shaheryar", "hide");
+        echo $Main->CRYPT("U2hhaGVyeWFy", "show");
     }
 
     public function index()
