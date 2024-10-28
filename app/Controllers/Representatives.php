@@ -87,6 +87,7 @@ class Representatives extends BaseController
             <div class="dropdown-menu">
                 <a class="dropdown-item" onclick="Updaterepresentatives(' . htmlspecialchars($record['UID']) . ')">Update</a>
                 <a class="dropdown-item" onclick="Deleterepresentatives(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                <a class="dropdown-item" onclick="AlotReceiptNo(' . htmlspecialchars($record['UID']) . ')">Add Receipts</a>
 
             </div>
         </div>
@@ -184,6 +185,50 @@ class Representatives extends BaseController
         }
         echo json_encode($response);
     }
+    public function RCCReceiptForm()
+    {
+        $Crud = new Crud();
+        $response = [];
+        $record = [];
+
+        // Retrieve input values
+        $RCCID = $this->request->getVar('RepresentativeUID');
+        $SerialPrefix = $this->request->getVar('serial_prefix');
+        $StartSerial = (int)$this->request->getVar('start_serial');
+        $EndSerial = (int)$this->request->getVar('end_serial');
+
+        // Validate if StartSerial and EndSerial are integers
+        if ($StartSerial > $EndSerial || $StartSerial < 0) {
+            $response['status'] = 'fail';
+            $response['message'] = 'Invalid serial range provided.';
+            return $this->response->setJSON($response);
+        }
+
+        // Process each serial number within the range
+        for ($i = $StartSerial; $i <= $EndSerial; $i++) {
+            // Format the serial number with leading zeros
+            $serialNumber = str_pad($i, 4, "0", STR_PAD_LEFT);
+
+            $record['RepresentativeUID'] = $RCCID;
+            $record['ReceiptNo'] = $SerialPrefix . "-" . $serialNumber;
+
+            // Insert the record
+            $RecordId = $Crud->AddRecord("representative_receipts", $record);
+
+            // Check for insertion errors
+            if (!isset($RecordId) || $RecordId <= 0) {
+                $response['status'] = 'fail';
+                $response['message'] = 'Error adding receipt: ' . $SerialPrefix . "-" . $serialNumber;
+                return $this->response->setJSON($response);
+            }
+        }
+
+        // Success response
+        $response['status'] = 'success';
+        $response['message'] = 'Receipts added successfully!';
+        return $this->response->setJSON($response);
+    }
+
     public function delete()
     {
         $Crud = new Crud();

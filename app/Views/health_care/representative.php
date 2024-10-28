@@ -50,6 +50,8 @@
         </table>
     </div>
 
+    <?php echo view('health_care/modal/add_recipt'); ?>
+
     <script>
         $(document).ready(function () {
             $('#record').DataTable({
@@ -79,6 +81,11 @@
         function Updaterepresentatives(id) {
             location.href = "<?=$path?>representative/update/" + id;
 
+
+        }
+        function AlotReceiptNo(item) {
+            $('#AddRCCReceiptsModal form#AddRCCReceiptsForm input#RCCUID').val(item);
+            $('#AddRCCReceiptsModal').modal('show');
 
         }
 
