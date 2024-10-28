@@ -4,14 +4,14 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class SystemUser extends Model
+class BuilderModel extends Model
 {
 
     var $data = array();
 
     public function __construct()
     {
-        $this->data = $this->DefaultVariable();
+//        $this->data = $this->DefaultVariable();
     }
 
 //    public function DefaultVariable()
@@ -32,19 +32,31 @@ class SystemUser extends Model
 //        return $data;
 //    }
 
-    public function systemusers()
+    public function general_banners()
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `system_users` where `Archive`=\'0\' Order By `SystemDate` DESC';
+        $SQL = 'SELECT general_banners.*, specialities.Name AS Title FROM general_banners 
+    LEFT JOIN specialities ON general_banners.Speciality = specialities.UID
+       ORDER BY general_banners.SystemDate ASC
+
+';
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
+    public function specialities()
+    {
+        $Crud = new Crud();
+        $SQL = "SELECT * FROM `specialities` ORDER BY `specialities`.`Name` ASC";
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
+
     public
-    function get_users_datatables()
+    function get_datatables()
     {
         $Crud = new Crud();
 
-        $SQL = $this->systemusers();
+        $SQL = $this->general_banners();
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -55,11 +67,11 @@ class SystemUser extends Model
     }
 
     public
-    function count_users_datatables()
+    function count_datatables()
     {
         $Crud = new Crud();
 
-        $SQL = $this->systemusers();
+        $SQL = $this->general_banners();
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);

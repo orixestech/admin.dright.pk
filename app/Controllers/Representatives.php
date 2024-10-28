@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Models\Crud;
 use App\Models\HealthcareModel;
 use App\Models\Main;
+use App\Models\PharmacyModal;
 use App\Models\SystemUser;
 
 class Representatives extends BaseController
@@ -14,28 +15,31 @@ class Representatives extends BaseController
 
     public function __construct()
     {
-        helper('main');
-        $session = session();
-        $session = $session->get();
-//
+
         $this->MainModel = new Main();
         $this->data = $this->MainModel->DefaultVariable();
-        $this->data['template'] = TEMPLATE;
-        $this->data['path'] = PATH;
-        $this->data[ 'session' ] = $session;
-        CheckLogin( $this->data );
     }
 
     public function index()
     {
         $data = $this->data;
         $data['page'] = getSegment(2);
+        $PharmacyModal = new PharmacyModal();
+        $data['cities'] = $PharmacyModal->citites();
+        $healthcare = new \App\Models\HealthcareModel();
+        $data['branches'] = $healthcare->GenerateBranchesOptions();
+        $data[ 'PAGE' ] = array ();
 
         echo view('header', $data);
         if ($data['page'] == 'add') {
             echo view('health_care/main_form', $data);
 
         } elseif ($data['page'] == 'update') {
+            $UID = getSegment( 3 );
+            $data[ 'UID' ] = $UID;
+            $Crud = new Crud();
+            $PAGE = $Crud->SingleRecord( 'representatives', array ( "UID" => $UID ) );
+            $data[ 'PAGE' ] = $PAGE;
             echo view('health_care/main_form', $data);
 
         } else {
@@ -83,6 +87,7 @@ class Representatives extends BaseController
             <div class="dropdown-menu">
                 <a class="dropdown-item" onclick="Updaterepresentatives(' . htmlspecialchars($record['UID']) . ')">Update</a>
                 <a class="dropdown-item" onclick="Deleterepresentatives(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                <a class="dropdown-item" onclick="AlotReceiptNo(' . htmlspecialchars($record['UID']) . ')">Add Receipts</a>
 
             </div>
         </div>
@@ -106,33 +111,124 @@ class Representatives extends BaseController
         $record = array();
 
         $id = $this->request->getVar('UID');
-        $User = $this->request->getVar('representatives');
+        $RCC = $this->request->getVar('RCC'); // Get the array from the request
+        $hasEmptyField = false; // Flag to track if any field is empty
 
-
-        if ($id == 0) {
-            foreach ($User as $key => $value) {
-                $record[$key] = ((isset($value)) ? $value : '');
+        foreach ($RCC as $key => $value) {
+            if (empty($value)) {
+                $hasEmptyField = true;
+                break; // Exit the loop if an empty field is found
             }
-
-            $RecordId = $Crud->AddRecord("representatives", $record);
-            if (isset($RecordId) && $RecordId > 0) {
-                $response['status'] = 'success';
-                $response['message'] = ' Added Successfully...!';
-            } else {
-                $response['status'] = 'fail';
-                $response['message'] = 'Data Didnt Submitted Successfully...!';
-            }
-        } else {
-            foreach ($User as $key => $value) {
-                $record[$key] = $value;
-            }
-            $Crud->UpdateRecord("representatives", $record, array("UID" => $id));
-            $response['status'] = 'success';
-            $response['message'] = ' Updated Successfully...!';
         }
 
+        if ($hasEmptyField) {
+            // Handle the case where a field is empty
+            $response['message'] ="One or more fields are empty.";
+        } else {
+
+
+            $filename = "";
+            $contactprofile = "";
+
+            if ($_FILES['Image']['tmp_name']) {
+                $ext = @end(@explode(".", basename($_FILES['Image']['name'])));
+                $uploaddir = ROOT . "/upload/representative/";
+                $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
+
+                if (move_uploaded_file($_FILES['Image']['tmp_name'], $uploaddir . $uploadfile)) {
+                    $filename = $uploadfile;
+                }
+            }
+            if ($_FILES['Profile']['tmp_name']) {
+                $ext = @end(@explode(".", basename($_FILES['Profile']['name'])));
+                $uploaddir = ROOT . "/upload/representative/";
+                $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
+
+                if (move_uploaded_file($_FILES['Profile']['tmp_name'], $uploaddir . $uploadfile)) {
+                    $contactprofile = $uploadfile;
+                }
+            }
+            if ($id == 0) {
+                foreach ($RCC as $key => $value) {
+                    $record[$key] = ((isset($value)) ? $value : '');
+                }
+                if ($filename != "") {
+                    $record['ConactPersonImage'] = $filename;
+                }
+                if ($contactprofile != "") {
+                    $record['Profile'] = $contactprofile;
+                }
+
+                $RecordId = $Crud->AddRecord("representatives", $record);
+                if (isset($RecordId) && $RecordId > 0) {
+                    $response['status'] = 'success';
+                    $response['message'] = ' Added Successfully...!';
+                } else {
+                    $response['status'] = 'fail';
+                    $response['message'] = 'Data Didnt Submitted Successfully...!';
+                }
+            } else {
+                foreach ($RCC as $key => $value) {
+                    $record[$key] = $value;
+                }
+                if ($filename != "") {
+                    $record['ConactPersonImage'] = $filename;
+                }
+                if ($contactprofile != "") {
+                    $record['Profile'] = $contactprofile;
+                }
+
+                $Crud->UpdateRecord("representatives", $record, array("UID" => $id));
+                $response['status'] = 'success';
+                $response['message'] = ' Updated Successfully...!';
+            }
+        }
         echo json_encode($response);
     }
+    public function RCCReceiptForm()
+    {
+        $Crud = new Crud();
+        $response = [];
+        $record = [];
+
+        // Retrieve input values
+        $RCCID = $this->request->getVar('RepresentativeUID');
+        $SerialPrefix = $this->request->getVar('serial_prefix');
+        $StartSerial = (int)$this->request->getVar('start_serial');
+        $EndSerial = (int)$this->request->getVar('end_serial');
+
+        // Validate if StartSerial and EndSerial are integers
+        if ($StartSerial > $EndSerial || $StartSerial < 0) {
+            $response['status'] = 'fail';
+            $response['message'] = 'Invalid serial range provided.';
+            return $this->response->setJSON($response);
+        }
+
+        // Process each serial number within the range
+        for ($i = $StartSerial; $i <= $EndSerial; $i++) {
+            // Format the serial number with leading zeros
+            $serialNumber = str_pad($i, 4, "0", STR_PAD_LEFT);
+
+            $record['RepresentativeUID'] = $RCCID;
+            $record['ReceiptNo'] = $SerialPrefix . "-" . $serialNumber;
+
+            // Insert the record
+            $RecordId = $Crud->AddRecord("representative_receipts", $record);
+
+            // Check for insertion errors
+            if (!isset($RecordId) || $RecordId <= 0) {
+                $response['status'] = 'fail';
+                $response['message'] = 'Error adding receipt: ' . $SerialPrefix . "-" . $serialNumber;
+                return $this->response->setJSON($response);
+            }
+        }
+
+        // Success response
+        $response['status'] = 'success';
+        $response['message'] = 'Receipts added successfully!';
+        return $this->response->setJSON($response);
+    }
+
     public function delete()
     {
         $Crud = new Crud();
@@ -154,5 +250,25 @@ class Representatives extends BaseController
         $response['record'] = $record;
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
+    }
+    public
+    function rcc_receipt_html_list( ){
+
+        $id = $this->request->getVar( 'id' );
+        $HealthcareModel = new HealthcareModel();
+
+        $Data = $HealthcareModel->get_rcc_receipts_data_by_id( $id );
+        if( count( $Data ) > 0 ){
+
+            $html = '';
+
+            foreach( $Data as $D ){
+
+                $html.='<span class="pull-left badge badge-pill badge-success" style="margin-right: 10px; margin-bottom: 5px; font-size:13px;">'.$D['ReceiptNo'].'</span>';
+
+            }
+        }
+        echo $html;
+
     }
 }

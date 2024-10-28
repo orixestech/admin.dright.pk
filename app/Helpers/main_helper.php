@@ -34,6 +34,23 @@ if ( !function_exists( 'SeoUrl' ) ) {
         }
     }
 }
+
+if (!function_exists('load_image')) {
+    function load_image($key)
+    {
+        global $CI;
+
+        $path = config_item('base_url');
+        $template = config_item('template_url');
+
+        $code = base64_encode($key);
+        $code = str_replace("=", "", $code);
+        $URL = $path . 'module/load_image/' . $code;
+        return $URL;
+    }
+
+
+}
 if ( !function_exists( 'CheckLogin' ) ) {
     function CheckLogin( $data )
     {

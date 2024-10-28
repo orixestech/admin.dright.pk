@@ -61,6 +61,13 @@ class HealthcareModel extends Model
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
+    public function GenerateBranchesOptions()
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `public_branches` Order By `FullName` ASC';
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
 
     public function GetDietDataByID($item)
     {
@@ -69,8 +76,7 @@ class HealthcareModel extends Model
         $Admin = $Crud->ExecuteSQL($SQL);
 //        $Admin=$Admin[0];
         return $Admin;
-    }
-    public function get_rcc_receipts_data_by_id($item)
+    }    public function get_rcc_receipts_data_by_id($item)
     {
         $Crud = new Crud();
         $SQL = 'SELECT * FROM `representative_receipts` where `RepresentativeUID`=\'' . $item . '\'  ';

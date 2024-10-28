@@ -2,24 +2,17 @@
 
 namespace App\Controllers;
 
-use App\Models\Blog;
+use App\Models\Main;
 
-class SupportTickets extends BaseController
+class Extended extends BaseController
 {
     var $data = array();
 
     public function __construct()
     {
-        helper('main');
-//        $session = session();
-//        $session = $session->get();
-//
-//        $this->MainModel = new Main();
-//        $this->data = $this->MainModel->DefaultVariable();
-        $this->data['template'] = TEMPLATE;
-        $this->data['path'] = PATH;
-//        $this->data[ 'session' ] = $session;
-//        CheckLogin( $this->data );
+
+        $this->MainModel = new Main();
+        $this->data = $this->MainModel->DefaultVariable();
     }
 
     public function index()
