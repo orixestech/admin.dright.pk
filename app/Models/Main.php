@@ -12,11 +12,7 @@ class Main extends Model
     public function __construct()
     {
         helper('main');
-        $session = session();
-        $session = $session->get();
         $this->data = $this->DefaultVariable();
-        $this->data['session'] = $session;
-        CheckLogin($this->data);
     }
 
     public function DefaultVariable()
@@ -32,6 +28,7 @@ class Main extends Model
         $data['segment_c'] = getSegment(3);
         $data['session'] = $session->get();
         $data['page'] = ($page == '') ? 'home' : $page;
+        //CheckLogin($this->data);
         return $data;
     }
 //    public
