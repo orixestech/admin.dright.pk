@@ -47,9 +47,9 @@ if ( !function_exists( 'CheckLogin' ) ) {
                 exit;
             } else {
                 if ( $session[ 'Email' ] != 'info@orixestech.com' ) {
-                    if ( $session[ 'UserType' ] != 'admin' ) {
+//                    if ( $session[ 'UserType' ] != 'admin' ) {
 //                        sleep(rand(2, 5));
-                    }
+//                    }
                 }
             }
         }
