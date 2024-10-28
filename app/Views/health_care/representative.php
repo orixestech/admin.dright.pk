@@ -85,9 +85,11 @@
         }
         function AlotReceiptNo(item) {
             $('#AddRCCReceiptsModal form#AddRCCReceiptsForm input#RCCUID').val(item);
-            $('#AddRCCReceiptsModal').modal('show');
+            AjaxRequest("representative/get", "id="+item, "AddRCCReceiptsModal div#serials");
 
+            $('#AddRCCReceiptsModal').modal('show');
         }
+
 
 
 

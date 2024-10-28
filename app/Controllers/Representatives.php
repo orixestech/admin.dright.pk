@@ -111,10 +111,10 @@ class Representatives extends BaseController
         $record = array();
 
         $id = $this->request->getVar('UID');
-        $User = $this->request->getVar('RCC'); // Get the array from the request
+        $RCC = $this->request->getVar('RCC'); // Get the array from the request
         $hasEmptyField = false; // Flag to track if any field is empty
 
-        foreach ($User as $key => $value) {
+        foreach ($RCC as $key => $value) {
             if (empty($value)) {
                 $hasEmptyField = true;
                 break; // Exit the loop if an empty field is found
@@ -149,7 +149,7 @@ class Representatives extends BaseController
                 }
             }
             if ($id == 0) {
-                foreach ($User as $key => $value) {
+                foreach ($RCC as $key => $value) {
                     $record[$key] = ((isset($value)) ? $value : '');
                 }
                 if ($filename != "") {
@@ -168,7 +168,7 @@ class Representatives extends BaseController
                     $response['message'] = 'Data Didnt Submitted Successfully...!';
                 }
             } else {
-                foreach ($User as $key => $value) {
+                foreach ($RCC as $key => $value) {
                     $record[$key] = $value;
                 }
                 if ($filename != "") {
@@ -250,5 +250,25 @@ class Representatives extends BaseController
         $response['record'] = $record;
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
+    }
+    public
+    function rcc_receipt_html_list( ){
+
+        $id = $this->request->getVar( 'id' );
+        $HealthcareModel = new HealthcareModel();
+
+        $Data = $HealthcareModel->get_rcc_receipts_data_by_id( $id );
+        if( count( $Data ) > 0 ){
+
+            $html = '';
+
+            foreach( $Data as $D ){
+
+                $html.='<span class="pull-left badge badge-pill badge-success" style="margin-right: 10px; margin-bottom: 5px; font-size:13px;">'.$D['ReceiptNo'].'</span>';
+
+            }
+        }
+        echo $html;
+
     }
 }

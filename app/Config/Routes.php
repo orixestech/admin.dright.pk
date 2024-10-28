@@ -129,6 +129,7 @@ $routes->group('representative', static function ($routes) {
     $routes->post('representatives-data', 'Representatives::fetch_representative');
     $routes->post('submit', 'Representatives::representatives_form_submit');
     $routes->post('rec-submit', 'Representatives::RCCReceiptForm');
+    $routes->post('get', 'Representatives::rcc_receipt_html_list');
     $routes->post('delete', 'Representatives::delete');
 
 });
