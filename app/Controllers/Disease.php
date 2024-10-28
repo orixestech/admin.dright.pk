@@ -10,19 +10,11 @@ use App\Models\DiseasesModel;
 class Disease extends BaseController
 {
     var $data = array();
-
     public function __construct()
     {
-        helper('main');
-        $session = session();
-        $session = $session->get();
-//
+
         $this->MainModel = new Main();
         $this->data = $this->MainModel->DefaultVariable();
-        $this->data['template'] = TEMPLATE;
-        $this->data['path'] = PATH;
-        $this->data[ 'session' ] = $session;
-        CheckLogin( $this->data );
     }
 
     public function index()

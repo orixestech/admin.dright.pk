@@ -12,8 +12,11 @@ class Home extends BaseController
 
     public function __construct()
     {
+
+
         $this->MainModel = new Main();
         $this->data = $this->MainModel->DefaultVariable();
+
     }
 
     public function testing()
@@ -100,10 +103,10 @@ class Home extends BaseController
         $session = session();
         $response = array();
         $table = 'system_users';
-        $password=$Main->CRYPT($password,'show');
-        print_r($password);exit();
+        $password=$Main->CRYPT($password,'hide');
+//        print_r($password);exit();
         $where = array("Email" => $Email, "Password" => $password);
-        $Record2 = $Crud->SingleRecord($table, $where);
+        $Record = $Crud->SingleRecord($table, $where);
 //        print_r($Record2['UID']);exit();
 //        echo 'dddddd';exit();
         if (!empty($Record['UID'])) {

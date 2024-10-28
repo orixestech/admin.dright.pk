@@ -155,14 +155,13 @@
                         <span>Documentations</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <span class="menu-tab-icon">
+                <li >
+                    <a href="<?= $path ?>logout" >  <span class="menu-tab-icon">
                             <i data-feather="clock"></i>
-                        </span>
-                        <span>Logout</span>
-                    </a>
+                        </span> <span>Logout</span></a>
+
                 </li>
+
             </ul>
         </div>
         <!-- ./ Menu tab -->

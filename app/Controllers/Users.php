@@ -13,16 +13,10 @@ class Users extends BaseController
 
     public function __construct()
     {
-        helper('main');
-        $session = session();
-        $session = $session->get();
-//
+
         $this->MainModel = new Main();
         $this->data = $this->MainModel->DefaultVariable();
-        $this->data['template'] = TEMPLATE;
-        $this->data['path'] = PATH;
-        $this->data[ 'session' ] = $session;
-        CheckLogin( $this->data );
+
     }
 
     public function index()
@@ -108,6 +102,7 @@ class Users extends BaseController
             foreach ($User as $key => $value) {
                 $record[$key] = ((isset($value)) ? $value : '');
             }
+            $record['Password']=$Main->CRYPT($record['Password'],'hide');
 
             $RecordId = $Crud->AddRecord("system_users", $record);
             if (isset($RecordId) && $RecordId > 0) {
