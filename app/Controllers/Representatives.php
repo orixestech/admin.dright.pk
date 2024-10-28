@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Models\Crud;
 use App\Models\HealthcareModel;
 use App\Models\Main;
+use App\Models\PharmacyModal;
 use App\Models\SystemUser;
 
 class Representatives extends BaseController
@@ -23,12 +24,22 @@ class Representatives extends BaseController
     {
         $data = $this->data;
         $data['page'] = getSegment(2);
+        $PharmacyModal = new PharmacyModal();
+        $data['cities'] = $PharmacyModal->citites();
+        $healthcare = new \App\Models\HealthcareModel();
+        $data['branches'] = $healthcare->GenerateBranchesOptions();
+        $data[ 'PAGE' ] = array ();
 
         echo view('header', $data);
         if ($data['page'] == 'add') {
             echo view('health_care/main_form', $data);
 
         } elseif ($data['page'] == 'update') {
+            $UID = getSegment( 3 );
+            $data[ 'UID' ] = $UID;
+            $Crud = new Crud();
+            $PAGE = $Crud->SingleRecord( 'representatives', array ( "UID" => $UID ) );
+            $data[ 'PAGE' ] = $PAGE;
             echo view('health_care/main_form', $data);
 
         } else {
@@ -99,31 +110,78 @@ class Representatives extends BaseController
         $record = array();
 
         $id = $this->request->getVar('UID');
-        $User = $this->request->getVar('representatives');
+        $User = $this->request->getVar('RCC'); // Get the array from the request
+        $hasEmptyField = false; // Flag to track if any field is empty
 
-
-        if ($id == 0) {
-            foreach ($User as $key => $value) {
-                $record[$key] = ((isset($value)) ? $value : '');
+        foreach ($User as $key => $value) {
+            if (empty($value)) {
+                $hasEmptyField = true;
+                break; // Exit the loop if an empty field is found
             }
-
-            $RecordId = $Crud->AddRecord("representatives", $record);
-            if (isset($RecordId) && $RecordId > 0) {
-                $response['status'] = 'success';
-                $response['message'] = ' Added Successfully...!';
-            } else {
-                $response['status'] = 'fail';
-                $response['message'] = 'Data Didnt Submitted Successfully...!';
-            }
-        } else {
-            foreach ($User as $key => $value) {
-                $record[$key] = $value;
-            }
-            $Crud->UpdateRecord("representatives", $record, array("UID" => $id));
-            $response['status'] = 'success';
-            $response['message'] = ' Updated Successfully...!';
         }
 
+        if ($hasEmptyField) {
+            // Handle the case where a field is empty
+            $response['message'] ="One or more fields are empty.";
+        } else {
+
+
+            $filename = "";
+            $contactprofile = "";
+
+            if ($_FILES['Image']['tmp_name']) {
+                $ext = @end(@explode(".", basename($_FILES['Image']['name'])));
+                $uploaddir = ROOT . "/upload/representative/";
+                $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
+
+                if (move_uploaded_file($_FILES['Image']['tmp_name'], $uploaddir . $uploadfile)) {
+                    $filename = $uploadfile;
+                }
+            }
+            if ($_FILES['Profile']['tmp_name']) {
+                $ext = @end(@explode(".", basename($_FILES['Profile']['name'])));
+                $uploaddir = ROOT . "/upload/representative/";
+                $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
+
+                if (move_uploaded_file($_FILES['Profile']['tmp_name'], $uploaddir . $uploadfile)) {
+                    $contactprofile = $uploadfile;
+                }
+            }
+            if ($id == 0) {
+                foreach ($User as $key => $value) {
+                    $record[$key] = ((isset($value)) ? $value : '');
+                }
+                if ($filename != "") {
+                    $record['ConactPersonImage'] = $filename;
+                }
+                if ($contactprofile != "") {
+                    $record['Profile'] = $contactprofile;
+                }
+
+                $RecordId = $Crud->AddRecord("representatives", $record);
+                if (isset($RecordId) && $RecordId > 0) {
+                    $response['status'] = 'success';
+                    $response['message'] = ' Added Successfully...!';
+                } else {
+                    $response['status'] = 'fail';
+                    $response['message'] = 'Data Didnt Submitted Successfully...!';
+                }
+            } else {
+                foreach ($User as $key => $value) {
+                    $record[$key] = $value;
+                }
+                if ($filename != "") {
+                    $record['ConactPersonImage'] = $filename;
+                }
+                if ($contactprofile != "") {
+                    $record['Profile'] = $contactprofile;
+                }
+
+                $Crud->UpdateRecord("representatives", $record, array("UID" => $id));
+                $response['status'] = 'success';
+                $response['message'] = ' Updated Successfully...!';
+            }
+        }
         echo json_encode($response);
     }
     public function delete()

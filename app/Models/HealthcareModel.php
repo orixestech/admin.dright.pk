@@ -61,6 +61,13 @@ class HealthcareModel extends Model
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
+    public function GenerateBranchesOptions()
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `public_branches` Order By `FullName` ASC';
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
 
     public function GetDietDataByID($item)
     {

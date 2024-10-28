@@ -76,7 +76,7 @@
 
 
         }
-        function Updaterepresentatives() {
+        function Updaterepresentatives(id) {
             location.href = "<?=$path?>representative/update/" + id;
 
 

@@ -11,7 +11,7 @@ class PharmacyModal extends Model
 
     public function __construct()
     {
-        $this->data = $this->DefaultVariable();
+//        $this->data = $this->DefaultVariable();
     }
 
 //    public function DefaultVariable()
