@@ -49,6 +49,13 @@ class BuilderModel extends Model
         $SQL = "SELECT * FROM `specialities` ORDER BY `specialities`.`Name` ASC";
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin;
+    }    public function websites_images()
+    {
+        $Crud = new Crud();
+        $SQL = "SELECT * FROM `websites_images` ORDER BY `websites_images`.`SystemDate` DESC";
+//        $Admin = $Crud->ExecuteSQL($SQL);
+//        print_r($Admin);exit();
+        return $SQL;
     }
 
     public
@@ -72,6 +79,31 @@ class BuilderModel extends Model
         $Crud = new Crud();
 
         $SQL = $this->general_banners();
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+        return count($records);
+    }
+  public
+    function get_images_datatables()
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->websites_images();
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+
+    public
+    function count_image_datatables()
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->websites_images();
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);
