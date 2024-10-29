@@ -28,7 +28,7 @@ class Main extends Model
         $data['segment_c'] = getSegment(3);
         $data['session'] = $session->get();
         $data['page'] = ($page == '') ? 'home' : $page;
-        //CheckLogin($this->data);
+        CheckLogin($data);
         return $data;
     }
 //    public

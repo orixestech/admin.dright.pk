@@ -100,12 +100,12 @@ class Home extends BaseController
         $session = session();
         $response = array();
         $table = 'system_users';
-        $password = $Main->CRYPT($password, 'show');
-        print_r($password);
-        exit();
+        $password = $Main->CRYPT($password, 'hide');
+//        print_r($password);
+//        exit();
         $where = array("Email" => $Email, "Password" => $password);
-        $Record2 = $Crud->SingleRecord($table, $where);
-        //        print_r($Record2['UID']);exit();
+        $Record = $Crud->SingleRecord($table, $where);
+//                print_r($Record['UID']);exit();
         //        echo 'dddddd';exit();
         if (!empty($Record['UID'])) {
             $SessionArray = [
@@ -116,7 +116,7 @@ class Home extends BaseController
                 'UserType' => '',
                 'logged_in' => TRUE
             ];
-
+            print_r($SessionArray);exit();
             $session->set($SessionArray);
             $response['status'] = "success";
             $response['message'] = "You are successfully logged";
