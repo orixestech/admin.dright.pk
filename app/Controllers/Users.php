@@ -10,6 +10,7 @@ use App\Models\SystemUser;
 class Users extends BaseController
 {
     var $data = array();
+    var $table = 'system_users';
 
     public function __construct()
     {

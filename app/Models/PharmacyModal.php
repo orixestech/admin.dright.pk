@@ -46,6 +46,13 @@ class PharmacyModal extends Model
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin;
     }
+    public function getcitybyid($id)
+    {
+        $Crud = new Crud();
+        $SQL = "SELECT * FROM `cities` where `UID` = '.$id.'ORDER BY `cities`.`FullName` ASC";
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
 
     public
     function get_datatables()

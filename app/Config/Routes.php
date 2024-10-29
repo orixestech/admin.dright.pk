@@ -31,16 +31,18 @@ $routes->group('support-ticket', static function ($routes) {
 $routes->group('builder', static function ($routes) {
     $routes->get('/', 'Builder::index');
     $routes->get('add', 'Builder::index');
+    $routes->get('add-doctor', 'Builder::index');
     $routes->get('hospital', 'Builder::index');
     $routes->get('images', 'Builder::index');
     $routes->get('banners', 'Builder::index');
     $routes->post('get-banners', 'Builder::fetch_banners');
     $routes->post('get-images', 'Builder::fetch_images');
+    $routes->post('get-doctor', 'Builder::fetch_doctors');
     $routes->get('dashboard', 'Builder::dashboard');
     $routes->post('submit', 'Builder::builder_form_submit');
     $routes->post('submit-image', 'Builder::image_form_submit');
     $routes->post('delete', 'Builder::delete');
-    $routes->post('delete-banner', 'Builder::delete_banner');
+    $routes->post('delete-doctor', 'Builder::delete_doctor');
     $routes->post('delete-banner', 'Builder::delete_banner');
     $routes->post('delete-images', 'Builder::delete_images');
     $routes->get('update/(:num)', 'Builder::index');

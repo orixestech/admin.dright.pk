@@ -31,7 +31,16 @@ class BuilderModel extends Model
 //
 //        return $data;
 //    }
+    public function get_profile_options_data_by_id_option($id, $option)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT *
+        FROM "public"."options"  
+        where "public"."options"."ProfileUID" = \'' . $id . '\' And "public"."options"."Name" = \'' . $option . '\' ';
 
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
     public function general_banners()
     {
         $Crud = new Crud();
@@ -50,7 +59,25 @@ class BuilderModel extends Model
         $SQL = "SELECT * FROM `specialities` ORDER BY `specialities`.`Name` ASC";
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin;
-    }    public function websites_images()
+    }
+    public function Allprofiless($ID)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT "public"."profiles".*
+        FROM "public"."profiles"  
+        LEFT JOIN "public"."profile_metas" 
+        ON "public"."profiles"."UID" = "public"."profile_metas"."ProfileUID"  
+            LEFT JOIN "public"."visitors" 
+        ON "public"."profiles"."UID" = "public"."visitors"."ProfileUID"
+
+        WHERE "public"."profiles"."Type" =\'' . $ID . '\' 
+        ORDER BY "public"."profiles"."Name" ASC ';
+//        $Admin = $Crud->ExecutePgSQL($SQL);
+//        print_r($SQL);exit();
+        return $SQL;
+    }
+  
+    public function websites_images()
     {
         $Crud = new Crud();
         $SQL = "SELECT * FROM `websites_images` ORDER BY `websites_images`.`SystemDate` DESC";
@@ -81,7 +108,7 @@ class BuilderModel extends Model
 
         $SQL = $this->general_banners();
         $records = $Crud->ExecuteSQL($SQL);
-        print_r($records);exit();
+//        print_r($records);exit();
         return count($records);
     }
   public
@@ -108,6 +135,30 @@ class BuilderModel extends Model
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);
+    }
+    public
+    function get_doct_datatables($id)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->Allprofiless($id);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecutePgSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+ public
+    function count_doct_datatables($id)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->Allprofiless($id);
+        $Admin = $Crud->ExecutePgSQL($SQL);
+//        print_r($records);exit();
+        return count($Admin);
     }
 
 

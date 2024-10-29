@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Models\BuilderModel;
 use App\Models\Crud;
 use App\Models\Main;
+use App\Models\PharmacyModal;
 
 class Builder extends BaseController
 {
@@ -22,6 +23,7 @@ class Builder extends BaseController
     {
         $data = $this->data;
         $data['page'] = getSegment(2);
+        $BuilderModel = new \App\Models\BuilderModel();
 
         echo view('header', $data);
         if ($data['page'] == 'add') {
@@ -42,6 +44,8 @@ class Builder extends BaseController
             echo view('builder/banners', $data);
 
         } else {
+//            $data['doctors'] = $BuilderModel->Allprofiless('doctors');
+//            print_r($data['doctors'] );exit();
             echo view('builder/index', $data);
         }
         echo view('footer', $data);
@@ -60,7 +64,7 @@ class Builder extends BaseController
         $BuilderModel = new BuilderModel();
         $Data = $BuilderModel->get_datatables();
         $totalfilterrecords = $BuilderModel->count_datatables();
-        print_r($Data);exit();
+//        print_r($Data);exit();
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
@@ -71,7 +75,9 @@ class Builder extends BaseController
             $data[] = isset($record['Alignment']) ? htmlspecialchars($record['Alignment']) : '';
             $data[] = isset($record['Color']) ? htmlspecialchars($record['Color']) : '';
             $data[] = isset($record['Title']) ? htmlspecialchars($record['Title']) : '';
-            $data[] = isset($record['Image']) ? htmlspecialchars($record['Image']) : '';
+            $data[] = isset($record['Image'])
+                ? '<img src="' . load_image('general-banner_' . $record['UID']) . '" style="display: block; padding: 2px; border: 1px solid #145388 !important; border-radius: 3px; width: 150px;">'
+                : '';
             $data[] = '
     <td class="text-end">
         <div class="dropdown">
@@ -132,6 +138,90 @@ class Builder extends BaseController
             </div>
         </div>
     </td>';
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+        echo json_encode($response);
+    }
+    public function fetch_doctors()
+    {
+        $BuilderModel = new BuilderModel();
+        $PharmacyModal = new PharmacyModal();
+        $type='doctors';
+        $Data = $BuilderModel->get_doct_datatables($type);
+        $totalfilterrecords = $BuilderModel->count_doct_datatables($type);
+        print_r($Data);exit();
+        $dataarr = array();
+        $cnt = $_POST['start'];
+
+        foreach ($Data as $record) {
+            $cnt++;
+            $SmsCredits = $BuilderModel->get_profile_options_data_by_id_option($record['UID'], 'sms_credits');
+            $TeleMedicineCredits = $BuilderModel->get_profile_options_data_by_id_option($record['UID'], 'telemedicine_credits');
+            $Sponsor = $BuilderModel->get_profile_options_data_by_id_option($record['UID'], 'sponsor');
+            $Sponsor = (isset($Sponsor) && $Sponsor['Description'] != '') ? $Sponsor['Description'] : 0;
+            $city = $PharmacyModal->getcitybyid($record['City']);
+
+            // Determine row color based on specific conditions
+            $class = ($record['SubDomain'] == '') ? 'background-color: #FFD4DB;' : '';
+            if ($record['MaxVisitDate'] == date("Y-m-d")) {
+                $class = 'background-color: #D7FFCD;';
+            }
+
+            // Check last visit date format
+            $lastVisit = !empty($record['MaxVisitDate']) ? date("d M, Y", strtotime($record['MaxVisitDate'])) : "N/A";
+
+            // Ping icon based on SubDomain availability
+            $ping = ping($record['SubDomain']);
+            $pingicon = $ping ? '<span class="fa fa-check ks-icon btn-success"></span>' : '<span class="fa fa-ban ks-icon btn-danger"></span>';
+
+            // Add all necessary table columns to data array
+            $data = [];
+            $data[] = $cnt;
+            $data[] = '<img src="' . PATH . 'module/load_image/' . str_replace("=", "", base64_encode('profile_' . $record['UID'])) . '" height="50">';
+            $data[] = $record['Name'] . ' ' . $record['MaxVisitDate'];
+            $data[] = '<img src="' . load_image('sponsors_' . $Sponsor) . '" height="45">';
+            $data[] = $record['Email'];
+            $data[] = $city['FullName'];
+
+            // TeleMedicine Credits Column
+            $telemedicineCredits = isset($TeleMedicineCredits['Description']) && $TeleMedicineCredits['Description'] != ''
+                ? '<strong>' . $TeleMedicineCredits['Description'] . '</strong> TeleMedicine Credits<br>
+                <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 50);"><strong>50</strong></a>
+                <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 100);"><strong>100</strong></a>'
+                : '<a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 100);"><strong>Free Credits</strong></a>';
+            $data[] = $telemedicineCredits;
+
+            // SMS Credits Column
+            $smsCredits = isset($SmsCredits['Description']) && $SmsCredits['Description'] != ''
+                ? '<strong>' . $SmsCredits['Description'] . '</strong> SMS Credits<br>
+                <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddSmsCredits(' . $record['UID'] . ', 250);"><strong>250</strong></a>
+                <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddSmsCredits(' . $record['UID'] . ', 500);"><strong>500</strong></a>'
+                : '<a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddSmsCredits(' . $record['UID'] . ', 100);"><strong>Free Credits</strong></a>';
+            $data[] = $smsCredits;
+
+            // Actions Column
+            $actions = '
+            <a class="btn btn-primary-outline ks-no-text" title="Edit Doctor" href="javascript:void(0);" onclick="EditDoctors(' . $record['UID'] . ');"><span class="fa fa-pencil ks-icon"></span></a>
+            <a class="btn btn-danger-outline ks-no-text" title="Delete Doctor" href="javascript:void(0);" onclick="DeleteDoctor(' . $record['UID'] . ');"><span class="fa fa-trash ks-icon"></span></a>';
+
+            if ($record['SubDomain'] != '') {
+                $actions .= '
+                <a class="btn btn-info-outline ks-no-text" title="Website Link" href="http://' . $record['SubDomain'] . '/" target="_blank"><span class="fa fa-globe ks-icon"></span></a>' . $pingicon . '
+                <a class="btn btn-info-outline ks-no-text" title="Send Website Details" href="javascript:void(0);" onclick="SendDoctorProfileInfo(' . $record['UID'] . ');"><span class="fa fa-user ks-icon"></span></a>
+                <a class="btn btn-info-outline ks-no-text" title="Add Profile Metas" href="' . PATH . 'module/websites_profile/meta/' . $record['UID'] . '"><span class="fa fa-info ks-icon"></span></a>
+                <a class="btn btn-info-outline ks-no-text" title="Add Individualised Banner" href="javascript:void(0);" onclick="AddNewBanner(' . $record['UID'] . ');"><span class="fa fa-image ks-icon"></span></a>';
+            }
+
+            $actions .= '<br>Last Visit Date: ' . $lastVisit;
+            $data[] = $actions;
+
             $dataarr[] = $data;
         }
 

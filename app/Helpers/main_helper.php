@@ -12,6 +12,18 @@ if ( !function_exists( 'getSegment' ) ) {
         }
     }
 }
+
+if (!function_exists('ping')) {
+    function ping($host, $port = 80, $timeout = 6)
+    {
+        $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
+        if (!$fsock) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+}
 if ( !function_exists( 'SeoUrl' ) ) {
     function SeoUrl( $url, $path = true )
     {

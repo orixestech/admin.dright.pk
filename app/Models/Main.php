@@ -17,8 +17,7 @@ class Main extends Model
 
     public function DefaultVariable()
     {
-        helper('main');
-        $session = session();
+//        $session = session();
         $data = $this->data;
         $data['path'] = PATH;
         $data['template'] = TEMPLATE;
@@ -26,9 +25,9 @@ class Main extends Model
         $data['segment_a'] = getSegment(1);
         $data['segment_b'] = getSegment(2);
         $data['segment_c'] = getSegment(3);
-        $data['session'] = $session->get();
-        $data['page'] = ($page == '') ? 'home' : $page;
-        CheckLogin($data);
+//        $data['session'] = $session->get();
+//        $data['page'] = ($page == '') ? 'home' : $page;
+//        CheckLogin($data);
         return $data;
     }
 //    public
