@@ -156,9 +156,9 @@ class BuilderModel extends Model
         $Crud = new Crud();
 
         $SQL = $this->Allprofiless($id);
+        $SQL = 'select count(*) from ( '.$SQL.' ) as "MASTERTABLE"';
         $Admin = $Crud->ExecutePgSQL($SQL);
-//        print_r($records);exit();
-        return count($Admin);
+        return $Admin[0]['count'];
     }
 
 

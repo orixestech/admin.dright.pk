@@ -156,7 +156,7 @@ class Builder extends BaseController
         $type='doctors';
         $Data = $BuilderModel->get_doct_datatables($type);
         $totalfilterrecords = $BuilderModel->count_doct_datatables($type);
-        print_r($Data);exit();
+//        print_r($Data);exit();
         $dataarr = array();
         $cnt = $_POST['start'];
 
