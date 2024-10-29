@@ -18,14 +18,11 @@
             <thead>
             <tr>
                 <th>Sr. No</th>
-                <th>RCC ID</th>
-                <th>Full Name</th>
-                <th>City</th>
-                <th>Contact No</th>
-                <th>Branch</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Total Receipts</th>
+                <th>Alignment</th>
+                <th>Color</th>
+                <th>Specialty</th>
+                <th>Image</th>
+
                 <th >Actions</th>
             </tr>
             </thead>
@@ -34,14 +31,11 @@
             <tfoot>
             <tr>
                 <th>Sr. No</th>
-                <th>RCC ID</th>
-                <th>Full Name</th>
-                <th>City</th>
-                <th>Contact No</th>
-                <th>Branch</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Total Receipts</th>
+                <th>Alignment</th>
+                <th>Color</th>
+                <th>Specialty</th>
+                <th>Image</th>
+
                 <th >Actions</th>
             </tr>
             <div class="mt-5" id="Response"></div>
@@ -53,22 +47,22 @@
     <?php echo view('builder/modal/add_banner'); ?>
 
     <script>
-        //$(document).ready(function () {
-        //    $('#record').DataTable({
-        //        "scrollY": "800px",
-        //        "scrollCollapse": true,
-        //        "searching": false,
-        //        "processing": true,
-        //        "serverSide": true,
-        //        "responsive": true,
-        //        "lengthMenu": [[100, 500, 1000, -1], [100, 500, 1000, 'All']],
-        //        "pageLength": 100,
-        //        "autoWidth": true,
-        //        "ajax": {
-        //            "url": "<?php //= $path ?>//builder/get-banners",
-        //            "type": "POST"
-        //        }
-        //    });
+        $(document).ready(function () {
+           $('#record').DataTable({
+               "scrollY": "800px",
+               "scrollCollapse": true,
+               "searching": false,
+               "processing": true,
+               "serverSide": true,
+               "responsive": true,
+               "lengthMenu": [[100, 500, 1000, -1], [100, 500, 1000, 'All']],
+               "pageLength": 100,
+               "autoWidth": true,
+               "ajax": {
+                    "url": "<?= $path ?>builder/get-banners",
+                   "type": "POST"
+               }
+           });
         });
 
     </script>

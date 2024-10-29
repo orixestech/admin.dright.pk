@@ -35,12 +35,13 @@ class BuilderModel extends Model
     public function general_banners()
     {
         $Crud = new Crud();
-        $SQL = 'SELECT general_banners.*, specialities.Name AS Title FROM general_banners 
-    LEFT JOIN specialities ON general_banners.Speciality = specialities.UID
-       ORDER BY general_banners.SystemDate ASC
+        $SQL = 'SELECT `general_banners`.*, `specialities`.`Name` AS Title FROM `general_banners` 
+    LEFT JOIN `specialities` ON `general_banners`.`Speciality` = `specialities`.`UID`
+       ORDER BY `general_banners`.`SystemDate` ASC
 
 ';
 //        $Admin = $Crud->ExecuteSQL($SQL);
+//        print_r($Admin);exit();
         return $SQL;
     }
     public function specialities()
@@ -80,7 +81,7 @@ class BuilderModel extends Model
 
         $SQL = $this->general_banners();
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
+        print_r($records);exit();
         return count($records);
     }
   public

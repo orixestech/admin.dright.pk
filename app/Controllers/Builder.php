@@ -60,6 +60,7 @@ class Builder extends BaseController
         $BuilderModel = new BuilderModel();
         $Data = $BuilderModel->get_datatables();
         $totalfilterrecords = $BuilderModel->count_datatables();
+        print_r($Data);exit();
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
@@ -67,14 +68,10 @@ class Builder extends BaseController
             $cnt++;
             $data = array();
             $data[] = $cnt;
-            $data[] = isset($record['UID']) ? htmlspecialchars($record['UID']) : '';
-            $data[] = isset($record['FullName']) ? htmlspecialchars($record['FullName']) : '';
-            $data[] = isset($record['City']) ? htmlspecialchars($record['City']) : '';
-            $data[] = isset($record['ContactNo']) ? htmlspecialchars($record['ContactNo']) : '';
-            $data[] = isset($record['Branch']) ? htmlspecialchars($record['Branch']) : '';
-            $data[] = isset($record['Category']) ? htmlspecialchars($record['Category']) : '';
-            $data[] = isset($record['Status']) ? htmlspecialchars($record['Status']) : '';
-            $data[] = isset($count) ? htmlspecialchars($count) : '';
+            $data[] = isset($record['Alignment']) ? htmlspecialchars($record['Alignment']) : '';
+            $data[] = isset($record['Color']) ? htmlspecialchars($record['Color']) : '';
+            $data[] = isset($record['Title']) ? htmlspecialchars($record['Title']) : '';
+            $data[] = isset($record['Image']) ? htmlspecialchars($record['Image']) : '';
             $data[] = '
     <td class="text-end">
         <div class="dropdown">
