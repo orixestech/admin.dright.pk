@@ -159,7 +159,7 @@ class Builder extends BaseController
 //        print_r($Data);exit();
         $dataarr = array();
         $cnt = $_POST['start'];
-
+            echo 'ddddd00';exit();
         foreach ($Data as $record) {
             $cnt++;
             $SmsCredits = $BuilderModel->get_profile_options_data_by_id_option($record['UID'], 'sms_credits');
