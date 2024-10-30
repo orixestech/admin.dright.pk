@@ -146,7 +146,7 @@ class Crud extends Model
         //$record = $query->getRowArray();
         if ($view) echo $db->getLastQuery() . "<hr>";
 
-        $db->close();
+        // $db->close();
         return $record;
     }
     public function MultipleRecords($table, $conditions = [])

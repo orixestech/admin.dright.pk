@@ -91,7 +91,6 @@ class Home extends BaseController
 
     public function system_user_login_submit()
     {
-
         $Email = $this->request->getVar('inputEmail');
         $password = $this->request->getVar('Password');
 
@@ -101,12 +100,10 @@ class Home extends BaseController
         $response = array();
         $table = 'system_users';
         $password = $Main->CRYPT($password, 'hide');
-//        print_r($password);
-//        exit();
         $where = array("Email" => $Email, "Password" => $password);
+        
         $Record = $Crud->SingleRecord($table, $where);
-//                print_r($Record['UID']);exit();
-        //        echo 'dddddd';exit();
+   
         if (!empty($Record['UID'])) {
             $SessionArray = [
                 'UID' => $Record['UID'],
@@ -116,7 +113,7 @@ class Home extends BaseController
                 'UserType' => '',
                 'logged_in' => TRUE
             ];
-            print_r($SessionArray);exit();
+            //  print_r($SessionArray);exit();
             $session->set($SessionArray);
             $response['status'] = "success";
             $response['message'] = "You are successfully logged";
@@ -124,7 +121,8 @@ class Home extends BaseController
             $response['status'] = "fail";
             $response['message'] = "Invalid Login Credentials, Please Try again...";
         }
-
+        // $response['status'] = "fail";
+        // $response['message'] = "Invalid Login Credentials, Please Try again...";
         echo json_encode($response);
     }
 

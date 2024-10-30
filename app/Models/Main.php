@@ -17,7 +17,7 @@ class Main extends Model
 
     public function DefaultVariable()
     {
-//        $session = session();
+        //        $session = session();
         $data = $this->data;
         $data['path'] = PATH;
         $data['template'] = TEMPLATE;
@@ -25,26 +25,11 @@ class Main extends Model
         $data['segment_a'] = getSegment(1);
         $data['segment_b'] = getSegment(2);
         $data['segment_c'] = getSegment(3);
-//        $data['session'] = $session->get();
-//        $data['page'] = ($page == '') ? 'home' : $page;
-//        CheckLogin($data);
+        //        $data['session'] = $session->get();
+        //    $data['page'] = ($page == '') ? 'home' : $page;
+        //CheckLogin($data);
         return $data;
     }
-//    public
-//
-//    function CRYPT( $q, $status ) {
-//        if ( $status == 'hide' ) {
-//            $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
-//            $qEncoded = base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), $q, MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ) );
-//            return ( $qEncoded );
-//        }
-//
-//        if ( $status == 'show' ) {
-//            $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
-//            $qDecoded = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), base64_decode( $q ), MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ), "\0" );
-//            return ( $qDecoded );
-//        }
-//    }
     function CRYPT($q, $status)
     {
         $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
@@ -66,13 +51,14 @@ class Main extends Model
 
     public
 
-    function SeoUrl( $url ) {
-        $url = preg_replace( '/[^a-zA-Z0-9_\/]/', '-', trim( $url ) );
-        $url = strtolower( $url );
-        $url = str_replace( "--", "-", $url );
-        $url = str_replace( "--", "-", $url );
-        $url = str_replace( "--", "-", $url );
-        return base_url( $url );
+    function SeoUrl($url)
+    {
+        $url = preg_replace('/[^a-zA-Z0-9_\/]/', '-', trim($url));
+        $url = strtolower($url);
+        $url = str_replace("--", "-", $url);
+        $url = str_replace("--", "-", $url);
+        $url = str_replace("--", "-", $url);
+        return base_url($url);
     }
     public function LookupsOption($key, $id)
     {
@@ -102,8 +88,9 @@ class Main extends Model
 
     public
 
-    function RandFileName() {
-        $key = substr( md5( rand( 100, 9999999 ) . "|" . date( "U" ) ), 10, 10 );
+    function RandFileName()
+    {
+        $key = substr(md5(rand(100, 9999999) . "|" . date("U")), 10, 10);
         return $key;
     }
 }
