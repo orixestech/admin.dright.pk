@@ -80,7 +80,7 @@ class Crud extends Model
         $records = $db->query($Query)->getResult('array');
         if ($view)
             echo $db->getLastQuery() . "<hr>";
-        $db->close();
+        // $db->close();
         return $records;
     }
 
@@ -109,7 +109,7 @@ class Crud extends Model
             echo $QUERY;
         }
         $insertID = $db->insertID();
-        $db->close();
+        // $db->close();
         return $insertID;
     }
 
@@ -122,7 +122,7 @@ class Crud extends Model
             $builder->where($where);
         }
         $builder->delete();
-        $db->close();
+        // $db->close();
 
         return true;
     }
@@ -176,8 +176,7 @@ class Crud extends Model
         $builder->update($records);
         // echo $db->getLastQuery() . "<hr>";
 
-
-        $db->close();
+        // $db->close();
         return true;
     }
 
@@ -207,7 +206,7 @@ class Crud extends Model
         }
 
         //echo $db->getLastQuery() . "<hr>";
-        $db->close();
+        // $db->close();
         return $records;
     }
 

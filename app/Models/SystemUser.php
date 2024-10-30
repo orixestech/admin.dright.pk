@@ -19,7 +19,7 @@ class SystemUser extends Model
     public function systemusers()
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `system_users` where `Archive`=\'0\' Order By `SystemDate` DESC';
+        $SQL = 'SELECT * FROM `system_users` where `Archive`=\'0\' AND `Email`!=\'info@orixestech.com\' Order By `SystemDate` DESC';
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }

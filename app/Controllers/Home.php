@@ -43,8 +43,6 @@ class Home extends BaseController
     {
         $session = session();
         $Categories = $this->request->getVar('Categories');
-
-
         $AllFilter = array(
             'Categories' => $Categories,
 
@@ -61,6 +59,11 @@ class Home extends BaseController
     }
 
 
+    /**
+     * Clears the given session variable.
+     *
+     * @return JSON
+     */
     public
     function clear_session()
     {
@@ -75,10 +78,14 @@ class Home extends BaseController
         echo json_encode($response);
     }
 
+    /**
+     * Displays the login view.
+     *
+     * Loads the login view and passes the necessary data to it for rendering.
+     */
     public function login()
     {
         $data = $this->data;
-        print_r($data);
         echo view('login', $data);
     }
 
@@ -90,6 +97,15 @@ class Home extends BaseController
         echo view('footer', $data);
     }
 
+    /**
+     * Handles the login process for the system users
+     *
+     * Retrieves the input email and password from the request object, encrypts the password, and then
+     * checks for a matching record in the system_users table. If a match is found, sets the session
+     * variables and returns a success response, otherwise returns a fail response.
+     *
+     * @return mixed
+     */
     public function system_user_login_submit()
     {
         $Email = $this->request->getVar('inputEmail');
@@ -97,14 +113,14 @@ class Home extends BaseController
 
         $Crud = new Crud();
         $Main = new Main();
-        
+
         $response = array();
         $table = 'system_users';
         $password = $Main->CRYPT($password, 'hide');
         $where = array("Email" => $Email, "Password" => $password);
-        
+
         $Record = $Crud->SingleRecord($table, $where);
-   
+
         if (!empty($Record['UID'])) {
             $SessionArray = [
                 'UID' => $Record['UID'],
@@ -116,8 +132,10 @@ class Home extends BaseController
             ];
             //  print_r($SessionArray);exit();
             $session = session();
-            
+
             $session->set("Profile", $SessionArray);
+            $_SESSION['Profile'] = $SessionArray;
+            // $session->set("Profile", $SessionArray);
 
             $response['status'] = "success";
             $response['message'] = "You are successfully logged";
@@ -128,14 +146,19 @@ class Home extends BaseController
         }
         // $response['status'] = "fail";
         // $response['message'] = "Invalid Login Credentials, Please Try again...";
-        echo json_encode($response)."----------";
+        echo json_encode($response);
     }
 
+    /**
+     * Destroys the session and redirects to the login page
+     *
+     * @return void
+     */
     public function logout()
     {
         $data = $this->data;
-        $session = session();
-        $session->destroy();
+        // $session = session();
+        // $session->destroy();
         header("Location: " . $data['path'] . "login");
         exit;
     }
