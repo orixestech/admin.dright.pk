@@ -78,6 +78,7 @@ class Home extends BaseController
     public function login()
     {
         $data = $this->data;
+        print_r($data);
         echo view('login', $data);
     }
 
@@ -96,7 +97,7 @@ class Home extends BaseController
 
         $Crud = new Crud();
         $Main = new Main();
-        $session = session();
+        
         $response = array();
         $table = 'system_users';
         $password = $Main->CRYPT($password, 'hide');
@@ -114,16 +115,20 @@ class Home extends BaseController
                 'logged_in' => TRUE
             ];
             //  print_r($SessionArray);exit();
-            $session->set($SessionArray);
+            $session = session();
+            
+            $session->set("Profile", $SessionArray);
+
             $response['status'] = "success";
             $response['message'] = "You are successfully logged";
+            $response['session'] = $session->get();
         } else {
             $response['status'] = "fail";
             $response['message'] = "Invalid Login Credentials, Please Try again...";
         }
         // $response['status'] = "fail";
         // $response['message'] = "Invalid Login Credentials, Please Try again...";
-        echo json_encode($response);
+        echo json_encode($response)."----------";
     }
 
     public function logout()

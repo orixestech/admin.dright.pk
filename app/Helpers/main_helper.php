@@ -66,14 +66,14 @@ if (!function_exists('load_image')) {
 if ( !function_exists( 'CheckLogin' ) ) {
     function CheckLogin( $data )
     {
+        //print_r($data);
         $allowpages = array ( 'login', 'login-form-submit', 'file-cdn' );
         if ( !in_array( $data[ 'segment_a' ], $allowpages ) ) {
-            $session = session();
-            $session = $session->get();
-            //print_r($session);
+            $session = $data['session'];
             if ( !isset( $session[ 'UID' ] ) ) {
-                echo '<script type="text/javascript"> setTimeout(function(){ location.href="' . PATH . 'login" }, 100)</script>';
-                exit;
+                echo "session not logged in";
+                // echo '<script type="text/javascript"> setTimeout(function(){ location.href="' . PATH . 'login" }, 100)</script>';
+                // exit;
             } else {
                 if ( $session[ 'Email' ] != 'info@orixestech.com' ) {
 //                    if ( $session[ 'UserType' ] != 'admin' ) {

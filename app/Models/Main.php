@@ -17,7 +17,7 @@ class Main extends Model
 
     public function DefaultVariable()
     {
-        //        $session = session();
+        $session = session();
         $data = $this->data;
         $data['path'] = PATH;
         $data['template'] = TEMPLATE;
@@ -25,9 +25,10 @@ class Main extends Model
         $data['segment_a'] = getSegment(1);
         $data['segment_b'] = getSegment(2);
         $data['segment_c'] = getSegment(3);
-        //        $data['session'] = $session->get();
+        $data['session'] = $session->get();
+        $data['sessionxxxx'] = $_SESSION;
         //    $data['page'] = ($page == '') ? 'home' : $page;
-        //CheckLogin($data);
+        CheckLogin($data);
         return $data;
     }
     function CRYPT($q, $status)
