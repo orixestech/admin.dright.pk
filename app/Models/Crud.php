@@ -111,8 +111,36 @@ class Crud extends Model
         $insertID = $db->insertID();
         // $db->close();
         return $insertID;
+    }    public
+    function AdddRecord($table, $records, $view = false)
+    {
+        $db = \Config\Database::connect('website_db');
+        $db->db_debug = false;
+        $builder = $db->table($table);
+        $builder->insert($records);
+        if ($view) {
+            $QUERY = $db->getLastQuery() . ";<br>";
+            // $Main = new Main();
+            //  $Main->SendEmail('info@orixestech.com', 'Umrah Furas :: Insert Query Error', $QUERY);
+            echo $QUERY;
+        }
+        $insertID = $db->insertID();
+        // $db->close();
+        return $insertID;
     }
+    public
+    function DeleteeRecord($table, $where)
+    {
+        $db = \Config\Database::connect('website_db');
+        $builder = $db->table($table);
+        if (count($where) > 0) {
+            $builder->where($where);
+        }
+        $builder->delete();
+        $db->close();
 
+        return true;
+    }
     public
     function DeleteRecord($table, $where)
     {
@@ -131,6 +159,28 @@ class Crud extends Model
     function SingleRecord($table, $wheres = array(), $view = false)
     {
         $db = \Config\Database::connect();
+        $builder = $db->table($table);
+
+        $builder->select('*');
+        if (count($wheres) > 0) {
+            $builder->where($wheres);
+        }
+        $query = $builder->get();
+        $record = (array)$query->getRowArray();
+        if (!is_array($record)) {
+            $record = array();
+        }
+        //print_r($record);
+        //$record = $query->getRowArray();
+        if ($view) echo $db->getLastQuery() . "<hr>";
+
+        // $db->close();
+        return $record;
+    }
+    public
+    function SingleeRecord($table, $wheres = array(), $view = false)
+    {
+        $db = \Config\Database::connect('website_db');
         $builder = $db->table($table);
 
         $builder->select('*');
@@ -169,6 +219,20 @@ class Crud extends Model
     function UpdateRecord($table, $records, $where)
     {
         $db = \Config\Database::connect();
+        $builder = $db->table($table);
+        if (count($where) > 0) {
+            $builder->where($where);
+        }
+        $builder->update($records);
+        // echo $db->getLastQuery() . "<hr>";
+
+        // $db->close();
+        return true;
+    }
+    public
+    function UpdateeRecord($table, $records, $where)
+    {
+        $db = \Config\Database::connect('website_db');
         $builder = $db->table($table);
         if (count($where) > 0) {
             $builder->where($where);

@@ -60,8 +60,8 @@ if (!function_exists('load_image')) {
     {
         global $CI;
 
-        $path = config_item('base_url');
-        $template = config_item('template_url');
+        $path = PATH;
+//        $template = Template;
 
         $code = base64_encode($key);
         $code = str_replace("=", "", $code);

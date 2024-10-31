@@ -193,17 +193,17 @@ class Builder extends BaseController
             // TeleMedicine Credits Column
             $telemedicineCredits = isset($TeleMedicineCredits[0]['Description']) && $TeleMedicineCredits[0]['Description'] != ''
                 ? '<strong>' . $TeleMedicineCredits[0]['Description'] . '</strong> TeleMedicine Credits<br>
-                <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 50);"><strong>50</strong></a>
-                <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 100);"><strong>100</strong></a>'
-                : '<a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 100);"><strong>Free Credits</strong></a>';
+                <button class="btn btn-outline-success" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 50);"><strong>50</strong></button>
+                <button  class="btn btn-outline-success" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 100);"><strong>100</strong></button>'
+                : '<button  class="btn btn-outline-success" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 100);"><strong>Free Credits</strong></button>';
             $data[] = $telemedicineCredits;
 
             // SMS Credits Column
             $smsCredits = isset($SmsCredits[0]['Description']) && $SmsCredits[0]['Description'] != ''
                 ? '<strong>' . $SmsCredits[0]['Description'] . '</strong> SMS Credits<br>
-                <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddSmsCredits(' . $record['UID'] . ', 250);"><strong>250</strong></a>
-                <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddSmsCredits(' . $record['UID'] . ', 500);"><strong>500</strong></a>'
-                : '<a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddSmsCredits(' . $record['UID'] . ', 100);"><strong>Free Credits</strong></a>';
+                <button  class="btn btn-gradient-warning" onclick="AddSmsCredits(' . $record['UID'] . ', 250);"><strong>250</strong></button>
+                <button  class="btn btn-gradient-warning" onclick="AddSmsCredits(' . $record['UID'] . ', 500);"><strong>500</strong></button>'
+                : '<button  class="btn btn-gradient-warning" onclick="AddSmsCredits(' . $record['UID'] . ', 100);"><strong>Free Credits</strong></button>';
             $data[] = $smsCredits;
 
 
@@ -217,7 +217,7 @@ class Builder extends BaseController
         </button>
         <div class="dropdown-menu">
             <a class="dropdown-item" onclick="EditDoctors(' . $record['UID'] . ');">Edit</a>
-            <a class="dropdown-item" onclick="DeleteImage(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+            <a class="dropdown-item" onclick="DeleteDoctor(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
 
             if ($record['SubDomain'] != '') {
                 $data[] .= '
@@ -254,6 +254,76 @@ class Builder extends BaseController
         $response = array();
         $response['status'] = 'success';
         $response['message'] = ' Deleted Successfully...!';
+        echo json_encode($response);
+    }
+    public function delete_doctor()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+//        print_r($id);exit();
+        $Crud->DeleteeRecord('public."profiles"', array("UID" => $id));
+        $Crud->DeleteeRecord('public."profile_metas"', array("ProfileUID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = ' Deleted Successfully...!';
+        echo json_encode($response);
+    }
+    public function add_telemedicine_credits()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+        $record = array();
+
+        $newcredits = $_POST['newcredits'];
+//        print_r($id);exit();
+      $option=  $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id , 'Name'=>'telemedicine_credits'));
+        $oldcredits = 0;
+        if (isset($option['Description'])) {
+            $oldcredits = $option['Description'];
+        }
+
+
+        $Crud->DeleteeRecord('public."options"', array("ProfileUID" => $id , 'Name'=>'telemedicine_credits'));
+        $record['ProfileUID']=$id;
+        $record['Name']='telemedicine_credits';
+        $record['Description']=$oldcredits + $newcredits;
+        $RecordId = $Crud->AdddRecord('public."options"', $record);
+        if (isset($RecordId) && $RecordId > 0) {
+            $response['status'] = 'success';
+            $response['message'] = 'Telemedicine Credits Added Successfully...!';
+        } else {
+            $response['status'] = 'fail';
+            $response['message'] = 'Data Didnt Submitted Successfully...!';
+        }
+        echo json_encode($response);
+    }
+  public function add_sms_credits()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+        $record = array();
+
+        $newcredits = $_POST['newcredits'];
+//        print_r($id);exit();
+      $option=  $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id , 'Name'=>'sms_credits'));
+        $oldcredits = 0;
+        if (isset($option['Description'])) {
+            $oldcredits = $option['Description'];
+        }
+
+
+        $Crud->DeleteeRecord('public."options"', array("ProfileUID" => $id , 'Name'=>'sms_credits'));
+        $record['ProfileUID']=$id;
+        $record['Name']='sms_credits';
+        $record['Description']=$oldcredits + $newcredits;
+        $RecordId = $Crud->AdddRecord('public."options"', $record);
+        if (isset($RecordId) && $RecordId > 0) {
+            $response['status'] = 'success';
+            $response['message'] = 'SMS Credits Added Successfully...!';
+        } else {
+            $response['status'] = 'fail';
+            $response['message'] = 'Data Didnt Submitted Successfully...!';
+        }
         echo json_encode($response);
     }
 

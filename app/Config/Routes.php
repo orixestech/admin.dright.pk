@@ -40,6 +40,8 @@ $routes->group('builder', static function ($routes) {
     $routes->post('get-doctor', 'Builder::fetch_doctors');
     $routes->get('dashboard', 'Builder::dashboard');
     $routes->post('submit', 'Builder::builder_form_submit');
+    $routes->post('add_telemedicine_credits', 'Builder::add_telemedicine_credits');
+    $routes->post('add_sms_credits', 'Builder::add_sms_credits');
     $routes->post('submit-image', 'Builder::image_form_submit');
     $routes->post('delete', 'Builder::delete');
     $routes->post('delete-doctor', 'Builder::delete_doctor');
