@@ -49,7 +49,7 @@ class PharmacyModal extends Model
     public function getcitybyid($id)
     {
         $Crud = new Crud();
-        $SQL = "SELECT * FROM `cities` where `UID` = '.$id.'ORDER BY `cities`.`FullName` ASC";
+        $SQL = "SELECT * FROM `cities` WHERE `UID` = '" . $id . "' ORDER BY `FullName` ASC";
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin;
     }

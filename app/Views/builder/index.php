@@ -16,13 +16,14 @@
             <thead>
             <tr>
                 <th>Sr No</th>
-                <th>Profile</th>
+<!--                <th>Profile</th>-->
                 <th>Name</th>
-                <th>Sponsors</th>
+<!--                <th>Sponsors</th>-->
                 <th>Email</th>
                 <th>City</th>
                 <th>Telemedicine Credits</th>
                 <th>SMS Credits</th>
+                <th>Last Visit Date</th>
 
                 <th>Actions</th>
             </tr>
@@ -32,13 +33,14 @@
             <tfoot>
             <tr>
                 <th>Sr No</th>
-                <th>Profile</th>
+<!--                <th>Profile</th>-->
                 <th>Name</th>
-                <th>Sponsors</th>
+<!--                <th>Sponsors</th>-->
                 <th>Email</th>
                 <th>City</th>
                 <th>Telemedicine Credits</th>
                 <th>SMS Credits</th>
+                <th>Last Visit Date</th>
 
                 <th>Actions</th>
             </tr>

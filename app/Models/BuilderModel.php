@@ -36,9 +36,11 @@ class BuilderModel extends Model
         $Crud = new Crud();
         $SQL = 'SELECT *
         FROM "public"."options"  
-        where "public"."options"."ProfileUID" = \'' . $id . '\' And "public"."options"."Name" = \'' . $option . '\' ';
+        where "public"."options"."ProfileUID" = \'' . $id . '\' And "public"."options"."Name" = \'' . $option . '\'; ';
 
-        $Admin = $Crud->ExecuteSQL($SQL);
+        $Admin = $Crud->ExecutePgSQL($SQL);
+//        print_r($Admin);exit(
+//    );
         return $Admin;
     }
     public function general_banners()

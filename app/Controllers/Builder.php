@@ -156,71 +156,82 @@ class Builder extends BaseController
         $type='doctors';
         $Data = $BuilderModel->get_doct_datatables($type);
         $totalfilterrecords = $BuilderModel->count_doct_datatables($type);
+//        $SmsCredits = $BuilderModel->get_profile_options_data_by_id_option(315, 'sms_credits');
+
 //        print_r($Data);exit();
         $dataarr = array();
         $cnt = $_POST['start'];
-            echo 'ddddd00';exit();
+//            echo 'ddddd00';exit();
         foreach ($Data as $record) {
             $cnt++;
             $SmsCredits = $BuilderModel->get_profile_options_data_by_id_option($record['UID'], 'sms_credits');
             $TeleMedicineCredits = $BuilderModel->get_profile_options_data_by_id_option($record['UID'], 'telemedicine_credits');
             $Sponsor = $BuilderModel->get_profile_options_data_by_id_option($record['UID'], 'sponsor');
-            $Sponsor = (isset($Sponsor) && $Sponsor['Description'] != '') ? $Sponsor['Description'] : 0;
+            $Sponsor = (isset($Sponsor[0]['UID']) && $Sponsor[0]['Description'] != '') ? $Sponsor[0]['Description'] : 0;
             $city = $PharmacyModal->getcitybyid($record['City']);
 
             // Determine row color based on specific conditions
             $class = ($record['SubDomain'] == '') ? 'background-color: #FFD4DB;' : '';
-            if ($record['MaxVisitDate'] == date("Y-m-d")) {
+            if ($record['LastVisitDateTime'] == date("Y-m-d")) {
                 $class = 'background-color: #D7FFCD;';
             }
 
             // Check last visit date format
-            $lastVisit = !empty($record['MaxVisitDate']) ? date("d M, Y", strtotime($record['MaxVisitDate'])) : "N/A";
+            $lastVisit = !empty($record['LastVisitDateTime']) ? date("d M, Y", strtotime($record['LastVisitDateTime'])) : "N/A";
 
-            // Ping icon based on SubDomain availability
-            $ping = ping($record['SubDomain']);
-            $pingicon = $ping ? '<span class="fa fa-check ks-icon btn-success"></span>' : '<span class="fa fa-ban ks-icon btn-danger"></span>';
+//            $ping = ping($record['SubDomain']);
+            $pingicon = isset($record['SubDomain']) ? '<span class="fa fa-check ks-icon btn-success"></span>' : '<span class="fa fa-ban ks-icon btn-danger"></span>';
 
             // Add all necessary table columns to data array
             $data = [];
             $data[] = $cnt;
-            $data[] = '<img src="' . PATH . 'module/load_image/' . str_replace("=", "", base64_encode('profile_' . $record['UID'])) . '" height="50">';
-            $data[] = $record['Name'] . ' ' . $record['MaxVisitDate'];
-            $data[] = '<img src="' . load_image('sponsors_' . $Sponsor) . '" height="45">';
+            $data[] = $record['Name'];
+//            $data[] = '<img src="' . load_image('sponsors_' . $Sponsor) . '" height="45">';
             $data[] = $record['Email'];
-            $data[] = $city['FullName'];
+            $data[] = $city[0]['FullName'];
 
             // TeleMedicine Credits Column
-            $telemedicineCredits = isset($TeleMedicineCredits['Description']) && $TeleMedicineCredits['Description'] != ''
-                ? '<strong>' . $TeleMedicineCredits['Description'] . '</strong> TeleMedicine Credits<br>
+            $telemedicineCredits = isset($TeleMedicineCredits[0]['Description']) && $TeleMedicineCredits[0]['Description'] != ''
+                ? '<strong>' . $TeleMedicineCredits[0]['Description'] . '</strong> TeleMedicine Credits<br>
                 <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 50);"><strong>50</strong></a>
                 <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 100);"><strong>100</strong></a>'
                 : '<a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddTeleMedicineCredits(' . $record['UID'] . ', 100);"><strong>Free Credits</strong></a>';
             $data[] = $telemedicineCredits;
 
             // SMS Credits Column
-            $smsCredits = isset($SmsCredits['Description']) && $SmsCredits['Description'] != ''
-                ? '<strong>' . $SmsCredits['Description'] . '</strong> SMS Credits<br>
+            $smsCredits = isset($SmsCredits[0]['Description']) && $SmsCredits[0]['Description'] != ''
+                ? '<strong>' . $SmsCredits[0]['Description'] . '</strong> SMS Credits<br>
                 <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddSmsCredits(' . $record['UID'] . ', 250);"><strong>250</strong></a>
                 <a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddSmsCredits(' . $record['UID'] . ', 500);"><strong>500</strong></a>'
                 : '<a href="javascript:void(0);" class="btn btn-primary-outline btn-sm" onclick="AddSmsCredits(' . $record['UID'] . ', 100);"><strong>Free Credits</strong></a>';
             $data[] = $smsCredits;
 
-            // Actions Column
-            $actions = '
-            <a class="btn btn-primary-outline ks-no-text" title="Edit Doctor" href="javascript:void(0);" onclick="EditDoctors(' . $record['UID'] . ');"><span class="fa fa-pencil ks-icon"></span></a>
-            <a class="btn btn-danger-outline ks-no-text" title="Delete Doctor" href="javascript:void(0);" onclick="DeleteDoctor(' . $record['UID'] . ');"><span class="fa fa-trash ks-icon"></span></a>';
+
+
+            $data[] = $lastVisit;
+            $data[] = '
+<td class="text-end">
+    <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Actions
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" onclick="EditDoctors(' . $record['UID'] . ');">Edit</a>
+            <a class="dropdown-item" onclick="DeleteImage(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
 
             if ($record['SubDomain'] != '') {
-                $actions .= '
-                <a class="btn btn-info-outline ks-no-text" title="Website Link" href="http://' . $record['SubDomain'] . '/" target="_blank"><span class="fa fa-globe ks-icon"></span></a>' . $pingicon . '
-                <a class="btn btn-info-outline ks-no-text" title="Send Website Details" href="javascript:void(0);" onclick="SendDoctorProfileInfo(' . $record['UID'] . ');"><span class="fa fa-user ks-icon"></span></a>
-                <a class="btn btn-info-outline ks-no-text" title="Add Profile Metas" href="' . PATH . 'module/websites_profile/meta/' . $record['UID'] . '"><span class="fa fa-info ks-icon"></span></a>
-                <a class="btn btn-info-outline ks-no-text" title="Add Individualised Banner" href="javascript:void(0);" onclick="AddNewBanner(' . $record['UID'] . ');"><span class="fa fa-image ks-icon"></span></a>';
+                $data[] .= '
+            <a class="dropdown-item" href="http://' . $record['SubDomain'] . '/" target="_blank">Website Link</a>
+            <a class="dropdown-item" onclick="SendDoctorProfileInfo(' . $record['UID'] . ');">Send Website Detail</a>
+            <a class="dropdown-item" href="' . PATH . 'module/websites_profile/meta/' . $record['UID'] . '">Add Profile Meta</a>
+            <a class="dropdown-item" onclick="AddNewBanner(' . $record['UID'] . ');">Add Individualized Banner</a>';
             }
 
-            $actions .= '<br>Last Visit Date: ' . $lastVisit;
-            $data[] = $actions;
+            $data[] .= '
+        </div>
+    </div>
+</td>';
+
 
             $dataarr[] = $data;
         }
