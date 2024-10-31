@@ -286,7 +286,7 @@ class Builder extends BaseController
         $id = $_POST['id'];
         $record = array();
 
-        $newcredits = $_getVar['newcredits'];
+        $newcredits = $_POST['newcredits'];
 //        print_r($id);exit();
         $option = $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id, 'Name' => 'telemedicine_credits'));
         $oldcredits = 0;
@@ -316,7 +316,7 @@ class Builder extends BaseController
         $id = $_POST['id'];
         $record = array();
 
-        $newcredits = $_getVar['newcredits'];
+        $newcredits = $_POST['newcredits'];
 //        print_r($id);exit();
         $option = $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id, 'Name' => 'sms_credits'));
         $oldcredits = 0;
@@ -392,6 +392,7 @@ class Builder extends BaseController
         $ContactNo = $this->request->getVar('ContactNo');
 
         $file = file_get_contents($_FILES['profile']['tmp_name']);
+        echo 'dddd';exit();
 
         if ($id == 0) {
 

@@ -143,7 +143,7 @@
                     <label for="validationCustom05">Profile</label>
 
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="Profile" name="Profile">
+                        <input type="file" class="custom-file-input" id="profile" name="profile">
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
                 </div>
