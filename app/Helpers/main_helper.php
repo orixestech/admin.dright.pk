@@ -69,13 +69,34 @@ if (!function_exists('load_image')) {
         return $URL;
     }
 }
-if (!function_exists('CheckLogin')) {
+if ( !function_exists( 'CheckLogin' ) ) {
+    function CheckLogin( $data )
+    {
+        $allowpages = array ( 'login', 'login-form-submit' );
+        if ( !in_array( $data[ 'segment_a' ], $allowpages ) ) {
+            $session = session();
+            $session = $session->get();
+            //print_r($session);
+            if ( !isset( $session[ 'UID' ] ) ) {
+                echo '<script type="text/javascript"> setTimeout(function(){ location.href="' . PATH . 'login" }, 100)</script>';
+                exit;
+            } else {
+                if ( $session[ 'Email' ] != 'info@orixestech.com' ) {
+//                    if ( $session[ 'UserType' ] != 'admin' ) {
+//                        sleep(rand(2, 5));
+//                    }
+                }
+            }
+        }
+    }
+}
+if (!function_exists('ChecckLogin')) {
     /**
      * Check if user is logged in. If not, redirect to login page.
      *
      * @param array $data Data from current_url()
      */
-    function CheckLogin($data)
+    function ChecckLogin($data)
     {
         //print_r($data);
         $allowpages = array('login', 'login-form-submit', 'file-cdn');

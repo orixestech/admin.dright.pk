@@ -9,7 +9,7 @@
             <div class="form-row">
                 <div class="col-md-3 mb-3">
                     <label for="validationCustom04">FullName</label>
-                    <input type="text" class="form-control" name="RCC[Name]" id="validationCustom04"
+                    <input type="text" class="form-control" name="name" id="validationCustom04"
                            placeholder="Full Name" value="<?= ((isset($PAGE['Name'])) ? $PAGE['Name'] : '') ?>"
                            required="">
                     <div class="invalid-feedback">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="validationCustom04">Password</label>
-                    <input type="text" class="form-control" name="RCC[Password]" id="validationCustom04"
+                    <input type="text" class="form-control" name="password" id="validationCustom04"
                            placeholder="Password" value="<?= ((isset($PAGE['Password'])) ? $PAGE['Password'] : '') ?>"
                            required="">
                     <div class="invalid-feedback">
@@ -48,7 +48,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4">City:</label>
                         <div class="col-sm-12">
-                            <select id="city" name="RCC[City]" class="form-control"
+                            <select id="city" name="city" class="form-control"
                                     data-validation-engine="validate[required]">
                                 <option value="">Please Select</option>
                                 <?php foreach ($Cities as $record) { ?>
@@ -61,7 +61,7 @@
                 <div class="col-md-3 mb-3">
                     <label for="validationCustom02">Specialities</label>
                     <div class="col-sm-12">
-                        <select id="specialities" name="specialities" class="form-control"
+                        <select id="specialities" name="speciality" class="form-control"
                                 data-validation-engine="validate[required]">
                             <option value="">Please Select</option>
                             <?php foreach ($specialities as $record) { ?>
@@ -74,7 +74,7 @@
                 <div class="col-md-3 mb-3">
                     <label for="validationCustom02">Sponsors</label>
                     <div class="col-sm-12">
-                        <select id="city" name="RCC[City]" class="form-control"
+                        <select id="city" name="sponsor" class="form-control"
                                 data-validation-engine="validate[required]">
                             <option value="">Please Select</option>
                             <?php foreach ($Sponsors as $record) { ?>

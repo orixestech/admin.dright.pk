@@ -147,12 +147,12 @@
                         <span>Documentations</span>
                     </a>
                 </li>
-                <li >
-                    <a href="<?= $path ?>logout" >  <span class="menu-tab-icon">
-                            <i data-feather="clock"></i>
-                        </span> <span>Logout</span></a>
-
-                </li>
+<!--                <li >-->
+<!--                    <a href="--><?php //= $path ?><!--logout" >  <span class="menu-tab-icon">-->
+<!--                            <i data-feather="clock"></i>-->
+<!--                        </span> <span>Logout</span></a>-->
+<!---->
+<!--                </li>-->
 
             </ul>
         </div>
