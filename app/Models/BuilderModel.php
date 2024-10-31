@@ -61,6 +61,12 @@ class BuilderModel extends Model
         $SQL = "SELECT * FROM `specialities` ORDER BY `specialities`.`Name` ASC";
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin;
+    }   public function get_all_sponsors()
+    {
+        $Crud = new Crud();
+        $SQL = "SELECT * FROM `sponsors` WHERE `Archive` = '0' ORDER BY `sponsors`.`OrderID` ASC";
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
     }
     public function Allprofiless($ID)
     {
