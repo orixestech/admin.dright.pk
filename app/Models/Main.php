@@ -15,7 +15,7 @@ class Main extends Model
         $this->data = $this->DefaultVariable();
     }
 
-    public function DefaultVariable()
+    public function DefaultVaiable()
     {
         $session = session();
         $data = $this->data;
@@ -29,6 +29,29 @@ class Main extends Model
         $data['sessionxxxx'] = $_SESSION;
         //    $data['page'] = ($page == '') ? 'home' : $page;
         CheckLogin($data);
+        return $data;
+    }
+    public function DefaultVariable()
+    {
+        helper('main');
+        $session = session();
+        $data = $this->data;
+        $data['path'] = PATH;
+        $data['template'] = TEMPLATE;
+        $page = getSegment(1);
+        $data['segment_a'] = getSegment(1);
+        $data['segment_b'] = getSegment(2);
+        $data['segment_c'] = getSegment(3);
+        $data['session'] = $session->get();
+        $data['page'] = ($page == '') ? 'home' : $page;
+
+        if ($data['segment_a'] != 'use-login-submit' && $data['segment_a'] != 'login') {
+            if (!isset($data['session']['logged_in'])) {
+                $session->destroy();
+                header("Location: " . $data['path'] . "login");
+                exit;
+            }
+        }
         return $data;
     }
     function CRYPT($q, $status)

@@ -18,6 +18,7 @@ $routes->post('fruit-data', 'HealthCare::fetch_fruit');
 $routes->post('vegetable-data', 'HealthCare::fetch_vegetable');
 $routes->post('miscellaneous-data', 'HealthCare::fetch_miscellaneous');
 $routes->post('/clear_session', 'Home::clear_session');
+$routes->post('/use-login-submit', 'Home::use_login_submit');
 
 $routes->group('support-ticket', static function ($routes) {
     $routes->get('/', 'SupportTickets::index');

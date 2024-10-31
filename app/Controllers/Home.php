@@ -86,7 +86,7 @@ class Home extends BaseController
     public function login()
     {
         $data = $this->data;
-        echo view('login', $data);
+        echo view('login1', $data);
     }
 
     public function table()
@@ -162,4 +162,45 @@ class Home extends BaseController
         header("Location: " . $data['path'] . "login");
         exit;
     }
+
+    public function use_login_submit()
+    {
+//{           echo 'ffff' ;exit();
+    $inputEmail = $this->request->getVar('UserName');
+    $password = $this->request->getVar('Password');
+
+    $Crud = new Crud();
+    $Main = new Main();
+
+    $password = $Main->CRYPT($password, 'hide');
+
+    $Crud = new Crud();
+    $session = session();
+    $response = array();
+    $table = 'system_users';
+    $where = array("Email" => $inputEmail, "Password" => $password);
+    $Record = $Crud->SingleRecord($table, $where);
+//    print_r($Record);exit();
+
+    if (isset($Record['UID'])) {
+        $SessionArray = [
+            'UID' => $Record['UID'],
+            'Email' => $Record['Email'],
+            'FullName' => $Record['FullName'],
+            'AccessLevel' => $Record['AccessLevel'],
+//                'status' => $Record['Status'],
+            'logged_in' => TRUE
+        ];
+
+        $session->set($SessionArray);
+        $response['status'] = "success";
+        $response['message'] = "You are successfully logged";
+
+    } else {
+        $response['status'] = "fail";
+        $response['message'] = "Invalid Login Credentials, Please Try again...";
+    }
+
+    echo json_encode($response);
+}
 }
