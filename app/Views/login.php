@@ -34,9 +34,6 @@
 
         <!-- form -->
         <form class="validate" method="post" action="#" id="LoginForm" name="LoginForm">
-            <?= session_id();?>
-            <?= json_encode($session) ?>
-            <?= json_encode($sessionxxxx) ?>
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Username or email" id="inputEmail" name="inputEmail" required autofocus>
             </div>
@@ -80,8 +77,8 @@
                 if (response.status === 'success') {
                     $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
                     setTimeout(function() {
-                        location.reload();
-                        // location.href = '<?= $path ?>';
+                        // location.reload();
+                         location.href = '<?= $path ?>';
                     }, 500);
                 } else {
                     $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');

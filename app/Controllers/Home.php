@@ -86,7 +86,7 @@ class Home extends BaseController
     public function login()
     {
         $data = $this->data;
-        echo view('login1', $data);
+        echo view('login', $data);
     }
 
     public function table()

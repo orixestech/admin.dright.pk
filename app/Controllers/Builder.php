@@ -76,7 +76,7 @@ class Builder extends BaseController
         $totalfilterrecords = $BuilderModel->count_datatables();
 //        print_r($Data);exit();
         $dataarr = array();
-        $cnt = $_getVar['start'];
+        $cnt = $_POST['start'];
         foreach ($Data as $record) {
 
             $cnt++;
@@ -104,7 +104,7 @@ class Builder extends BaseController
         }
 
         $response = array(
-            "draw" => intval($this->request->getgetVar('draw')),
+            "draw" => intval($this->request->getPost('draw')),
             "recordsTotal" => count($Data),
             "recordsFiltered" => $totalfilterrecords,
             "data" => $dataarr
@@ -115,7 +115,7 @@ class Builder extends BaseController
     public function delete_banner()
     {
         $Crud = new Crud();
-        $id = $_getVar['id'];
+        $id = $_POST['id'];
         $Crud->DeleteRecord("general_banners", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
@@ -129,7 +129,7 @@ class Builder extends BaseController
         $Data = $BuilderModel->get_images_datatables();
         $totalfilterrecords = $BuilderModel->count_image_datatables();
         $dataarr = array();
-        $cnt = $_getVar['start'];
+        $cnt = $_POST['start'];
         foreach ($Data as $record) {
 
             $cnt++;
@@ -152,7 +152,7 @@ class Builder extends BaseController
         }
 
         $response = array(
-            "draw" => intval($this->request->getgetVar('draw')),
+            "draw" => intval($this->request->getPost('draw')),
             "recordsTotal" => count($Data),
             "recordsFiltered" => $totalfilterrecords,
             "data" => $dataarr
@@ -171,7 +171,7 @@ class Builder extends BaseController
 
 //        print_r($Data);exit();
         $dataarr = array();
-        $cnt = $_getVar['start'];
+        $cnt = $_POST['start'];
 //            echo 'ddddd00';exit();
         foreach ($Data as $record) {
             $cnt++;
@@ -247,7 +247,7 @@ class Builder extends BaseController
         }
 
         $response = array(
-            "draw" => intval($this->request->getgetVar('draw')),
+            "draw" => intval($this->request->getPost('draw')),
             "recordsTotal" => count($Data),
             "recordsFiltered" => $totalfilterrecords,
             "data" => $dataarr
@@ -258,7 +258,7 @@ class Builder extends BaseController
     public function delete_images()
     {
         $Crud = new Crud();
-        $id = $_getVar['id'];
+        $id = $_POST['id'];
 //        print_r($id);exit();
         $Crud->DeleteRecord("websites_images", array("UID" => $id));
         $response = array();
@@ -270,7 +270,7 @@ class Builder extends BaseController
     public function delete_doctor()
     {
         $Crud = new Crud();
-        $id = $_getVar['id'];
+        $id = $_POST['id'];
 //        print_r($id);exit();
         $Crud->DeleteeRecord('public."profiles"', array("UID" => $id));
         $Crud->DeleteeRecord('public."profile_metas"', array("ProfileUID" => $id));
@@ -283,7 +283,7 @@ class Builder extends BaseController
     public function add_telemedicine_credits()
     {
         $Crud = new Crud();
-        $id = $_getVar['id'];
+        $id = $_POST['id'];
         $record = array();
 
         $newcredits = $_getVar['newcredits'];
@@ -313,7 +313,7 @@ class Builder extends BaseController
     public function add_sms_credits()
     {
         $Crud = new Crud();
-        $id = $_getVar['id'];
+        $id = $_POST['id'];
         $record = array();
 
         $newcredits = $_getVar['newcredits'];

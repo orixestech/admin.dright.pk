@@ -231,7 +231,7 @@
         if (response.status === 'success') {
             $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
             setTimeout(function () {
-                location.href = "<?=$path?>builder/";
+                //location.href = "<?php //=$path?>//builder/";
             }, 500);
         } else {
             $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');
