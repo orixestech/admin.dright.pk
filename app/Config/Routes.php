@@ -10,7 +10,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->get('table', 'Home::table');
 $routes->get('login', 'Home::login');
-$routes->post('login-form-submit', 'Home::system_user_login_submit');
+//$routes->post('login-form-submit', 'Home::system_user_login_submit');
 $routes->get('/logout', 'Home::logout');
 $routes->post('/fruit_search_filter', 'Home::fruit_search_filter');
 $routes->post('/clear_session', 'Home::clear_session');
@@ -209,11 +209,12 @@ $routes->group('specialities', static function ($routes) {
 
 });
 $routes->group('extended', static function ($routes) {
-    $routes->get('/', 'Customers::index');
-    $routes->get('add', 'Customers::index');
-    $routes->post('submit', 'Customers::customer_form_submit');
-    $routes->post('delete', 'Customers::delete');
-    $routes->get('update/(:num)', 'Customers::index');
+    $routes->get('/', 'Extended::index');
+    $routes->get('add', 'Extended::index');
+    $routes->post('submit', 'Extended::extended_profile_form_submit');
+    $routes->post('get-profile', 'Extended::fetch_profiles');
+    $routes->post('delete', 'Extended::delete');
+    $routes->get('update/(:num)', 'Extended::index');
 
 });
 

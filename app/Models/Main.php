@@ -72,6 +72,35 @@ class Main extends Model
 
         return null; // in case $status is neither 'hide' nor 'show'
     }
+    public
+    function GetExtendedLastInvoiceDateTime($DBName)
+    {
+        $ExtendedDb = $this->Postgre->LoadPGDB($DBName);
+
+        $ExtendedDb->trans_start();
+        $ExtendedDb->select('max ("InvoiceDateTime") as "MAXInvoice"');
+        $ExtendedDb->from('patients."invoice"');
+        $query = $ExtendedDb->get();
+        $data = $query->row_array();
+        $ExtendedDb->trans_complete();
+
+        return $data['MAXInvoice'];
+    }
+
+    public
+    function GetExtendedLastPharmacyInvoiceDateTime($DBName)
+    {
+        $ExtendedDb = $this->Postgre->LoadPGDB($DBName);
+
+        $ExtendedDb->trans_start();
+        $ExtendedDb->select('max ("CreatedAt") as "MAXInvoice"');
+        $ExtendedDb->from('pharmacy."invoices"');
+        $query = $ExtendedDb->get();
+        $data = $query->row_array();
+        $ExtendedDb->trans_complete();
+
+        return $data['MAXInvoice'];
+    }
 
     public
     function send($mobile, $message)
