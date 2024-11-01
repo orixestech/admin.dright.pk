@@ -469,6 +469,7 @@
                     </a>
                 </li>
             </ul>
+<!--            health care-->
             <ul id="forms">
                 <li class="navigation-divider">Health Care</li>
                 <li>
@@ -559,6 +560,8 @@
 
                 </li>
             </ul>
+            <!--            Extended-->
+
             <ul id="plugins">
                 <li class="navigation-divider">Extended</li>
                 <li>
@@ -595,6 +598,7 @@
                     </a>
                 </li>
             </ul>
+            <!--            Builder-->
             <ul id="pages">
                 <li class="navigation-divider">Builder</li>
                 <li>

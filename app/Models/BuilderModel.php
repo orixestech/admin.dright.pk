@@ -39,8 +39,7 @@ class BuilderModel extends Model
         where "public"."options"."ProfileUID" = \'' . $id . '\' And "public"."options"."Name" = \'' . $option . '\'; ';
 
         $Admin = $Crud->ExecutePgSQL($SQL);
-//        print_r($Admin);exit(
-//    );
+
         return $Admin;
     }
     public function general_banners()
@@ -61,7 +60,15 @@ class BuilderModel extends Model
         $SQL = "SELECT * FROM `specialities` ORDER BY `specialities`.`Name` ASC";
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin;
-    }   public function get_all_sponsors()
+    }
+    public function extended_profiles()
+    {
+        $Crud = new Crud();
+        $SQL = "SELECT * FROM  `extended_profiles` ORDER BY `extended_profiles`.`FullName` ASC";
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
+    public function get_all_sponsors()
     {
         $Crud = new Crud();
         $SQL = "SELECT * FROM `sponsors` WHERE `Archive` = '0' ORDER BY `sponsors`.`OrderID` ASC";

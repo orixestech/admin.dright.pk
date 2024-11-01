@@ -2,8 +2,8 @@
 
 <div class="card">
     <div class="card-body">
-        <h6 class="card-title"><?= ((isset($PAGE['UID'])) ? 'Update' : 'Add New') ?> Doctor</h6>
-        <form method="post" action="" name="AddDoctorForm" id="AddDoctorForm" class="needs-validation" novalidate=""
+        <h6 class="card-title"><?= ((isset($PAGE['UID'])) ? 'Update' : 'Add New') ?> Hospital</h6>
+        <form method="post" action="" name="AddHospitalForm" id="AddHospitalForm" class="needs-validation" novalidate=""
               enctype="multipart/form-data">
             <input type="hidden" name="UID" id="UID" value="<?= ((isset($PAGE['UID'])) ? $PAGE['UID'] : '0') ?>">
             <div class="form-row">
@@ -58,59 +58,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">Specialities</label>
-                    <div class="col-sm-12">
-                        <select id="specialities" name="speciality" class="form-control"
-                                data-validation-engine="validate[required]">
-                            <option value="">Please Select</option>
-                            <?php foreach ($specialities as $record) { ?>
-                                <option value="<?= $record['UID'] ?>" <?= (isset($PAGE['City']) && $PAGE['City'] == $record['UID']) ? 'selected' : '' ?>
-                                ><?= ucwords($record['Name']); ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">Sponsors</label>
-                    <div class="col-sm-12">
-                        <select id="city" name="sponsor" class="form-control"
-                                data-validation-engine="validate[required]">
-                            <option value="">Please Select</option>
-                            <?php foreach ($Sponsors as $record) { ?>
-                                <option value="<?= $record['UID'] ?>" <?= (isset($PAGE['City']) && $PAGE['City'] == $record['UID']) ? 'selected' : '' ?>
-                                ><?= ucwords($record['Name']); ?></option>
-                            <?php } ?>                                </select>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group row">
-                        <label class="col-sm-12">Qualification</label>
-                        <div class="col-sm-12">
-                            <input type="text" id="qualification" name="qualification" placeholder="Qualification"
-                                   class="form-control"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group row">
-                        <label class="col-sm-12">PMDC No</label>
-                        <div class="col-sm-12">
-                            <input type="text" id="pmdcno" name="pmdcno" placeholder="PMDCNo" class="form-control"/>
-                        </div>
-                    </div>
-                </div>
 
-
-                <div class="col-md-3">
-                    <div class="form-group row">
-                        <label class="col-sm-12">Department</label>
-                        <div class="col-sm-12">
-                            <input type="text" id="department" name="department" placeholder="Department"
-                                   class="form-control"/>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-md-3">
                     <div class="form-group row">
                         <label class="col-sm-12">Sub Domain</label>
@@ -120,24 +68,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group row">
-                        <label class="col-sm-12">Admin Domain</label>
-                        <div class="col-sm-12">
-                            <input type="text" id="AdminDomain" name="AdminDomain" placeholder="Admin Domain"
-                                   class="form-control"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group row">
-                        <label class="col-sm-12">e-Health Key</label>
-                        <div class="col-sm-12">
-                            <input type="text" id="telemedicine_id" name="telemedicine_id" placeholder="e-Health Key"
-                                   class="form-control"/>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="col-md-4 mb-3">
 
                     <label for="validationCustom05">Profile</label>
@@ -148,17 +79,7 @@
                     </div>
                 </div>
 
-
-                <div class="col-md-5 mb-3">
-
-                    <label for="validationCustom05">Initatived LOGO</label>
-
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="initatived_logo" name="initatived_logo">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
-                    </div>
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group row">
                         <label class="col-sm-12">Short Description</label>
                         <div class="col-sm-12">
@@ -167,16 +88,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+            </div>    <br>
+            <div class="form-row">
+                <div class="col-md-12">
+                    <h3>Clinta Extended</h3>
+                </div>
+
+                <div class="col-md-4">
                     <div class="form-group row">
-                        <label class="col-sm-12">Initatived Text</label>
+                        <label class="col-sm-4">Profiles:</label>
                         <div class="col-sm-12">
-                            <textarea class="form-control" name="initatived_text" id="initatived_text"
-                                      rows="6"></textarea>
+                            <select id="clinta_extended_profiles" name="clinta_extended_profiles" class="form-control"
+                                    data-validation-engine="validate[required]">
+                                <option value="">Please Select</option>
+                                <?php
+                                foreach( $extended_profiles as $PF ){?>
+                                    <option value="<?= $PF['UID'] ?>" <?= (isset($PAGE['City']) && $PAGE['City'] == $record['UID']) ? 'selected' : '' ?>
+                                    ><?= ucwords($PF['FullName']); ?></option>
+                                <?php } ?>                            </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group row">
                         <label class="col-sm-12">Theme Setting</label>
                         <div class="col-sm-12">
@@ -189,7 +122,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group row">
                         <label class="col-sm-12">Patient Portal</label>
                         <div class="col-sm-12">
@@ -213,7 +146,7 @@
     </div>
     <div class="mb-2">
     <span style="float: right">
-                <button class="btn btn-primary" type="button" onclick="AddDoctorFormFunction()">Submit form</button>
+                <button class="btn btn-primary" type="button" onclick="AddHospitalFormFunction()">Submit form</button>
 
 </span>
     </div>
@@ -222,10 +155,10 @@
 
 <script>
 
-    function AddDoctorFormFunction() {
-        var formdata = new window.FormData($("form#AddDoctorForm")[0]);
+    function AddHospitalFormFunction() {
+        var formdata = new window.FormData($("form#AddHospitalForm")[0]);
 
-        response = AjaxUploadResponse("builder/submit-doctor", formdata);
+        response = AjaxUploadResponse("builder/submit-hospital", formdata);
         if (response.status === 'success') {
             $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
             setTimeout(function () {
