@@ -374,7 +374,16 @@ class Builder extends BaseController
         $response['message'] = ' Deleted Successfully...!';
         echo json_encode($response);
     }
+    public function submit_general_image(){
+        $Crud = new Crud();
+        $alignment= $this->request->getVar('alignment');
+        $color= $this->request->getVar('color');
+        $speciality= $this->request->getVar('speciality');
+//        print_r($alignment);exit();
 
+
+
+    }
     public function add_telemedicine_credits()
     {
         $Crud = new Crud();

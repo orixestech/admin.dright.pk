@@ -15,62 +15,72 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-row">
-                        <div class="col-md-6">
-                            <label class="col-sm-12">Alignment</label>
-                            <div class="col-sm-12">
-                                <select name="alignment" id="alignment" class="form-control validate[required]">
-                                    <option value="">Select Alignment</option>
-                                    <option value="left">Left</option>
-                                    <option value="right">Right</option>
-                                    <option value="center">Center</option>
-                                </select>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom02">Alignment</label>
+                            <select class="form-control" id="alignment" name="alignment">
+                                <option value="">Select Color</option>
+
+                                <option value="left">Left</option>
+                                <option value="right">Right</option>
+                                <option value="center">Center</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom02">Color</label>
+                            <select class="form-control" id="color" name="color">
+                                <option value="">Select Color</option>
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom02">Specialities</label>
+                            <select class="form-control" id="speciality" name="speciality">
+                                <?php foreach ($specialities as $record) { ?>
+                                    <option value="<?= $record['UID'] ?>"
+                                    ><?= ucwords($record['Name']); ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+
+                            <label for="validationCustom05">Profile</label>
+
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="profile" name="profile">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <label class="col-sm-12">Color</label>
-                            <div class="col-sm-12">
-                                <select name="color" id="color" class="form-control validate[required]">
-                                    <option value="">Select Color</option>
-                                    <option value="light">Light</option>
-                                    <option value="dark">Dark</option>
-                                </select>
-                            </div>
-                        </div>
-<!--                        <div class="col-md-3">-->
-<!--                            <label class="col-sm-4">Speciality:</label>-->
-<!--                            <div class="col-sm-12">-->
-<!--                                <select id="city" name="RCC[Branch]" class="form-control"-->
-<!--                                        data-validation-engine="validate[required]">-->
-<!--                                    <option value="">Please Select</option>-->
-<!--                                    --><?php //foreach ($specialities as $record) { ?>
-<!--                                        <option value="--><?php //= $record['UID'] ?><!--"-->
-<!--                                        >--><?php //= ucwords($record['Name']); ?><!--</option>-->
-<!--                                    --><?php //} ?><!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
+
 
                     </div>
                 </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="AddBannerFormFunction()">Save changes</button>
-        </div>
-        </form>
-        <div class="mt-4" id="ajaxResponse"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="AddBannerFormFunction()">Save changes</button>
+                </div>
+            </form>
+            <div class="mt-4" id="ajaxResponse"></div>
 
+        </div>
     </div>
-</div>
 </div>
 
 <script src="<?= $template ?>vendors/select2/js/select2.min.js"></script>
 
 <script>
 
+
+    // $('.select2-example').select2({
+    //     placeholder: 'Select'
+    // });
+
+
     function AddBannerFormFunction() {
         var formdata = new window.FormData($("form#AddBannerForm")[0]);
 
-        response = AjaxUploadResponse("users/submit", formdata);
+        response = AjaxUploadResponse("builder/submit_general_image", formdata);
         if (response.status === 'success') {
             $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
             setTimeout(function () {
@@ -82,14 +92,14 @@
     }
 </script>
 <script>
-    (function () {
+    (function() {
         'use strict';
-        window.addEventListener('load', function () {
+        window.addEventListener('load', function() {
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.getElementsByClassName('needs-validation');
             // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
                     if (form.checkValidity() === false) {
                         event.preventDefault();
                         event.stopPropagation();
@@ -100,4 +110,4 @@
         }, false);
     })();
 </script>
-<script src="<?= $template ?>assets/js/examples/form-validation.js"></script>
+<script src="<?=$template?>assets/js/examples/form-validation.js"></script>
