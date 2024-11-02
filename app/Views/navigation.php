@@ -36,7 +36,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#forms" <?= ($segment_a == 'diet' || $segment_a == 'customers' ? 'class="active"' : '') ?>>
+                    <a href="#" data-menu-target="#forms" <?= ($segment_a == 'diet' || $segment_a == 'customers' || $segment_a == 'diseases' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i class="pe-is-w-thermometer-1-f"></i>
                         </span>
@@ -78,14 +78,14 @@
                         <span>Pharmacy</span>
                     </a>
                 </li>
-                <li>
-                    <a href="" data-menu-target="#diseases" <?= ($segment_a == 'diseases' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="users"></i>
-                        </span>
-                        <span>Diseases</span>
-                    </a>
-                </li>
+<!--                <li>-->
+<!--                    <a href="" data-menu-target="#diseases" --><?php //= ($segment_a == 'diseases' ? 'class="active"' : '') ?><!-->-->
+<!--                        <span class="menu-tab-icon">-->
+<!--                            <i data-feather="users"></i>-->
+<!--                        </span>-->
+<!--                        <span>Diseases</span>-->
+<!--                    </a>-->
+<!--                </li>-->
                 <li>
                     <a href=""
                         data-menu-target="#laboratories" <?= ($segment_a == 'laboratories' ? 'class="active"' : '') ?>>
@@ -513,6 +513,15 @@
                     </ul>
                 </li>
                 <li>
+                <li>
+                    <a href="<?= $path ?>diseases/">
+                        <span class="nav-link-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Diseases</span>
+                    </a>
+
+                </li>
                     <a href="<?= $path ?>franchises">
                         <span class="nav-link-icon">
                             <i data-feather="book"></i>
