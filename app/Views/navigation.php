@@ -79,8 +79,8 @@
                     </a>
                 </li>
 <!--                <li>-->
-<!--                    <a href="" data-menu-target="#diseases" --><?php //= ($segment_a == 'diseases' ? 'class="active"' : '') ?><!-->-->
-<!--                        <span class="menu-tab-icon">-->
+<!--                    <a href="" data-menu-target="#diseases" --><?php //= ($segment_a == 'diseases' ? 'class="active"' : '') ?><!--
+<!-                     <span class="menu-tab-icon">-->
 <!--                            <i data-feather="users"></i>-->
 <!--                        </span>-->
 <!--                        <span>Diseases</span>-->
@@ -132,7 +132,7 @@
                 </li>
 <!--                <li>-->
 <!--                    <a href="" data-menu-target="#lookups" --><?php //= ($segment_a == 'lookups' ? 'class="active"' : '') ?><!--
-<!--                        <span class="menu-tab-icon">-->
+<!                      <span class="menu-tab-icon">-->
 <!--                            <i data-feather="users"></i>-->
 <!--                        </span>-->
 <!--                        <span>Lookups</span>-->
@@ -512,7 +512,7 @@
 
                     </ul>
                 </li>
-                <li>
+                
                 <li>
                     <a href="<?= $path ?>diseases/">
                         <span class="nav-link-icon">
@@ -520,8 +520,8 @@
                         </span>
                         <span>Diseases</span>
                     </a>
-
                 </li>
+                <li>
                     <a href="<?= $path ?>franchises">
                         <span class="nav-link-icon">
                             <i data-feather="book"></i>
