@@ -512,7 +512,7 @@
 
                     </ul>
                 </li>
-                
+
                 <li>
                     <a href="<?= $path ?>diseases/">
                         <span class="nav-link-icon">
