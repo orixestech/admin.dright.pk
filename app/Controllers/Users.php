@@ -10,6 +10,7 @@ use App\Models\SystemUser;
 class Users extends BaseController
 {
     var $data = array();
+    var $MainModel;
     var $table = 'system_users';
 
     public function __construct()
@@ -17,7 +18,6 @@ class Users extends BaseController
 
         $this->MainModel = new Main();
         $this->data = $this->MainModel->DefaultVariable();
-
     }
 
     public function index()
@@ -31,13 +31,10 @@ class Users extends BaseController
             echo view('users/access_level', $data);
         } elseif ($data['page'] == 'add') {
             echo view('users/main_form', $data);
-
         } elseif ($data['page'] == 'admin-activites') {
             echo view('users/admin_activites', $data);
-
         } else {
             echo view('users/index', $data);
-
         }
         echo view('footer', $data);
     }
@@ -103,7 +100,7 @@ class Users extends BaseController
             foreach ($User as $key => $value) {
                 $record[$key] = ((isset($value)) ? $value : '');
             }
-            $record['Password']=$Main->CRYPT($record['Password'],'hide');
+            $record['Password'] = $Main->CRYPT($record['Password'], 'hide');
 
             $RecordId = $Crud->AddRecord("system_users", $record, 1);
             if (isset($RecordId) && $RecordId > 0) {

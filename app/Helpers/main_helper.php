@@ -62,16 +62,16 @@ if (!function_exists('CheckLogin')) {
         if (!in_array($data['segment_a'], $allowpages)) {
             $session = session();
             $session = $session->get();
-            //print_r($session);
-            if (!isset($session['UID'])) {
-                echo '<script type="text/javascript"> setTimeout(function(){ location.href="' . PATH . 'login" }, 100)</script>';
-                exit;
-            } else {
-//                if ($session['UserName'] != 'orixestech') {
-//                    if ($session['LoginStatus'] != 'admin') {
-//                        sleep(rand(2, 5));
-//                    }
-                }
+            print_r($session);
+//             if (!isset($session['UID'])) {
+//                 // echo '<script type="text/javascript"> setTimeout(function(){ location.href="' . PATH . 'login" }, 100)</script>';
+//                 // exit;
+//             } else {
+// //                if ($session['UserName'] != 'orixestech') {
+// //                    if ($session['LoginStatus'] != 'admin') {
+// //                        sleep(rand(2, 5));
+// //                    }
+//                 }
             }
         }
     }

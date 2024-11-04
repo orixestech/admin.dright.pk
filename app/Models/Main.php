@@ -15,22 +15,6 @@ class Main extends Model
         $this->data = $this->DefaultVariable();
     }
 
-    public function DefaultVaiable()
-    {
-        $session = session();
-        $data = $this->data;
-        $data['path'] = PATH;
-        $data['template'] = TEMPLATE;
-        $page = getSegment(1);
-        $data['segment_a'] = getSegment(1);
-        $data['segment_b'] = getSegment(2);
-        $data['segment_c'] = getSegment(3);
-        $data['session'] = $session->get();
-        $data['sessionxxxx'] = $_SESSION;
-        //    $data['page'] = ($page == '') ? 'home' : $page;
-        CheckLogin($data);
-        return $data;
-    }
     public function DefaultVariable()
     {
         helper('main');
@@ -105,13 +89,12 @@ class Main extends Model
     public
     function send($mobile, $message)
     {
-//        $URL = config_item('base_url');
+        //        $URL = config_item('base_url');
         $URL = PATH;
 
         if (strlen($mobile) != 12) {
             if (strlen($mobile) == 11)
                 $mobile = 92 . substr($mobile, 1, 10);
-
         }
 
         $username = "HOLISTIC";
@@ -180,8 +163,7 @@ class Main extends Model
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 $newFileName = explode(".", $_FILES[$NAME]['name']);
 
                 $EXT = end($newFileName);
@@ -216,9 +198,7 @@ class Main extends Model
                     $post_data['image'] = $filename;
 
                     $this->image_lib->clear();
-
-                }
-                else {
+                } else {
                     $post_data['error'] = true;
                     $post_data['errormsg'] = $this->upload->display_errors();
                 }
@@ -226,8 +206,7 @@ class Main extends Model
 
                 if ($post_data['error'] == true) {
                     $file_content = '';
-                }
-                else {
+                } else {
 
                     if (isset($post_data['resize_image'])) {
                         $final_file = $post_data['resize_image'];
@@ -235,15 +214,14 @@ class Main extends Model
                         $final_file = $post_data['image'];
                     }
 
-//					echo $upload_path . $final_file;
+                    //					echo $upload_path . $final_file;
                     $file_content = @file_get_contents($upload_path . $final_file);
-//					$file_content = @file_get_contents("D:/wamp64/www/clinta-doctprofile/temp/1720433124-27.webp");
-                    if($file_content!=''){
+                    //					$file_content = @file_get_contents("D:/wamp64/www/clinta-doctprofile/temp/1720433124-27.webp");
+                    if ($file_content != '') {
                         $file_content = base64_encode($file_content);
                         @unlink($upload_path . $post_data['resize_image']);
                         @unlink($upload_path . $post_data['image']);
                     }
-
                 }
             }
         }
