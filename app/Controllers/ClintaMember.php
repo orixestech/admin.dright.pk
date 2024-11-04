@@ -43,9 +43,11 @@ class ClintaMember extends BaseController
 
     public function fetch_members()
     {
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+
         $Members = new ClintaMemberModel();
-        $Data = $Members->get_datatables();
-        $totalfilterrecords = $Members->count_datatables();
+        $Data = $Members->get_datatables($keyword);
+        $totalfilterrecords = $Members->count_datatables($keyword);
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $CM) {

@@ -32,19 +32,24 @@ class ClintaMemberModel extends Model
 //        return $data;
 //    }
 
-    public function members()
+    public function members($keyword)
     {
-        $SQL = "SELECT * FROM public_users WHERE oauth_provider != 'dummy' ORDER BY SystemDate DESC";
+        $SQL = "SELECT * FROM public_users 
+         WHERE oauth_provider != 'dummy' ";
+        if($keyword!=''){
+            $SQL .= ' AND  ( `Title` LIKE \'%' . $keyword . '%\'  OR `FirstName` LIKE \'%' . $keyword . '%\' OR `SystemDate` LIKE \'%' . $keyword . '%\' OR `Membership` LIKE \'%' . $keyword . '%\' OR `LastName` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY `SystemDate` DESC';
         return $SQL;
     }
 
 
     public
-    function get_datatables()
+    function get_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->members();
+        $SQL = $this->members($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -53,11 +58,11 @@ class ClintaMemberModel extends Model
     }
 
     public
-    function count_datatables()
+    function count_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->members();
+        $SQL = $this->members($keyword);
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
