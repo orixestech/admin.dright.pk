@@ -21,6 +21,19 @@ class ExtendedModel extends Model
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
+    public function get_all_extended_default_lookups($keyword)
+    {
+        $Crud = new Crud();
+        $SQL = "SELECT * FROM  `extended_lookups` WHERE `Archive` = '0' ";
+        if($keyword!=''){
+//            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Key` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY `Name` ASC';
+//        print_r($SQL);exit();
+//        $Admin = $Crud->ExecuteSQL($SQL);
+        return $SQL;
+    }
 
     public function Allprofiless($ID)
     {
@@ -61,6 +74,31 @@ class ExtendedModel extends Model
         $Crud = new Crud();
 
         $SQL = $this->extended_profiles();
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+        return count($records);
+    }
+  public
+    function get_default_extended_lookup_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->get_all_extended_default_lookups($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+
+    public
+    function count_default_extended_lookup_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->get_all_extended_default_lookups($keyword);
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);

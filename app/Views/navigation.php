@@ -596,7 +596,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= $path ?>extended">
+                    <a href="<?= $path ?>extended/extended_default_lookup">
                         <span class="nav-link-icon" data-feather="sliders"></span>
                         <span>Default Lookups</span>
                     </a>
