@@ -590,7 +590,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= $path ?>extended">
+                    <a href="<?= $path ?>extended/extended_default_config">
                         <span class="nav-link-icon" data-feather="clipboard"></span>
                         <span>Default Configuration</span>
                     </a>

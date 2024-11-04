@@ -33,6 +33,9 @@ class Extended extends BaseController
         } elseif ($data['page'] == 'extended_default_lookup') {
             echo view('extended/extended_default_lookup', $data);
 
+        }  elseif ($data['page'] == 'extended_default_config') {
+            echo view('extended/extended_default_config', $data);
+
         } else {
             echo view('extended/index', $data);
 
@@ -121,7 +124,7 @@ class Extended extends BaseController
     public function fetch_default_lookup()
     {
         $Users = new ExtendedModel();
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
         $Data = $Users->get_default_extended_lookup_datatables($keyword);
         $totalfilterrecords = $Users->count_default_extended_lookup_datatables($keyword);
@@ -164,7 +167,54 @@ class Extended extends BaseController
         echo json_encode($response);
     }
 
-    public function submit_default_lookup(){
+    public function fetch_default_config()
+    {
+        $Users = new ExtendedModel();
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+
+        $Data = $Users->get_default_extended_config_datatables($keyword);
+        $totalfilterrecords = $Users->count_default_extended_config_datatables($keyword);
+
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+
+            $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
+            $data[] = isset($record['Key']) ? htmlspecialchars($record['Key']) : '';
+
+
+            $data[] = '
+<td class="text-end">
+    <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Actions
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" onclick="UpdateDefaultConfig(' . $record['UID'] . ');">Edit</a>
+            <a class="dropdown-item" onclick="DeleteDefaultconfig(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+
+            $data[] .= '
+        </div>
+    </div>
+</td>';
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+        echo json_encode($response);
+    }
+
+    public function submit_default_lookup()
+    {
         $Crud = new Crud();
         $Main = new Main();
         $response = array();
@@ -200,7 +250,47 @@ class Extended extends BaseController
 
         echo json_encode($response);
     }
-    public function delete_default_lookup(){
+
+    public function submit_default_config()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Item = $this->request->getVar('DefaultConfig');
+
+
+        if ($id == 0) {
+            foreach ($Item as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+
+            $RecordId = $Crud->AddRecord("extended_admin_setings", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Item Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($Item as $key => $value) {
+                $record[$key] = $value;
+            }
+
+
+            $Crud->UpdateRecord("extended_admin_setings", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = 'Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
+
+    public function delete_default_lookup()
+    {
         $Crud = new Crud();
         $id = $this->request->getVar('id');
         $Crud->DeleteRecord('extended_lookups', array("UID" => $id));
@@ -209,11 +299,37 @@ class Extended extends BaseController
         $response['message'] = ' Deleted Successfully...!';
         echo json_encode($response);
     }
-    public function get_default_lookup_record(){
+
+    public function get_default_lookup_record()
+    {
         $Crud = new Crud();
         $id = $this->request->getVar('id');
 
         $record = $Crud->SingleRecord("extended_lookups", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
+        echo json_encode($response);
+    }
+
+    public function delete_default_config()
+    {
+        $Crud = new Crud();
+        $id = $this->request->getVar('id');
+        $Crud->DeleteRecord('extended_admin_setings', array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = ' Deleted Successfully...!';
+        echo json_encode($response);
+    }
+
+    public function get_default_config_record()
+    {
+        $Crud = new Crud();
+        $id = $this->request->getVar('id');
+
+        $record = $Crud->SingleRecord("extended_admin_setings", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['record'] = $record;

@@ -213,6 +213,7 @@ $routes->group('extended', static function ($routes) {
     $routes->get('/', 'Extended::index');
     $routes->get('add', 'Extended::index');
     $routes->get('extended_default_lookup', 'Extended::index');
+    $routes->get('extended_default_config', 'Extended::index');
     $routes->post('submit', 'Extended::extended_profile_form_submit');
     $routes->post('get-profile', 'Extended::fetch_profiles');
     $routes->post('delete', 'Extended::delete');
