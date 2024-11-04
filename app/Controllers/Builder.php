@@ -39,6 +39,10 @@ class Builder extends BaseController
 
             echo view('builder/hospital_main_form', $data);
 
+        } elseif ($data['page'] == 'specialities') {
+
+            echo view('builder/specialities', $data);
+
         } elseif ($data['page'] == 'update-doctor') {
             $UID = getSegment(3);
             $data['UID'] = $UID;
@@ -336,7 +340,62 @@ class Builder extends BaseController
         );
         echo json_encode($response);
     }
+    public function fetch_specialities()
+    {
+        $BuilderModel = new BuilderModel();
+        $Data = $BuilderModel->get_specialities_datatables();
+        $totalfilterrecords = $BuilderModel->count_specialities_datatables();
 
+//        print_r($totalfilterrecords);exit();
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            if( $record['Icon'] != '' ){
+                if( file_exists( ROOT."/upload/specialities/".$record['Icon'] ) ){
+                    $file = $record['Icon'];
+                }else{
+                    $file ='no-image.png';
+                }
+            }else{
+                $file ='no-image.png';
+
+            }
+
+            $TotalSpecialities=count($BuilderModel->get_speciality_images_by_id( $record['UID'] ));
+//            print_r($TotalSpecialities);exit();
+            $data = [];
+            $data[] = $cnt;
+            $data[] = $record['Name'];
+            $data[] = '<img src="'. PATH .'upload/specialities/'.$file.'" height="45">';
+            $data[] = isset($TotalSpecialities)?$TotalSpecialities:'0';
+
+
+            $data[] = '
+<td class="text-end">
+    <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Actions
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" onclick="Editspecialities(' . htmlspecialchars($record['UID']) . ');">Edit</a>
+            <a class="dropdown-item" onclick="Deletespecialities(' . htmlspecialchars($record['UID']) . ');">Delete</a>
+        </div>
+    </div>
+</td>';
+
+
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+        echo json_encode($response);
+    }
     public function delete_images()
     {
         $Crud = new Crud();
@@ -354,8 +413,8 @@ class Builder extends BaseController
         $Crud = new Crud();
         $id = $_POST['id'];
 //        print_r($id);exit();
-        $Crud->DeleteeRecord('public."profiles"', array("UID" => $id));
-        $Crud->DeleteeRecord('public."profile_metas"', array("ProfileUID" => $id));
+        $Crud->DeleteRecordPG('public."profiles"', array("UID" => $id));
+        $Crud->DeleteRecordPG('public."profile_metas"', array("ProfileUID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['message'] = ' Deleted Successfully...!';
@@ -367,11 +426,36 @@ class Builder extends BaseController
         $Crud = new Crud();
         $id = $_POST['id'];
 //        print_r($id);exit();
-        $Crud->DeleteeRecord('public."profiles"', array("UID" => $id));
-        $Crud->DeleteeRecord('public."profile_metas"', array("ProfileUID" => $id));
+        $Crud->DeleteRecordPG('public."profiles"', array("UID" => $id));
+        $Crud->DeleteRecordPG('public."profile_metas"', array("ProfileUID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['message'] = ' Deleted Successfully...!';
+        echo json_encode($response);
+    }  public function delete_specialities()
+    {
+        $BuilderModel = new BuilderModel();
+        $Crud = new Crud();
+        $response = array();
+
+        $id= $this->request->getVar('id');
+       $record= $BuilderModel ->get_speciality_images_by_id($id);
+        if(count($record) === 0)
+        {
+
+            $response['message'] = 'No Images Found';
+
+        }
+        else{
+            foreach ($record as $r) {
+                @unlink("upload/specialities/" . $r['Value']);
+            }
+            $Crud->DeleteRecord('public."speciality_metas"', array("SpecialityUID" => $id));
+
+        }
+        $Crud->DeleteRecord('specialities', array("UID" => $id));
+        $response['status'] = 'success';
+        $response['message'] .= ' And Specialities Deleted Successfully...!';
         echo json_encode($response);
     }
     public function submit_general_image(){
@@ -384,6 +468,19 @@ class Builder extends BaseController
 
 
     }
+    public function get_specialities_record()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("specialities", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
+        echo json_encode($response);
+    }
+
     public function add_telemedicine_credits()
     {
         $Crud = new Crud();
@@ -399,7 +496,7 @@ class Builder extends BaseController
         }
 
 
-        $Crud->DeleteeRecord('public."options"', array("ProfileUID" => $id, 'Name' => 'telemedicine_credits'));
+        $Crud->DeleteRecordPG('public."options"', array("ProfileUID" => $id, 'Name' => 'telemedicine_credits'));
         $record['ProfileUID'] = $id;
         $record['Name'] = 'telemedicine_credits';
         $record['Description'] = $oldcredits + $newcredits;
@@ -413,7 +510,59 @@ class Builder extends BaseController
         }
         echo json_encode($response);
     }
+    public function submit_specialities()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response=array();
+        $tag = $this->request->getVar('tag');
+        $name = $this->request->getVar('name');
+        $id = $this->request->getVar('UID');
+        $icon = '';
+        if ($_FILES['icon']['tmp_name'] != '') {
+            $ext = @end(@explode(".", basename($_FILES['icon']['name'])));
+            $uploaddir = ROOT . "/upload/specialities/";
+            $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
 
+            if (move_uploaded_file($_FILES['icon']['tmp_name'], $uploaddir . $uploadfile)) {
+                $icon = $uploadfile;
+            }
+        }
+
+        if ($id == 0) {
+            $record['Tag'] = $tag;
+            $record['Name'] = $name;
+
+            if ($icon != "") {
+                $record['Icon'] = $icon;
+            }
+//            print_r($record);exit();
+
+            $RecordId = $Crud->AddRecord("specialities", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = ' Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        }
+        else {
+            $record['Tag'] = $tag;
+            $record['Name'] = $name;
+
+            if ($icon != "") {
+                $record['Icon'] = $icon;
+
+
+            }
+            $Crud->UpdateRecord("specialities", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = ' Updated Successfully...!';
+        }
+        echo json_encode($response);
+
+    }
     public function add_sms_credits()
     {
         $Crud = new Crud();
@@ -421,15 +570,12 @@ class Builder extends BaseController
         $record = array();
 
         $newcredits = $_POST['newcredits'];
-//        print_r($id);exit();
         $option = $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id, 'Name' => 'sms_credits'));
         $oldcredits = 0;
         if (isset($option['Description'])) {
             $oldcredits = $option['Description'];
         }
-
-
-        $Crud->DeleteeRecord('public."options"', array("ProfileUID" => $id, 'Name' => 'sms_credits'));
+        $Crud->DeleteRecordPG('public."options"', array("ProfileUID" => $id, 'Name' => 'sms_credits'));
         $record['ProfileUID'] = $id;
         $record['Name'] = 'sms_credits';
         $record['Description'] = $oldcredits + $newcredits;
@@ -630,7 +776,7 @@ Password: ' . $this->request->getVar('password');
                 if ($website_profile_id) {
                     $ExtendedArray = array('clinta_extended_profiles', 'short_description', 'healthcare_status', 'patient_portal');
                     foreach ($ExtendedArray as $EA) {
-                        $Crud->DeleteeRecord('public."profile_metas"', array("ProfileUID" => $id, 'Option' => $EA));
+                        $Crud->DeleteRecordPG('public."profile_metas"', array("ProfileUID" => $id, 'Option' => $EA));
                     }
 
                     foreach ($ExtendedArray as $M) {

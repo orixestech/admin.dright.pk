@@ -32,6 +32,7 @@ $routes->group('support-ticket', static function ($routes) {
 $routes->group('builder', static function ($routes) {
     $routes->get('/', 'Builder::index');
     $routes->get('add', 'Builder::index');
+    $routes->get('specialities', 'Builder::index');
     $routes->get('add-doctor', 'Builder::index');
     $routes->get('add-hospital', 'Builder::index');
     $routes->get('hospital', 'Builder::index');

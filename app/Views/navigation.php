@@ -634,13 +634,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= $path ?>builder/banners" target="_blank">
+                    <a href="<?= $path ?>builder/banners" >
                         <span class="nav-link-icon" data-feather="frown"></span>
                         <span>Banners</span>
                     </a>
                 </li>
                 <li>
-                    <a href="<?= $path ?>builder/specialities" target="_blank">
+                    <a href="<?= $path ?>builder/specialities" >
                         <span class="nav-link-icon" data-feather="frown"></span>
                         <span>Specialities</span>
                     </a>

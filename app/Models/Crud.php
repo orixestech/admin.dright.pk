@@ -129,7 +129,7 @@ class Crud extends Model
         return $insertID;
     }
     public
-    function DeleteeRecord($table, $where)
+    function DeleteRecordPG($table, $where)
     {
         $db = \Config\Database::connect('website_db');
         $builder = $db->table($table);
