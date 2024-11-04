@@ -382,6 +382,8 @@ class Builder extends BaseController
         <div class="dropdown-menu">
             <a class="dropdown-item" onclick="Editspecialities(' . htmlspecialchars($record['UID']) . ');">Edit</a>
             <a class="dropdown-item" onclick="Deletespecialities(' . htmlspecialchars($record['UID']) . ');">Delete</a>
+            <a class="dropdown-item" onclick="Addheading(' . htmlspecialchars($record['UID']) . ');">Add Heading</a>
+            <a class="dropdown-item" onclick="AddMessage(' . htmlspecialchars($record['UID']) . ');">Add Message</a>
         </div>
     </div>
 </td>';
@@ -459,6 +461,19 @@ class Builder extends BaseController
         $Crud->DeleteRecord('specialities', array("UID" => $id));
         $response['status'] = 'success';
         $response['message'] .= ' And Specialities Deleted Successfully...!';
+        echo json_encode($response);
+    }
+    public function delete_specialities_meta()
+    {
+        $BuilderModel = new BuilderModel();
+        $Crud = new Crud();
+        $response = array();
+
+        $id= $this->request->getVar('id');
+
+        $Crud->DeleteRecord('speciality_metas', array("UID" => $id));
+        $response['status'] = 'success';
+        $response['message'] .= '  Specialities Meta Deleted Successfully...!';
         echo json_encode($response);
     }
     public function submit_general_image(){
@@ -560,6 +575,43 @@ class Builder extends BaseController
 
             }
             $Crud->UpdateRecord("specialities", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = ' Updated Successfully...!';
+        }
+        echo json_encode($response);
+
+    }
+    public function submit_specialities_meta()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response=array();
+        $id = $this->request->getVar('UID');
+        $SpecialityID = $this->request->getVar('SpecialityID');
+        $meta = $this->request->getVar('meta');
+        $name = $this->request->getVar('name');
+
+        if ($id == 0) {
+            $record['SpecialityUID'] = $SpecialityID;
+            $record['Option'] = $meta;
+            $record['Value'] = $name;
+
+
+
+            $RecordId = $Crud->AddRecord("speciality_metas", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = ' Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        }
+        else {
+            $record['SpecialityUID'] = $SpecialityID;
+            $record['Option'] = $meta;
+            $record['Value'] = $name;
+            $Crud->UpdateRecord("speciality_metas", $record, array("UID" => $id));
             $response['status'] = 'success';
             $response['message'] = ' Updated Successfully...!';
         }
@@ -1273,4 +1325,51 @@ Password: ' . $this->request->getVar('password');
 
         echo json_encode($response);
     }
+    public
+    function load_speciality_metas_data_grid(){
+        $BuilderModel = new BuilderModel();
+
+        $id = $this->request->getVar( 'id' );
+        $option = $this->request->getVar( 'option' );
+//            print_r($option);exit();
+        $Data = $BuilderModel->get_speciality_meta_data_by_id_option( $id , $option); //print_r($id); exit;
+//            print_r($option);exit();
+        if( count( $Data ) > 0 ){
+
+            $html = '';
+
+            $html.='<div class="col-md-12">
+							<div class="table table-responcive">
+								<table class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th width="30">Sr.No</th>
+											<th>Name</th>
+											<th width="40">Action</th>
+										</tr>
+									</thead>
+									<tbody>';
+            $cnt = 0;
+            foreach( $Data as $D ){
+                $cnt++;
+                $html.='<tr>
+															<td>'.$cnt.'</td>
+															<td>'.$D['Value'].'</td>
+															<td><a href="javascript:void(0);" onclick="DeleteSpecialityMetas( '.$D['UID'].' );"><i style="color:red;" class="fa fa-trash"></i></a></td>
+														</tr>';
+            }
+
+            $html.='</tbody>
+								</table>
+							</div>
+						</div>';
+        }
+        else{
+            $html=' No records found';
+        }
+
+        echo $html;
+    }
+
+
 }

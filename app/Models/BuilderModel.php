@@ -62,6 +62,14 @@ class BuilderModel extends Model
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin;
     }
+    public function get_speciality_meta_data_by_id_option($id, $option)
+    {
+        $Crud = new Crud();
+        $SQL = "SELECT * FROM `speciality_metas` WHERE `SpecialityUID` = $id AND `Option` = '$option'";
+        $Admin = $Crud->ExecuteSQL($SQL);
+//        print_r($SQL);exit();
+        return $Admin;
+    }
     public function specialitiess($keyword)
     {
         $Crud = new Crud();
