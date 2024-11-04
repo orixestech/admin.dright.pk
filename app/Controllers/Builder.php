@@ -473,7 +473,7 @@ class Builder extends BaseController
 
         $Crud->DeleteRecord('speciality_metas', array("UID" => $id));
         $response['status'] = 'success';
-        $response['message'] .= '  Specialities Meta Deleted Successfully...!';
+        $response['message'] = '  Specialities Meta Deleted Successfully...!';
         echo json_encode($response);
     }
     public function submit_general_image(){
