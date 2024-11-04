@@ -1,14 +1,14 @@
 <br>
 <link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
 <link rel="stylesheet" href="<?= $template ?>vendors/select2/css/select2.min.css" type="text/css">
+
 <div class="card">
     <div class="card-body">
-        <h4>Users
-            <span style="float: right;">
-                <button type="button" onclick="AddUser()"
+        <h4>Extended Default Configration
+            <span style="float: right;">            <button type="button" onclick="AddDefaultConfig()"
                                                             class="btn btn-primary "
                                                             data-toggle="modal" data-target="#exampleModal">
-              Add User
+              Add
             </button>
            </span>
         </h4>
@@ -17,30 +17,30 @@
         <table id="record" class="table table-striped table-bordered">
             <thead>
             <tr>
-                <th>Sr No</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Type</th>
-                <th>Actions</th>
+                <th>Sr. No</th>
+                <th>Name</th>
+                <th>Key</th>
+
+                <th >Actions</th>
             </tr>
             </thead>
             <tbody>
             </tbody>
             <tfoot>
             <tr>
-                <th>Sr No</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Type</th>
-                <th>Actions</th>
+                <th>Sr. No</th>
+                <th>Name</th>
+                <th>Key</th>
+                <th >Actions</th>
             </tr>
             <div class="mt-5" id="Response"></div>
 
             </tfoot>
         </table>
     </div>
-    <?php echo view('users/modal/add'); ?>
-    <?php echo view('users/modal/update'); ?>
+
+    <?php echo view('extended/modal/add_default_config'); ?>
+    <?php echo view('extended/modal/update_default_config'); ?>
 
     <script>
         $(document).ready(function () {
@@ -55,7 +55,7 @@
                 "pageLength": 100,
                 "autoWidth": true,
                 "ajax": {
-                    "url": "<?= $path ?>users/users-data",
+                    "url": "<?= $path ?>extended/fetch_default_config",
                     "type": "POST"
                 }
             });
@@ -63,25 +63,24 @@
 
     </script>
     <script>
-        function AddUser() {
-            $('#AddUserModal').modal('show');
+        function AddDefaultConfig() {
+            $('#AddDefaultConfigModal').modal('show');
 
         }
-    
-        function UpdateUser(id) {
-            var Items = AjaxResponse("users/get-record", "id=" + id);
+        function UpdateDefaultConfig(id) {
+            var Items = AjaxResponse("extended/get_default_config_record", "id=" + id);
 
-            $('#UpdateUserModal form#UpdateUserForm input#UID').val(Items.record.UID);
-            $('#UpdateUserModal form#UpdateUserForm input#FullName').val(Items.record.FullName);
-            $('#UpdateUserModal form#UpdateUserForm input#Email').val(Items.record.Email);
-            $('#UpdateUserModal form#UpdateUserForm input#Password').val(Items.record.Password);
-            $('#UpdateUserModal form#UpdateUserForm select#AccessLevel').val(Items.record.AccessLevel);
-            $('#UpdateUserModal').modal('show');
+            // Set form fields
+            $('#UpdateDefaultConfigModal form#UpdateDefaultConfigForm input#UID').val(Items.record.UID);
+            $('#UpdateDefaultConfigModal form#UpdateDefaultConfigForm input#Name').val(Items.record.Name);
+            $('#UpdateDefaultConfigModal form#UpdateDefaultConfigForm input#Key').val(Items.record.Key);
+            $('#UpdateDefaultConfigModal form#UpdateDefaultConfigForm textarea#Description').val(Items.record.Description);
+            $('#UpdateDefaultConfigModal').modal('show');
+
         }
-
-        function DeleteUser(id) {
-            if (confirm("Are you Sure U want to Delete this?")) {
-                response = AjaxResponse("users/delete", "id=" + id);
+        function DeleteDefaultconfig(id) {
+            if (confirm("Are you Sure You want to Delete this Permanently ?")) {
+                response = AjaxResponse("extended/delete_default_config", "id=" + id);
                 if (response.status == 'success') {
                     $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
                     setTimeout(function () {

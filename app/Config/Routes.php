@@ -32,6 +32,7 @@ $routes->group('support-ticket', static function ($routes) {
 $routes->group('builder', static function ($routes) {
     $routes->get('/', 'Builder::index');
     $routes->get('add', 'Builder::index');
+    $routes->get('specialities', 'Builder::index');
     $routes->get('add-doctor', 'Builder::index');
     $routes->get('add-hospital', 'Builder::index');
     $routes->get('hospital', 'Builder::index');
@@ -211,6 +212,8 @@ $routes->group('specialities', static function ($routes) {
 $routes->group('extended', static function ($routes) {
     $routes->get('/', 'Extended::index');
     $routes->get('add', 'Extended::index');
+    $routes->get('extended_default_lookup', 'Extended::index');
+    $routes->get('extended_default_config', 'Extended::index');
     $routes->post('submit', 'Extended::extended_profile_form_submit');
     $routes->post('get-profile', 'Extended::fetch_profiles');
     $routes->post('delete', 'Extended::delete');

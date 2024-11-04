@@ -199,8 +199,10 @@ class HealthCare extends BaseController
     {
         $Healthcare = new HealthcareModel();
         $item = 'fruits';
-        $Data = $Healthcare->get_diet_datatables($item);
-        $totalfilterrecords = $Healthcare->count_diet_datatables($item);
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $Healthcare->get_diet_datatables($item,$keyword);
+        $totalfilterrecords = $Healthcare->count_diet_datatables($item,$keyword);
 //        print_r($Data);
 //        exit();
 
@@ -249,8 +251,11 @@ class HealthCare extends BaseController
     {
         $Healthcare = new HealthcareModel();
         $item = 'dry-fruites';
-        $Data = $Healthcare->get_diet_datatables($item);
-        $totalfilterrecords = $Healthcare->count_diet_datatables($item);
+               $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $Data = $Healthcare->get_diet_datatables($item,$keyword);
+;
+        $totalfilterrecords = $Healthcare->count_diet_datatables($item,$keyword);
+
 //        print_r($Data);
 //        exit();
 
@@ -300,8 +305,11 @@ class HealthCare extends BaseController
     {
         $Healthcare = new HealthcareModel();
         $item = 'pulses-grains';
-        $Data = $Healthcare->get_diet_datatables($item);
-        $totalfilterrecords = $Healthcare->count_diet_datatables($item);
+               $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $Data = $Healthcare->get_diet_datatables($item,$keyword);
+;
+        $totalfilterrecords = $Healthcare->count_diet_datatables($item,$keyword);
+
 //        print_r($Data);
 //        exit();
 
@@ -350,8 +358,10 @@ class HealthCare extends BaseController
     public function fetch_vegetable()
     {
         $Healthcare = new HealthcareModel();
-        $Data = $Healthcare->get_vegetable_datatables();
-        $totalfilterrecords = $Healthcare->count_vegetable_datatables();
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $Healthcare->get_vegetable_datatables($keyword);
+        $totalfilterrecords = $Healthcare->count_vegetable_datatables($keyword);
 
 
         $dataarr = array();
@@ -400,8 +410,10 @@ class HealthCare extends BaseController
     public function fetch_miscellaneous()
     {
         $Healthcare = new HealthcareModel();
-        $Data = $Healthcare->get_miscellaneous_datatables();
-        $totalfilterrecords = $Healthcare->count_miscellaneous_datatables();
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $Healthcare->get_miscellaneous_datatables($keyword);
+        $totalfilterrecords = $Healthcare->count_miscellaneous_datatables($keyword);
 
         $dataarr = array();
         $cnt = $_POST['start'];

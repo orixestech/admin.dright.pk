@@ -4,7 +4,7 @@
 
 <div class="card">
     <div class="card-body">
-        <h4>Banners
+        <h4>Images
             <span style="float: right;">            <button type="button" onclick="AddImage()"
                                                             class="btn btn-primary "
                                                             data-toggle="modal" data-target="#exampleModal">

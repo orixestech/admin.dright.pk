@@ -245,7 +245,6 @@ class Lookup extends BaseController
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
     }
-
     public function get_lookup_option_record()
     {
         $Crud = new Crud();

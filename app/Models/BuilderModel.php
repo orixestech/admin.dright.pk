@@ -14,32 +14,21 @@ class BuilderModel extends Model
 //        $this->data = $this->DefaultVariable();
     }
 
-//    public function DefaultVariable()
-//    {
-//        helper('main');
-//        $session = session();
-//        $data = $this->data;
-//        $data['path'] = PATH;
-//        $data['template'] = TEMPLATE;
-//        $data['site_title'] = SITETITLE;
-//        $page = getSegment(1);
-//        $data['segment_a'] = getSegment(1);
-//        $data['segment_b'] = getSegment(2);
-//        $data['segment_c'] = getSegment(3);
-//        $data['session'] = $session->get();
-//        $data['page'] = ($page == '') ? 'home' : $page;
-//
-//        return $data;
-//    }
+    public function get_speciality_images_by_id($id)
+    {
+        $Crud = new Crud();
+        $SQL = "SELECT * FROM `speciality_metas` WHERE `SpecialityUID` = '" . $id . "' AND `Option` != 'heading' AND `Option` != 'short_message'";
+
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
     public function get_profile_options_data_by_id_option($id, $option)
     {
         $Crud = new Crud();
         $SQL = 'SELECT *
         FROM "public"."options"  
         where "public"."options"."ProfileUID" = \'' . $id . '\' And "public"."options"."Name" = \'' . $option . '\'; ';
-
         $Admin = $Crud->ExecutePgSQL($SQL);
-
         return $Admin;
     }
     public function general_banners()
@@ -50,8 +39,6 @@ class BuilderModel extends Model
        ORDER BY `general_banners`.`SystemDate` ASC
 
 ';
-//        $Admin = $Crud->ExecuteSQL($SQL);
-//        print_r($Admin);exit();
         return $SQL;
     }
     public function specialities()
@@ -75,20 +62,35 @@ class BuilderModel extends Model
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin;
     }
+    public function get_speciality_meta_data_by_id_option($id, $option)
+    {
+        $Crud = new Crud();
+        $SQL = "SELECT * FROM `speciality_metas` WHERE `SpecialityUID` = $id AND `Option` = '$option'";
+        $Admin = $Crud->ExecuteSQL($SQL);
+//        print_r($SQL);exit();
+        return $Admin;
+    }
+    public function specialitiess($keyword)
+    {
+        $Crud = new Crud();
+        $SQL   = "SELECT * FROM `specialities` WHERE `Archive` = '0' ";
+
+        if($keyword!=''){
+            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+//            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Tag` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY `Name` ASC';
+
+//        print_r($SQL);exit();
+        return $SQL;
+    }
     public function Allprofiless($ID)
     {
         $Crud = new Crud();
         $SQL = 'SELECT "public"."profiles".*
         FROM "public"."profiles"  
-        LEFT JOIN "public"."profile_metas" 
-        ON "public"."profiles"."UID" = "public"."profile_metas"."ProfileUID"  
-            LEFT JOIN "public"."visitors" 
-        ON "public"."profiles"."UID" = "public"."visitors"."ProfileUID"
-
         WHERE "public"."profiles"."Type" =\'' . $ID . '\' 
         ORDER BY "public"."profiles"."Name" ASC ';
-//        $Admin = $Crud->ExecutePgSQL($SQL);
-//        print_r($SQL);exit();
         return $SQL;
     }
   
@@ -96,8 +98,6 @@ class BuilderModel extends Model
     {
         $Crud = new Crud();
         $SQL = "SELECT * FROM `websites_images` ORDER BY `websites_images`.`SystemDate` DESC";
-//        $Admin = $Crud->ExecuteSQL($SQL);
-//        print_r($Admin);exit();
         return $SQL;
     }
 
@@ -123,7 +123,6 @@ class BuilderModel extends Model
 
         $SQL = $this->general_banners();
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
         return count($records);
     }
   public
@@ -134,9 +133,7 @@ class BuilderModel extends Model
         $SQL = $this->websites_images();
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
-//        echo nl2br($SQL); exit;
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
 
         return $records;
     }
@@ -148,32 +145,29 @@ class BuilderModel extends Model
 
         $SQL = $this->websites_images();
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
         return count($records);
     }
     public
-    function get_doct_datatables($id)
+    function get_specialities_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->Allprofiless($id);
+        $SQL = $this->specialitiess($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
-//        echo nl2br($SQL); exit;
-        $records = $Crud->ExecutePgSQL($SQL);
-//        print_r($records);exit();
+        $records = $Crud->ExecuteSQL($SQL);
 
         return $records;
     }
  public
-    function count_doct_datatables($id)
+    function count_specialities_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->Allprofiless($id);
-        $SQL = 'select count(*) from ( '.$SQL.' ) as "MASTERTABLE"';
-        $Admin = $Crud->ExecutePgSQL($SQL);
-        return $Admin[0]['count'];
+        $SQL = $this->specialitiess($keyword);
+        $SQL = 'select count(*) as `UID` from ( '.$SQL.' ) as `MASTERTABLE`';
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin[0]['UID'];
     }
 
 
