@@ -16,19 +16,22 @@ class SystemUser extends Model
 
 
 
-    public function systemusers()
+    public function systemusers($keyword)
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `system_users` where `Archive`=\'0\' AND `Email`!=\'info@orixestech.com\' Order By `SystemDate` DESC';
-//        $Admin = $Crud->ExecuteSQL($SQL);
+        $SQL = 'SELECT * FROM `system_users` where `Archive`=\'0\' AND `Email`!=\'info@orixestech.com\' ';
+        if($keyword!=''){
+            $SQL .= ' AND  ( `FullName` LIKE \'%' . $keyword . '%\'  OR `Email` LIKE \'%' . $keyword . '%\' OR `AccessLevel` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY `SystemDate` DESC';
         return $SQL;
     }
     public
-    function get_users_datatables()
+    function get_users_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->systemusers();
+        $SQL = $this->systemusers($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -39,11 +42,11 @@ class SystemUser extends Model
     }
 
     public
-    function count_users_datatables()
+    function count_users_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->systemusers();
+        $SQL = $this->systemusers($keyword);
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);

@@ -343,8 +343,10 @@ class Builder extends BaseController
     public function fetch_specialities()
     {
         $BuilderModel = new BuilderModel();
-        $Data = $BuilderModel->get_specialities_datatables();
-        $totalfilterrecords = $BuilderModel->count_specialities_datatables();
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $BuilderModel->get_specialities_datatables($keyword);
+        $totalfilterrecords = $BuilderModel->count_specialities_datatables($keyword);
 
 //        print_r($totalfilterrecords);exit();
         $dataarr = array();
@@ -432,7 +434,8 @@ class Builder extends BaseController
         $response['status'] = 'success';
         $response['message'] = ' Deleted Successfully...!';
         echo json_encode($response);
-    }  public function delete_specialities()
+    }
+    public function delete_specialities()
     {
         $BuilderModel = new BuilderModel();
         $Crud = new Crud();

@@ -62,10 +62,17 @@ class BuilderModel extends Model
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin;
     }
-    public function specialitiess()
+    public function specialitiess($keyword)
     {
         $Crud = new Crud();
-        $SQL   = "SELECT * FROM `specialities` WHERE `Archive` = '0' ORDER BY `Name` ASC";
+        $SQL   = "SELECT * FROM `specialities` WHERE `Archive` = '0' ";
+
+        if($keyword!=''){
+            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+//            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Tag` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY `Name` ASC';
+
 //        print_r($SQL);exit();
         return $SQL;
     }
@@ -133,11 +140,11 @@ class BuilderModel extends Model
         return count($records);
     }
     public
-    function get_specialities_datatables()
+    function get_specialities_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->specialitiess();
+        $SQL = $this->specialitiess($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
         $records = $Crud->ExecuteSQL($SQL);
@@ -145,11 +152,11 @@ class BuilderModel extends Model
         return $records;
     }
  public
-    function count_specialities_datatables()
+    function count_specialities_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->specialitiess();
+        $SQL = $this->specialitiess($keyword);
         $SQL = 'select count(*) as `UID` from ( '.$SQL.' ) as `MASTERTABLE`';
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin[0]['UID'];

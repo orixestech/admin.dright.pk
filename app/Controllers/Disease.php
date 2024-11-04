@@ -43,9 +43,11 @@ class Disease extends BaseController
     public function fetch_diseases()
     {
         $Users = new DiseasesModel();
-        $Data = $Users->get_diseases_datatables();
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $Users->get_diseases_datatables($keyword);
 //        print_r($Data);exit();
-        $totalfilterrecords = $Users->count_diseases_datatables();
+        $totalfilterrecords = $Users->count_diseases_datatables($keyword);
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {

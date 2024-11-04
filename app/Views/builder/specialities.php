@@ -30,8 +30,9 @@
             <tfoot>
             <tr>
                 <th>Sr. No</th>
-                <th>Icon</th>
                 <th>Name</th>
+
+                <th>Icon</th>
                 <th>Total Images</th>
 
                 <th >Actions</th>
@@ -50,7 +51,7 @@
            $('#record').DataTable({
                "scrollY": "800px",
                "scrollCollapse": true,
-               "searching": false,
+               "searching": true,
                "processing": true,
                "serverSide": true,
                "responsive": true,

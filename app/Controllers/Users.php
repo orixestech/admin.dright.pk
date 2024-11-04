@@ -53,8 +53,10 @@ class Users extends BaseController
     public function fetch_users()
     {
         $Users = new SystemUser();
-        $Data = $Users->get_users_datatables();
-        $totalfilterrecords = $Users->count_users_datatables();
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $Users->get_users_datatables($keyword);
+        $totalfilterrecords = $Users->count_users_datatables($keyword);
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
