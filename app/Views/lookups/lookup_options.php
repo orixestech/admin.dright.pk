@@ -79,7 +79,7 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
             $('#frutis').DataTable({
                 "scrollY": "800px",
                 "scrollCollapse": true,
-                "searching": false,
+                "searching": true,
                 "processing": true,
                 "serverSide": true,
                 "responsive": true,

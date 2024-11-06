@@ -52,8 +52,10 @@ class Lookup extends BaseController
     public function fetch_lookups()
     {
         $Lookup = new LookupModal();
-        $Data = $Lookup->get_datatables();
-        $totalfilterrecords = $Lookup->count_datatables();
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $Lookup->get_datatables($keyword);
+        $totalfilterrecords = $Lookup->count_datatables($keyword);
 
         $dataarr = array();
         $cnt = $_POST['start'];
@@ -95,9 +97,10 @@ class Lookup extends BaseController
     {
         $Lookup = new LookupModal();
         $LookupID = $this->request->getVar('UID');
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
 
-        $Data = $Lookup->get_lookup_option_datatables($LookupID);
-        $totalfilterrecords = $Lookup->count_lookup_optiondatatables($LookupID);
+        $Data = $Lookup->get_lookup_option_datatables($LookupID,$keyword);
+        $totalfilterrecords = $Lookup->count_lookup_optiondatatables($LookupID,$keyword);
 
         $dataarr = array();
         $cnt = $_POST['start'];

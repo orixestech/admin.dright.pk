@@ -32,14 +32,19 @@ class LookupModal extends Model
 //        return $data;
 //    }
 
-    public function Lookup()
+    public function Lookup($keyword)
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `lookups` where `Archive`=\'0\' Order By `Name` ASC';
+        $SQL = 'SELECT * FROM `lookups` where `Archive`=\'0\' 
+                      ';
+        if($keyword!=''){
+            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .=' Order By `Name` ASC';
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
-    public function LookupOption($LookupID)
+    public function LookupOption($LookupID,$keyword)
     {
         $Crud = new Crud();
         $session = session();
@@ -48,6 +53,9 @@ class LookupModal extends Model
         if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
             $Name = $SessionFilters['Name'];
             $SQL .= ' AND  `Name` LIKE \'%' . $Name . '%\'';
+        }
+        if($keyword!=''){
+            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
         }
         $SQL .=' Order By `Name` ASC';
 //        print_r($SQL);exit();
@@ -62,11 +70,11 @@ class LookupModal extends Model
         return $Admin;
     }
     public
-    function get_datatables()
+    function get_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->Lookup();
+        $SQL = $this->Lookup($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -75,20 +83,20 @@ class LookupModal extends Model
     }
 
     public
-    function count_datatables()
+    function count_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->Lookup();
+        $SQL = $this->Lookup($keyword);
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
     public
-    function get_lookup_option_datatables($LookupID)
+    function get_lookup_option_datatables($LookupID,$keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->LookupOption($LookupID);
+        $SQL = $this->LookupOption($LookupID,$keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -97,11 +105,11 @@ class LookupModal extends Model
     }
 
     public
-    function count_lookup_optiondatatables($LookupID)
+    function count_lookup_optiondatatables($LookupID,$keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->LookupOption($LookupID);
+        $SQL = $this->LookupOption($LookupID,$keyword);
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
