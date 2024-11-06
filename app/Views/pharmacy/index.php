@@ -171,7 +171,7 @@ if (isset($SessionFilters['MACAddress']) && $SessionFilters['MACAddress'] != '')
             var rslt = AjaxResponse('pharmacy_profile_search_filter', data);
             if (rslt.status == 'success') {
                 $("#AllFilterForm form #FilterResponse").html(rslt.message);
-                // location.reload();
+                location.reload();
             }
         }
 

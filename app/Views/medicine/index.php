@@ -149,7 +149,7 @@ if (isset($SessionFilters['MedicineName']) && $SessionFilters['MedicineName'] !=
             var rslt = AjaxResponse('medicine/search_filter', data);
             if (rslt.status == 'success') {
                 $("#AllMedicineFilterForm form #FilterResponse").html(rslt.message);
-                // location.reload();
+                location.reload();
             }
         }
 

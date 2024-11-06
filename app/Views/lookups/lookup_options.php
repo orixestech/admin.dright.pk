@@ -136,7 +136,7 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
             var rslt = AjaxResponse('lookup_search_filter', data);
             if (rslt.status == 'success') {
                 $("#AllLookupFilterForm form #FilterResponse").html(rslt.message);
-                // location.reload();
+                location.reload();
             }
         }
 
