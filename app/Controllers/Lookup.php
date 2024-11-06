@@ -257,4 +257,28 @@ class Lookup extends BaseController
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
     }
+    public function search_filter()
+    {
+        $session = session();
+//        $Key = $this->request->getVar( 'Key' );
+//        $city = $this->request->getVar( 'city' );
+        $MACAddress = $this->request->getVar( 'Name' );
+
+
+        $AllFilter = array (
+//            'Key' => $Key,
+//            'city' => $city,
+            'Name' => $MACAddress,
+
+        );
+
+
+//        print_r($AllFilter);exit();
+        $session->set( 'LookupFilters', $AllFilter );
+
+        $response[ 'status' ] = "success";
+        $response[ 'message' ] = "Filters Updated Successfully";
+
+        echo json_encode( $response );
+    }
 }

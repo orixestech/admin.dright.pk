@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4e6a179-d435-434a-91f1-73075c7465eb" name="Changes" comment="" />
+    <list default="true" id="a4e6a179-d435-434a-91f1-73075c7465eb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/Routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/Config/Routes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/Lookup.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/Lookup.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Controllers/Pharmacy.php" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/Pharmacy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/LookupModal.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/LookupModal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Models/PharmacyModal.php" beforeDir="false" afterPath="$PROJECT_DIR$/Models/PharmacyModal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/lookups/lookup_options.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/lookups/lookup_options.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/pharmacy/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Views/pharmacy/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/Admin Task List &amp; Summary.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/Admin Task List &amp; Summary.xlsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,6 +38,10 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -36,6 +54,7 @@
       <option name="presentableId" value="Default" />
       <updated>1728480373582</updated>
       <workItem from="1728480377369" duration="14000" />
+      <workItem from="1730869755994" duration="2485000" />
     </task>
     <servers />
   </component>

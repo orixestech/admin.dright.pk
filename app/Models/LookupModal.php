@@ -42,7 +42,15 @@ class LookupModal extends Model
     public function LookupOption($LookupID)
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `lookups_options` where `Archive`=\'0\' AND  `LookupUID`=\'' . $LookupID . '\' Order By `Name` ASC';
+        $session = session();
+        $SessionFilters = $session->get('LookupFilters');
+        $SQL = 'SELECT * FROM `lookups_options` where `Archive`=\'0\' AND  `LookupUID`=\'' . $LookupID . '\' ';
+        if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
+            $Name = $SessionFilters['Name'];
+            $SQL .= ' AND  `Name` LIKE \'%' . $Name . '%\'';
+        }
+        $SQL .=' Order By `Name` ASC';
+//        print_r($SQL);exit();
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }

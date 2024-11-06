@@ -41,14 +41,35 @@ class Pharmacy extends BaseController
         echo view('pharmacy/dashboard', $data);
         echo view('footer', $data);
     }
+    public function pharmacy_profile_search_filter()
+    {
+        $session = session();
+        $Categories = $this->request->getVar( 'Categories' );
+
+
+        $AllFilter = array (
+            'Categories' => $Categories,
+
+        );
+
+
+//        print_r($AllCVFilter);exit;
+        $session->set( 'PharmacyProfileFilters', $AllFilter );
+
+        $response[ 'status' ] = "success";
+        $response[ 'message' ] = "Filters Updated Successfully";
+
+        echo json_encode( $response );
+    }
     public function fetch_pharmacy()
     {
         $Crud = new Crud();
         $Main = new Main();
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
 
         $PharmacyModal = new PharmacyModal();
-        $Data = $PharmacyModal->get_datatables();
-        $totalfilterrecords = $PharmacyModal->count_datatables();
+        $Data = $PharmacyModal->get_datatables($keyword);
+        $totalfilterrecords = $PharmacyModal->count_datatables($keyword);
 //        print_r($Data);
 //        exit();
         $dataarr = array();
@@ -162,21 +183,21 @@ class Pharmacy extends BaseController
     public function search_filter()
     {
         $session = session();
-        $Key = $this->request->getVar( 'Key' );
-        $city = $this->request->getVar( 'city' );
+//        $Key = $this->request->getVar( 'Key' );
+//        $city = $this->request->getVar( 'city' );
         $MACAddress = $this->request->getVar( 'MACAddress' );
 
 
         $AllFilter = array (
-            'Key' => $Key,
-            'city' => $city,
+//            'Key' => $Key,
+//            'city' => $city,
             'MACAddress' => $MACAddress,
 
         );
 
 
-//        print_r($AllCVFilter);exit;
-        $session->set( 'Filters', $AllFilter );
+//        print_r($AllFilter);exit();
+        $session->set( 'PharmacyFilters', $AllFilter );
 
         $response[ 'status' ] = "success";
         $response[ 'message' ] = "Filters Updated Successfully";
