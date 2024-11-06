@@ -5,12 +5,12 @@ namespace App\Controllers;
 
 use App\Models\Crud;
 use App\Models\Main;
-use App\Models\DiseasesModel;
 use App\Models\MedicineModel;
 
 class Medicine extends BaseController
 {
     var $data = array();
+
     public function __construct()
     {
 
@@ -23,7 +23,7 @@ class Medicine extends BaseController
         $data = $this->data;
         $data['page'] = getSegment(2);
         $MedicineModel = new MedicineModel();
-        $data['Company']=$MedicineModel->ListAllCompanies();
+        $data['Company'] = $MedicineModel->ListAllCompanies();
 //        print_r()
         echo view('header', $data);
 
@@ -31,17 +31,28 @@ class Medicine extends BaseController
 
         echo view('footer', $data);
     }
+
     public function take_type()
     {
         $data = $this->data;
-        $data['page'] = getSegment(2);
-        $MedicineModel = new MedicineModel();
-        $data['Company']=$MedicineModel->ListAllCompanies();
-//        print_r()
         echo view('header', $data);
-
         echo view('medicine/take_type', $data);
+        echo view('footer', $data);
+    }
 
+    public function timing()
+    {
+        $data = $this->data;
+        echo view('header', $data);
+        echo view('medicine/timing', $data);
+        echo view('footer', $data);
+    }
+
+    public function medicine_forms()
+    {
+        $data = $this->data;
+        echo view('header', $data);
+        echo view('medicine/forms', $data);
         echo view('footer', $data);
     }
 
@@ -56,7 +67,7 @@ class Medicine extends BaseController
     public function fetch_medicine()
     {
         $MedicineModel = new MedicineModel();
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
         $Data = $MedicineModel->get_medicine_datatables($keyword);
 //        print_r($Data);exit();
@@ -98,10 +109,11 @@ class Medicine extends BaseController
         );
         echo json_encode($response);
     }
-   public function fetch_medicine_take_type()
+
+    public function fetch_medicine_take_type()
     {
         $MedicineModel = new MedicineModel();
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
         $Data = $MedicineModel->get_medicine_take_type_datatables($keyword);
 //        print_r($Data);exit();
@@ -123,6 +135,88 @@ class Medicine extends BaseController
             <div class="dropdown-menu">
                 <a class="dropdown-item" onclick="UpdateMedicineTakeType(' . htmlspecialchars($record['UID']) . ')">Update</a>
                 <a class="dropdown-item" onclick="DeleteMedicineTakeType(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+
+            </div>
+        </div>
+    </td>';
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+        echo json_encode($response);
+    }
+
+    public function fetch_medicine_forms()
+    {
+        $MedicineModel = new MedicineModel();
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+
+        $Data = $MedicineModel->get_medicine_forms_datatables($keyword);
+//        print_r($Data);exit();
+        $totalfilterrecords = $MedicineModel->count_medicine_forms_datatables($keyword);
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
+
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateMedicineForms(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteMedicineForms(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+
+            </div>
+        </div>
+    </td>';
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+        echo json_encode($response);
+    }
+
+    public function fetch_medicine_timing()
+    {
+        $MedicineModel = new MedicineModel();
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+
+        $Data = $MedicineModel->get_medicine_timing_datatables($keyword);
+//        print_r($Data);exit();
+        $totalfilterrecords = $MedicineModel->count_medicine_timing_datatables($keyword);
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
+
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateMedicineTiming(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteMedicineTiming(' . htmlspecialchars($record['UID']) . ')">Delete</a>
 
             </div>
         </div>
@@ -174,6 +268,7 @@ class Medicine extends BaseController
 
         echo json_encode($response);
     }
+
     public function submit_medicine_take_type_form()
     {
         $Crud = new Crud();
@@ -210,6 +305,78 @@ class Medicine extends BaseController
         echo json_encode($response);
     }
 
+    public function submit_medicine_forms()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Medicine = $this->request->getVar('Forms');
+
+
+        if ($id == 0) {
+            foreach ($Medicine as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+
+            $RecordId = $Crud->AddRecord("medicines_forms", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($Medicine as $key => $value) {
+                $record[$key] = $value;
+            }
+            $Crud->UpdateRecord("medicines_forms", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = 'Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
+
+    public function submit_medicine_timing()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Medicine = $this->request->getVar('timing');
+
+
+        if ($id == 0) {
+            foreach ($Medicine as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+
+            $RecordId = $Crud->AddRecord("medicines_timings", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($Medicine as $key => $value) {
+                $record[$key] = $value;
+            }
+            $Crud->UpdateRecord("medicines_timings", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = 'Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
+
     public function delete()
     {
         $data = $this->data;
@@ -223,12 +390,42 @@ class Medicine extends BaseController
         $response['message'] = 'Deleted Successfully...!';
 
         echo json_encode($response);
-    }    public function delete_take_type()
+    }
+
+    public function delete_take_type()
     {
         $data = $this->data;
         $UID = $this->request->getVar('id');
         $Crud = new Crud();
         $table = "medicines_take_types";
+        $where = array('UID' => $UID);
+        $Crud->DeleteRecord($table, $where);
+        $response['status'] = 'success';
+        $response['message'] = 'Deleted Successfully...!';
+
+        echo json_encode($response);
+    }
+
+    public function delete_form()
+    {
+        $data = $this->data;
+        $UID = $this->request->getVar('id');
+        $Crud = new Crud();
+        $table = "medicines_forms";
+        $where = array('UID' => $UID);
+        $Crud->DeleteRecord($table, $where);
+        $response['status'] = 'success';
+        $response['message'] = 'Deleted Successfully...!';
+
+        echo json_encode($response);
+    }
+
+    public function delete_timing()
+    {
+        $data = $this->data;
+        $UID = $this->request->getVar('id');
+        $Crud = new Crud();
+        $table = "medicines_timings";
         $where = array('UID' => $UID);
         $Crud->DeleteRecord($table, $where);
         $response['status'] = 'success';
@@ -248,7 +445,35 @@ class Medicine extends BaseController
         $response['record'] = $record;
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
-    } public function get_medicine_take_type_record()
+    }
+
+    public function get_medicine_form_record()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("medicines_forms", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
+        echo json_encode($response);
+    }
+
+    public function get_medicine_timing_record()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("medicines_timings", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
+        echo json_encode($response);
+    }
+
+    public function get_medicine_take_type_record()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
@@ -260,15 +485,16 @@ class Medicine extends BaseController
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
     }
+
     public function search_filter()
     {
         $session = session();
-        $MedicineName = $this->request->getVar( 'MedicineName' );
+        $MedicineName = $this->request->getVar('MedicineName');
 //        $city = $this->request->getVar( 'city' );
-        $Company = $this->request->getVar( 'Company' );
+        $Company = $this->request->getVar('Company');
 
 
-        $AllFilter = array (
+        $AllFilter = array(
             'Company' => $Company,
             'MedicineName' => $MedicineName,
 
@@ -276,11 +502,11 @@ class Medicine extends BaseController
 
 
 //        print_r($AllFilter);exit();
-        $session->set( 'MedicineFilters', $AllFilter );
+        $session->set('MedicineFilters', $AllFilter);
 
-        $response[ 'status' ] = "success";
-        $response[ 'message' ] = "Filters Updated Successfully";
+        $response['status'] = "success";
+        $response['message'] = "Filters Updated Successfully";
 
-        echo json_encode( $response );
+        echo json_encode($response);
     }
 }

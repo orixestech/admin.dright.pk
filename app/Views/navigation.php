@@ -680,10 +680,10 @@
                             <a href="<?= $path ?>medicine/take_type">Take Type</a>
                         </li>
                         <li>
-                            <a href="<?= $path ?>medicine/">Forms</a>
+                            <a href="<?= $path ?>medicine/medicine_forms">Forms</a>
                         </li>
                         <li>
-                            <a href="<?= $path ?>medicine/">Timing</a>
+                            <a href="<?= $path ?>medicine/timing">Timing</a>
                         </li>
                         <li>
                             <a href="<?= $path ?>medicine/">Company</a>

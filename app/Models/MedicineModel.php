@@ -66,6 +66,28 @@ class MedicineModel extends Model
         $SQL .= ' ORDER BY `TakeType` ASC';
         return $SQL;
     }
+    public function medicines_forms($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = "SELECT * FROM `medicines_forms` Where 1=1 ";
+        if($keyword!=''){
+            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .= ' ORDER BY `SortOrder` ASC';
+        return $SQL;
+    }
+    public function medicines_timing($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = "SELECT * FROM `medicines_timings` Where 1=1 ";
+        if($keyword!=''){
+            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .= ' ORDER BY `SortOrder` ASC';
+        return $SQL;
+    }
     public function ListAllCompanies()
     {
         $Crud = new Crud();
@@ -94,7 +116,8 @@ class MedicineModel extends Model
         $SQL = $this->ListAllMedicines($keyword);
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
-    }  public
+    }
+    public
     function get_medicine_take_type_datatables($keyword)
     {
         $Crud = new Crud();
@@ -102,7 +125,6 @@ class MedicineModel extends Model
         $SQL = $this->medicines_take_types($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
-//        echo nl2br($SQL); exit;
         $records = $Crud->ExecuteSQL($SQL);
         return $records;
     }
@@ -111,8 +133,47 @@ class MedicineModel extends Model
     function count_medicine_take_type_datatables($keyword)
     {
         $Crud = new Crud();
-
         $SQL = $this->medicines_take_types($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    }
+    public
+    function get_medicine_forms_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->medicines_forms($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public
+    function count_medicine_forms_datatables($keyword)
+    {
+        $Crud = new Crud();
+        $SQL = $this->medicines_forms($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    }
+    public
+    function get_medicine_timing_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->medicines_timing($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public
+    function count_medicine_timing_datatables($keyword)
+    {
+        $Crud = new Crud();
+        $SQL = $this->medicines_timing($keyword);
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
