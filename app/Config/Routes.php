@@ -152,12 +152,8 @@ $routes->group('representative', static function ($routes) {
 
 });
 $routes->group('medicine', static function ($routes) {
-    $routes->get('/', 'Pharmacy::index');
-    $routes->get('add', 'Pharmacy::index');
-    $routes->post('submit', 'Pharmacy::user_form_submit');
-    $routes->post('delete', 'Pharmacy::delete');
-    $routes->get('update/(:num)', 'Pharmacy::index');
-    $routes->post('medicine-data', 'Pharmacy::fetch_medicine');
+    $routes->get('/', 'Medicine::index');
+    $routes->post('search_filter', 'Medicine::search_filter');
 
 });
 $routes->group('therapy', static function ($routes) {

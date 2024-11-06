@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Models;
+
+use CodeIgniter\Model;
+
+class MedicineModel extends Model
+{
+
+    var $data = array();
+
+    public function __construct()
+    {
+//        $this->data = $this->DefaultVariable();
+    }
+
+//    public function DefaultVariable()
+//    {
+//        helper('main');
+//        $session = session();
+//        $data = $this->data;
+//        $data['path'] = PATH;
+//        $data['template'] = TEMPLATE;
+//        $data['site_title'] = SITETITLE;
+//        $page = getSegment(1);
+//        $data['segment_a'] = getSegment(1);
+//        $data['segment_b'] = getSegment(2);
+//        $data['segment_c'] = getSegment(3);
+//        $data['session'] = $session->get();
+//        $data['page'] = ($page == '') ? 'home' : $page;
+//
+//        return $data;
+//    }
+
+    public function ListAllMedicines($keyword)
+    {
+
+        $Crud = new Crud();
+        $session = session();
+        $SessionFilters = $session->get('MedicineFilters');
+        $SQL = 'SELECT medicines.*, pharma_company.CompanyName AS PharmaTitle FROM medicines
+    LEFT JOIN pharma_company ON medicines.PharmaCompanyUID = pharma_company.UID
+        WHERE medicines.`Archive`=\'0\'
+
+';
+        if (isset($SessionFilters['MedicineName']) && $SessionFilters['MedicineName'] != '') {
+            $MedicineName = $SessionFilters['MedicineName'];
+            $SQL .= ' AND  "MedicineTitle" LIKE \'%' . $MedicineName . '%\'';
+        }
+        if($keyword!=''){
+            $SQL .= ' AND  ( `MedicineTitle` LIKE \'%' . $keyword . '%\'  OR `Ingredients` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY medicines.`MedicineTitle` ASC';
+//print_r($SQL);exit();
+//        $Admin = $Crud->ExecuteSQL($SQL);
+        return $SQL;
+    }
+    public function ListAllCompanies()
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `pharma_company` where `Archive`=\'0\' Order By `CompanyName` ASC';
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
+    public
+    function get_medicine_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->ListAllMedicines($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public
+    function count_medicine_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->ListAllMedicines($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    }
+
+
+}
