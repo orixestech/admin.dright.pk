@@ -55,6 +55,17 @@ class MedicineModel extends Model
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
+    public function medicines_take_types($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = "SELECT * FROM `medicines_take_types` Where 1=1 ";
+        if($keyword!=''){
+            $SQL .= ' AND  `TakeType` LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .= ' ORDER BY `TakeType` ASC';
+        return $SQL;
+    }
     public function ListAllCompanies()
     {
         $Crud = new Crud();
@@ -81,6 +92,27 @@ class MedicineModel extends Model
         $Crud = new Crud();
 
         $SQL = $this->ListAllMedicines($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    }  public
+    function get_medicine_take_type_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->medicines_take_types($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public
+    function count_medicine_take_type_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->medicines_take_types($keyword);
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }

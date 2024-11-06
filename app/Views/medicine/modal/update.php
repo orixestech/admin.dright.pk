@@ -8,7 +8,7 @@
                   enctype="multipart/form-data">
                 <input type="hidden" name="UID" id="UID" value="0">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Medicine </h5>
+                    <h5 class="modal-title">Update Medicine </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i class="ti-close"></i>
                     </button>

@@ -672,14 +672,12 @@
                         <span>Medicine</span>
                     </a>
                     <ul>
+
                         <li>
-                            <a href="<?= $path ?>medicine/add">Add</a>
+                            <a href="<?= $path ?>medicine/">Medicine List</a>
                         </li>
                         <li>
-                            <a href="<?= $path ?>medicine/">Listing</a>
-                        </li>
-                        <li>
-                            <a href="<?= $path ?>medicine/">Take Type</a>
+                            <a href="<?= $path ?>medicine/take_type">Take Type</a>
                         </li>
                         <li>
                             <a href="<?= $path ?>medicine/">Forms</a>

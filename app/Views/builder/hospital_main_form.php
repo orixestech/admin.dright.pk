@@ -2,7 +2,11 @@
 <?php
 
 use App\Models\BuilderModel;
-
+$short_desc='';
+$clinta_extended_profiles='';
+$healthcarestatus='';
+$theme='';
+$patient_portal='';
 $BuilderModel = new BuilderModel();
 $short_desc =$BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE['UID'], 'short_description' );
 $clinta_extended_profiles = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE['UID'], 'clinta_extended_profiles' );
@@ -98,7 +102,10 @@ $patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PA
                         <label class="col-sm-12">Short Description</label>
                         <div class="col-sm-12">
                             <textarea class="form-control" name="short_description" id="short_description"
-                                      rows="6"><?=( ( isset($short_desc) && !empty($short_desc))? $short_desc['Value'] : '' )?></textarea>
+                                      rows="6">
+                                <?php if (is_array($short_desc) && !empty($short_desc)) { ?>
+                                    <?= isset($short_desc[0]['Value']) ? $short_desc[0]['Value'] : ''; ?>
+                                <?php } ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -115,10 +122,17 @@ $patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PA
                             <select id="clinta_extended_profiles" name="clinta_extended_profiles" class="form-control"
                                     data-validation-engine="validate[required]">
                                 <option value="">Please Select</option>
+<!--                                --><?php
+//                                foreach( $extended_profiles as $PF ){
+//                                    echo'<option value="'.$PF['UID'].'" '. if (is_array($healthcarestatus) && !empty($healthcarestatus)) {
+//                                    ( ( isset( $clinta_extended_profiles ) && $clinta_extended_profiles[0]['Value'] == $PF['UID'] )? 'selected' : ''  )     } .' >'.$PF['FullName'].'</option>';
+//                                }?>
                                 <?php
-                                foreach( $extended_profiles as $PF ){
-                                    echo'<option value="'.$PF['UID'].'" '.( ( isset( $clinta_extended_profiles ) && $clinta_extended_profiles[0]['Value'] == $PF['UID'] )? 'selected' : ''  ).' >'.$PF['FullName'].'</option>';
-                                }?>
+                                foreach ($extended_profiles as $PF) {
+                                    $selected = (is_array($clinta_extended_profiles) && !empty($clinta_extended_profiles) && isset($clinta_extended_profiles[0]['Value']) && $clinta_extended_profiles[0]['Value'] == $PF['UID']) ? 'selected' : '';
+                                    echo '<option value="' . $PF['UID'] . '" ' . $selected . '>' . $PF['FullName'] . '</option>';
+                                }
+                                ?>
 
                                                       </select>
                         </div>
@@ -129,9 +143,26 @@ $patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PA
                         <label class="col-sm-12">Add-ons</label>
                         <div class="col-sm-12">
                             <select name="healthcare_status" id="healthcare_status" class="form-control">
-                                <option value="" <?=( ( isset( $healthcarestatus ) && $healthcarestatus[0]['Value'] == '' )? 'selected' : '' )?>>Please Select</option>
-                                <option value="1" <?=( ( isset( $healthcarestatus ) && $healthcarestatus[0]['Value'] == '1' )? 'selected' : '' )?>>Show</option>
-                                <option value="0" <?=( ( isset( $healthcarestatus ) && $healthcarestatus[0]['Value'] == '0' )? 'selected' : '' )?>>Hide</option>
+                                <option value=""
+
+                                <?php if (is_array($healthcarestatus) && !empty($healthcarestatus)) { ?>
+                                    <?= (isset($healthcarestatus[0]['Value']) && $healthcarestatus[0]['Value'] == '') ? 'selected' : ''; ?>
+                                <?php } ?>
+
+                                >Please Select</option>
+                                <option value="1"
+                                <?php if (is_array($healthcarestatus) && !empty($healthcarestatus)) { ?>
+                                    <?= (isset($healthcarestatus[0]['Value']) && $healthcarestatus[0]['Value'] == '1') ? 'selected' : ''; ?>
+                                <?php } ?>
+
+                               >Show</option>
+  <option value="0"
+                                <?php if (is_array($healthcarestatus) && !empty($healthcarestatus)) { ?>
+                                    <?= (isset($healthcarestatus[0]['Value']) && $healthcarestatus[0]['Value'] == '0') ? 'selected' : ''; ?>
+                                <?php } ?>
+
+                               >Hide</option>
+
                             </select>
                         </div>
                     </div>
@@ -154,7 +185,8 @@ $patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PA
                         <label class="col-sm-12">Patient Portal</label>
                         <div class="col-sm-12">
                             <select name="patient_portal" id="patient_portal" class="form-control">
-                                <option value="" <?=( ( isset( $patient_portal ) && $patient_portal[0]['Value'] == '' )? 'selected' : '' )?>>Please Select</option>
+                                <option value=""
+                                    <?=( ( isset( $patient_portal ) && $patient_portal[0]['Value'] == '' )? 'selected' : '' )?>>Please Select</option>
                                 <option value="1" <?=( ( isset( $healthcarestatus ) && $patient_portal[0]['Value'] == '1' )? 'selected' : '' )?>>Yes</option>
                                 <option value="0" <?=( ( isset( $patient_portal ) && $patient_portal[0]['Value'] == '0' )? 'selected' : '' )?>>No</option>
 
