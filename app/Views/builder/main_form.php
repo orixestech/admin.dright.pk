@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom04">ContactNo</label>
+                    <label for="validationCustom04">Contact No</label>
                     <input type="text" class="form-control" name="ContactNo" id="validationCustom04"
                            placeholder="Contact No"
                            value="<?= ((isset($PAGE['ContactNo'])) ? $PAGE['ContactNo'] : '') ?>"

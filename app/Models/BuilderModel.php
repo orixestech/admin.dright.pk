@@ -31,6 +31,15 @@ class BuilderModel extends Model
         $Admin = $Crud->ExecutePgSQL($SQL);
         return $Admin;
     }
+    public function get_website_profile_meta_data_by_id_option($id, $option)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT *
+        FROM "public"."profile_metas"  
+        where "public"."profile_metas"."ProfileUID" = \'' . $id . '\' And "public"."profile_metas"."Option" = \'' . $option . '\'; ';
+        $Admin = $Crud->ExecutePgSQL($SQL);
+        return $Admin;
+    }
     public function general_banners()
     {
         $Crud = new Crud();
@@ -145,6 +154,27 @@ class BuilderModel extends Model
 
         $SQL = $this->websites_images();
         $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    } public
+    function get_doct_datatables($type)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->Allprofiless($type);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecutePgSQL($SQL);
+
+        return $records;
+    }
+
+    public
+    function count_doct_datatables($type)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->Allprofiless($type);
+        $records = $Crud->ExecutePgSQL($SQL);
         return count($records);
     }
     public

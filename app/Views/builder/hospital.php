@@ -72,6 +72,9 @@
         function AddDoctor() {
             location.href = "<?=$path?>builder/add-hospital";
 
+        } function Updatehospital(id) {
+            location.href = "<?=$path?>builder/update-hospital/" + id;
+
         }
 
           function AddSmsCredits( id, newcredits ){

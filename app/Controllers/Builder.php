@@ -47,7 +47,7 @@ class Builder extends BaseController
             $UID = getSegment(3);
             $data['UID'] = $UID;
             $Crud = new Crud();
-            $PAGE = $Crud->SingleeRecord('representatives', array("UID" => $UID));
+            $PAGE = $Crud->SingleeRecord('public."profiles"', array("UID" => $UID));
             $data['PAGE'] = $PAGE;
             echo view('builder/main_form', $data);
 
@@ -55,9 +55,9 @@ class Builder extends BaseController
             $UID = getSegment(3);
             $data['UID'] = $UID;
             $Crud = new Crud();
-            $PAGE = $Crud->SingleeRecord('representatives', array("UID" => $UID));
+            $PAGE = $Crud->SingleeRecord('public."profiles"', array("UID" => $UID));
             $data['PAGE'] = $PAGE;
-            echo view('builder/main_form', $data);
+            echo view('builder/hospital_main_form', $data);
 
         } elseif ($data['page'] == 'hospital') {
             echo view('builder/hospital', $data);
@@ -314,7 +314,7 @@ class Builder extends BaseController
             Actions
         </button>
         <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="EditDoctors(' . $record['UID'] . ');">Edit</a>
+            <a class="dropdown-item" onclick="Updatehospital(' . $record['UID'] . ');">Edit</a>
             <a class="dropdown-item" onclick="DeleteHospital(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
 
             if ($record['SubDomain'] != '') {
@@ -692,6 +692,18 @@ class Builder extends BaseController
         $id = $this->request->getVar('UID');
         $email = $this->request->getVar('email');
         $ContactNo = $this->request->getVar('ContactNo');
+//        $file = $this->request->getFile('profile');
+        // Load the uploaded file using CodeIgniter's services
+        $file = $this->request->getFile('profile');
+        $fileContents='';
+        if ($file->isValid() && !$file->hasMoved()) {
+            // Read the file contents
+            $fileContents = file_get_contents($file->getTempName());
+
+            // Now you can process $fileContents as needed
+        }
+
+//        print_r($fileContents);exit();
 //        $file = file_get_contents($_FILES['profile']['tmp_name']);
 //        echo 'dddddd';exit();
         if ($id == 0) {
@@ -722,9 +734,9 @@ class Builder extends BaseController
                 $record['City'] = $this->request->getVar('city');
                 $record['ContactNo'] = $this->request->getVar('ContactNo');
                 $record['SubDomain'] = $subdomain;
-                $file = '';
-                if ($file != '') {
-                    $record['Profile'] = base64_encode($file);
+//                $fileContents = '';
+                if ($fileContents != '') {
+                    $record['Profile'] = base64_encode($fileContents);
 
                 } else {
                     $record['Profile'] = '';
@@ -792,26 +804,27 @@ Password: ' . $this->request->getVar('password');
                 }
             }
 
-        } else {
-            $Data = $Crud->SingleeRecord('public."profiles"', array("Email" => $email, 'ContactNo' => $ContactNo));
-
-            if (!empty($Data) && $Data['UID'] > 0) {
-                if ($Data['ContactNo'] == $ContactNo) {
-
-                    $responce = array();
-                    $responce['status'] = 'fail';
-                    $responce['message'] = '<strong>Contact No</strong> Already Assign to <strong>' . (($Data['SubDomain'] != '') ? $Data['SubDomain'] : $Data['Name']) . '</strong> ...!';
-                    echo json_encode($responce);
-
-                } else if ($Data['Email'] == $email) {
-
-                    $responce = array();
-                    $responce['status'] = 'fail';
-                    $responce['message'] = '<strong>Email</strong> Already Assign to <strong>' . (($Data['SubDomain'] != '') ? $Data['SubDomain'] : $Data['Name']) . '</strong> ...!';
-                    echo json_encode($responce);
-                }
-
-            } else {
+        }
+        else {
+//            $Data = $Crud->SingleeRecord('public."profiles"', array("Email" => $email, 'ContactNo' => $ContactNo));
+//
+//            if (!empty($Data) && $Data['UID'] > 0) {
+//                if ($Data['ContactNo'] == $ContactNo) {
+//
+//                    $responce = array();
+//                    $responce['status'] = 'fail';
+//                    $responce['message'] = '<strong>Contact No</strong> Already Assign to <strong>' . (($Data['SubDomain'] != '') ? $Data['SubDomain'] : $Data['Name']) . '</strong> ...!';
+//                    echo json_encode($responce);
+//
+//                } else if ($Data['Email'] == $email) {
+//
+//                    $responce = array();
+//                    $responce['status'] = 'fail';
+//                    $responce['message'] = '<strong>Email</strong> Already Assign to <strong>' . (($Data['SubDomain'] != '') ? $Data['SubDomain'] : $Data['Name']) . '</strong> ...!';
+//                    echo json_encode($responce);
+//                }
+//
+//            } else {
 
                 $subdomain = $this->request->getVar('sub_domain');
                 $record['Type'] = 'hospitals';
@@ -821,39 +834,39 @@ Password: ' . $this->request->getVar('password');
                 $record['City'] = $this->request->getVar('city');
                 $record['ContactNo'] = $this->request->getVar('ContactNo');
                 $record['SubDomain'] = $subdomain;
-                $file = '';
-                if ($file != '') {
-                    $record['Profile'] = base64_encode($file);
+                if ($fileContents != '') {
+                    $record['Profile'] = base64_encode($fileContents);
 
                 }
                 $website_profile_id = $Crud->UpdateeRecord("public.profiles", $record, array('UID' => $id));
-
+//                print_r($website_profile_id);exit();
                 if ($website_profile_id) {
                     $ExtendedArray = array('clinta_extended_profiles', 'short_description', 'healthcare_status', 'patient_portal');
                     foreach ($ExtendedArray as $EA) {
                         $Crud->DeleteRecordPG('public."profile_metas"', array("ProfileUID" => $id, 'Option' => $EA));
                     }
-
                     foreach ($ExtendedArray as $M) {
 
                         if ($this->request->getVar($M) != '') {
 
-                            $record_meta['ProfileUID'] = $website_profile_id;
+                            $record_meta['ProfileUID'] = $id;
                             $record_meta['Option'] = $M;
                             $record_meta['Value'] = $this->request->getVar($M);
 
-                            $id = $Crud->AdddRecord("public.profile_metas", $record_meta);
+                            $idd = $Crud->AdddRecord("public.profile_metas", $record_meta);
 
                         }
                     }
+
                     $theme = $this->request->getVar('theme');
                     $Options = array('theme_css' => 'dore.light.red.css', 'theme' => ((isset($theme) && $theme != '') ? $theme : ''), 'sms_credits' => 100, 'notify_sms' => 1, 'notify_email' => 1);
-
 
                     foreach ($Options as $key => $value) {
 
                         if ($value != '') {
-                            $Data = $Crud->SingleeRecord('public."options"', array("ProfileUID" => $website_profile_id, 'Name' => $key));
+                            $Data = $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id, 'Name' => $key));
+//                                print_r($Data);
+
                             if (isset($Data['UID'])) {
                                 $record_option['Description'] = $value;
                                 $website_profile_id = $Crud->UpdateeRecord("public.options", $record_option, array('UID' => $Data['UID']));
@@ -861,15 +874,17 @@ Password: ' . $this->request->getVar('password');
                             } else {
                                 $record_option['Description'] = $value;
                                 $record_option['Name'] = $key;
-                                $record_meta['ProfileUID'] = $id;
+                                $record_option['ProfileUID'] = $id;
 
                                 $id = $Crud->AdddRecord("public.options", $record_option);
 
                             }
+//                            echo 'cccc';exit();
+
                             $data = array();
                             $data['status'] = "success";
                             $data['id'] = $id;
-                            $data['message'] = "Hospitals Profile Updated Suuccessfully.....!";
+                            $data['message'] = "Hospitals Profile Updated Successfully.....!";
                             echo json_encode($data);
                         } else {
 
@@ -883,7 +898,7 @@ Password: ' . $this->request->getVar('password');
                     }
                 }
 
-            }
+//            }
 
         }
 
@@ -905,9 +920,23 @@ Password: ' . $this->request->getVar('password');
         $email = $this->request->getVar('email');
         $ContactNo = $this->request->getVar('ContactNo');
 
-        $file = file_get_contents($_FILES['profile']['tmp_name']);
-        echo 'dddd';
-        exit();
+        $file = $this->request->getFile('profile');
+        $initatived_logo = $this->request->getFile('initatived_logo');
+
+        if ($file->isValid() && !$file->hasMoved()) {
+            // Read the file contents
+            $fileContents = file_get_contents($file->getTempName());
+
+            // Now you can process $fileContents as needed
+        }//        echo 'dddd';
+//        exit();
+  if ($initatived_logo->isValid() && !$initatived_logo->hasMoved()) {
+            // Read the file contents
+            $fileinitatived_logo = file_get_contents($initatived_logo->getTempName());
+
+            // Now you can process $fileContents as needed
+        }//        echo 'dddd';
+//        exit();
 
         if ($id == 0) {
 
@@ -952,8 +981,8 @@ Password: ' . $this->request->getVar('password');
                 $record['SubDomain'] = $subdomain;
                 $record['AdminDomain'] = $AdminDomain;
 
-                if ($file != '') {
-                    $record['Profile'] = base64_encode($file);
+                if ($fileContents != '') {
+                    $record['Profile'] = base64_encode($fileContents);
 
 //                    $pgsql->set('Profile', base64_encode($file));
 
@@ -972,6 +1001,7 @@ Password: ' . $this->request->getVar('password');
                     $logos = array('sponsored_logo', 'initatived_logo');
 
                     foreach ($logos as $log) {
+                        echo 'dddd';exit();
 
                         $file = $Main->upload_image($log, 1024);
 
@@ -982,7 +1012,6 @@ Password: ' . $this->request->getVar('password');
 
 
                             $id = $Crud->AdddRecord("public.profile_metas", $records);
-
 
                         }
                     }
@@ -1111,8 +1140,8 @@ Email: ' . $this->request->getVar('email') . '
 Password: ' . $this->request->getVar('password');
                     $Main->send($mobile, $message);
                 }
-                if ($file != '') {
-                    $record['Profile'] = base64_encode($file);
+                if ($fileContents != '') {
+                    $record['Profile'] = base64_encode($fileContents);
                 }
                 $updateid = $Crud->UpdateeRecord("public.profiles", $record, array('UID' => $id));
 
