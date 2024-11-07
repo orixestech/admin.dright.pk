@@ -182,8 +182,10 @@ class Builder extends BaseController
         $BuilderModel = new BuilderModel();
         $PharmacyModal = new PharmacyModal();
         $type = 'doctors';
-        $Data = $BuilderModel->get_doct_datatables($type);
-        $totalfilterrecords = $BuilderModel->count_doct_datatables($type);
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $BuilderModel->get_doct_datatables($type,$keyword);
+        $totalfilterrecords = $BuilderModel->count_doct_datatables($type,$keyword);
 //        $SmsCredits = $BuilderModel->get_profile_options_data_by_id_option(315, 'sms_credits');
 
 //        print_r($Data);exit();
@@ -277,8 +279,10 @@ class Builder extends BaseController
         $BuilderModel = new BuilderModel();
         $PharmacyModal = new PharmacyModal();
         $type = 'hospitals';
-        $Data = $BuilderModel->get_doct_datatables($type);
-        $totalfilterrecords = $BuilderModel->count_doct_datatables($type);
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $BuilderModel->get_doct_datatables($type,$keyword);
+        $totalfilterrecords = $BuilderModel->count_doct_datatables($type,$keyword);
 //        $SmsCredits = $BuilderModel->get_profile_options_data_by_id_option(315, 'sms_credits');
 
 //        print_r($Data);exit();
@@ -1399,6 +1403,29 @@ Password: ' . $this->request->getVar('password');
 
         echo $html;
     }
+    public function hospital_search_filter()
+    {
+        $session = session();
+//        $Key = $this->request->getVar( 'Key' );
+        $city = $this->request->getVar( 'City' );
+        $Name = $this->request->getVar( 'Name' );
 
+
+        $AllFilter = array (
+//            'Key' => $Key,
+            'City' => $city,
+            'Name' => $Name,
+
+        );
+
+
+//        print_r($AllFilter);exit();
+        $session->set( 'HospitalFilters', $AllFilter );
+
+        $response[ 'status' ] = "success";
+        $response[ 'message' ] = "Filters Updated Successfully";
+
+        echo json_encode( $response );
+    }
 
 }

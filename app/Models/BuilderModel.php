@@ -93,13 +93,26 @@ class BuilderModel extends Model
 //        print_r($SQL);exit();
         return $SQL;
     }
-    public function Allprofiless($ID)
+    public function Allprofiless($ID,$keyword)
     {
         $Crud = new Crud();
+        $session = session();
+        $SessionFilters = $session->get('HospitalFilters');
         $SQL = 'SELECT "public"."profiles".*
         FROM "public"."profiles"  
         WHERE "public"."profiles"."Type" =\'' . $ID . '\' 
-        ORDER BY "public"."profiles"."Name" ASC ';
+      ';
+        if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
+            $Name = $SessionFilters['Name'];
+            $SQL .= ' AND  "public"."profiles"."Name"  LIKE \'%' . $Name . '%\'';
+        } if (isset($SessionFilters['City']) && $SessionFilters['City'] != '') {
+            $City= $SessionFilters['City'];
+            $SQL .= ' AND  "public"."profiles"."City"  =' . $City . ' ';
+        }
+        if($keyword!=''){
+            $SQL .= ' AND  `"public"."profiles"."Name"  LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .=' Order By "public"."profiles"."Name"  ASC';
         return $SQL;
     }
   
@@ -156,11 +169,11 @@ class BuilderModel extends Model
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     } public
-    function get_doct_datatables($type)
+    function get_doct_datatables($type,$keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->Allprofiless($type);
+        $SQL = $this->Allprofiless($type,$keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
         $records = $Crud->ExecutePgSQL($SQL);
@@ -169,11 +182,11 @@ class BuilderModel extends Model
     }
 
     public
-    function count_doct_datatables($type)
+    function count_doct_datatables($type,$keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->Allprofiless($type);
+        $SQL = $this->Allprofiless($type,$keyword);
         $records = $Crud->ExecutePgSQL($SQL);
         return count($records);
     }

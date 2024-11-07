@@ -1,5 +1,13 @@
 <link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
+<?php
 
+$session = session();
+$SessionFilters = $session->get('LaboratoriesFilters');
+$Name='';
+if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
+    $Name = $SessionFilters['Name'];
+}
+?>
 <div class="card">
     <div class="card-body">
         <h4>Laboratories
@@ -10,6 +18,54 @@
               Add
             </button>
            </span></h4>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <h5>Search Filters</h5>
+                <hr>
+                <form method="post" name="AllLaboratoriesFilterForm" id="AllLaboratoriesFilterForm"
+                      onsubmit="SearchFilterFormSubmit('AllLaboratoriesFilterForm');">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label class="form-control-label no-padding-right">Name:</label>
+                                <input type="text" id="Name" name="Name" placeholder="Name"
+                                       class="form-control "  value="<?=$Name;?>" data-validation-engine="validate[required]"
+                                       data-errormessage="MAC Address is required"/>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group row">
+                                    <label class="col-sm-4">City:</label>
+                                    <div class="col-sm-12">
+                                        <select id="City" name="City" class="form-control"
+                                                data-validation-engine="validate[required]">
+                                            <option value="">Please Select</option>
+                                            <?php foreach ($city as $record) { ?>
+                                                <option value="<?= $record['UID'] ?>" <?= (isset($City) && $City == $record['UID']) ? 'selected' : '' ?>
+                                                ><?= ucwords($record['Name']); ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12" style="float: right">
+                                 <span style="float: right;">
+                                    <button class="btn btn-outline-primary" onclick="ClearAllFilter('LaboratoriesFilters');"
+                                            type="button">Clear</button>
+
+                                <button class="btn btn-outline-success"
+                                        onclick="SearchFilterFormSubmit('AllLaboratoriesFilterForm');"
+                                        type="button">Search!</button>
+                                 </span>
+                            </div>
+                            <div class="mt-4" id="FilterResponse"></div>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
     </div>
     <div class="table-responsive">
         <table id="frutis" class="table table-striped table-bordered">
@@ -47,7 +103,7 @@
             $('#frutis').DataTable({
                 "scrollY": "800px",
                 "scrollCollapse": true,
-                "searching": false,
+                "searching": true,
                 "processing": true,
                 "serverSide": true,
                 "responsive": true,
@@ -111,6 +167,23 @@
                     }, 1000);
                 }
 
+            }
+        }
+        function SearchFilterFormSubmit(parent) {
+
+            var data = $("form#" + parent).serialize();
+            var rslt = AjaxResponse('laboratories/labortories_search_filter', data);
+            if (rslt.status == 'success') {
+                $("#AllLaboratoriesFilterForm form #FilterResponse").html(rslt.message);
+                location.reload();
+            }
+        }
+
+        function ClearAllFilter(Session) {
+            var rslt = AjaxResponse('home/clear_session', 'SessionName=' + Session);
+            if (rslt.status == 'success') {
+                $("#AllLaboratoriesFilterForm form #FilterResponse").html(rslt.message);
+                location.reload();
             }
         }
     </script>
