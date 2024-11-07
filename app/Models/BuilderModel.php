@@ -212,6 +212,64 @@ class BuilderModel extends Model
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin[0]['UID'];
     }
+    public function sponser($keyword)
+    {
+        $Crud = new Crud();
 
+        $SQL = "SELECT * FROM `sponsors` WHERE `Archive` = '0' ";
+        if($keyword!=''){
+            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .= ' ORDER BY `Name` ASC';
+        return $SQL;
+    }  public function sponsor_product($id,$keyword)
+    {
+        $Crud = new Crud();
 
+        $SQL = "SELECT * FROM `sponsors_products` WHERE `Archive` = '0' AND `SponsorID` = $id";
+        if($keyword!=''){
+            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .= ' ORDER BY `Name` ASC';
+        return $SQL;
+    }
+    public
+    function get_sponser_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->sponser($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public
+    function count_sponser_datatables($keyword)
+    {
+        $Crud = new Crud();
+        $SQL = $this->sponser($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    } public
+    function get_sponsor_product_datatables($id,$keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->sponsor_product($id,$keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public
+    function count_sponsor_product_datatables($id,$keyword)
+    {
+        $Crud = new Crud();
+        $SQL = $this->sponsor_product($id,$keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    }
 }

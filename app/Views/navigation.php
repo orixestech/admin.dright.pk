@@ -640,6 +640,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="<?= $path ?>builder/sponser" >
+                        <span class="nav-link-icon" data-feather="frown"></span>
+                        <span>Sponsor</span>
+                    </a>
+                </li>
+                <li>
                     <a href="<?= $path ?>builder/specialities" >
                         <span class="nav-link-icon" data-feather="frown"></span>
                         <span>Specialities</span>

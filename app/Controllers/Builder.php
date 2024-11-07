@@ -1427,5 +1427,245 @@ Password: ' . $this->request->getVar('password');
 
         echo json_encode( $response );
     }
+    public function sponser()
+    {
+        $data = $this->data;
+        echo view('header', $data);
+        echo view('builder/sponser', $data);
+        echo view('footer', $data);
+    }
+    public function sponsor_product()
+    {
+        $data = $this->data;
+        $data['UID'] = getSegment(3);
+        echo view('header', $data);
+        echo view('builder/sponsor_product', $data);
+        echo view('footer', $data);
+    }
+    public function fetch_sponser()
+    {
+        $BuilderModel = new BuilderModel();
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+
+        $Data = $BuilderModel->get_sponser_datatables($keyword);
+//        print_r($Data);exit();
+        $totalfilterrecords = $BuilderModel->count_sponser_datatables($keyword);
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
+            $data[] = isset($record['OrderID']) ? htmlspecialchars($record['OrderID']) : '';
+            $data[] = isset($record['Image']) ? "<img src='" . load_image('sponsors_' . $record['UID']) . "' style='width: 100px;'>" : '';
+
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateSponser(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteSponser(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                <a class="dropdown-item" onclick="SponserProduct(' . htmlspecialchars($record['UID']) . ')">Sponser Product</a>
+
+            </div>
+        </div>
+    </td>';
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+        echo json_encode($response);
+    }
+    public function submit_sponser()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Sponsor = $this->request->getVar('Sponsor');
+
+//        if ($this->request->getFile('Image')->isValid()) {
+//            $file = $Main->upload_image('Image', 1024);
+//        } else {
+//            $file = '';
+//        }
+//        print_r($this->request->getFile('Image'));
+//        exit();
+
+        if ($id == 0) {
+            foreach ($Sponsor as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+            $record['Image']='bb';
+            $RecordId = $Crud->AddRecord("sponsors", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($Sponsor as $key => $value) {
+                $record[$key] = $value;
+            }
+            $record['Image']='bb';
+
+            $Crud->UpdateRecord("sponsors", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = 'Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }public function submit_sponser_product()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Sponsor = $this->request->getVar('SponsorProduct');
+
+//        if ($this->request->getFile('Image')->isValid()) {
+//            $file = $Main->upload_image('Image', 1024);
+//        } else {
+//            $file = '';
+//        }
+//        print_r($this->request->getFile('Image'));
+//        exit();
+
+        if ($id == 0) {
+            foreach ($Sponsor as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+            $record['Image']='bb';
+            $RecordId = $Crud->AddRecord("sponsors_products", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($Sponsor as $key => $value) {
+                $record[$key] = $value;
+            }
+            $record['Image']='bb';
+
+            $Crud->UpdateRecord("sponsors_products", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = 'Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
+    public function delete_sponser()
+    {
+        $data = $this->data;
+        $UID = $this->request->getVar('id');
+        $Crud = new Crud();
+        $table = "sponsors";
+        $record['Archive'] = 1;
+        $where = array('UID' => $UID);
+        $Crud->UpdateRecord($table, $record, $where);
+        $response['status'] = 'success';
+        $response['message'] = 'Deleted Successfully...!';
+
+        echo json_encode($response);
+    }
+    public function delete_sponser_product()
+    {
+        $data = $this->data;
+        $UID = $this->request->getVar('id');
+        $Crud = new Crud();
+        $table = "sponsors_products";
+        $record['Archive'] = 1;
+        $where = array('UID' => $UID);
+        $Crud->UpdateRecord($table, $record, $where);
+        $response['status'] = 'success';
+        $response['message'] = 'Deleted Successfully...!';
+
+        echo json_encode($response);
+    }
+    public function get_sponser_record()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("sponsors", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
+        echo json_encode($response);
+    } public function get_sponser_product_record()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("sponsors_products", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
+        echo json_encode($response);
+    }
+    public function fetch_sponsor_product()
+    {
+        $BuilderModel = new BuilderModel();
+        $ID = $this->request->getVar('UID');
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $BuilderModel->get_sponsor_product_datatables($ID,$keyword);
+        $totalfilterrecords = $BuilderModel->count_sponsor_product_datatables($ID,$keyword);
+
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
+            $data[] = isset($record['PackSize']) ? htmlspecialchars($record['PackSize']) : '';
+            $data[] = isset($record['Image']) ? "<img src='" . load_image('sponsor-product_' . $record['UID']) . "' style='width: 100px;'>" : '';
+
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateSponsorProduct(\'' . htmlspecialchars($record['UID']) . '\', \'' . htmlspecialchars($ID) . '\')">Update</a>
+                <a class="dropdown-item" onclick="DeleteSponserProduct(\'' . htmlspecialchars($record['UID']) . '\')">Delete</a>
+            </div>
+        </div>
+    </td>';
+
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+
+        echo json_encode($response);
+    }
 
 }

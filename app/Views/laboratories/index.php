@@ -4,8 +4,11 @@
 $session = session();
 $SessionFilters = $session->get('LaboratoriesFilters');
 $Name='';
+$City='';
 if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
     $Name = $SessionFilters['Name'];
+}if (isset($SessionFilters['City']) && $SessionFilters['City'] != '') {
+    $City = $SessionFilters['City'];
 }
 ?>
 <div class="card">

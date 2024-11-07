@@ -31,11 +31,11 @@ class HealthcareModel extends Model
         return $data;
     }
 
-    public function Diet($item,$keyword)
+    public function Diet($item, $keyword)
     {
         $Crud = new Crud();
         $SQL = 'SELECT * FROM `public_diet` where `Category`=\'' . $item . '\'  ';
-        if($keyword!=''){
+        if ($keyword != '') {
             $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
 //            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Tag` LIKE \'%' . $keyword . '%\') ';
         }
@@ -60,13 +60,35 @@ class HealthcareModel extends Model
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
-    public function representatives()
+
+    public function representatives($keyword)
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `representatives` Order By `FullName` ASC';
+        $session = session();
+        $SessionFilters = $session->get('RCCFilters');
+        $SQL = 'SELECT * FROM `representatives` where 1=1';
 //        $Admin = $Crud->ExecuteSQL($SQL);
+        if (isset($SessionFilters['FullName']) && $SessionFilters['FullName'] != '') {
+            $Name = $SessionFilters['FullName'];
+            $SQL .= ' AND  `FullName` LIKE \'%' . $Name . '%\'';
+        }
+        if (isset($SessionFilters['City']) && $SessionFilters['City'] != '') {
+            $City = $SessionFilters['City'];
+            $SQL .= ' AND  `City` =' . $City . ' ';
+        }
+        if (isset($SessionFilters['Status']) && $SessionFilters['Status'] != '') {
+            $Status = $SessionFilters['Status'];
+            $SQL .= ' AND  `Status` LIKE \'%' . $Status . '%\'';
+        }
+        if ($keyword != '') {
+            $SQL .= ' AND  ( `FullName` LIKE \'%' . $keyword . '%\'  OR `Status` LIKE \'%' . $keyword . '%\') ';
+
+        }
+        $SQL .= ' Order By `FullName` ASC';
+//        print_r($SQL);
         return $SQL;
     }
+
     public function GenerateBranchesOptions()
     {
         $Crud = new Crud();
@@ -82,7 +104,9 @@ class HealthcareModel extends Model
         $Admin = $Crud->ExecuteSQL($SQL);
 //        $Admin=$Admin[0];
         return $Admin;
-    }    public function get_rcc_receipts_data_by_id($item)
+    }
+
+    public function get_rcc_receipts_data_by_id($item)
     {
         $Crud = new Crud();
         $SQL = 'SELECT * FROM `representative_receipts` where `RepresentativeUID`=\'' . $item . '\'  ';
@@ -155,12 +179,13 @@ class HealthcareModel extends Model
 //        print_r($records);exit();
         return count($records);
     }
-  public
-    function get_representatives_datatables()
+
+    public
+    function get_representatives_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->representatives();
+        $SQL = $this->representatives($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -171,22 +196,22 @@ class HealthcareModel extends Model
     }
 
     public
-    function count_representatives_datatables()
+    function count_representatives_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->representatives();
+        $SQL = $this->representatives($keyword);
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);
     }
 
     public
-    function get_diet_datatables($item,$keyword)
+    function get_diet_datatables($item, $keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->Diet($item,$keyword);
+        $SQL = $this->Diet($item, $keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -197,11 +222,11 @@ class HealthcareModel extends Model
     }
 
     public
-    function count_diet_datatables($item,$keyword)
+    function count_diet_datatables($item, $keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->Diet($item,$keyword);
+        $SQL = $this->Diet($item, $keyword);
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);
@@ -239,7 +264,7 @@ class HealthcareModel extends Model
         $Crud = new Crud();
         $food = 'vegetables';
 
-        $SQL = $this->Diet($food,$keyword);
+        $SQL = $this->Diet($food, $keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -250,12 +275,12 @@ class HealthcareModel extends Model
     }
 
     public
-    function count_vegetable_datatables($keyword )
+    function count_vegetable_datatables($keyword)
     {
         $Crud = new Crud();
         $food = 'vegetables';
 
-        $SQL = $this->Diet($food,$keyword);
+        $SQL = $this->Diet($food, $keyword);
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);
@@ -267,7 +292,7 @@ class HealthcareModel extends Model
         $Crud = new Crud();
         $food = 'miscellaneous';
 
-        $SQL = $this->Diet($food,$keyword);
+        $SQL = $this->Diet($food, $keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -283,7 +308,7 @@ class HealthcareModel extends Model
         $Crud = new Crud();
         $food = 'miscellaneous';
 
-        $SQL = $this->Diet($food,$keyword);
+        $SQL = $this->Diet($food, $keyword);
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);
