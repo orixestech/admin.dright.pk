@@ -1,9 +1,15 @@
 <link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
+<?php
+$Crud= new \App\Models\Crud();
+$table='sponsors';
+$sponserName= $Crud->SingleRecord($table,array("UID" => $UID));
 
+
+?>
 
 <div class="card">
     <div class="card-body">
-        <h4>Sponsor Product
+        <h4><?php echo $sponserName['Name'];?> Sponsor Product
             <span style="float: right;">
                 <button type="button" onclick="AddSponserProduct(<?=$UID?>)"
                         class="btn btn-primary "
