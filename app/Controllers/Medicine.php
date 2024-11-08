@@ -48,11 +48,30 @@ class Medicine extends BaseController
         echo view('footer', $data);
     }
 
+    public function list()
+    {
+        $data = $this->data;
+        $data['UID'] = getSegment(3);
+        $MedicineModel = new MedicineModel();
+        $data['Company'] = $MedicineModel->ListAllCompanies();
+        echo view('header', $data);
+        echo view('medicine/medicine_list_by_id', $data);
+        echo view('footer', $data);
+    }
+
     public function medicine_forms()
     {
         $data = $this->data;
         echo view('header', $data);
         echo view('medicine/forms', $data);
+        echo view('footer', $data);
+    }
+
+    public function company()
+    {
+        $data = $this->data;
+        echo view('header', $data);
+        echo view('medicine/company', $data);
         echo view('footer', $data);
     }
 
@@ -72,6 +91,53 @@ class Medicine extends BaseController
         $Data = $MedicineModel->get_medicine_datatables($keyword);
 //        print_r($Data);exit();
         $totalfilterrecords = $MedicineModel->count_medicine_datatables($keyword);
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['PharmaTitle']) ? htmlspecialchars($record['PharmaTitle']) : '';
+            $data[] = isset($record['MedicineTitle']) ? htmlspecialchars($record['MedicineTitle']) : '';
+            $data[] = isset($record['Ingredients']) ? htmlspecialchars($record['Ingredients']) : '';
+            $data[] = isset($record['DosageForm']) ? htmlspecialchars($record['DosageForm']) : '';
+            $data[] = isset($record['Packing']) ? htmlspecialchars($record['Packing']) : '';
+            $data[] = isset($record['TradePrice']) ? htmlspecialchars($record['TradePrice']) : '';
+            $data[] = isset($record['RetailPrice']) ? htmlspecialchars($record['RetailPrice']) : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateMedicine(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteMedicine(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+
+            </div>
+        </div>
+    </td>';
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+        echo json_encode($response);
+    }
+
+    public function fetch_medicine_record_by_id()
+    {
+        $MedicineModel = new MedicineModel();
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+        $ID = $this->request->getVar('UID');
+
+        $Data = $MedicineModel->get_med_by_id_datatables($keyword, $ID);
+//        print_r($Data);exit();
+        $totalfilterrecords = $MedicineModel->count_med_by_id_datatables($keyword, $ID);
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
@@ -139,6 +205,50 @@ class Medicine extends BaseController
             </div>
         </div>
     </td>';
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+        echo json_encode($response);
+    }
+
+    public function fetch_medicine_company()
+    {
+        $MedicineModel = new MedicineModel();
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+
+        $Data = $MedicineModel->get_pharma_company_datatables($keyword);
+//        print_r($Data);exit();
+        $totalfilterrecords = $MedicineModel->count_pharma_company_datatables($keyword);
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $TotalMedicines = $MedicineModel->GetMedicinesByPharmaID($record['UID']);
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['CompanyName']) ? htmlspecialchars($record['CompanyName']) : '';
+            $data[] = '<a href="' . PATH . 'medicine/list/' . $record['UID'] . '" target="_blank">' . count($TotalMedicines) . '</a>';
+
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateMedicineCompany(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteMedicineCompany(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                <a class="dropdown-item" href="http://clinta.biz/druginfo/manual.php?cid=' . htmlspecialchars($record['UID']) . '" target="_blank">Check New Medicine</a>
+            </div>
+        </div>
+    </td>';
+
             $dataarr[] = $data;
         }
 

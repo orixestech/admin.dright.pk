@@ -692,7 +692,7 @@
                             <a href="<?= $path ?>medicine/timing">Timing</a>
                         </li>
                         <li>
-                            <a href="<?= $path ?>medicine/">Company</a>
+                            <a href="<?= $path ?>medicine/company">Company</a>
                         </li>
                     </ul>
                 </li>
