@@ -387,7 +387,6 @@ class Builder extends BaseController
             <a class="dropdown-item" onclick="Editspecialities(' . htmlspecialchars($record['UID']) . ');">Edit</a>
             <a class="dropdown-item" onclick="Deletespecialities(' . htmlspecialchars($record['UID']) . ');">Delete</a>
             <a class="dropdown-item" onclick="Addheading(' . htmlspecialchars($record['UID']) . ');">Add Heading</a>
-            <a class="dropdown-item" onclick="AddMessage(' . htmlspecialchars($record['UID']) . ');">Add Message</a>
         </div>
     </div>
 </td>';

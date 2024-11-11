@@ -440,7 +440,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>investigation/">
+                    <a href="<?= $path ?>investigation/all/reports">
                         <span class="nav-link-icon">
                             <i data-feather="aperture"></i>
                         </span>
@@ -448,7 +448,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= $path ?>investigation/">
+                    <a href="<?= $path ?>investigation/all/radiology">
                         <span class="nav-link-icon">
                             <i data-feather="anchor"></i>
                         </span>
