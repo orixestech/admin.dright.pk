@@ -103,7 +103,7 @@ class Builder extends BaseController
             $data[] = isset($record['Color']) ? htmlspecialchars($record['Color']) : '';
             $data[] = isset($record['Title']) ? htmlspecialchars($record['Title']) : '';
             $data[] = isset($record['Image'])
-                ? '<img src="' . load_image('general-banner_' . $record['UID']) . '" style="display: block; padding: 2px; border: 1px solid #145388 !important; border-radius: 3px; width: 150px;">'
+                ? '<img src="' . load_image('mysql|general_banners|' . $record['UID']) . '" style="display: block; padding: 2px; border: 1px solid #145388 !important; border-radius: 3px; width: 150px;">'
                 : '';
             $data[] = '
     <td class="text-end">

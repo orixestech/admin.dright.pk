@@ -10,6 +10,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->get('table', 'Home::table');
 $routes->get('login', 'Home::login');
+$routes->get('load_image/(.*)', 'Home::load_image');
 //$routes->post('login-form-submit', 'Home::system_user_login_submit');
 $routes->get('/logout', 'Home::logout');
 $routes->post('/fruit_search_filter', 'Home::fruit_search_filter');

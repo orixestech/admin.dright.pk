@@ -86,7 +86,7 @@ if (!function_exists('load_image')) {
 
         $code = base64_encode($key);
         $code = str_replace("=", "", $code);
-        $URL = $path . 'module/load_image/' . $code;
+        $URL = $path . 'load_image/' . $code;
         return $URL;
     }
 }
