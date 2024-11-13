@@ -38,7 +38,8 @@ class DiseasesModel extends Model
         $Crud = new Crud();
 //        $SQL = 'SELECT * FROM `diseases` where `Archive`=\'0\' Order By `DiseaseName` ASC';
 
-        $SQL = 'SELECT diseases.*, lookups_options.Name AS Title FROM diseases LEFT JOIN lookups_options ON diseases.BodySystem = lookups_options.UID
+        $SQL = 'SELECT diseases.*, lookups_options.Name AS Title FROM diseases 
+    LEFT JOIN lookups_options ON diseases.BodySystem = lookups_options.UID
         WHERE diseases.`Archive`=\'0\'
 
 ';

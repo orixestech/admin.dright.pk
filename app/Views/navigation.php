@@ -722,7 +722,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>users">
+                    <a href="<?= $path ?>users/admin-activites">
                         <span class="nav-link-icon">
                             <i data-feather="mail"></i>
                         </span>
@@ -731,7 +731,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>users">
+                    <a href="<?= $path ?>users/admin-approval">
                         <span class="nav-link-icon">
                             <i data-feather="mail"></i>
                         </span>

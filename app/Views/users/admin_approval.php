@@ -12,9 +12,10 @@
             <thead>
             <tr>
                 <th>Sr No</th>
-                <th>Name</th>
-                <th>Segment</th>
+                <th>Edit By</th>
+                <th>Module</th>
                 <th>Description</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -22,14 +23,16 @@
             <tfoot>
             <tr>
                 <th>Sr No</th>
-                <th>Name</th>
-                <th>Segment</th>
+                <th>Edit By</th>
+                <th>Module</th>
                 <th>Description</th>
+                <th>Action</th>
             </tr>
 
             </tfoot>
         </table>
     </div>
+    <?php echo view('users/modal/load_description'); ?>
 
 
     <script>
@@ -45,14 +48,36 @@
                 "pageLength": 100,
                 "autoWidth": true,
                 "ajax": {
-                    "url": "<?= $path ?>users/fetch_admin_activites",
+                    "url": "<?= $path ?>users/fetch_admin_approval",
                     "type": "POST"
                 }
             });
         });
+        function LoadDescriptionModel(id) {
+            var Items = AjaxResponse("users/get_admin_updates_record", "id=" + id);
+            $('#DescriptionModel form#desform div#showDescription').html(Items.record.Description);
 
+            $('#DescriptionModel').modal('show');
+
+        }
+        function ApproveQuery(id) {
+            response = AjaxResponse("users/delete", "id=" + id);
+            if (response.status == 'success') {
+                $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            } else {
+                $("#Response").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Deleted</strong>  </div>')
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            }
+
+        }
     </script>
     <script src="<?= $template ?>vendors/select2/js/select2.min.js"></script>
     <script src="<?= $template ?>vendors/dataTable/datatables.min.js"></script>
     <script src="<?= $template ?>assets/js/examples/datatable.js"></script>
     <script src="<?= $template ?>vendors/prism/prism.js"></script>
+

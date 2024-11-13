@@ -29,7 +29,6 @@ class Investigation extends BaseController
         if ($data['page'] == 'reports') {
             $data['category'] = $LookupOptionData->LookupsOption("lab_report_category", 0);
             $data['type'] = $LookupOptionData->LookupsOption("lab_report_type", 0);
-
             $data['UID'] = '1';
             echo view('investigation/index', $data);
 
