@@ -21,8 +21,8 @@
                 <th>Name</th>
                 <th>City</th>
                 <th>Database Name</th>
-                <th>Last Patient Invoice</th>
-                <th>Last Pharmacy Invoice</th>
+<!--                <th>Last Patient Invoice</th>-->
+<!--                <th>Last Pharmacy Invoice</th>-->
                 <th>SubDomain Url</th>
                 <th>Expire Date</th>
                 <th>Status</th>
@@ -39,8 +39,8 @@
                 <th>Name</th>
                 <th>City</th>
                 <th>Database Name</th>
-                <th>Last Patient Invoice</th>
-                <th>Last Pharmacy Invoice</th>
+<!--                <th>Last Patient Invoice</th>-->
+<!--                <th>Last Pharmacy Invoice</th>-->
                 <th>SubDomain Url</th>
                 <th>Expire Date</th>
                 <th>Status</th>

@@ -1051,10 +1051,10 @@ Password: ' . $this->request->getVar('password');
                     $logos = array('sponsored_logo', 'initatived_logo');
 
                     foreach ($logos as $log) {
-                        echo 'dddd';exit();
+//                        echo 'dddd';exit();
 
                         $file = $Main->upload_image($log, 1024);
-
+print_r($file);exit();
                         if ($file != '') {
                             $records['ProfileUID'] = $website_profile_id;
                             $records['Option'] = $log;

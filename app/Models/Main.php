@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Models;
+use CodeIgniter\Files\File;
+use CodeIgniter\Images\Image;
+use Config\Services;
 
 use CodeIgniter\Model;
 
