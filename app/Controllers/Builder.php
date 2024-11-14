@@ -481,12 +481,59 @@ class Builder extends BaseController
     }
     public function submit_general_image(){
         $Crud = new Crud();
+        $Main = new Main();
         $alignment= $this->request->getVar('alignment');
         $color= $this->request->getVar('color');
         $speciality= $this->request->getVar('speciality');
 //        print_r($alignment);exit();
 
+        if ($this->request->getFile('profile') && $this->request->getFile('profile')->isValid()) {
 
+            $file = $this->request->getFile('profile');
+            $fileName = $file->getName();
+            $fileExt = strtolower($file->getClientExtension());
+
+            // Define allowed extensions
+            $allowedExt = ['gif', 'jpg', 'jpeg', 'png', 'webp'];
+
+            // Check if the file extension is allowed
+            if (!in_array($fileExt, $allowedExt)) {
+                $data = ['status' => 'error', 'msg' => 'Invalid file type. Only GIF, JPG, JPEG, WEBP, and PNG files are allowed.'];
+                echo json_encode($data);
+                exit;
+            }
+
+            $newWidth = 1200;
+            if ($file->isValid() && !$file->hasMoved()) {
+                list($width, $height) = getimagesize($file->getTempName());
+                $width = $width ?: 1200;
+                $height = $height ?: 800;
+                $newWidth = ($width > $newWidth) ? $width : $newWidth;
+
+                $fileContent = $Main->image_uploader($file, $newWidth, $height);
+//                echo json_encode(['status' => 'success', 'data' => $fileContent]);
+//                exit;
+            }else{
+                $fileContent='';
+            }
+        } else {
+            $data = ['status' => 'error', 'msg' => 'No file selected or invalid extension.'];
+            echo json_encode($data);
+            exit;
+        }
+        $record['Alignment'] = $alignment;
+        $record['Color'] = $color;
+        $record['Speciality'] = $speciality;
+        $record['Image'] = $fileContent;
+        $RecordId = $Crud->AddRecord('general_banners', $record);
+        if (isset($RecordId) && $RecordId > 0) {
+            $response['status'] = 'success';
+            $response['message'] = 'General Banners Added Successfully...!';
+        } else {
+            $response['status'] = 'fail';
+            $response['message'] = 'Data Didnt Submitted Successfully...!';
+        }
+        echo json_encode($response);
 
     }
     public function get_specialities_record()

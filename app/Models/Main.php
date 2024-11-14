@@ -38,7 +38,92 @@ class Main extends Model
         }
         return $data;
     }
-    function CRYPT($q, $status)
+    public function image_uploader($file, $newWidth = 1024, $newHeight = 800)
+    {
+        $fileName = str_replace(' ', '_', $file->getName());
+
+        // Define the upload path
+        $uploadPath = WRITEPATH . 'uploads/temp/';
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
+
+        // Move the file to the upload path
+        $file->move($uploadPath, $fileName);
+
+        $sourcePath = $uploadPath . $fileName;
+        if (!file_exists($sourcePath)) {
+            throw new \RuntimeException("File path is invalid or file does not exist: {$sourcePath}");
+        }
+
+        // Resize the image
+        $resizedPath = $uploadPath . 'resized_' . $fileName;
+        $this->resize_image($sourcePath, $resizedPath, $newWidth, $newHeight);
+
+        // Encode the resized image to Base64
+        return $this->encode_image_to_base64($resizedPath);
+    }
+
+    public function resize_image($sourcePath, $resizedPath, $newWidth, $newHeight)
+    {
+        $image = \Config\Services::image()
+            ->withFile($sourcePath)
+            ->resize($newWidth, $newHeight, true, 'auto')
+            ->save($resizedPath);
+    }
+    public function encode_image_to_base64($filePath)
+    {
+        $imageData = file_get_contents($filePath);
+        return base64_encode($imageData);
+    }
+
+//<-- Ci3 Image uploader function
+
+//    public
+//    function image_uploader($NAME, $NewWidth = 1024, $NewHeight = 800){
+//
+//        $NAME = str_replace(' ', '_', $NAME);
+//
+//        $this->load->library('upload');
+//        $IMG = $_FILES[$NAME];
+//        $post_data = array();
+//        $upload_path = ROOT . "/temp/";
+//        $file_content = '';
+//
+//        $config['upload_path'] = $upload_path;
+//        $config['allowed_types'] = '*';
+//        $config['max_size'] = '3072'; // 2MB limit
+//
+//        $this->upload->initialize($config);
+//
+//        // Perform the upload
+//        if (!$this->upload->do_upload($NAME)) {
+//            $error = $this->upload->display_errors();
+//            echo $error;
+//            return;
+//        }
+//
+//        $upload_data = $this->upload->data();
+//        $source_path = realpath($upload_data['full_path']);
+//
+//        // Check if the source path is valid
+//        if ($source_path === false || !file_exists($source_path)) {
+//            die('File path is invalid or file does not exist: ' . $upload_data['full_path']);
+//        }
+//
+//        // Resize the image
+//        $path = $source_path;
+//        $resized_path = $upload_path.'resized_' . $upload_data['file_name'];
+//        $this->resize_image($source_path, $resized_path, $NewWidth, $NewHeight); // Resize to 800x600
+//
+//        // Encode the resized image to Base64
+//        $file_content = $this->encode_image_to_base64($resized_path);
+//
+//        return $file_content;
+//    }
+
+
+        function CRYPT($q, $status)
     {
         $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
         $method = 'AES-256-CBC';

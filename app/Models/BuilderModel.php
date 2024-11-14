@@ -45,7 +45,7 @@ class BuilderModel extends Model
         $Crud = new Crud();
         $SQL = 'SELECT `general_banners`.*, `specialities`.`Name` AS Title FROM `general_banners` 
     LEFT JOIN `specialities` ON `general_banners`.`Speciality` = `specialities`.`UID`
-       ORDER BY `general_banners`.`SystemDate` ASC
+       ORDER BY `general_banners`.`SystemDate` DESC
 
 ';
         return $SQL;
