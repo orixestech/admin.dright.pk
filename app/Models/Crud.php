@@ -112,7 +112,7 @@ class Crud extends Model
         // $db->close();
         return $insertID;
     }    public
-    function AdddRecord($table, $records, $view = false)
+    function AddRecordPG($table, $records, $view = false)
     {
         $db = \Config\Database::connect('website_db');
         $db->db_debug = false;

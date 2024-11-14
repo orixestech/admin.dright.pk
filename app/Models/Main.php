@@ -212,7 +212,7 @@ class Main extends Model
         $post_data = array();
         $upload_path = ROOT . "/temp/";
         $file_content = '';
-
+print_r($_FILES[$NAME]['name']);exit();
         if (isset($_FILES[$NAME]['name'])) {
             if (is_array($_FILES[$NAME]['name'])) {
                 $IMGs = $_FILES[$NAME]['name'];
@@ -226,90 +226,22 @@ class Main extends Model
 
                     if (move_uploaded_file($_FILES[$NAME]['tmp_name'][$i], $upload_path . $filename)) {
 
-                        //Image Resizing
-                        $config1 = array();
-                        $config1['source_image'] = $upload_path . $filename;
-                        $config1['new_image'] = $upload_path . $filename_new;
-                        $config1['maintain_ratio'] = TRUE;
-                        $config1['width'] = $NewWidth;
-                        $config1['quality'] = 90;
-                        $this->image_lib->clear();
-                        $this->image_lib->initialize($config1);
-                        if (!$this->image_lib->resize()) {
-                            $post_data['resize_error_msg'] = $this->image_lib->display_errors();
-                        } else {
-                            $post_data['resize_image'] = $filename_new;
-                            $post_data['error'] = false;
-                            $post_data['image'] = $filename;
-
-                            $fcontent = file_get_contents($config1['new_image']);
-                            $fcontent = base64_encode($fcontent);
-                            @unlink($config1['source_image']);
-                            @unlink($config1['new_image']);
-
-                            $file_content[$i] = $fcontent;
-                        }
+                        $fcontent = file_get_contents($upload_path . $filename);
+                        $fcontent = base64_encode($fcontent);
+                        @unlink($upload_path . $filename);
+                        $file_content[$i] = $fcontent;
                     }
                 }
             } else {
                 $newFileName = explode(".", $_FILES[$NAME]['name']);
-
                 $EXT = end($newFileName);
-
                 $filename = time() . "-" . rand(00, 99) . "." . $EXT;
-                $filename_new = time() . "-" . rand(00, 99) . "_new." . $EXT;
-                $config['file_name'] = $filename;
-                $config['upload_path'] = $upload_path;
-                $config['allowed_types'] = '*';
+                             if (move_uploaded_file($_FILES[$NAME]['tmp_name'], $upload_path . $filename)) {
 
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload($NAME)) {
-                    $upload_data = $this->upload->data();
-
-                    //if ( $upload_data[ 'image_width' ] > $NewWidth ) {
-                    //Image Resizing
-                    $config1['image_library'] = 'gd2'; // You can use 'imagemagick' or 'gd2'
-                    $config1['source_image'] = $this->upload->upload_path . $this->upload->file_name;
-                    $config1['new_image'] = $upload_path . $filename_new;
-                    $config1['maintain_ratio'] = TRUE;
-                    $config1['width'] = $NewWidth;
-                    $config1['quality'] = 90;
-
-                    $this->image_lib->initialize($config1);
-                    if (!$this->image_lib->resize()) {
-                        $post_data['resize_error_msg'] = $this->image_lib->display_errors();
-                    }
-
-                    $post_data['resize_image'] = $filename_new;
-                    $post_data['error'] = false;
-                    $post_data['image'] = $filename;
-
-                    $this->image_lib->clear();
-                } else {
-                    $post_data['error'] = true;
-                    $post_data['errormsg'] = $this->upload->display_errors();
-                }
-
-
-                if ($post_data['error'] == true) {
-                    $file_content = '';
-                } else {
-
-                    if (isset($post_data['resize_image'])) {
-                        $final_file = $post_data['resize_image'];
-                    } else {
-                        $final_file = $post_data['image'];
-                    }
-
-                    //					echo $upload_path . $final_file;
-                    $file_content = @file_get_contents($upload_path . $final_file);
-                    //					$file_content = @file_get_contents("D:/wamp64/www/clinta-doctprofile/temp/1720433124-27.webp");
-                    if ($file_content != '') {
-                        $file_content = base64_encode($file_content);
-                        @unlink($upload_path . $post_data['resize_image']);
-                        @unlink($upload_path . $post_data['image']);
-                    }
+                    $fcontent = file_get_contents($upload_path . $filename);
+                    $fcontent = base64_encode($fcontent);
+                    @unlink($upload_path . $filename);
+                    $file_content = $fcontent;
                 }
             }
         }

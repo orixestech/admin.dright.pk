@@ -23,6 +23,7 @@ class Builder extends BaseController
     {
         $data = $this->data;
         $data['page'] = getSegment(2);
+
         $BuilderModel = new \App\Models\BuilderModel();
         $PharmacyModal = new \App\Models\PharmacyModal();
         $data['Cities'] = $PharmacyModal->citites();
@@ -568,7 +569,7 @@ class Builder extends BaseController
         $record['ProfileUID'] = $id;
         $record['Name'] = 'telemedicine_credits';
         $record['Description'] = $oldcredits + $newcredits;
-        $RecordId = $Crud->AdddRecord('public."options"', $record);
+        $RecordId = $Crud->AddRecordPG('public."options"', $record);
         if (isset($RecordId) && $RecordId > 0) {
             $response['status'] = 'success';
             $response['message'] = 'Telemedicine Credits Added Successfully...!';
@@ -684,7 +685,7 @@ class Builder extends BaseController
         $record['ProfileUID'] = $id;
         $record['Name'] = 'sms_credits';
         $record['Description'] = $oldcredits + $newcredits;
-        $RecordId = $Crud->AdddRecord('public."options"', $record);
+        $RecordId = $Crud->AddRecordPG('public."options"', $record);
         if (isset($RecordId) && $RecordId > 0) {
             $response['status'] = 'success';
             $response['message'] = 'SMS Credits Added Successfully...!';
@@ -792,7 +793,7 @@ class Builder extends BaseController
                     $record['Profile'] = '';
 
                 }
-                $website_profile_id = $Crud->AdddRecord("public.profiles", $record);
+                $website_profile_id = $Crud->AddRecordPG("public.profiles", $record);
 
                 if ($website_profile_id) {
                     $theme = $this->request->getVar('theme');
@@ -804,7 +805,7 @@ class Builder extends BaseController
                             $record_option['Name'] = $key;
                             $record_option['Description'] = $value;
 
-                            $id = $Crud->AdddRecord("public.options", $record_option);
+                            $id = $Crud->AddRecordPG("public.options", $record_option);
                         }
                     }
                     $ExtendedArray = array('clinta_extended_profiles', 'short_description');
@@ -816,7 +817,7 @@ class Builder extends BaseController
                             $record_meta['Option'] = $M;
                             $record_meta['Value'] = $this->request->getVar($M);
 
-                            $id = $Crud->AdddRecord("public.profile_metas", $record_meta);
+                            $id = $Crud->AddRecordPG("public.profile_metas", $record_meta);
 
                         }
                     }
@@ -836,13 +837,12 @@ Email: ' . $this->request->getVar('email') . '
 Password: ' . $this->request->getVar('password');
                         $Main->send($mobile, $message);
                     }
-
+//                    echo 'sdvsdv';exit();
 
                     $data = array();
                     $data['status'] = "success";
                     $data['id'] = $website_profile_id;
                     $data['message'] = "Hospitals Profile Added Successfully.....!";
-                    echo json_encode($data);
 
 
                 } else {
@@ -850,7 +850,6 @@ Password: ' . $this->request->getVar('password');
                     $data = array();
                     $data['status'] = "fail";
                     $data['message'] = "Error in Adding Hospitals Profile...!";
-                    echo json_encode($data);
                 }
             }
 
@@ -903,7 +902,7 @@ Password: ' . $this->request->getVar('password');
                             $record_meta['Option'] = $M;
                             $record_meta['Value'] = $this->request->getVar($M);
 
-                            $idd = $Crud->AdddRecord("public.profile_metas", $record_meta);
+                            $idd = $Crud->AddRecordPG("public.profile_metas", $record_meta);
 
                         }
                     }
@@ -926,7 +925,7 @@ Password: ' . $this->request->getVar('password');
                                 $record_option['Name'] = $key;
                                 $record_option['ProfileUID'] = $id;
 
-                                $id = $Crud->AdddRecord("public.options", $record_option);
+                                $id = $Crud->AddRecordPG("public.options", $record_option);
 
                             }
 //                            echo 'cccc';exit();
@@ -935,13 +934,11 @@ Password: ' . $this->request->getVar('password');
                             $data['status'] = "success";
                             $data['id'] = $id;
                             $data['message'] = "Hospitals Profile Updated Successfully.....!";
-                            echo json_encode($data);
                         } else {
 
                             $data = array();
                             $data['status'] = "fail";
                             $data['message'] = "Error in Updating Hospitals Profile...!";
-                            echo json_encode($data);
                         }
 
 
@@ -952,6 +949,7 @@ Password: ' . $this->request->getVar('password');
 
         }
 
+        echo json_encode($data);
 
     }
 
@@ -1013,15 +1011,7 @@ Password: ' . $this->request->getVar('password');
 
                 $subdomain = $this->request->getVar('sub_domain');
                 $AdminDomain = $this->request->getVar('AdminDomain');
-//                $pgsql->trans_start();
-//                $pgsql->set('Type', 'doctors');
-//                $pgsql->set('Name', $this->request->getVar('name'));
-//                $pgsql->set('Email', $this->request->getVar('email'));
-//                $pgsql->set('Password', $this->request->getVar('password'));
-//                $pgsql->set('City', $this->request->getVar('city'));
-//                $pgsql->set('ContactNo', $this->request->getVar('ContactNo'));
-//                $pgsql->set('SubDomain', $subdomain);
-//                $pgsql->set('AdminDomain', $AdminDomain);
+
                 $record['Type'] = 'doctors';
                 $record['Name'] = $this->request->getVar('name');
                 $record['Email'] = $this->request->getVar('email');
@@ -1041,32 +1031,19 @@ Password: ' . $this->request->getVar('password');
 
 //                    $pgsql->set('Profile', '');
                 }
-                $website_profile_id = $Crud->AdddRecord("public.profiles", $record);
+                $website_profile_id = $Crud->AddRecordPG("public.profiles", $record);
 
                 if ($website_profile_id) {
 
-//                    $website_profile_id = $pgsql->insert_id();
-//                    $pgsql->trans_complete();
 
-                    $logos = array('sponsored_logo', 'initatived_logo');
-
-                    foreach ($logos as $log) {
-//                        echo 'dddd';exit();
-
-                        $file = $Main->upload_image($log, 1024);
-print_r($file);exit();
-                        if ($file != '') {
-                            $records['ProfileUID'] = $website_profile_id;
-                            $records['Option'] = $log;
-                            $records['Value'] = $file;
+                    $logos = array();
 
 
-                            $id = $Crud->AdddRecord("public.profile_metas", $records);
+                    $records['ProfileUID'] = $website_profile_id;
+                    $records['Option'] = 'initatived_logo';
+                    $records['Value'] = base64_encode($fileinitatived_logo);
 
-                        }
-                    }
-
-
+                    $id = $Crud->AddRecordPG("public.profile_metas", $records);
                     $Metas = array('speciality', 'qualification', 'pmdcno', 'department', 'short_description', 'telemedicine_id', 'initatived_text', 'healthcare_status', 'patient_portal');
 
                     foreach ($Metas as $M) {
@@ -1077,7 +1054,7 @@ print_r($file);exit();
                             $record_meta['Option'] = $M;
                             $record_meta['Value'] = $this->request->getVar($M);
 
-                            $id = $Crud->AdddRecord("public.profile_metas", $record_meta);
+                            $id = $Crud->AddRecordPG("public.profile_metas", $record_meta);
 
                         }
                     }
@@ -1085,9 +1062,6 @@ print_r($file);exit();
                     $Sponsor = $this->request->getVar('sponsor');
                     $theme = $this->request->getVar('theme');
                     $Options = array('award_nav' => 'show', 'patient_nav' => 'show', 'research_nav' => 'show', 'theme_css' => 'dore.light.red.css', 'custom_banners' => '5', 'theme' => ((isset($theme) && $theme != '') ? $theme : ''), 'sms_credits' => 100, 'notify_sms' => 1, 'notify_email' => 1, 'sponsor' => ((isset($Sponsor) && $Sponsor != '') ? $Sponsor : ''));
-
-//                    'theme_css' => 'dore.light.red.css',
-
                     foreach ($Options as $key => $value) {
 
                         if ($value != '') {
@@ -1095,48 +1069,20 @@ print_r($file);exit();
                             $record_option['Name'] = $key;
                             $record_option['Description'] = $value;
 
-                            $id = $Crud->AdddRecord("public.options", $record_option);
-//                            $pgsql->trans_start();
-//                            $pgsql->set('ProfileUID', $website_profile_id);
-//                            $pgsql->set('Name', $key);
-//                            $pgsql->set('Description', $value);
-//                            $pgsql->insert('public.options');
-//                            $pgsql->trans_complete();
+                            $id = $Crud->AddRecordPG("public.options", $record_option);
+
                         }
-                    }
-
-                    $message = 'Dear Clinta Support,
-"' . $this->request->getVar('name') . '" New Doctor Added Successfully in Clinta Apanel,
-Please Assign SubDomain.';
-
-                    $Main->send('03155913609', $message);
-
-
-                    if (isset($subdomain) && $subdomain != '') {
-                        $mobile = $this->request->getVar('ContactNo');
-                        $message = 'Dear ' . $this->request->getVar('name') . ',
-Congratulations, your own website has been created.
-URL: http://' . $subdomain . '
-Email: ' . $this->request->getVar('email') . '
-Password: ' . $this->request->getVar('password');
-                        $Main->send($mobile, $message);
                     }
 
                     $data = array();
                     $data['status'] = "success";
                     $data['id'] = $website_profile_id;
                     $data['message'] = "Doctor Profile Added Suuccessfully.....!";
-                    echo json_encode($data);
-
-
                 } else {
-
                     $data = array();
                     $data['status'] = "fail";
                     $data['message'] = "Error in Adding Doctors Profile...!";
-                    echo json_encode($data);
                 }
-
             }
 
         } else {
@@ -1147,14 +1093,12 @@ Password: ' . $this->request->getVar('password');
                     $responce = array();
                     $responce['status'] = 'fail';
                     $responce['message'] = '<strong>Contact No</strong> Already Assign to <strong>' . (($Data['SubDomain'] != '') ? $Data['SubDomain'] : $Data['Name']) . '</strong> ...!';
-                    echo json_encode($responce);
 
                 } else if ($Data['Email'] == $email) {
 
                     $responce = array();
                     $responce['status'] = 'fail';
                     $responce['message'] = '<strong>Email</strong> Already Assign to <strong>' . (($Data['SubDomain'] != '') ? $Data['SubDomain'] : $Data['Name']) . '</strong> ...!';
-                    echo json_encode($responce);
                 }
 
             } else {
@@ -1167,13 +1111,6 @@ Password: ' . $this->request->getVar('password');
                 $record['Password'] = $this->request->getVar('password');
                 $record['City'] = $this->request->getVar('city');
                 $record['ContactNo'] = $this->request->getVar('ContactNo');
-//                $pgsql->trans_start();
-//                $pgsql->set('Type', 'doctors');
-//                $pgsql->set('Name', $this->request->getVar('name'));
-//                $pgsql->set('Email', $this->request->getVar('email'));
-//                $pgsql->set('Password', $this->request->getVar('password'));
-//                $pgsql->set('City', $this->request->getVar('city'));
-//                $pgsql->set('ContactNo', $this->request->getVar('ContactNo'));
                 if (isset($AdminDomain) && $AdminDomain != '') {
 
                     $record['AdminDomain'] = $AdminDomain;
@@ -1197,53 +1134,21 @@ Password: ' . $this->request->getVar('password');
 
 //                $pgsql->where('UID', $id);
                 if ($updateid > 0) {
-//                    $pgsql->trans_complete();
 
-                    ////////////////////////Profile Metas Delete Query///////////////////////////////////
-                    /*$pgsql->trans_start();
-                    $pgsql->where('ProfileUID', $id);
-                    $pgsql->where('Option !=', 'initatived_logo');
-                    $pgsql->where('Option !=', 'parent_id');
-                    $pgsql->where('Option !=', 'note');
-                    $pgsql->delete('public.profile_metas');
-                    $pgsql->trans_complete();*/
-                    ////////////////////////End///////////////////////////////////
 
                     ////////////////////////Sponsor Segment///////////////////////////////////
                     $Sponsor = $this->request->getVar('sponsor');
                     if (isset($Sponsor) && $Sponsor != '') {
                         $sql = 'SELECT * FROM public."options" WHERE ProfileUID = ' . $id . ' AND Name = \'sponsor\'';
                         $SponsorData = $Crud->ExecutePgSQL($sql);
-
-//                        $pgsql->trans_start();
-//                        $pgsql->select('UID');
-//                        $pgsql->from('public.options');
-//                        $pgsql->where('ProfileUID', $id);
-//                        $pgsql->where('Name', 'sponsor');
-//                        $query = $pgsql->get();
-//                        $SponsorData = $query->row_array();
-//                        $pgsql->trans_complete();
                         if (isset($SponsorData['UID'])) {
                             $updateid = $Crud->UpdateeRecord("public.options", array('Description' => $Sponsor), array('UID' => $SponsorData['UID']));
-
-//                            $pgsql->trans_start();
-//                            $pgsql->set('Description', $Sponsor);
-//                            $pgsql->where('UID', $SponsorData['UID']);
-//                            $pgsql->update('public.options');
-//                            $pgsql->trans_complete();
 
                         } else {
                             $record_option['Description'] = $Sponsor;
                             $record_option['Name'] = 'sponsor';
                             $record_option['ProfileUID'] = $id;
-                            $id = $Crud->AdddRecord("public.options", $record_option);
-
-//                            $pgsql->trans_start();
-//                            $pgsql->set('ProfileUID', $id);
-//                            $pgsql->set('Name', 'sponsor');
-//                            $pgsql->set('Description', $Sponsor);
-//                            $pgsql->insert('public.options');
-//                            $pgsql->trans_complete();
+                            $id = $Crud->AddRecordPG("public.options", $record_option);
                         }
                     }
                     ////////////////////////Sponsor Segment END///////////////////////////////////
@@ -1253,35 +1158,15 @@ Password: ' . $this->request->getVar('password');
                         if ($this->request->getVar($M) != '') {
                             $sql = 'SELECT * FROM public."profile_metas" WHERE ProfileUID = ' . $id . ' AND Option =' . $M . ' ';
                             $ProfileMetaData = $Crud->ExecutePgSQL($sql);
-//                            $pgsql->trans_start();
-//                            $pgsql->select('UID');
-//                            $pgsql->from('public.profile_metas');
-//                            $pgsql->where('ProfileUID', $id);
-//                            $pgsql->where('Option', $M);
-//                            $query = $pgsql->get();
-//                            $ProfileMetaData = $query->row_array();
-//                            $pgsql->trans_complete();
                             if (isset($ProfileMetaData['UID'])) {
                                 $updateid = $Crud->UpdateeRecord("public.profile_metas", array('Value' => $this->request->getVar($M)), array('UID' => $ProfileMetaData['UID']));
 
-//                                $pgsql->trans_start();
-//                                $pgsql->set('Value', $this->request->getVar($M));
-//                                $pgsql->where('UID', $ProfileMetaData['UID']);
-//                                $pgsql->update('public.profile_metas');
-//                                $pgsql->trans_complete();
 
                             } else {
                                 $record_option['Value'] = $this->request->getVar($M);
                                 $record_option['Option'] = $M;
                                 $record_option['ProfileUID'] = $id;
-                                $id = $Crud->AdddRecord("public.profile_metas", $record_option);
-
-//                                $pgsql->trans_start();
-//                                $pgsql->set('ProfileUID', $id);
-//                                $pgsql->set('Option', $M);
-//                                $pgsql->set('Value', $this->request->getVar($M));
-//                                $pgsql->insert('public.profile_metas');
-//                                $pgsql->trans_complete();
+                                $id = $Crud->AddRecordPG("public.profile_metas", $record_option);
                             }
                         }
                     }
@@ -1296,15 +1181,6 @@ Password: ' . $this->request->getVar('password');
                         if ($value != '') {
                             $Data = $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id, 'Name' => $key));
 
-//                            $pgsql->trans_start();
-//                            $pgsql->select('*');
-//                            $pgsql->from('public.options');
-//                            $pgsql->where('ProfileUID', $id);
-//                            $pgsql->where('Name', $key);
-//                            $query = $pgsql->get();
-//                            $Data = $query->row_array();
-//                            $pgsql->trans_complete();
-
                             if (isset($Data['UID'])) {
                                 $updateid = $Crud->UpdateeRecord("public.options", array('Description' => $value), array('UID' => $Data['UID']));
 
@@ -1312,15 +1188,7 @@ Password: ' . $this->request->getVar('password');
                                 $Options_record['Description'] = $value;
                                 $Options_record['Name'] = $key;
                                 $Options_record['ProfileUID'] = $id;
-                                $id = $Crud->AdddRecord("public.options", $Options_record);
-
-//                                $pgsql->trans_start();
-//                                $pgsql->set('ProfileUID', $id);
-//                                $pgsql->set('Name', $key);
-//                                $pgsql->set('Description', $value);
-//                                $pgsql->insert('public.options');
-//                                $pgsql->trans_complete();
-                            }
+                                $id = $Crud->AddRecordPG("public.options", $Options_record);
                         }
                     }
 
@@ -1328,53 +1196,22 @@ Password: ' . $this->request->getVar('password');
                     ///////////////////////////Check Sponsor OR Initatived Logo///////////////////////////////////
 
                     $logos = array('initatived_logo');
-                    //print_r($_FILES );exit;
                     foreach ($logos as $log) {
-                        //echo $_FILES[ $log ][ 'name' ];
                         if ($_FILES[$log]['name'] != '') {
                             $Data = $Crud->SingleeRecord('public."profile_metas"', array("ProfileUID" => $id, 'Option' => $log));
 
-//                            $pgsql->trans_start();
-//                            $pgsql->select('*');
-//                            $pgsql->from('public.profile_metas');
-//                            $pgsql->where('ProfileUID', $id);
-//                            $pgsql->where('Option', $log);
-//                            $query = $pgsql->get();
-//                            $Data = $query->row_array();
-                            //echo $pgsql->last_query();
-//                            $pgsql->trans_complete();
-                            //print_r( $Data ); exit;
 
                             if (isset($Data['UID'])) {
 
-                                $file = $Main->upload_image($log, 1024);
-//                                $pgsql->trans_start();
-                                $updateid = $Crud->UpdateeRecord("public.profile_metas", array('Value' => $file), array('UID' => $Data['UID']));
 
-//                                $pgsql->set('Value', $file);
-//                                $pgsql->where('UID', $Data['UID']);
-//                                $pgsql->update('public.profile_metas');
-                                //echo $pgsql->last_query();
-//                                $pgsql->trans_complete();
-
+                                $updateid = $Crud->UpdateeRecord("public.profile_metas", array('Value' => base64_encode($fileinitatived_logo)), array('UID' => $Data['UID']));
 
                             } else {
+                                $records['ProfileUID'] = $id;
+                                $records['Option'] = 'initatived_logo';
+                                $records['Value'] = base64_encode($fileinitatived_logo);
 
-                                $file = $Main->upload_image($log, 1024);
-                                $logo_record['Value'] = $file;
-                                $logo_record['Option'] = $log;
-                                $logo_record['ProfileUID'] = $id;
-                                $id = $Crud->AdddRecord("public.profile_metas", $logo_record);
-
-//                                $pgsql->trans_start();
-//                                $pgsql->set('ProfileUID', $id);
-//                                $pgsql->set('Option', $log);
-//                                $pgsql->set('Value', $file);
-//                                //$pgsql->set( 'Value', 'xxxxxxxx' );
-//                                $pgsql->insert('public.profile_metas');
-//                                //echo $pgsql->last_query();
-//                                $pgsql->trans_complete();
-
+                                $id = $Crud->AddRecordPG("public.profile_metas", $records);
                             }
                         }
 
@@ -1387,13 +1224,13 @@ Password: ' . $this->request->getVar('password');
                     $data['status'] = "success";
                     $data['id'] = $id;
                     $data['message'] = "Doctors Profile Updated Suuccessfully.....!";
-                    echo json_encode($data);
-                } else {
+                }
+                }
+                    else {
 
                     $data = array();
                     $data['status'] = "fail";
                     $data['message'] = "Error in Updating Doctors Profile...!";
-                    echo json_encode($data);
                 }
 
             }
@@ -1402,7 +1239,7 @@ Password: ' . $this->request->getVar('password');
         }
 
 
-        echo json_encode($response);
+        echo json_encode($data);
     }
     public
     function load_speciality_metas_data_grid(){

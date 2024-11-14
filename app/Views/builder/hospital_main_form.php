@@ -8,11 +8,17 @@ $healthcarestatus='';
 $theme='';
 $patient_portal='';
 $BuilderModel = new BuilderModel();
-$short_desc =$BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE['UID'], 'short_description' );
-$clinta_extended_profiles = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE['UID'], 'clinta_extended_profiles' );
-$healthcarestatus = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'healthcare_status' );
-$theme = $BuilderModel->get_profile_options_data_by_id_option( $PAGE[ 'UID' ], 'theme' );
-$patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'patient_portal' );
+//print_r($page);exit();
+if($page=='add-hospital'){
+
+}else{
+    $short_desc =$BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE['UID'], 'short_description' );
+    $clinta_extended_profiles = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE['UID'], 'clinta_extended_profiles' );
+    $healthcarestatus = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'healthcare_status' );
+    $theme = $BuilderModel->get_profile_options_data_by_id_option( $PAGE[ 'UID' ], 'theme' );
+    $patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'patient_portal' );
+}
+
 //print_r($patient_portal);exit();
 ?>
 <div class="card">
@@ -94,9 +100,11 @@ $patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PA
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
                 </div>
+             <?php   if($page!='add-hospital'){?>
                 <div class="col-md-6">
-                    <img src="<?=$path?>module/load_image/<?=str_replace("=", "", base64_encode('profile_'.$PAGE['UID']))?>" height="70">
+                <img src="<?=load_image('pgsql|profile_|' . $PAGE['UID'])?>" height="70">
                 </div>
+                <?php }?>
                 <div class="col-md-12">
                     <div class="form-group row">
                         <label class="col-sm-12">Short Description</label>
@@ -172,10 +180,9 @@ $patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PA
                         <label class="col-sm-12">Theme Setting</label>
                         <div class="col-sm-12">
                             <select name="theme" id="theme" class="form-control">
-                                <option value="0"<?=( ( isset( $theme ) && $theme[0]['Description'] == '0' )? 'selected' : '' )?>>Please Select</option>
-                                <option value="basic"<?=( ( isset( $theme ) && $theme[0]['Description'] == 'basic' )? 'selected' : '' )?>>Basic (Free)</option>
-                                <option value="deep-mind"<?=( ( isset( $theme ) && $theme[0]['Description'] == 'deep-mind' )? 'selected' : '' )?>>Premium (Paid)</option>
-
+                                <option value="0" <?=(is_array($theme) && !empty($theme) && isset($theme[0]['Description']) && $theme[0]['Description'] == '0') ? 'selected' : '' ?>>Please Select</option>
+                                <option value="basic" <?=(is_array($theme) && !empty($theme) && isset($theme[0]['Description']) && $theme[0]['Description'] == 'basic') ? 'selected' : '' ?>>Basic (Free)</option>
+                                <option value="deep-mind" <?=(is_array($theme) && !empty($theme) && isset($theme[0]['Description']) && $theme[0]['Description'] == 'deep-mind') ? 'selected' : '' ?>>Premium (Paid)</option>
                             </select>
                         </div>
                     </div>
@@ -185,11 +192,9 @@ $patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PA
                         <label class="col-sm-12">Patient Portal</label>
                         <div class="col-sm-12">
                             <select name="patient_portal" id="patient_portal" class="form-control">
-                                <option value=""
-                                    <?=( ( isset( $patient_portal ) && $patient_portal[0]['Value'] == '' )? 'selected' : '' )?>>Please Select</option>
-                                <option value="1" <?=( ( isset( $healthcarestatus ) && $patient_portal[0]['Value'] == '1' )? 'selected' : '' )?>>Yes</option>
-                                <option value="0" <?=( ( isset( $patient_portal ) && $patient_portal[0]['Value'] == '0' )? 'selected' : '' )?>>No</option>
-
+                                <option value=""<?=(is_array($patient_portal) && !empty($patient_portal) && isset($patient_portal[0]['Value']) && $patient_portal[0]['Value'] == '') ? 'selected' : '' ?>>Please Select</option>
+                                <option value="1"<?=(is_array($patient_portal) && !empty($patient_portal) && isset($patient_portal[0]['Value']) && $patient_portal[0]['Value'] == '1') ? 'selected' : '' ?>>Yes</option>
+                                <option value="0"<?=(is_array($patient_portal) && !empty($patient_portal) && isset($patient_portal[0]['Value']) && $patient_portal[0]['Value'] == '0') ? 'selected' : '' ?>>No</option>
                             </select>
                         </div>
                     </div>
@@ -221,7 +226,7 @@ $patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PA
         if (response.status === 'success') {
             $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
             setTimeout(function () {
-                location.href = "<?=$path?>builder/";
+                location.href = "<?=$path?>builder/hospital";
             }, 500);
         } else {
             $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');
