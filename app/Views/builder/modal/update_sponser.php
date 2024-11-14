@@ -8,7 +8,7 @@
                   enctype="multipart/form-data">
                 <input type="hidden" name="UID" id="UID" value="0">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Sponsor </h5>
+                    <h5 class="modal-title">Update Sponsor </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i class="ti-close"></i>
                     </button>
@@ -40,6 +40,9 @@
                                 <input type="file" class="custom-file-input" id="Image"  name="Image">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div  id="ImageHTML"></div>
                         </div>
 
                     </div>

@@ -102,7 +102,7 @@ if($page=='add-hospital'){
                 </div>
              <?php   if($page!='add-hospital'){?>
                 <div class="col-md-6">
-                <img src="<?=load_image('pgsql|profile_|' . $PAGE['UID'])?>" height="70">
+                <img src="<?=load_image('pgsql|profile|' . $PAGE['UID'])?>" height="70">
                 </div>
                 <?php }?>
                 <div class="col-md-12">

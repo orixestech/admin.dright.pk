@@ -104,6 +104,9 @@ class Home extends BaseController
             if ($table == 'general_banners') {
                 $column = 'Image';
             }
+            if ($table == 'sponsors') {
+                $column = 'Image';
+            }
 
             $image = base64_decode($record[$column]);
             echo $image;
@@ -113,6 +116,8 @@ class Home extends BaseController
 
             if ($table == '') {
                 $column = 'Image';
+            }  if ($table == 'profile') {
+                $column = 'Profile';
             }
 
             $image = base64_decode($record[$column]);

@@ -1341,7 +1341,10 @@ Password: ' . $this->request->getVar('password');
             $data[] = $cnt;
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['OrderID']) ? htmlspecialchars($record['OrderID']) : '';
-            $data[] = isset($record['Image']) ? "<img src='" . load_image('sponsors_' . $record['UID']) . "' style='width: 100px;'>" : '';
+//            $data[] = isset($record['Image']) ? "<img src='" . load_image('sponsors_' . $record['UID']) . "' style='width: 100px;'>" : '';
+            $data[] = isset($record['Image'])
+                ? "<img src='" . load_image('mysql|sponsors|' . $record['UID']) . "' style='display: block; padding: 2px; border: 1px solid #145388 !important; border-radius: 3px; width: 150px;' />"
+                : '';
 
             $data[] = '
     <td class="text-end">
@@ -1378,19 +1381,17 @@ Password: ' . $this->request->getVar('password');
         $id = $this->request->getVar('UID');
         $Sponsor = $this->request->getVar('Sponsor');
 
-//        if ($this->request->getFile('Image')->isValid()) {
-//            $file = $Main->upload_image('Image', 1024);
-//        } else {
-//            $file = '';
-//        }
-//        print_r($this->request->getFile('Image'));
-//        exit();
+        $Image = $this->request->getFile('Image');
+//print_r($Image);exit();
+        if ($Image->isValid() && !$Image->hasMoved()) {
+            $fileImage = file_get_contents($Image->getTempName());
 
+        }
         if ($id == 0) {
             foreach ($Sponsor as $key => $value) {
                 $record[$key] = ((isset($value)) ? $value : '');
             }
-            $record['Image']='bb';
+            $record['Image']=base64_encode($fileImage);
             $RecordId = $Crud->AddRecord("sponsors", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $response['status'] = 'success';
@@ -1403,7 +1404,7 @@ Password: ' . $this->request->getVar('password');
             foreach ($Sponsor as $key => $value) {
                 $record[$key] = $value;
             }
-            $record['Image']='bb';
+            $record['Image']=base64_encode($fileImage);
 
             $Crud->UpdateRecord("sponsors", $record, array("UID" => $id));
             $response['status'] = 'success';

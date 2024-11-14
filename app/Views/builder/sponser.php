@@ -73,7 +73,15 @@
             $('#UpdateSponsereModal form#UpdateSponserForm input#UID').val(Items.record.UID);
             $('#UpdateSponsereModal form#UpdateSponserForm input#Name').val(Items.record.Name);
             $('#UpdateSponsereModal form#UpdateSponserForm input#OrderID').val(Items.record.OrderID);
-          $('#UpdateSponsereModal').modal('show');
+
+            var imageHTML;
+            if (Items.record.Image) {
+                imageHTML = '<img src="<?= load_image("mysql|sponsors| ") ?>' + Items.record.UID + '" style="display: block; padding: 2px; border: 1px solid #145388 !important; border-radius: 3px; width: 150px;" />';
+            } else {
+                imageHTML = '';
+            }
+            $('#UpdateSponsereModal form#UpdateSponserForm div#ImageHTML').html(imageHTML);
+            $('#UpdateSponsereModal').modal('show');
         }
 
         function DeleteSponser(id) {
