@@ -10,9 +10,12 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->get('table', 'Home::table');
 $routes->get('login', 'Home::login');
+$routes->get('load_image/(.*)', 'Home::load_image');
 //$routes->post('login-form-submit', 'Home::system_user_login_submit');
 $routes->get('/logout', 'Home::logout');
 $routes->post('/fruit_search_filter', 'Home::fruit_search_filter');
+$routes->post('/pharmacy_profile_search_filter', 'Pharmacy::search_filter');
+$routes->post('/lookup_search_filter', 'Lookup::search_filter');
 $routes->post('/clear_session', 'Home::clear_session');
 $routes->post('fruit-data', 'HealthCare::fetch_fruit');
 $routes->post('vegetable-data', 'HealthCare::fetch_vegetable');
@@ -54,11 +57,13 @@ $routes->group('builder', static function ($routes) {
     $routes->post('delete-banner', 'Builder::delete_banner');
     $routes->post('delete-images', 'Builder::delete_images');
     $routes->get('update-doctor/(:num)', 'Builder::index');
+    $routes->get('update-hospital/(:num)', 'Builder::index');
 });
 $routes->group('users', static function ($routes) {
     $routes->get('/', 'Users::index');
     $routes->get('access-level', 'Users::index');
     $routes->get('admin-activites', 'Users::index');
+    $routes->get('admin-approval', 'Users::index');
     $routes->post('users-data', 'Users::fetch_users');
     $routes->post('get-record', 'Users::get_item_record');
     $routes->get('dashboard', 'Users::dashboard');
@@ -150,12 +155,8 @@ $routes->group('representative', static function ($routes) {
 
 });
 $routes->group('medicine', static function ($routes) {
-    $routes->get('/', 'Pharmacy::index');
-    $routes->get('add', 'Pharmacy::index');
-    $routes->post('submit', 'Pharmacy::user_form_submit');
-    $routes->post('delete', 'Pharmacy::delete');
-    $routes->get('update/(:num)', 'Pharmacy::index');
-    $routes->post('medicine-data', 'Pharmacy::fetch_medicine');
+    $routes->get('/', 'Medicine::index');
+    $routes->post('search_filter', 'Medicine::search_filter');
 
 });
 $routes->group('therapy', static function ($routes) {

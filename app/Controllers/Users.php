@@ -33,6 +33,8 @@ class Users extends BaseController
             echo view('users/main_form', $data);
         } elseif ($data['page'] == 'admin-activites') {
             echo view('users/admin_activites', $data);
+        } elseif ($data['page'] == 'admin-approval') {
+            echo view('users/admin_approval', $data);
         } else {
             echo view('users/index', $data);
         }
@@ -76,6 +78,70 @@ class Users extends BaseController
             </div>
         </div>
     </td>';
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+        echo json_encode($response);
+    }
+    public function fetch_admin_activites()
+    {
+        $Users = new SystemUser();
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $Users->get_admin_activity_datatables($keyword);
+        $totalfilterrecords = $Users->count_admin_activity_datatables($keyword);
+//        echo '<pre>';
+//        print_r($Data);exit();
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['FullName']) ? htmlspecialchars($record['FullName']) : '';
+            $data[] = isset($record['Segment']) ? htmlspecialchars($record['Segment']) : '';
+            $data[] = isset($record['Description']) ?
+                htmlspecialchars(str_replace(['<strong>', '</strong>'], ' ', $record['Description'])) : '';
+
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+        echo json_encode($response);
+    }
+    public function fetch_admin_approval()
+    {
+        $Users = new SystemUser();
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $Users->get_diet_admin_category_datatables($keyword);
+        $totalfilterrecords = $Users->count_diet_admin_category_datatables($keyword);
+//        echo '<pre>';
+//        print_r($Data);exit();
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['EditBy']) ? htmlspecialchars($record['EditBy']) : '';
+            $data[] = isset($record['ModuleRef']) ? htmlspecialchars($record['ModuleRef']) : '';
+            $data[] = isset($record['Description']) ? substr(strip_tags($record['Description']), 0, 50) . ' ... <a href="javascript:void(0)" style="color: red;" onclick="LoadDescriptionModel(' . $record['UID'] . ')">read more</a>' : '';
+            $data[] = ($record['ApprovedBy'] > 0) ? '<span class="btn btn-info rounded btn-sm">Approved</span>' : '<a href="javascript:void(0)" onClick="ApproveQuery(' . $record['UID'] . ')" class="btn btn-danger-outline ks-no-text"><span class="fa fa-check ks-icon"></span></a>';
+
+
+
             $dataarr[] = $data;
         }
 
@@ -139,6 +205,18 @@ class Users extends BaseController
         $id = $_POST['id'];
 
         $record = $Crud->SingleRecord("system_users", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
+        echo json_encode($response);
+    }
+    public function get_admin_updates_record()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("admin_updates", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['record'] = $record;

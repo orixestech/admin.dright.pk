@@ -1,5 +1,26 @@
 <br>
+<?php
 
+use App\Models\BuilderModel;
+$short_desc='';
+$clinta_extended_profiles='';
+$healthcarestatus='';
+$theme='';
+$patient_portal='';
+$BuilderModel = new BuilderModel();
+//print_r($page);exit();
+if($page=='add-hospital'){
+
+}else{
+    $short_desc =$BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE['UID'], 'short_description' );
+    $clinta_extended_profiles = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE['UID'], 'clinta_extended_profiles' );
+    $healthcarestatus = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'healthcare_status' );
+    $theme = $BuilderModel->get_profile_options_data_by_id_option( $PAGE[ 'UID' ], 'theme' );
+    $patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'patient_portal' );
+}
+
+//print_r($patient_portal);exit();
+?>
 <div class="card">
     <div class="card-body">
         <h6 class="card-title"><?= ((isset($PAGE['UID'])) ? 'Update' : 'Add New') ?> Hospital</h6>
@@ -64,6 +85,7 @@
                         <label class="col-sm-12">Sub Domain</label>
                         <div class="col-sm-12">
                             <input type="text" id="sub_domain" name="sub_domain" placeholder="Sub Domain"
+                                   value="<?= ((isset($PAGE['SubDomain'])) ? $PAGE['SubDomain'] : '') ?>"
                                    class="form-control"/>
                         </div>
                     </div>
@@ -78,13 +100,20 @@
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
                 </div>
-
+             <?php   if($page!='add-hospital'){?>
+                <div class="col-md-6">
+                <img src="<?=load_image('pgsql|profile|' . $PAGE['UID'])?>" height="70">
+                </div>
+                <?php }?>
                 <div class="col-md-12">
                     <div class="form-group row">
                         <label class="col-sm-12">Short Description</label>
                         <div class="col-sm-12">
                             <textarea class="form-control" name="short_description" id="short_description"
-                                      rows="6"></textarea>
+                                      rows="6">
+                                <?php if (is_array($short_desc) && !empty($short_desc)) { ?>
+                                    <?= isset($short_desc[0]['Value']) ? $short_desc[0]['Value'] : ''; ?>
+                                <?php } ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -101,11 +130,48 @@
                             <select id="clinta_extended_profiles" name="clinta_extended_profiles" class="form-control"
                                     data-validation-engine="validate[required]">
                                 <option value="">Please Select</option>
+<!--                                --><?php
+//                                foreach( $extended_profiles as $PF ){
+//                                    echo'<option value="'.$PF['UID'].'" '. if (is_array($healthcarestatus) && !empty($healthcarestatus)) {
+//                                    ( ( isset( $clinta_extended_profiles ) && $clinta_extended_profiles[0]['Value'] == $PF['UID'] )? 'selected' : ''  )     } .' >'.$PF['FullName'].'</option>';
+//                                }?>
                                 <?php
-                                foreach( $extended_profiles as $PF ){?>
-                                    <option value="<?= $PF['UID'] ?>" <?= (isset($PAGE['City']) && $PAGE['City'] == $record['UID']) ? 'selected' : '' ?>
-                                    ><?= ucwords($PF['FullName']); ?></option>
-                                <?php } ?>                            </select>
+                                foreach ($extended_profiles as $PF) {
+                                    $selected = (is_array($clinta_extended_profiles) && !empty($clinta_extended_profiles) && isset($clinta_extended_profiles[0]['Value']) && $clinta_extended_profiles[0]['Value'] == $PF['UID']) ? 'selected' : '';
+                                    echo '<option value="' . $PF['UID'] . '" ' . $selected . '>' . $PF['FullName'] . '</option>';
+                                }
+                                ?>
+
+                                                      </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-sm-12">Add-ons</label>
+                        <div class="col-sm-12">
+                            <select name="healthcare_status" id="healthcare_status" class="form-control">
+                                <option value=""
+
+                                <?php if (is_array($healthcarestatus) && !empty($healthcarestatus)) { ?>
+                                    <?= (isset($healthcarestatus[0]['Value']) && $healthcarestatus[0]['Value'] == '') ? 'selected' : ''; ?>
+                                <?php } ?>
+
+                                >Please Select</option>
+                                <option value="1"
+                                <?php if (is_array($healthcarestatus) && !empty($healthcarestatus)) { ?>
+                                    <?= (isset($healthcarestatus[0]['Value']) && $healthcarestatus[0]['Value'] == '1') ? 'selected' : ''; ?>
+                                <?php } ?>
+
+                               >Show</option>
+  <option value="0"
+                                <?php if (is_array($healthcarestatus) && !empty($healthcarestatus)) { ?>
+                                    <?= (isset($healthcarestatus[0]['Value']) && $healthcarestatus[0]['Value'] == '0') ? 'selected' : ''; ?>
+                                <?php } ?>
+
+                               >Hide</option>
+
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -114,10 +180,9 @@
                         <label class="col-sm-12">Theme Setting</label>
                         <div class="col-sm-12">
                             <select name="theme" id="theme" class="form-control">
-                                <option value="0">Please Select</option>
-                                <option value="basic">Basic (Free)</option>
-                                <option value="deep-mind">Premium (Paid)</option>
-
+                                <option value="0" <?=(is_array($theme) && !empty($theme) && isset($theme[0]['Description']) && $theme[0]['Description'] == '0') ? 'selected' : '' ?>>Please Select</option>
+                                <option value="basic" <?=(is_array($theme) && !empty($theme) && isset($theme[0]['Description']) && $theme[0]['Description'] == 'basic') ? 'selected' : '' ?>>Basic (Free)</option>
+                                <option value="deep-mind" <?=(is_array($theme) && !empty($theme) && isset($theme[0]['Description']) && $theme[0]['Description'] == 'deep-mind') ? 'selected' : '' ?>>Premium (Paid)</option>
                             </select>
                         </div>
                     </div>
@@ -127,10 +192,9 @@
                         <label class="col-sm-12">Patient Portal</label>
                         <div class="col-sm-12">
                             <select name="patient_portal" id="patient_portal" class="form-control">
-                                <option value="">Please Select</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-
+                                <option value=""<?=(is_array($patient_portal) && !empty($patient_portal) && isset($patient_portal[0]['Value']) && $patient_portal[0]['Value'] == '') ? 'selected' : '' ?>>Please Select</option>
+                                <option value="1"<?=(is_array($patient_portal) && !empty($patient_portal) && isset($patient_portal[0]['Value']) && $patient_portal[0]['Value'] == '1') ? 'selected' : '' ?>>Yes</option>
+                                <option value="0"<?=(is_array($patient_portal) && !empty($patient_portal) && isset($patient_portal[0]['Value']) && $patient_portal[0]['Value'] == '0') ? 'selected' : '' ?>>No</option>
                             </select>
                         </div>
                     </div>
@@ -162,7 +226,7 @@
         if (response.status === 'success') {
             $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
             setTimeout(function () {
-                //location.href = "<?php //=$path?>//builder/";
+                location.href = "<?=$path?>builder/hospital";
             }, 500);
         } else {
             $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');

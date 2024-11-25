@@ -31,12 +31,21 @@ class BuilderModel extends Model
         $Admin = $Crud->ExecutePgSQL($SQL);
         return $Admin;
     }
+    public function get_website_profile_meta_data_by_id_option($id, $option)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT *
+        FROM "public"."profile_metas"  
+        where "public"."profile_metas"."ProfileUID" = \'' . $id . '\' And "public"."profile_metas"."Option" = \'' . $option . '\'; ';
+        $Admin = $Crud->ExecutePgSQL($SQL);
+        return $Admin;
+    }
     public function general_banners()
     {
         $Crud = new Crud();
         $SQL = 'SELECT `general_banners`.*, `specialities`.`Name` AS Title FROM `general_banners` 
     LEFT JOIN `specialities` ON `general_banners`.`Speciality` = `specialities`.`UID`
-       ORDER BY `general_banners`.`SystemDate` ASC
+       ORDER BY `general_banners`.`SystemDate` DESC
 
 ';
         return $SQL;
@@ -84,13 +93,26 @@ class BuilderModel extends Model
 //        print_r($SQL);exit();
         return $SQL;
     }
-    public function Allprofiless($ID)
+    public function Allprofiless($ID,$keyword)
     {
         $Crud = new Crud();
+        $session = session();
+        $SessionFilters = $session->get('HospitalFilters');
         $SQL = 'SELECT "public"."profiles".*
         FROM "public"."profiles"  
         WHERE "public"."profiles"."Type" =\'' . $ID . '\' 
-        ORDER BY "public"."profiles"."Name" ASC ';
+      ';
+        if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
+            $Name = $SessionFilters['Name'];
+            $SQL .= ' AND  "public"."profiles"."Name"  LIKE \'%' . $Name . '%\'';
+        } if (isset($SessionFilters['City']) && $SessionFilters['City'] != '') {
+            $City= $SessionFilters['City'];
+            $SQL .= ' AND  "public"."profiles"."City"  =' . $City . ' ';
+        }
+        if($keyword!=''){
+            $SQL .= ' AND "public"."profiles"."Name"  LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .=' Order By "public"."profiles"."Name"  ASC';
         return $SQL;
     }
   
@@ -146,6 +168,27 @@ class BuilderModel extends Model
         $SQL = $this->websites_images();
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
+    } public
+    function get_doct_datatables($type,$keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->Allprofiless($type,$keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecutePgSQL($SQL);
+
+        return $records;
+    }
+
+    public
+    function count_doct_datatables($type,$keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->Allprofiless($type,$keyword);
+        $records = $Crud->ExecutePgSQL($SQL);
+        return count($records);
     }
     public
     function get_specialities_datatables($keyword)
@@ -169,6 +212,64 @@ class BuilderModel extends Model
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin[0]['UID'];
     }
+    public function sponser($keyword)
+    {
+        $Crud = new Crud();
 
+        $SQL = "SELECT * FROM `sponsors` WHERE `Archive` = '0' ";
+        if($keyword!=''){
+            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .= ' ORDER BY `Name` ASC';
+        return $SQL;
+    }  public function sponsor_product($id,$keyword)
+    {
+        $Crud = new Crud();
 
+        $SQL = "SELECT * FROM `sponsors_products` WHERE `Archive` = '0' AND `SponsorID` = $id";
+        if($keyword!=''){
+            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .= ' ORDER BY `Name` ASC';
+        return $SQL;
+    }
+    public
+    function get_sponser_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->sponser($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public
+    function count_sponser_datatables($keyword)
+    {
+        $Crud = new Crud();
+        $SQL = $this->sponser($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    } public
+    function get_sponsor_product_datatables($id,$keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->sponsor_product($id,$keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public
+    function count_sponsor_product_datatables($id,$keyword)
+    {
+        $Crud = new Crud();
+        $SQL = $this->sponsor_product($id,$keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    }
 }

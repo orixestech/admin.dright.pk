@@ -32,19 +32,32 @@ class LaboratoriesModel extends Model
 //        return $data;
 //    }
 
-    public function laboratories()
+    public function laboratories($keyword)
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `laboratories`  Order By `SystemDate` DESC';
+        $session = session();
+        $SessionFilters = $session->get('LaboratoriesFilters');
+        $SQL = 'SELECT * FROM `laboratories` where 1=1 ';
 //        $Admin = $Crud->ExecuteSQL($SQL);
+        if (isset($SessionFilters['FullName']) && $SessionFilters['FullName'] != '') {
+            $Name = $SessionFilters['FullName'];
+            $SQL .= ' AND  `FullName` LIKE \'%' . $Name . '%\'';
+        }if (isset($SessionFilters['City']) && $SessionFilters['City'] != '') {
+            $City = $SessionFilters['City'];
+            $SQL .= ' AND  `City` LIKE \'%' . $City . '%\'';
+        }
+        if($keyword!=''){
+            $SQL .= ' AND  `FullName` LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .=' Order By `SystemDate` DESC';
         return $SQL;
     }
     public
-    function get_datatables()
+    function get_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->laboratories();
+        $SQL = $this->laboratories($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -69,11 +82,11 @@ class LaboratoriesModel extends Model
         return $Admin;
     }
     public
-    function count_datatables()
+    function count_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->laboratories();
+        $SQL = $this->laboratories($keyword);
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);

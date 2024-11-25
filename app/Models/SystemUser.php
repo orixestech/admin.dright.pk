@@ -26,6 +26,44 @@ class SystemUser extends Model
         $SQL .= ' ORDER BY `SystemDate` DESC';
         return $SQL;
     }
+
+
+    public function DietAdminCategoryList($keyword)
+    {
+
+        $Crud = new Crud();
+//        $SQL = 'SELECT * FROM `admin_log` where `Archive`=\'0\' Order By `DiseaseName` ASC';
+
+        $SQL = 'SELECT admin_updates.*, system_users.FullName as fullname  FROM admin_updates 
+    LEFT JOIN system_users ON admin_updates.EditBy = system_users.UID
+        WHERE 1=1
+
+';
+        if($keyword!=''){
+            $SQL .= ' AND  admin_updates.`Description` LIKE \'%' . $keyword . '%\'  ';
+//            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Tag` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY admin_updates.`ApprovedBy` DESC';
+        return $SQL;
+    }
+    public function AdminActivityList($keyword)
+    {
+
+        $Crud = new Crud();
+//        $SQL = 'SELECT * FROM `admin_log` where `Archive`=\'0\' Order By `DiseaseName` ASC';
+
+        $SQL = 'SELECT admin_log.*, system_users.*  FROM admin_log 
+    LEFT JOIN system_users ON admin_log.LoggedUserID = system_users.UID
+        WHERE 1=1
+
+';
+        if($keyword!=''){
+            $SQL .= ' AND  admin_log.`Description` LIKE \'%' . $keyword . '%\'  ';
+//            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Tag` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY admin_log.`SystemDate` DESC';
+        return $SQL;
+    }
     public
     function get_users_datatables($keyword)
     {
@@ -49,6 +87,44 @@ class SystemUser extends Model
         $SQL = $this->systemusers($keyword);
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
+        return count($records);
+    }
+    public function get_admin_activity_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->AdminActivityList($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public function count_admin_activity_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->AdminActivityList($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    }
+    public function get_diet_admin_category_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->DietAdminCategoryList($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public function count_diet_admin_category_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->DietAdminCategoryList($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
 

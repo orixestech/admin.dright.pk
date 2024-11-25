@@ -50,9 +50,10 @@ class Database extends Config
         ],
     ];
 
+
     public array $website_db = [
         'DSN'          => '',
-        'hostname'     => '127.0.0.1',
+        'hostname'     => PGDB_HOST,
         'username'     => 'clinta_doctwebsite',
         'password'     => 'ClintaWebsite147',
         'database'     => 'clinta_websites',

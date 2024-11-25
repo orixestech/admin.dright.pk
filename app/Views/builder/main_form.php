@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom04">ContactNo</label>
+                    <label for="validationCustom04">Contact No</label>
                     <input type="text" class="form-control" name="ContactNo" id="validationCustom04"
                            placeholder="Contact No"
                            value="<?= ((isset($PAGE['ContactNo'])) ? $PAGE['ContactNo'] : '') ?>"
@@ -229,7 +229,7 @@
         if (response.status === 'success') {
             $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
             setTimeout(function () {
-                //location.href = "<?php //=$path?>//builder/";
+                location.href = "<?=$path?>builder/";
             }, 500);
         } else {
             $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');

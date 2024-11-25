@@ -1,5 +1,13 @@
 <link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
+<?php
 
+$session = session();
+$SessionFilters = $session->get('PharmacyFilters');
+$MACAddress='';
+if (isset($SessionFilters['MACAddress']) && $SessionFilters['MACAddress'] != '') {
+    $MACAddress = $SessionFilters['MACAddress'];
+}
+?>
 <div class="card">
     <div class="card-body">
         <h3>Pharmacy
@@ -15,36 +23,28 @@
             <div class="col-md-12">
                 <h5>Search Filters</h5>
                 <hr>
-                <form method="get" action="#">
+                <form method="post" name="AllFilterForm" id="AllFilterForm"
+                      onsubmit="SearchFilterFormSubmit('AllFilterForm');">
                     <div class="form-group">
                         <div class="row">
                             <div class="form-group col-md-3">
-                                <label class="form-control-label no-padding-right">Key:</label>
-                                <input type="text" id="Key" name="Key" placeholder="Key" class="form-control"
-                                       data-validation-engine="validate[required]" data-errormessage="Key is required"/>
-
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label class="form-control-label no-padding-right">City :</label>
-                                <select id="city" name="city" class="form-control"
-                                        data-validation-engine="validate[required]">
-                                    <option value="">Please Select</option>
-
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
                                 <label class="form-control-label no-padding-right">MAC Address:</label>
-                                <input type="text" id="MACAddress" name="MACAddress" placeholder="MAC Address"
+                                <input type="text" id="MACAddress"   value="<?=$MACAddress;?>" name="MACAddress" placeholder="MAC Address"
                                        class="form-control " data-validation-engine="validate[required]"
                                        data-errormessage="MAC Address is required"/>
                             </div>
                             <div class="form-group col-md-12" style="float: right">
                                  <span style="float: right;">
-                                    <button class="btn btn-outline-primary" type="button">Clear</button>
+                                    <button class="btn btn-outline-primary" onclick="ClearAllFilter('PharmacyFilters');"
+                                            type="button">Clear</button>
 
-                                <button class="btn btn-outline-success" type="submit">Search!</button>
+                                <button class="btn btn-outline-success"
+                                        onclick="SearchFilterFormSubmit('AllFilterForm');"
+                                        type="button">Search!</button>
                                  </span>
                             </div>
+                            <div class="mt-4" id="FilterResponse"></div>
+
                         </div>
                     </div>
 
@@ -101,7 +101,7 @@
             $('#frutis').DataTable({
                 "scrollY": "800px",
                 "scrollCollapse": true,
-                "searching": false,
+                "searching": true,
                 "processing": true,
                 "serverSide": true,
                 "responsive": true,
@@ -162,6 +162,24 @@
                     }, 1000);
                 }
 
+            }
+        }
+
+        function SearchFilterFormSubmit(parent) {
+
+            var data = $("form#" + parent).serialize();
+            var rslt = AjaxResponse('pharmacy_profile_search_filter', data);
+            if (rslt.status == 'success') {
+                $("#AllFilterForm form #FilterResponse").html(rslt.message);
+                location.reload();
+            }
+        }
+
+        function ClearAllFilter(Session) {
+            var rslt = AjaxResponse('home/clear_session', 'SessionName=' + Session);
+            if (rslt.status == 'success') {
+                $("#AllFilterForm form #FilterResponse").html(rslt.message);
+                location.reload();
             }
         }
     </script>

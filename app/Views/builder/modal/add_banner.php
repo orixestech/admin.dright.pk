@@ -19,8 +19,7 @@
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom02">Alignment</label>
                             <select class="form-control" id="alignment" name="alignment">
-                                <option value="">Select Color</option>
-
+                                <option value="">Select Alignment</option>
                                 <option value="left">Left</option>
                                 <option value="right">Right</option>
                                 <option value="center">Center</option>

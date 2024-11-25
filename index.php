@@ -34,6 +34,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('TEMPLATE', 'http://localhost/admin.dright.net/template/');
     define('ROOT', dirname(__FILE__)."/");
 
+    define('PGDB_HOST', '127.0.0.1');
     define('DB_HOST', '127.0.0.1');
     define('DB_USER', 'root');
     define('DB_PASS', '');
@@ -43,10 +44,11 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('TEMPLATE', 'https://admin.dright.net/template/');
     define('ROOT', dirname(__FILE__)."/");
 
-//    define('DB_HOST', '117.20.29.46');
-//    define('DB_USER', 'clinta_maindb');
-//    define('DB_PASS', 'clinta_maindb');
-//    define('DB_NAME', 'clinta_maindb');
+    //    define('DB_HOST', '117.20.29.46');
+    //    define('DB_USER', 'clinta_maindb');
+    //    define('DB_PASS', 'clinta_maindb');   
+    //    define('DB_NAME', 'clinta_maindb');
+    define('PGDB_HOST', '117.20.29.46   ');
     define('DB_HOST', '127.0.0.1');
     define('DB_USER', 'dright_clintamaindb');
     define('DB_PASS', 'dright_clintamaindb');

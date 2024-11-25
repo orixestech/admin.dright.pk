@@ -202,7 +202,7 @@
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" title="User menu" data-toggle="dropdown">
                             <span class="mr-2 d-sm-inline d-none">
-                                Hi! <strong>Bony Gidden</strong>
+                                Hi! <strong><?php echo $_SESSION['FullName'];?></strong>
                             </span>
                             <figure class="avatar avatar-sm">
                                 <img src="<?= $template ?>assets/media/image/user/man_avatar3.jpg"
@@ -217,36 +217,35 @@
                                     <img src="<?= $template ?>assets/media/image/user/man_avatar3.jpg"
                                          class="rounded-circle" alt="image">
                                 </figure>
-                                <h5 class="mb-0">Bony Gidden</h5>
+                                <h5 class="mb-0"><?php echo $_SESSION['FullName'];?></h5>
                             </div>
                             <div class="list-group list-group-flush">
-                                <a href="profile.html" class="list-group-item">Profile</a>
-                                <a href="#" class="list-group-item" data-sidebar-target="#settings">Settings</a>
-                                <a href="login.html" class="list-group-item text-danger">Sign Out!</a>
+
+                                <a href="<?=$path;?>logout" class="list-group-item text-danger">Sign Out!</a>
                             </div>
-                            <div class="pb-0 p-4">
-                                <div class="mb-4">
-                                    <h6 class="d-flex justify-content-between">
-                                        Completed Tasks
-                                        <span class="float-right">%68</span>
-                                    </h6>
-                                    <div class="progress" style="height:5px;">
-                                        <div class="progress-bar bg-secondary" role="progressbar"
-                                             style="width: 68%;" aria-valuenow="68" aria-valuemin="0"
-                                             aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h6 class="d-flex justify-content-between">
-                                        Storage
-                                        <span>%25</span>
-                                    </h6>
-                                    <div class="progress" style="height: 5px;">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 40%;"
-                                             aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
+<!--                            <div class="pb-0 p-4">-->
+<!--                                <div class="mb-4">-->
+<!--                                    <h6 class="d-flex justify-content-between">-->
+<!--                                        Completed Tasks-->
+<!--                                        <span class="float-right">%68</span>-->
+<!--                                    </h6>-->
+<!--                                    <div class="progress" style="height:5px;">-->
+<!--                                        <div class="progress-bar bg-secondary" role="progressbar"-->
+<!--                                             style="width: 68%;" aria-valuenow="68" aria-valuemin="0"-->
+<!--                                             aria-valuemax="100"></div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div>-->
+<!--                                    <h6 class="d-flex justify-content-between">-->
+<!--                                        Storage-->
+<!--                                        <span>%25</span>-->
+<!--                                    </h6>-->
+<!--                                    <div class="progress" style="height: 5px;">-->
+<!--                                        <div class="progress-bar bg-success" role="progressbar" style="width: 40%;"-->
+<!--                                             aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                     </li>
                 </ul>

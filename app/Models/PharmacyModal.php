@@ -32,11 +32,23 @@ class PharmacyModal extends Model
 //        return $data;
 //    }
 
-    public function pharmacy_profiles()
+    public function pharmacy_profiles($keyword)
     {
         $Crud = new Crud();
-        $SQL = "SELECT * FROM `pharmacy_profiles` ORDER BY `pharmacy_profiles`.`FullName` ASC";
+        $session = session();
+        $SessionFilters = $session->get('PharmacyFilters');
+        $SQL = "SELECT * FROM `pharmacy_profiles` Where 1=1 ";
 //        $Admin = $Crud->ExecuteSQL($SQL);
+        if (isset($SessionFilters['MACAddress']) && $SessionFilters['MACAddress'] != '') {
+            $Categories = $SessionFilters['MACAddress'];
+            $SQL .= ' AND  "MAC" LIKE \'%' . $Categories . '%\'';
+        }
+        if($keyword!=''){
+//            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+            $SQL .= ' AND  ( `FullName` LIKE \'%' . $keyword . '%\'  OR `ContactNo` LIKE \'%' . $keyword . '%\'  OR `Address` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY `FullName` ASC';
+//        print_r($SQL);exit();
         return $SQL;
     }
     public function citites()
@@ -55,11 +67,11 @@ class PharmacyModal extends Model
     }
 
     public
-    function get_datatables()
+    function get_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->pharmacy_profiles();
+        $SQL = $this->pharmacy_profiles($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -70,11 +82,11 @@ class PharmacyModal extends Model
     }
 
     public
-    function count_datatables()
+    function count_datatables($keyword)
     {
         $Crud = new Crud();
 
-        $SQL = $this->pharmacy_profiles();
+        $SQL = $this->pharmacy_profiles($keyword);
         $records = $Crud->ExecuteSQL($SQL);
 //        print_r($records);exit();
         return count($records);

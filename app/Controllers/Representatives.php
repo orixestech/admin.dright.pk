@@ -60,19 +60,24 @@ class Representatives extends BaseController
     public function fetch_representative()
     {
         $Users = new HealthcareModel();
-        $Data = $Users->get_representatives_datatables();
-        $totalfilterrecords = $Users->count_representatives_datatables();
+        $PharmacyModal = new PharmacyModal();
+
+        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+
+        $Data = $Users->get_representatives_datatables($keyword);
+        $totalfilterrecords = $Users->count_representatives_datatables($keyword);
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
             $count= count($Users->get_rcc_receipts_data_by_id($record['UID']));
+            $city = $PharmacyModal->getcitybyid($record['City']);
 
             $cnt++;
             $data = array();
             $data[] = $cnt;
             $data[] = isset($record['UID']) ? htmlspecialchars($record['UID']) : '';
             $data[] = isset($record['FullName']) ? htmlspecialchars($record['FullName']) : '';
-            $data[] = isset($record['City']) ? htmlspecialchars($record['City']) : '';
+            $data[] = $city[0]['FullName'];
             $data[] = isset($record['ContactNo']) ? htmlspecialchars($record['ContactNo']) : '';
             $data[] = isset($record['Branch']) ? htmlspecialchars($record['Branch']) : '';
             $data[] = isset($record['Category']) ? htmlspecialchars($record['Category']) : '';
@@ -271,4 +276,31 @@ class Representatives extends BaseController
         echo $html;
 
     }
+    public function rcc_search_filter()
+    {
+        $session = session();
+//        $Key = $this->request->getVar( 'Key' );
+        $city = $this->request->getVar( 'City' );
+        $status = $this->request->getVar( 'Status' );
+        $Name = $this->request->getVar( 'Name' );
+
+
+        $AllFilter = array (
+//            'Key' => $Key,
+            'Status' => $status,
+            'City' => $city,
+            'Name' => $Name,
+
+        );
+
+
+//        print_r($AllFilter);exit();
+        $session->set( 'RCCFilters', $AllFilter );
+
+        $response[ 'status' ] = "success";
+        $response[ 'message' ] = "Filters Updated Successfully";
+
+        echo json_encode( $response );
+    }
+
 }

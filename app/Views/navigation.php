@@ -440,7 +440,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>investigation/">
+                    <a href="<?= $path ?>investigation/all/reports">
                         <span class="nav-link-icon">
                             <i data-feather="aperture"></i>
                         </span>
@@ -448,7 +448,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= $path ?>investigation/">
+                    <a href="<?= $path ?>investigation/all/radiology">
                         <span class="nav-link-icon">
                             <i data-feather="anchor"></i>
                         </span>
@@ -640,6 +640,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="<?= $path ?>builder/sponser" >
+                        <span class="nav-link-icon" data-feather="frown"></span>
+                        <span>Sponsor</span>
+                    </a>
+                </li>
+                <li>
                     <a href="<?= $path ?>builder/specialities" >
                         <span class="nav-link-icon" data-feather="frown"></span>
                         <span>Specialities</span>
@@ -672,23 +678,21 @@
                         <span>Medicine</span>
                     </a>
                     <ul>
+
                         <li>
-                            <a href="<?= $path ?>medicine/add">Add</a>
+                            <a href="<?= $path ?>medicine/">Medicine List</a>
                         </li>
                         <li>
-                            <a href="<?= $path ?>medicine/">Listing</a>
+                            <a href="<?= $path ?>medicine/take_type">Take Type</a>
                         </li>
                         <li>
-                            <a href="<?= $path ?>medicine/">Take Type</a>
+                            <a href="<?= $path ?>medicine/medicine_forms">Forms</a>
                         </li>
                         <li>
-                            <a href="<?= $path ?>medicine/">Forms</a>
+                            <a href="<?= $path ?>medicine/timing">Timing</a>
                         </li>
                         <li>
-                            <a href="<?= $path ?>medicine/">Timing</a>
-                        </li>
-                        <li>
-                            <a href="<?= $path ?>medicine/">Company</a>
+                            <a href="<?= $path ?>medicine/company">Company</a>
                         </li>
                     </ul>
                 </li>
@@ -718,7 +722,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>users">
+                    <a href="<?= $path ?>users/admin-activites">
                         <span class="nav-link-icon">
                             <i data-feather="mail"></i>
                         </span>
@@ -727,7 +731,7 @@
 
                 </li>
                 <li>
-                    <a href="<?= $path ?>users">
+                    <a href="<?= $path ?>users/admin-approval">
                         <span class="nav-link-icon">
                             <i data-feather="mail"></i>
                         </span>

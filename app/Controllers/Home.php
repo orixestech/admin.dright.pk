@@ -89,6 +89,43 @@ class Home extends BaseController
         echo view('login1', $data);
     }
 
+    public function load_image()
+    {
+        $Code = getSegment(2);
+        $Code = base64_decode($Code);
+        list($driver, $table, $uid) = explode('|', $Code);
+        $Crud = new Crud();
+        header('Content-Type: image');
+
+
+        if ($driver == 'mysql') {
+            $record = $Crud->SingleRecord($table, array('UID' => $uid));
+
+            if ($table == 'general_banners') {
+                $column = 'Image';
+            }
+            if ($table == 'sponsors') {
+                $column = 'Image';
+            }
+
+            $image = base64_decode($record[$column]);
+            echo $image;
+        }
+        if ($driver == 'pgsql') {
+            $record = $Crud->SingleeRecord($table, array('UID' => $uid));
+
+            if ($table == '') {
+                $column = 'Image';
+            }  if ($table == 'profile') {
+                $column = 'Profile';
+            }
+
+            $image = base64_decode($record[$column]);
+            echo $image;
+        }
+        exit;
+    }
+
     public function table()
     {
         $data = $this->data;
@@ -165,42 +202,41 @@ class Home extends BaseController
 
     public function use_login_submit()
     {
-//{           echo 'ffff' ;exit();
-    $inputEmail = $this->request->getVar('UserName');
-    $password = $this->request->getVar('Password');
+        //{           echo 'ffff' ;exit();
+        $inputEmail = $this->request->getVar('UserName');
+        $password = $this->request->getVar('Password');
 
-    $Crud = new Crud();
-    $Main = new Main();
+        $Crud = new Crud();
+        $Main = new Main();
 
-    $password = $Main->CRYPT($password, 'hide');
+        $password = $Main->CRYPT($password, 'hide');
 
-    $Crud = new Crud();
-    $session = session();
-    $response = array();
-    $table = 'system_users';
-    $where = array("Email" => $inputEmail, "Password" => $password);
-    $Record = $Crud->SingleRecord($table, $where);
-//    print_r($Record);exit();
+        $Crud = new Crud();
+        $session = session();
+        $response = array();
+        $table = 'system_users';
+        $where = array("Email" => $inputEmail, "Password" => $password);
+        $Record = $Crud->SingleRecord($table, $where);
+        //    print_r($Record);exit();
 
-    if (isset($Record['UID'])) {
-        $SessionArray = [
-            'UID' => $Record['UID'],
-            'Email' => $Record['Email'],
-            'FullName' => $Record['FullName'],
-            'AccessLevel' => $Record['AccessLevel'],
-//                'status' => $Record['Status'],
-            'logged_in' => TRUE
-        ];
+        if (isset($Record['UID'])) {
+            $SessionArray = [
+                'UID' => $Record['UID'],
+                'Email' => $Record['Email'],
+                'FullName' => $Record['FullName'],
+                'AccessLevel' => $Record['AccessLevel'],
+                //                'status' => $Record['Status'],
+                'logged_in' => TRUE
+            ];
 
-        $session->set($SessionArray);
-        $response['status'] = "success";
-        $response['message'] = "You are successfully logged";
+            $session->set($SessionArray);
+            $response['status'] = "success";
+            $response['message'] = "You are successfully logged";
+        } else {
+            $response['status'] = "fail";
+            $response['message'] = "Invalid Login Credentials, Please Try again...";
+        }
 
-    } else {
-        $response['status'] = "fail";
-        $response['message'] = "Invalid Login Credentials, Please Try again...";
+        echo json_encode($response);
     }
-
-    echo json_encode($response);
-}
 }

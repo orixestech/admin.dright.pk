@@ -70,8 +70,8 @@ class Extended extends BaseController
 //                $InvoiceDateTime = $this->Modules->GetExtendedLastInvoiceDateTime( $EP['DatabaseName'] );
 //                $PharmacyInvoiceDateTime = $this->Modules->GetExtendedLastPharmacyInvoiceDateTime( $EP['DatabaseName'] );
 
-                $PharmacyInvoiceDateTime = '';
-                $InvoiceDateTime = '';
+//                $PharmacyInvoiceDateTime = '';
+//                $InvoiceDateTime = '';
             }
 //
 
@@ -82,8 +82,8 @@ class Extended extends BaseController
             $data[] = isset($record['FullName']) ? htmlspecialchars($record['FullName']) : '';
             $data[] = isset($city[0]['FullName']) ? htmlspecialchars($city[0]['FullName']) : '';
             $data[] = isset($record['DatabaseName']) ? htmlspecialchars($record['DatabaseName']) : '';
-            $data[] = isset($InvoiceDateTime) ? date("d M, Y h:i A", strtotime($InvoiceDateTime)) : '';
-            $data[] = isset($PharmacyInvoiceDateTime) ? date("d M, Y h:i A", strtotime($PharmacyInvoiceDateTime)) : '';
+//            $data[] = isset($InvoiceDateTime) ? date("d M, Y h:i A", strtotime($InvoiceDateTime)) : '';
+//            $data[] = isset($PharmacyInvoiceDateTime) ? date("d M, Y h:i A", strtotime($PharmacyInvoiceDateTime)) : '';
             $data[] = isset($record['SubDomainUrl']) ? htmlspecialchars($record['SubDomainUrl']) : '';
             $data[] = isset($record['Status']) ? htmlspecialchars($record['Status']) : '';
             $data[] = isset($record['ExpireDate']) ? htmlspecialchars($record['ExpireDate']) : '';

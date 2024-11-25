@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Models;
+use CodeIgniter\Files\File;
+use CodeIgniter\Images\Image;
+use Config\Services;
 
 use CodeIgniter\Model;
 
@@ -38,7 +41,92 @@ class Main extends Model
         }
         return $data;
     }
-    function CRYPT($q, $status)
+    public function image_uploader($file, $newWidth = 1024, $newHeight = 800)
+    {
+        $fileName = str_replace(' ', '_', $file->getName());
+
+        // Define the upload path
+        $uploadPath = WRITEPATH . 'uploads/temp/';
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0755, true);
+        }
+
+        // Move the file to the upload path
+        $file->move($uploadPath, $fileName);
+
+        $sourcePath = $uploadPath . $fileName;
+        if (!file_exists($sourcePath)) {
+            throw new \RuntimeException("File path is invalid or file does not exist: {$sourcePath}");
+        }
+
+        // Resize the image
+        $resizedPath = $uploadPath . 'resized_' . $fileName;
+        $this->resize_image($sourcePath, $resizedPath, $newWidth, $newHeight);
+
+        // Encode the resized image to Base64
+        return $this->encode_image_to_base64($resizedPath);
+    }
+
+    public function resize_image($sourcePath, $resizedPath, $newWidth, $newHeight)
+    {
+        $image = \Config\Services::image()
+            ->withFile($sourcePath)
+            ->resize($newWidth, $newHeight, true, 'auto')
+            ->save($resizedPath);
+    }
+    public function encode_image_to_base64($filePath)
+    {
+        $imageData = file_get_contents($filePath);
+        return base64_encode($imageData);
+    }
+
+//<-- Ci3 Image uploader function
+
+//    public
+//    function image_uploader($NAME, $NewWidth = 1024, $NewHeight = 800){
+//
+//        $NAME = str_replace(' ', '_', $NAME);
+//
+//        $this->load->library('upload');
+//        $IMG = $_FILES[$NAME];
+//        $post_data = array();
+//        $upload_path = ROOT . "/temp/";
+//        $file_content = '';
+//
+//        $config['upload_path'] = $upload_path;
+//        $config['allowed_types'] = '*';
+//        $config['max_size'] = '3072'; // 2MB limit
+//
+//        $this->upload->initialize($config);
+//
+//        // Perform the upload
+//        if (!$this->upload->do_upload($NAME)) {
+//            $error = $this->upload->display_errors();
+//            echo $error;
+//            return;
+//        }
+//
+//        $upload_data = $this->upload->data();
+//        $source_path = realpath($upload_data['full_path']);
+//
+//        // Check if the source path is valid
+//        if ($source_path === false || !file_exists($source_path)) {
+//            die('File path is invalid or file does not exist: ' . $upload_data['full_path']);
+//        }
+//
+//        // Resize the image
+//        $path = $source_path;
+//        $resized_path = $upload_path.'resized_' . $upload_data['file_name'];
+//        $this->resize_image($source_path, $resized_path, $NewWidth, $NewHeight); // Resize to 800x600
+//
+//        // Encode the resized image to Base64
+//        $file_content = $this->encode_image_to_base64($resized_path);
+//
+//        return $file_content;
+//    }
+
+
+        function CRYPT($q, $status)
     {
         $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
         $method = 'AES-256-CBC';
@@ -124,7 +212,7 @@ class Main extends Model
         $post_data = array();
         $upload_path = ROOT . "/temp/";
         $file_content = '';
-
+print_r($_FILES[$NAME]['name']);exit();
         if (isset($_FILES[$NAME]['name'])) {
             if (is_array($_FILES[$NAME]['name'])) {
                 $IMGs = $_FILES[$NAME]['name'];
@@ -138,90 +226,22 @@ class Main extends Model
 
                     if (move_uploaded_file($_FILES[$NAME]['tmp_name'][$i], $upload_path . $filename)) {
 
-                        //Image Resizing
-                        $config1 = array();
-                        $config1['source_image'] = $upload_path . $filename;
-                        $config1['new_image'] = $upload_path . $filename_new;
-                        $config1['maintain_ratio'] = TRUE;
-                        $config1['width'] = $NewWidth;
-                        $config1['quality'] = 90;
-                        $this->image_lib->clear();
-                        $this->image_lib->initialize($config1);
-                        if (!$this->image_lib->resize()) {
-                            $post_data['resize_error_msg'] = $this->image_lib->display_errors();
-                        } else {
-                            $post_data['resize_image'] = $filename_new;
-                            $post_data['error'] = false;
-                            $post_data['image'] = $filename;
-
-                            $fcontent = file_get_contents($config1['new_image']);
-                            $fcontent = base64_encode($fcontent);
-                            @unlink($config1['source_image']);
-                            @unlink($config1['new_image']);
-
-                            $file_content[$i] = $fcontent;
-                        }
+                        $fcontent = file_get_contents($upload_path . $filename);
+                        $fcontent = base64_encode($fcontent);
+                        @unlink($upload_path . $filename);
+                        $file_content[$i] = $fcontent;
                     }
                 }
             } else {
                 $newFileName = explode(".", $_FILES[$NAME]['name']);
-
                 $EXT = end($newFileName);
-
                 $filename = time() . "-" . rand(00, 99) . "." . $EXT;
-                $filename_new = time() . "-" . rand(00, 99) . "_new." . $EXT;
-                $config['file_name'] = $filename;
-                $config['upload_path'] = $upload_path;
-                $config['allowed_types'] = '*';
+                             if (move_uploaded_file($_FILES[$NAME]['tmp_name'], $upload_path . $filename)) {
 
-                $this->load->library('upload', $config);
-
-                if ($this->upload->do_upload($NAME)) {
-                    $upload_data = $this->upload->data();
-
-                    //if ( $upload_data[ 'image_width' ] > $NewWidth ) {
-                    //Image Resizing
-                    $config1['image_library'] = 'gd2'; // You can use 'imagemagick' or 'gd2'
-                    $config1['source_image'] = $this->upload->upload_path . $this->upload->file_name;
-                    $config1['new_image'] = $upload_path . $filename_new;
-                    $config1['maintain_ratio'] = TRUE;
-                    $config1['width'] = $NewWidth;
-                    $config1['quality'] = 90;
-
-                    $this->image_lib->initialize($config1);
-                    if (!$this->image_lib->resize()) {
-                        $post_data['resize_error_msg'] = $this->image_lib->display_errors();
-                    }
-
-                    $post_data['resize_image'] = $filename_new;
-                    $post_data['error'] = false;
-                    $post_data['image'] = $filename;
-
-                    $this->image_lib->clear();
-                } else {
-                    $post_data['error'] = true;
-                    $post_data['errormsg'] = $this->upload->display_errors();
-                }
-
-
-                if ($post_data['error'] == true) {
-                    $file_content = '';
-                } else {
-
-                    if (isset($post_data['resize_image'])) {
-                        $final_file = $post_data['resize_image'];
-                    } else {
-                        $final_file = $post_data['image'];
-                    }
-
-                    //					echo $upload_path . $final_file;
-                    $file_content = @file_get_contents($upload_path . $final_file);
-                    //					$file_content = @file_get_contents("D:/wamp64/www/clinta-doctprofile/temp/1720433124-27.webp");
-                    if ($file_content != '') {
-                        $file_content = base64_encode($file_content);
-                        @unlink($upload_path . $post_data['resize_image']);
-                        @unlink($upload_path . $post_data['image']);
-                    }
+                    $fcontent = file_get_contents($upload_path . $filename);
+                    $fcontent = base64_encode($fcontent);
+                    @unlink($upload_path . $filename);
+                    $file_content = $fcontent;
                 }
             }
         }
