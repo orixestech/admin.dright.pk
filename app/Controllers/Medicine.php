@@ -97,8 +97,9 @@ class Medicine extends BaseController
             $cnt++;
             $data = array();
             $data[] = $cnt;
-            $data[] = isset($record['PharmaTitle']) ? htmlspecialchars($record['PharmaTitle']) : '';
             $data[] = isset($record['MedicineTitle']) ? htmlspecialchars($record['MedicineTitle']) : '';
+
+            $data[] = isset($record['PharmaTitle']) ? htmlspecialchars($record['PharmaTitle']) : '';
             $data[] = isset($record['Ingredients']) ? htmlspecialchars($record['Ingredients']) : '';
             $data[] = isset($record['DosageForm']) ? htmlspecialchars($record['DosageForm']) : '';
             $data[] = isset($record['Packing']) ? htmlspecialchars($record['Packing']) : '';
