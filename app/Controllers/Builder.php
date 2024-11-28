@@ -141,7 +141,6 @@ class Builder extends BaseController
             }
         }
         echo json_encode($response);
-
     }
 
 

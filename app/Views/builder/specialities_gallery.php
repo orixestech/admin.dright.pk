@@ -94,11 +94,11 @@
 
     function addgalleryform() {
         var formdata = new window.FormData($("form#eventgalleryaddform")[0]);
-        response = AjaxUploadResponse("specialities/", formdata);
+        response = AjaxUploadResponse("builder/gallery_form_submit", formdata);
         if (response.status == 'success') {
             $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
             setTimeout(function () {
-                location.href = "<?=$path?>events/";
+                location.href = "<?=$path?>builder/specialities";
             }, 500);
         } else {
             $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Field not Filled Properly!</strong> ' + response.message + ' </div>');
