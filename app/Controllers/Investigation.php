@@ -33,7 +33,7 @@ class Investigation extends BaseController
             echo view('investigation/index', $data);
 
 
-        }else{
+        } else {
             $data['UID'] = '2';
             $data['type'] = $LookupOptionData->LookupsOption("radiology_type", 0);
             $data['category'] = $LookupOptionData->LookupsOption("radiology_category", 0);
@@ -73,16 +73,16 @@ class Investigation extends BaseController
 
         $ID = $this->request->getVar('UID');
 
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
-        $Data = $InvestigationModel->get_datatables($keyword,$ID);
-        $totalfilterrecords = $InvestigationModel->count_datatables($keyword,$ID);
+        $Data = $InvestigationModel->get_datatables($keyword, $ID);
+        $totalfilterrecords = $InvestigationModel->count_datatables($keyword, $ID);
 
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
-            $Category= $Lookup->LookupOptionBYID($record['Category']);
-            $Type= $Lookup->LookupOptionBYID($record['Type']);
+            $Category = $Lookup->LookupOptionBYID($record['Category']);
+            $Type = $Lookup->LookupOptionBYID($record['Type']);
 
             $cnt++;
             $data = array();
@@ -116,6 +116,7 @@ class Investigation extends BaseController
 
         echo json_encode($response);
     }
+
     public function fetch_investigation_parameter()
     {
         $InvestigationModel = new InvestigationModel();
@@ -123,10 +124,10 @@ class Investigation extends BaseController
 
         $ID = $this->request->getVar('UID');
 
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
-        $Data = $InvestigationModel->get_datatables_investigation_parameter($keyword,$ID);
-        $totalfilterrecords = $InvestigationModel->count_datatables_investigation_parameter($keyword,$ID);
+        $Data = $InvestigationModel->get_datatables_investigation_parameter($keyword, $ID);
+        $totalfilterrecords = $InvestigationModel->count_datatables_investigation_parameter($keyword, $ID);
 
         $dataarr = array();
         $cnt = $_POST['start'];
@@ -176,31 +177,36 @@ class Investigation extends BaseController
         $id = $this->request->getVar('UID');
         $Investigation = $this->request->getVar('Investigation');
 
-//print_r($Lookup);exit();
-        if ($id == 0) {
-            foreach ($Investigation as $key => $value) {
-                $record[$key] = ((isset($value)) ? $value : '');
-            }
+        if (!empty($Investigation['Name'])) {
+            if ($id == 0) {
+                foreach ($Investigation as $key => $value) {
+                    $record[$key] = ((isset($value)) ? $value : '');
+                }
 
-            $RecordId = $Crud->AddRecord("investigation", $record);
-            if (isset($RecordId) && $RecordId > 0) {
-                $response['status'] = 'success';
-                $response['message'] = 'Added Successfully...!';
+                $RecordId = $Crud->AddRecord("investigation", $record);
+                if (isset($RecordId) && $RecordId > 0) {
+                    $response['status'] = 'success';
+                    $response['message'] = 'Added Successfully...!';
+                } else {
+                    $response['status'] = 'fail';
+                    $response['message'] = 'Data Didnt Submitted Successfully...!';
+                }
             } else {
-                $response['status'] = 'fail';
-                $response['message'] = 'Data Didnt Submitted Successfully...!';
+                foreach ($Investigation as $key => $value) {
+                    $record[$key] = $value;
+                }
+                $Crud->UpdateRecord("investigation", $record, array("UID" => $id));
+                $response['status'] = 'success';
+                $response['message'] = 'Updated Successfully...!';
             }
         } else {
-            foreach ($Investigation as $key => $value) {
-                $record[$key] = $value;
-            }
-            $Crud->UpdateRecord("investigation", $record, array("UID" => $id));
-            $response['status'] = 'success';
-            $response['message'] = 'Updated Successfully...!';
+            $response['status'] = 'fail';
+            $response['message'] = 'Name Cant Be Empty...!';
         }
 
         echo json_encode($response);
     }
+
     public function parameter_form_submit()
     {
         $Crud = new Crud();
@@ -279,6 +285,7 @@ class Investigation extends BaseController
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
     }
+
     public function get_record_parameter()
     {
         $Crud = new Crud();
@@ -291,15 +298,16 @@ class Investigation extends BaseController
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
     }
+
     public function search_filter()
     {
         $session = session();
 //        $Key = $this->request->getVar( 'Key' );
 //        $city = $this->request->getVar( 'city' );
-        $MACAddress = $this->request->getVar( 'Name' );
+        $MACAddress = $this->request->getVar('Name');
 
 
-        $AllFilter = array (
+        $AllFilter = array(
 //            'Key' => $Key,
 //            'city' => $city,
             'Name' => $MACAddress,
@@ -308,11 +316,11 @@ class Investigation extends BaseController
 
 
 //        print_r($AllFilter);exit();
-        $session->set( 'LookupFilters', $AllFilter );
+        $session->set('LookupFilters', $AllFilter);
 
-        $response[ 'status' ] = "success";
-        $response[ 'message' ] = "Filters Updated Successfully";
+        $response['status'] = "success";
+        $response['message'] = "Filters Updated Successfully";
 
-        echo json_encode( $response );
+        echo json_encode($response);
     }
 }

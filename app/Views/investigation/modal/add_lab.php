@@ -16,7 +16,7 @@
             <div class="modal-body">
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
-                        <label for="validationCustom01">Name</label>
+                        <label for="validationCustom01">Name<span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="Name" name="Investigation[Name]"
                                placeholder="Enter name"
                               required="">
