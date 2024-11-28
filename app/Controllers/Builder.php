@@ -87,7 +87,66 @@ class Builder extends BaseController
         echo view('footer', $data);
     }
 
-    public function fetch_banners()
+    public function gallery()
+    {
+        $data = $this->data;
+        $UID = getSegment(3);
+        $data['UID'] = $UID;
+        echo view('header', $data);
+        echo view('builder/specialities_gallery', $data);
+        echo view('footer', $data);
+    }
+
+    public function gallery_form_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+
+        $SpecialityID = $this->request->getVar('SpecialityID');
+        $size = $this->request->getVar('size');
+        if (isset($_FILES['Image'])) {
+            $data = array();
+
+            $files = $_FILES;
+            $count = count($_FILES['Image']['name']);
+            $IMAGEERROR = array();
+            for ($i = 0; $i < $count; $i++) {
+
+                $icon = '';
+                if ($_FILES['Image']['tmp_name'] != '') {
+                    $ext = @end(@explode(".", basename($files['Image']['name'][$i])));
+                    $uploaddir = ROOT . "/upload/specialities/";
+                    $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
+
+
+                    //if ( $this->upload->do_upload( 'image' ) ) {
+                    if (move_uploaded_file($files['Image']['tmp_name'][$i], $uploaddir . $uploadfile)) {
+
+                        $record['SpecialityUID'] = $SpecialityID;
+                        $record['Option'] = $size[$i];
+                        $record['Value'] = $uploadfile;
+                        $RecordId = $Crud->AddRecord('speciality_metas', $record);
+                        if (isset($RecordId) && $RecordId > 0) {
+                            $response['status'] = 'success';
+                            $response['message'] = 'Speciality Images Added Successfully...!';
+                        } else {
+                            $response['status'] = 'fail';
+                            $response['message'] = 'Data Didnt Submitted Successfully...!';
+                        }
+                    }
+
+
+                }
+            }
+        }
+        echo json_encode($response);
+
+    }
+
+
+    public
+    function fetch_banners()
     {
         $BuilderModel = new BuilderModel();
         $Data = $BuilderModel->get_datatables();
@@ -130,7 +189,8 @@ class Builder extends BaseController
         echo json_encode($response);
     }
 
-    public function delete_banner()
+    public
+    function delete_banner()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
@@ -141,7 +201,8 @@ class Builder extends BaseController
         echo json_encode($response);
     }
 
-    public function fetch_images()
+    public
+    function fetch_images()
     {
         $BuilderModel = new BuilderModel();
         $Data = $BuilderModel->get_images_datatables();
@@ -178,15 +239,16 @@ class Builder extends BaseController
         echo json_encode($response);
     }
 
-    public function fetch_doctors()
+    public
+    function fetch_doctors()
     {
         $BuilderModel = new BuilderModel();
         $PharmacyModal = new PharmacyModal();
         $type = 'doctors';
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
-        $Data = $BuilderModel->get_doct_datatables($type,$keyword);
-        $totalfilterrecords = $BuilderModel->count_doct_datatables($type,$keyword);
+        $Data = $BuilderModel->get_doct_datatables($type, $keyword);
+        $totalfilterrecords = $BuilderModel->count_doct_datatables($type, $keyword);
 //        $SmsCredits = $BuilderModel->get_profile_options_data_by_id_option(315, 'sms_credits');
 
 //        print_r($Data);exit();
@@ -275,15 +337,16 @@ class Builder extends BaseController
         echo json_encode($response);
     }
 
-    public function fetch_hospitals()
+    public
+    function fetch_hospitals()
     {
         $BuilderModel = new BuilderModel();
         $PharmacyModal = new PharmacyModal();
         $type = 'hospitals';
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
-        $Data = $BuilderModel->get_doct_datatables($type,$keyword);
-        $totalfilterrecords = $BuilderModel->count_doct_datatables($type,$keyword);
+        $Data = $BuilderModel->get_doct_datatables($type, $keyword);
+        $totalfilterrecords = $BuilderModel->count_doct_datatables($type, $keyword);
 //        $SmsCredits = $BuilderModel->get_profile_options_data_by_id_option(315, 'sms_credits');
 
 //        print_r($Data);exit();
@@ -345,10 +408,12 @@ class Builder extends BaseController
         );
         echo json_encode($response);
     }
-    public function fetch_specialities()
+
+    public
+    function fetch_specialities()
     {
         $BuilderModel = new BuilderModel();
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
         $Data = $BuilderModel->get_specialities_datatables($keyword);
         $totalfilterrecords = $BuilderModel->count_specialities_datatables($keyword);
@@ -358,24 +423,24 @@ class Builder extends BaseController
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
             $cnt++;
-            if( $record['Icon'] != '' ){
-                if( file_exists( ROOT."/upload/specialities/".$record['Icon'] ) ){
+            if ($record['Icon'] != '') {
+                if (file_exists(ROOT . "/upload/specialities/" . $record['Icon'])) {
                     $file = $record['Icon'];
-                }else{
-                    $file ='no-image.png';
+                } else {
+                    $file = 'no-image.png';
                 }
-            }else{
-                $file ='no-image.png';
+            } else {
+                $file = 'no-image.png';
 
             }
 
-            $TotalSpecialities=count($BuilderModel->get_speciality_images_by_id( $record['UID'] ));
+            $TotalSpecialities = count($BuilderModel->get_speciality_images_by_id($record['UID']));
 //            print_r($TotalSpecialities);exit();
             $data = [];
             $data[] = $cnt;
             $data[] = $record['Name'];
-            $data[] = '<img src="'. PATH .'upload/specialities/'.$file.'" height="45">';
-            $data[] = isset($TotalSpecialities)?$TotalSpecialities:'0';
+            $data[] = '<img src="' . PATH . 'upload/specialities/' . $file . '" height="45">';
+            $data[] = isset($TotalSpecialities) ? $TotalSpecialities : '0';
 
 
             $data[] = '
@@ -388,6 +453,7 @@ class Builder extends BaseController
             <a class="dropdown-item" onclick="Editspecialities(' . htmlspecialchars($record['UID']) . ');">Edit</a>
             <a class="dropdown-item" onclick="Deletespecialities(' . htmlspecialchars($record['UID']) . ');">Delete</a>
             <a class="dropdown-item" onclick="Addheading(' . htmlspecialchars($record['UID']) . ');">Add Heading</a>
+            <a class="dropdown-item" onclick="AddGallery(' . htmlspecialchars($record['UID']) . ');">Add Gallery</a>
         </div>
     </div>
 </td>';
@@ -404,7 +470,9 @@ class Builder extends BaseController
         );
         echo json_encode($response);
     }
-    public function delete_images()
+
+    public
+    function delete_images()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
@@ -416,7 +484,8 @@ class Builder extends BaseController
         echo json_encode($response);
     }
 
-    public function delete_doctor()
+    public
+    function delete_doctor()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
@@ -429,7 +498,8 @@ class Builder extends BaseController
         echo json_encode($response);
     }
 
-    public function delete_hospital()
+    public
+    function delete_hospital()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
@@ -441,21 +511,21 @@ class Builder extends BaseController
         $response['message'] = ' Deleted Successfully...!';
         echo json_encode($response);
     }
-    public function delete_specialities()
+
+    public
+    function delete_specialities()
     {
         $BuilderModel = new BuilderModel();
         $Crud = new Crud();
         $response = array();
 
-        $id= $this->request->getVar('id');
-       $record= $BuilderModel ->get_speciality_images_by_id($id);
-        if(count($record) === 0)
-        {
+        $id = $this->request->getVar('id');
+        $record = $BuilderModel->get_speciality_images_by_id($id);
+        if (count($record) === 0) {
 
             $response['message'] = 'No Images Found';
 
-        }
-        else{
+        } else {
             foreach ($record as $r) {
                 @unlink("upload/specialities/" . $r['Value']);
             }
@@ -467,25 +537,30 @@ class Builder extends BaseController
         $response['message'] .= ' And Specialities Deleted Successfully...!';
         echo json_encode($response);
     }
-    public function delete_specialities_meta()
+
+    public
+    function delete_specialities_meta()
     {
         $BuilderModel = new BuilderModel();
         $Crud = new Crud();
         $response = array();
 
-        $id= $this->request->getVar('id');
+        $id = $this->request->getVar('id');
 
         $Crud->DeleteRecord('speciality_metas', array("UID" => $id));
         $response['status'] = 'success';
         $response['message'] = '  Specialities Meta Deleted Successfully...!';
         echo json_encode($response);
     }
-    public function submit_general_image(){
+
+    public
+    function submit_general_image()
+    {
         $Crud = new Crud();
         $Main = new Main();
-        $alignment= $this->request->getVar('alignment');
-        $color= $this->request->getVar('color');
-        $speciality= $this->request->getVar('speciality');
+        $alignment = $this->request->getVar('alignment');
+        $color = $this->request->getVar('color');
+        $speciality = $this->request->getVar('speciality');
 //        print_r($alignment);exit();
 
         if ($this->request->getFile('profile') && $this->request->getFile('profile')->isValid()) {
@@ -514,8 +589,8 @@ class Builder extends BaseController
                 $fileContent = $Main->image_uploader($file, $newWidth, $height);
 //                echo json_encode(['status' => 'success', 'data' => $fileContent]);
 //                exit;
-            }else{
-                $fileContent='';
+            } else {
+                $fileContent = '';
             }
         } else {
             $data = ['status' => 'error', 'msg' => 'No file selected or invalid extension.'];
@@ -537,7 +612,9 @@ class Builder extends BaseController
         echo json_encode($response);
 
     }
-    public function get_specialities_record()
+
+    public
+    function get_specialities_record()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
@@ -550,7 +627,8 @@ class Builder extends BaseController
         echo json_encode($response);
     }
 
-    public function add_telemedicine_credits()
+    public
+    function add_telemedicine_credits()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
@@ -579,11 +657,13 @@ class Builder extends BaseController
         }
         echo json_encode($response);
     }
-    public function submit_specialities()
+
+    public
+    function submit_specialities()
     {
         $Crud = new Crud();
         $Main = new Main();
-        $response=array();
+        $response = array();
         $tag = $this->request->getVar('tag');
         $name = $this->request->getVar('name');
         $id = $this->request->getVar('UID');
@@ -615,8 +695,7 @@ class Builder extends BaseController
                 $response['status'] = 'fail';
                 $response['message'] = 'Data Didnt Submitted Successfully...!';
             }
-        }
-        else {
+        } else {
             $record['Tag'] = $tag;
             $record['Name'] = $name;
 
@@ -632,11 +711,13 @@ class Builder extends BaseController
         echo json_encode($response);
 
     }
-    public function submit_specialities_meta()
+
+    public
+    function submit_specialities_meta()
     {
         $Crud = new Crud();
         $Main = new Main();
-        $response=array();
+        $response = array();
         $id = $this->request->getVar('UID');
         $SpecialityID = $this->request->getVar('SpecialityID');
         $meta = $this->request->getVar('meta');
@@ -648,7 +729,6 @@ class Builder extends BaseController
             $record['Value'] = $name;
 
 
-
             $RecordId = $Crud->AddRecord("speciality_metas", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $response['status'] = 'success';
@@ -657,8 +737,7 @@ class Builder extends BaseController
                 $response['status'] = 'fail';
                 $response['message'] = 'Data Didnt Submitted Successfully...!';
             }
-        }
-        else {
+        } else {
             $record['SpecialityUID'] = $SpecialityID;
             $record['Option'] = $meta;
             $record['Value'] = $name;
@@ -669,7 +748,9 @@ class Builder extends BaseController
         echo json_encode($response);
 
     }
-    public function add_sms_credits()
+
+    public
+    function add_sms_credits()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
@@ -696,7 +777,8 @@ class Builder extends BaseController
         echo json_encode($response);
     }
 
-    public function image_form_submit()
+    public
+    function image_form_submit()
     {
         $Crud = new Crud();
         $Main = new Main();
@@ -733,7 +815,8 @@ class Builder extends BaseController
         echo json_encode($response);
     }
 
-    public function hospitals_profile_form_submit()
+    public
+    function hospitals_profile_form_submit()
     {
         $Crud = new Crud();
         $Main = new Main();
@@ -746,7 +829,7 @@ class Builder extends BaseController
 //        $file = $this->request->getFile('profile');
         // Load the uploaded file using CodeIgniter's services
         $file = $this->request->getFile('profile');
-        $fileContents='';
+        $fileContents = '';
         if ($file->isValid() && !$file->hasMoved()) {
             // Read the file contents
             $fileContents = file_get_contents($file->getTempName());
@@ -853,8 +936,7 @@ Password: ' . $this->request->getVar('password');
                 }
             }
 
-        }
-        else {
+        } else {
 //            $Data = $Crud->SingleeRecord('public."profiles"', array("Email" => $email, 'ContactNo' => $ContactNo));
 //
 //            if (!empty($Data) && $Data['UID'] > 0) {
@@ -875,75 +957,75 @@ Password: ' . $this->request->getVar('password');
 //
 //            } else {
 
-                $subdomain = $this->request->getVar('sub_domain');
-                $record['Type'] = 'hospitals';
-                $record['Name'] = $this->request->getVar('name');
-                $record['Email'] = $this->request->getVar('email');
-                $record['Password'] = $this->request->getVar('password');
-                $record['City'] = $this->request->getVar('city');
-                $record['ContactNo'] = $this->request->getVar('ContactNo');
-                $record['SubDomain'] = $subdomain;
-                if ($fileContents != '') {
-                    $record['Profile'] = base64_encode($fileContents);
+            $subdomain = $this->request->getVar('sub_domain');
+            $record['Type'] = 'hospitals';
+            $record['Name'] = $this->request->getVar('name');
+            $record['Email'] = $this->request->getVar('email');
+            $record['Password'] = $this->request->getVar('password');
+            $record['City'] = $this->request->getVar('city');
+            $record['ContactNo'] = $this->request->getVar('ContactNo');
+            $record['SubDomain'] = $subdomain;
+            if ($fileContents != '') {
+                $record['Profile'] = base64_encode($fileContents);
 
-                }
-                $website_profile_id = $Crud->UpdateeRecord("public.profiles", $record, array('UID' => $id));
+            }
+            $website_profile_id = $Crud->UpdateeRecord("public.profiles", $record, array('UID' => $id));
 //                print_r($website_profile_id);exit();
-                if ($website_profile_id) {
-                    $ExtendedArray = array('clinta_extended_profiles', 'short_description', 'healthcare_status', 'patient_portal');
-                    foreach ($ExtendedArray as $EA) {
-                        $Crud->DeleteRecordPG('public."profile_metas"', array("ProfileUID" => $id, 'Option' => $EA));
+            if ($website_profile_id) {
+                $ExtendedArray = array('clinta_extended_profiles', 'short_description', 'healthcare_status', 'patient_portal');
+                foreach ($ExtendedArray as $EA) {
+                    $Crud->DeleteRecordPG('public."profile_metas"', array("ProfileUID" => $id, 'Option' => $EA));
+                }
+                foreach ($ExtendedArray as $M) {
+
+                    if ($this->request->getVar($M) != '') {
+
+                        $record_meta['ProfileUID'] = $id;
+                        $record_meta['Option'] = $M;
+                        $record_meta['Value'] = $this->request->getVar($M);
+
+                        $idd = $Crud->AddRecordPG("public.profile_metas", $record_meta);
+
                     }
-                    foreach ($ExtendedArray as $M) {
+                }
 
-                        if ($this->request->getVar($M) != '') {
+                $theme = $this->request->getVar('theme');
+                $Options = array('theme_css' => 'dore.light.red.css', 'theme' => ((isset($theme) && $theme != '') ? $theme : ''), 'sms_credits' => 100, 'notify_sms' => 1, 'notify_email' => 1);
 
-                            $record_meta['ProfileUID'] = $id;
-                            $record_meta['Option'] = $M;
-                            $record_meta['Value'] = $this->request->getVar($M);
+                foreach ($Options as $key => $value) {
 
-                            $idd = $Crud->AddRecordPG("public.profile_metas", $record_meta);
-
-                        }
-                    }
-
-                    $theme = $this->request->getVar('theme');
-                    $Options = array('theme_css' => 'dore.light.red.css', 'theme' => ((isset($theme) && $theme != '') ? $theme : ''), 'sms_credits' => 100, 'notify_sms' => 1, 'notify_email' => 1);
-
-                    foreach ($Options as $key => $value) {
-
-                        if ($value != '') {
-                            $Data = $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id, 'Name' => $key));
+                    if ($value != '') {
+                        $Data = $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id, 'Name' => $key));
 //                                print_r($Data);
 
-                            if (isset($Data['UID'])) {
-                                $record_option['Description'] = $value;
-                                $website_profile_id = $Crud->UpdateeRecord("public.options", $record_option, array('UID' => $Data['UID']));
+                        if (isset($Data['UID'])) {
+                            $record_option['Description'] = $value;
+                            $website_profile_id = $Crud->UpdateeRecord("public.options", $record_option, array('UID' => $Data['UID']));
 
-                            } else {
-                                $record_option['Description'] = $value;
-                                $record_option['Name'] = $key;
-                                $record_option['ProfileUID'] = $id;
+                        } else {
+                            $record_option['Description'] = $value;
+                            $record_option['Name'] = $key;
+                            $record_option['ProfileUID'] = $id;
 
-                                $id = $Crud->AddRecordPG("public.options", $record_option);
+                            $id = $Crud->AddRecordPG("public.options", $record_option);
 
-                            }
+                        }
 //                            echo 'cccc';exit();
 
-                            $data = array();
-                            $data['status'] = "success";
-                            $data['id'] = $id;
-                            $data['message'] = "Hospitals Profile Updated Successfully.....!";
-                        } else {
+                        $data = array();
+                        $data['status'] = "success";
+                        $data['id'] = $id;
+                        $data['message'] = "Hospitals Profile Updated Successfully.....!";
+                    } else {
 
-                            $data = array();
-                            $data['status'] = "fail";
-                            $data['message'] = "Error in Updating Hospitals Profile...!";
-                        }
-
-
+                        $data = array();
+                        $data['status'] = "fail";
+                        $data['message'] = "Error in Updating Hospitals Profile...!";
                     }
+
+
                 }
+            }
 
 //            }
 
@@ -954,7 +1036,8 @@ Password: ' . $this->request->getVar('password');
     }
 
 
-    public function doctors_profile_form_submit()
+    public
+    function doctors_profile_form_submit()
     {
         $Crud = new Crud();
         $Main = new Main();
@@ -978,7 +1061,7 @@ Password: ' . $this->request->getVar('password');
             // Now you can process $fileContents as needed
         }//        echo 'dddd';
 //        exit();
-  if ($initatived_logo->isValid() && !$initatived_logo->hasMoved()) {
+        if ($initatived_logo->isValid() && !$initatived_logo->hasMoved()) {
             // Read the file contents
             $fileinitatived_logo = file_get_contents($initatived_logo->getTempName());
 
@@ -1189,44 +1272,43 @@ Password: ' . $this->request->getVar('password');
                                 $Options_record['Name'] = $key;
                                 $Options_record['ProfileUID'] = $id;
                                 $id = $Crud->AddRecordPG("public.options", $Options_record);
-                        }
-                    }
-
-
-                    ///////////////////////////Check Sponsor OR Initatived Logo///////////////////////////////////
-
-                    $logos = array('initatived_logo');
-                    foreach ($logos as $log) {
-                        if ($_FILES[$log]['name'] != '') {
-                            $Data = $Crud->SingleeRecord('public."profile_metas"', array("ProfileUID" => $id, 'Option' => $log));
-
-
-                            if (isset($Data['UID'])) {
-
-
-                                $updateid = $Crud->UpdateeRecord("public.profile_metas", array('Value' => base64_encode($fileinitatived_logo)), array('UID' => $Data['UID']));
-
-                            } else {
-                                $records['ProfileUID'] = $id;
-                                $records['Option'] = 'initatived_logo';
-                                $records['Value'] = base64_encode($fileinitatived_logo);
-
-                                $id = $Crud->AddRecordPG("public.profile_metas", $records);
                             }
                         }
 
+
+                        ///////////////////////////Check Sponsor OR Initatived Logo///////////////////////////////////
+
+                        $logos = array('initatived_logo');
+                        foreach ($logos as $log) {
+                            if ($_FILES[$log]['name'] != '') {
+                                $Data = $Crud->SingleeRecord('public."profile_metas"', array("ProfileUID" => $id, 'Option' => $log));
+
+
+                                if (isset($Data['UID'])) {
+
+
+                                    $updateid = $Crud->UpdateeRecord("public.profile_metas", array('Value' => base64_encode($fileinitatived_logo)), array('UID' => $Data['UID']));
+
+                                } else {
+                                    $records['ProfileUID'] = $id;
+                                    $records['Option'] = 'initatived_logo';
+                                    $records['Value'] = base64_encode($fileinitatived_logo);
+
+                                    $id = $Crud->AddRecordPG("public.profile_metas", $records);
+                                }
+                            }
+
+                        }
+
+                        //////////////////////End///////////////////////////////////
+
+
+                        $data = array();
+                        $data['status'] = "success";
+                        $data['id'] = $id;
+                        $data['message'] = "Doctors Profile Updated Suuccessfully.....!";
                     }
-
-                    //////////////////////End///////////////////////////////////
-
-
-                    $data = array();
-                    $data['status'] = "success";
-                    $data['id'] = $id;
-                    $data['message'] = "Doctors Profile Updated Suuccessfully.....!";
-                }
-                }
-                    else {
+                } else {
 
                     $data = array();
                     $data['status'] = "fail";
@@ -1241,20 +1323,22 @@ Password: ' . $this->request->getVar('password');
 
         echo json_encode($data);
     }
+
     public
-    function load_speciality_metas_data_grid(){
+    function load_speciality_metas_data_grid()
+    {
         $BuilderModel = new BuilderModel();
 
-        $id = $this->request->getVar( 'id' );
-        $option = $this->request->getVar( 'option' );
+        $id = $this->request->getVar('id');
+        $option = $this->request->getVar('option');
 //            print_r($option);exit();
-        $Data = $BuilderModel->get_speciality_meta_data_by_id_option( $id , $option); //print_r($id); exit;
+        $Data = $BuilderModel->get_speciality_meta_data_by_id_option($id, $option); //print_r($id); exit;
 //            print_r($option);exit();
-        if( count( $Data ) > 0 ){
+        if (count($Data) > 0) {
 
             $html = '';
 
-            $html.='<div class="col-md-12">
+            $html .= '<div class="col-md-12">
 							<div class="table table-responcive">
 								<table class="table table-bordered table-striped">
 									<thead>
@@ -1266,35 +1350,36 @@ Password: ' . $this->request->getVar('password');
 									</thead>
 									<tbody>';
             $cnt = 0;
-            foreach( $Data as $D ){
+            foreach ($Data as $D) {
                 $cnt++;
-                $html.='<tr>
-															<td>'.$cnt.'</td>
-															<td>'.$D['Value'].'</td>
-															<td><a href="javascript:void(0);" onclick="DeleteSpecialityMetas( '.$D['UID'].' );"><i style="color:red;" class="fa fa-trash"></i></a></td>
+                $html .= '<tr>
+															<td>' . $cnt . '</td>
+															<td>' . $D['Value'] . '</td>
+															<td><a href="javascript:void(0);" onclick="DeleteSpecialityMetas( ' . $D['UID'] . ' );"><i style="color:red;" class="fa fa-trash"></i></a></td>
 														</tr>';
             }
 
-            $html.='</tbody>
+            $html .= '</tbody>
 								</table>
 							</div>
 						</div>';
-        }
-        else{
-            $html=' No records found';
+        } else {
+            $html = ' No records found';
         }
 
         echo $html;
     }
-    public function hospital_search_filter()
+
+    public
+    function hospital_search_filter()
     {
         $session = session();
 //        $Key = $this->request->getVar( 'Key' );
-        $city = $this->request->getVar( 'City' );
-        $Name = $this->request->getVar( 'Name' );
+        $city = $this->request->getVar('City');
+        $Name = $this->request->getVar('Name');
 
 
-        $AllFilter = array (
+        $AllFilter = array(
 //            'Key' => $Key,
             'City' => $city,
             'Name' => $Name,
@@ -1303,21 +1388,25 @@ Password: ' . $this->request->getVar('password');
 
 
 //        print_r($AllFilter);exit();
-        $session->set( 'HospitalFilters', $AllFilter );
+        $session->set('HospitalFilters', $AllFilter);
 
-        $response[ 'status' ] = "success";
-        $response[ 'message' ] = "Filters Updated Successfully";
+        $response['status'] = "success";
+        $response['message'] = "Filters Updated Successfully";
 
-        echo json_encode( $response );
+        echo json_encode($response);
     }
-    public function sponser()
+
+    public
+    function sponser()
     {
         $data = $this->data;
         echo view('header', $data);
         echo view('builder/sponser', $data);
         echo view('footer', $data);
     }
-    public function sponsor_product()
+
+    public
+    function sponsor_product()
     {
         $data = $this->data;
         $data['UID'] = getSegment(3);
@@ -1325,7 +1414,9 @@ Password: ' . $this->request->getVar('password');
         echo view('builder/sponsor_product', $data);
         echo view('footer', $data);
     }
-    public function fetch_sponser()
+
+    public
+    function fetch_sponser()
     {
         $BuilderModel = new BuilderModel();
         $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
@@ -1371,7 +1462,9 @@ Password: ' . $this->request->getVar('password');
         );
         echo json_encode($response);
     }
-    public function submit_sponser()
+
+    public
+    function submit_sponser()
     {
         $Crud = new Crud();
         $Main = new Main();
@@ -1391,7 +1484,7 @@ Password: ' . $this->request->getVar('password');
             foreach ($Sponsor as $key => $value) {
                 $record[$key] = ((isset($value)) ? $value : '');
             }
-            $record['Image']=base64_encode($fileImage);
+            $record['Image'] = base64_encode($fileImage);
             $RecordId = $Crud->AddRecord("sponsors", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $response['status'] = 'success';
@@ -1404,7 +1497,7 @@ Password: ' . $this->request->getVar('password');
             foreach ($Sponsor as $key => $value) {
                 $record[$key] = $value;
             }
-            $record['Image']=base64_encode($fileImage);
+            $record['Image'] = base64_encode($fileImage);
 
             $Crud->UpdateRecord("sponsors", $record, array("UID" => $id));
             $response['status'] = 'success';
@@ -1412,7 +1505,10 @@ Password: ' . $this->request->getVar('password');
         }
 
         echo json_encode($response);
-    }public function submit_sponser_product()
+    }
+
+    public
+    function submit_sponser_product()
     {
         $Crud = new Crud();
         $Main = new Main();
@@ -1434,7 +1530,7 @@ Password: ' . $this->request->getVar('password');
             foreach ($Sponsor as $key => $value) {
                 $record[$key] = ((isset($value)) ? $value : '');
             }
-            $record['Image']='bb';
+            $record['Image'] = 'bb';
             $RecordId = $Crud->AddRecord("sponsors_products", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $response['status'] = 'success';
@@ -1447,7 +1543,7 @@ Password: ' . $this->request->getVar('password');
             foreach ($Sponsor as $key => $value) {
                 $record[$key] = $value;
             }
-            $record['Image']='bb';
+            $record['Image'] = 'bb';
 
             $Crud->UpdateRecord("sponsors_products", $record, array("UID" => $id));
             $response['status'] = 'success';
@@ -1456,7 +1552,9 @@ Password: ' . $this->request->getVar('password');
 
         echo json_encode($response);
     }
-    public function delete_sponser()
+
+    public
+    function delete_sponser()
     {
         $data = $this->data;
         $UID = $this->request->getVar('id');
@@ -1470,7 +1568,9 @@ Password: ' . $this->request->getVar('password');
 
         echo json_encode($response);
     }
-    public function delete_sponser_product()
+
+    public
+    function delete_sponser_product()
     {
         $data = $this->data;
         $UID = $this->request->getVar('id');
@@ -1484,7 +1584,9 @@ Password: ' . $this->request->getVar('password');
 
         echo json_encode($response);
     }
-    public function get_sponser_record()
+
+    public
+    function get_sponser_record()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
@@ -1495,7 +1597,10 @@ Password: ' . $this->request->getVar('password');
         $response['record'] = $record;
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
-    } public function get_sponser_product_record()
+    }
+
+    public
+    function get_sponser_product_record()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
@@ -1507,14 +1612,16 @@ Password: ' . $this->request->getVar('password');
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
     }
-    public function fetch_sponsor_product()
+
+    public
+    function fetch_sponsor_product()
     {
         $BuilderModel = new BuilderModel();
         $ID = $this->request->getVar('UID');
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
-        $Data = $BuilderModel->get_sponsor_product_datatables($ID,$keyword);
-        $totalfilterrecords = $BuilderModel->count_sponsor_product_datatables($ID,$keyword);
+        $Data = $BuilderModel->get_sponsor_product_datatables($ID, $keyword);
+        $totalfilterrecords = $BuilderModel->count_sponsor_product_datatables($ID, $keyword);
 
         $dataarr = array();
         $cnt = $_POST['start'];

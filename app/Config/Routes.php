@@ -57,6 +57,7 @@ $routes->group('builder', static function ($routes) {
     $routes->post('delete-banner', 'Builder::delete_banner');
     $routes->post('delete-images', 'Builder::delete_images');
     $routes->get('update-doctor/(:num)', 'Builder::index');
+    $routes->get('specialities-gallery/(:num)', 'Builder::gallery');
     $routes->get('update-hospital/(:num)', 'Builder::index');
 });
 $routes->group('users', static function ($routes) {
