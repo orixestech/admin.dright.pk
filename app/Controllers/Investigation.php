@@ -323,4 +323,20 @@ class Investigation extends BaseController
 
         echo json_encode($response);
     }
+    public function investiagation_search_filter()
+    {
+        $session = session();
+        $Category = $this->request->getVar('Category');
+        $Type = $this->request->getVar('Type');
+        $AllFilter = array(
+            'Category' => $Category,
+            'Type' => $Type
+
+        );
+        $session->set('InvestigationFilters', $AllFilter);
+        $response['status'] = "success";
+        $response['message'] = "Filters Updated Successfully";
+
+        echo json_encode($response);
+    }
 }

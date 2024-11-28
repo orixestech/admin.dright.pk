@@ -13,14 +13,23 @@ class InvestigationModel extends Model
     public function investigation($keyword,$ID)
     {
         $Crud = new Crud();
+        $session = session();
+        $SessionFilters = $session->get('InvestigationFilters');
         $SQL = 'SELECT * FROM `investigation` where `Archive`=\'0\'  AND `Parent`=\'' . $ID . '\'
                       ';
+        if (isset($SessionFilters['Category']) && $SessionFilters['Category'] != '') {
+            $Category = $SessionFilters['Category'];
+            $SQL .= ' AND  `Category` LIKE \'%' . $Category . '%\'';
+        }if (isset($SessionFilters['Type']) && $SessionFilters['Type'] != '') {
+        $Type = $SessionFilters['Type'];
+            $SQL .= ' AND  `Type` LIKE \'%' . $Type . '%\'';
+        }
         if($keyword!=''){
             $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
         }
         $SQL .=' Order By `Name` ASC';
-//        $Admin = $Crud->ExecuteSQL($SQL);
-        return $SQL;
+//print_r($SQL);exit();
+return $SQL;
     }    public function investigation_parameter($keyword,$ID)
     {
         $Crud = new Crud();
