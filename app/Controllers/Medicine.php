@@ -317,6 +317,7 @@ class Medicine extends BaseController
             $data = array();
             $data[] = $cnt;
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
+            $data[] = isset($record['SortOrder']) ? htmlspecialchars($record['SortOrder']) : '';
 
             $data[] = '
     <td class="text-end">

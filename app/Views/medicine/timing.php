@@ -18,6 +18,7 @@
             <thead>            <tr>
                 <th>Sr No</th>
                 <th>Name</th>
+                <th>Sort Number</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -27,6 +28,7 @@
             <tr>
                 <th>Sr No</th>
                 <th>Name</th>
+                <th>Sort Number</th>
 
                 <th>Actions</th>
             </tr>
