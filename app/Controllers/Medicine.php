@@ -450,6 +450,41 @@ class Medicine extends BaseController
 
         echo json_encode($response);
     }
+    public function submit_medicine_company()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Medicine = $this->request->getVar('Company');
+
+
+        if ($id == 0) {
+            foreach ($Medicine as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+
+            $RecordId = $Crud->AddRecord("pharma_company", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($Medicine as $key => $value) {
+                $record[$key] = $value;
+            }
+            $Crud->UpdateRecord("pharma_company", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = 'Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
 
     public function submit_medicine_timing()
     {
@@ -528,6 +563,18 @@ class Medicine extends BaseController
         $response['message'] = 'Deleted Successfully...!';
 
         echo json_encode($response);
+    }    public function delete_pharma_company()
+    {
+        $data = $this->data;
+        $UID = $this->request->getVar('id');
+        $Crud = new Crud();
+        $table = "pharma_company";
+        $where = array('UID' => $UID);
+        $Crud->DeleteRecord($table, $where);
+        $response['status'] = 'success';
+        $response['message'] = 'Deleted Successfully...!';
+
+        echo json_encode($response);
     }
 
     public function delete_timing()
@@ -563,6 +610,17 @@ class Medicine extends BaseController
         $id = $_POST['id'];
 
         $record = $Crud->SingleRecord("medicines_forms", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
+        echo json_encode($response);
+    }   public function get_medicine_pharma_company()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("pharma_company", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['record'] = $record;

@@ -64,17 +64,16 @@
         }
 
         function UpdateMedicineCompany(id) {
-            var Items = AjaxResponse("medicine/get_medicine_form_record", "id=" + id);
+            var Items = AjaxResponse("medicine/get_medicine_pharma_company", "id=" + id);
 
-            $('#UpdateFormsMedicineModal form#UpdateFormsMedicineForm input#UID').val(Items.record.UID);
-            $('#UpdateFormsMedicineModal form#UpdateFormsMedicineForm input#Name').val(Items.record.Name);
-            $('#UpdateFormsMedicineModal form#UpdateFormsMedicineForm input#SortOrder').val(Items.record.SortOrder);
-          $('#UpdateFormsMedicineModal').modal('show');
+            $('#UpdateMedicineCompanyModal form#UpdateMedicineCompanyForm input#UID').val(Items.record.UID);
+            $('#UpdateMedicineCompanyModal form#UpdateMedicineCompanyForm input#CompanyName').val(Items.record.CompanyName);
+          $('#UpdateMedicineCompanyModal').modal('show');
         }
 
         function DeleteMedicineCompany(id) {
             if (confirm("Are you Sure U want to Delete this?")) {
-                response = AjaxResponse("medicine/delete_form", "id=" + id);
+                response = AjaxResponse("medicine/delete_pharma_company", "id=" + id);
                 if (response.status == 'success') {
                     $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
                     setTimeout(function () {
