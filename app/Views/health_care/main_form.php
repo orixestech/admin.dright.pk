@@ -8,7 +8,7 @@
             <input type="hidden" name="UID" id="UID" value="<?= ((isset($PAGE['UID'])) ? $PAGE['UID'] : '0') ?>">
             <div class="form-row">
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom04">FullName</label>
+                    <label for="validationCustom04">FullName<span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="RCC[FullName]" id="validationCustom04"
                            placeholder="Full Name" value="<?= ((isset($PAGE['FullName'])) ? $PAGE['FullName'] : '') ?>"
                            required="">
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group row">
-                        <label class="col-sm-4">Branches:</label>
+                        <label class="col-sm-4">Branches<span class="text-danger">*</span></label>
                         <div class="col-sm-12">
                             <select id="city" name="RCC[Branch]" class="form-control"
                                     data-validation-engine="validate[required]">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">Category</label>
+                    <label for="validationCustom02">Category<span class="text-danger">*</span></label>
                     <select id="city" name="RCC[Category]" class="form-control"
                             data-validation-engine="validate[required]">
                         <option value=""<?= (isset($PAGE['Category']) && $PAGE['Category'] == '') ? 'selected' : '' ?>>
@@ -57,7 +57,7 @@
 
 
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom04">Email</label>
+                    <label for="validationCustom04">Email<span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="RCC[Email]" id="validationCustom04"
                            placeholder="Email" value="<?= ((isset($PAGE['Email'])) ? $PAGE['Email'] : '') ?>"
                            required="">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom04">Password</label>
+                    <label for="validationCustom04">Password<span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="RCC[Password]" id="validationCustom04"
                            placeholder="Password" value="<?= ((isset($PAGE['Password'])) ? $PAGE['Password'] : '') ?>"
                            required="">
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom04">ContactNo</label>
+                    <label for="validationCustom04">ContactNo<span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="RCC[ContactNo]" id="validationCustom04"
                            placeholder="Contact No"
                            value="<?= ((isset($PAGE['ContactNo'])) ? $PAGE['ContactNo'] : '') ?>"
@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">City</label>
+                    <label for="validationCustom02">City<span class="text-danger">*</span></label>
                     <div class="col-sm-12">
                         <select id="city" name="RCC[City]" class="form-control"
                                 data-validation-engine="validate[required]">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom05">Address</label>
+                    <label for="validationCustom05">Address<span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="RCC[Address]" id="validationCustom05"
                            placeholder="Address" value="<?= ((isset($PAGE['Address'])) ? $PAGE['Address'] : '') ?>"
                            required="">
@@ -115,16 +115,16 @@
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">Status</label>
+                    <label for="validationCustom02">Status<span class="text-danger">*</span></label>
                     <select id="city" name="RCC[Status]" class="form-control"
                             data-validation-engine="validate[required]">
                         <option value=""<?= (isset($PAGE['Status']) && $PAGE['Status'] == '') ? 'selected' : '' ?>>
                             Please Select
                         </option>
-                        <option value="active"<?= (isset($PAGE['Status']) && $PAGE['Status'] == '') ? 'selected' : 'active' ?>>
+                        <option value="active"<?= (isset($PAGE['Status']) && $PAGE['Status'] == 'active') ? 'selected' : 'active' ?>>
                             Active
                         </option>
-                        <option value="block"<?= (isset($PAGE['Status']) && $PAGE['Status'] == '') ? 'selected' : 'block' ?>>
+                        <option value="block"<?= (isset($PAGE['Status']) && $PAGE['Status'] == 'block') ? 'selected' : 'block' ?>>
                             Block
                         </option>
 
@@ -159,7 +159,7 @@
             ?>
 
             <div class="col-md-3 mb-3">
-                <label for="validationCustom04">Contact Person:</label>
+                <label for="validationCustom04">Contact Person<span class="text-danger">*</span></label>
                 <input type="text" class="form-control" name="RCC[ContactPerson]" id="validationCustom04"
                        placeholder="Contact Person"
                        value="<?= ((isset($PAGE['ContactPerson'])) ? $PAGE['ContactPerson'] : '') ?>"
@@ -169,7 +169,7 @@
                 </div>
             </div>
             <div class="col-md-3 mb-3">
-                <label for="validationCustom05">Contact Person Mobile No</label>
+                <label for="validationCustom05">Contact Person Mobile No<span class="text-danger">*</span></label>
                 <input type="number" class="form-control" name="RCC[ContactPersonPhone]" id="validationCustom05"
                        placeholder="Contact Person Phone"
                        value="<?= ((isset($PAGE['ContactPersonPhone'])) ? $PAGE['ContactPersonPhone'] : '') ?>"

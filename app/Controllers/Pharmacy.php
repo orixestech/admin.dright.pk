@@ -88,8 +88,8 @@ class Pharmacy extends BaseController
             $data[] = isset($record['ContactNo']) ? htmlspecialchars($record['ContactNo']) : '';
             $data[] = isset($record['Address']) ? htmlspecialchars($record['Address']) : '';
             $data[] = isset($record['SaleAgent']) ? htmlspecialchars($record['SaleAgent']) : '';
-            $data[] = isset($CODE['MAC']) ? htmlspecialchars($CODE['MAC']) : '';
-            $data[] = isset($CODE['ExpireDate']) ? date("d M, Y", strtotime($CODE['ExpireDate'])) : '';
+            $data[] = isset($record['MAC']) ? htmlspecialchars($record['MAC']) : '';
+            $data[] = isset($record['ExpireDate']) ? date("d M, Y", strtotime($record['ExpireDate'])) : '';
             $data[] = isset($record['DeploymentDate']) ? date("d M, Y", strtotime($record['DeploymentDate'])) : '';
             $data[] = '
     <td class="text-end">
