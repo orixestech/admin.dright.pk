@@ -34,16 +34,6 @@
                             </select>
 
                         </div>
-                        <!--                        <select class="select2-example">-->
-                        <!--                        <option>Select</option>-->
-                        <!--                        <option value="France">France</option>-->
-                        <!--                        <option value="Brazil">Brazil</option>-->
-                        <!--                        <option value="Yemen">Yemen</option>-->
-                        <!--                        <option value="United States">United States</option>-->
-                        <!--                        <option value="China">China</option>-->
-                        <!--                        <option value="Argentina">Argentina</option>-->
-                        <!--                        <option value="Bulgaria">Bulgaria</option>-->
-                        <!--                    </select>-->
 
                         <div class="col-md-12 mb-3">
                             <label for="UL">Description</label>
@@ -56,7 +46,7 @@
                     <button type="button" class="btn btn-primary" onclick="UpdateDocumentFormFunction()">Save changes</button>
                 </div>
             </form>
-            <div class="mt-4" id="ajaxResponse"></div>
+            <div class="mt-4" id="ajaxResponseUpdate"></div>
 
         </div>
     </div>
@@ -80,12 +70,12 @@
         formdata.append('Description', contentbody);
         response = AjaxUploadResponse("document/submit", formdata);
         if (response.status === 'success') {
-            $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
+            $("#ajaxResponseUpdate").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
             setTimeout(function () {
                 location.reload();
             }, 500);
         } else {
-            $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');
+            $("#ajaxResponseUpdate").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');
         }
     }
 </script>

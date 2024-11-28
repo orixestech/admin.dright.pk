@@ -90,28 +90,34 @@ class Disease extends BaseController
 
         $id = $this->request->getVar('UID');
         $Disease = $this->request->getVar('Disease');
+//print_r($Disease);exit();
+        if (!empty($Disease['DiseaseName'])) {
+            if ($id == 0) {
+                foreach ($Disease as $key => $value) {
+                    $record[$key] = ((isset($value)) ? $value : '');
+                }
 
-
-        if ($id == 0) {
-            foreach ($Disease as $key => $value) {
-                $record[$key] = ((isset($value)) ? $value : '');
-            }
-
-            $RecordId = $Crud->AddRecord("diseases", $record);
-            if (isset($RecordId) && $RecordId > 0) {
-                $response['status'] = 'success';
-                $response['message'] = 'Added Successfully...!';
+                $RecordId = $Crud->AddRecord("diseases", $record);
+                if (isset($RecordId) && $RecordId > 0) {
+                    $response['status'] = 'success';
+                    $response['message'] = 'Added Successfully...!';
+                } else {
+                    $response['status'] = 'fail';
+                    $response['message'] = 'Data Didnt Submitted Successfully...!';
+                }
             } else {
-                $response['status'] = 'fail';
-                $response['message'] = 'Data Didnt Submitted Successfully...!';
+                foreach ($Disease as $key => $value) {
+                    $record[$key] = $value;
+                }
+                $Crud->UpdateRecord("diseases", $record, array("UID" => $id));
+                $response['status'] = 'success';
+                $response['message'] = 'Updated Successfully...!';
             }
-        } else {
-            foreach ($Disease as $key => $value) {
-                $record[$key] = $value;
-            }
-            $Crud->UpdateRecord("diseases", $record, array("UID" => $id));
-            $response['status'] = 'success';
-            $response['message'] = 'Updated Successfully...!';
+
+        }
+        else{
+            $response['status'] = 'fail';
+            $response['message'] = 'Name Cant Be Empty...!';
         }
 
         echo json_encode($response);
