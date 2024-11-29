@@ -30,7 +30,12 @@ class Extended extends BaseController
         if ($data['page'] == 'add-profile') {
             echo view('extended/main_form', $data);
 
-        } elseif ($data['page'] == 'update') {
+        } elseif ($data['page'] == 'update-profile') {
+            $UID = getSegment(3);
+            $data['UID'] = $UID;
+            $Crud = new Crud();
+            $PAGE = $Crud->SingleRecord('extended_profiles', array("UID" => $UID));
+            $data['PAGE'] = $PAGE;
             echo view('extended/main_form', $data);
 
         } elseif ($data['page'] == 'extended_default_lookup') {
@@ -108,8 +113,8 @@ class Extended extends BaseController
             Actions
         </button>
         <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="EditDoctors(' . $record['UID'] . ');">Edit</a>
-            <a class="dropdown-item" onclick="DeleteHospital(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+            <a class="dropdown-item" onclick="UpdateProfile(' . $record['UID'] . ');">Edit</a>
+            <a class="dropdown-item" onclick="DeleteProfile(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
 
             $data[] .= '
         </div>
@@ -304,6 +309,7 @@ class Extended extends BaseController
         $id = $this->request->getVar('UID');
         $Profile = $this->request->getVar('Profile');
 
+        if (!empty($Profile['FullName']) && !empty($Profile['Email']) && !empty($Profile['ContactNo']) && !empty($Profile['City'])) {
 
         if ($id == 0) {
             foreach ($Profile as $key => $value) {
@@ -318,7 +324,8 @@ class Extended extends BaseController
                 $response['status'] = 'fail';
                 $response['message'] = 'Data Didnt Submitted Successfully...!';
             }
-        } else {
+        }
+        else {
             foreach ($Profile as $key => $value) {
                 $record[$key] = $value;
             }
@@ -328,7 +335,11 @@ class Extended extends BaseController
             $response['status'] = 'success';
             $response['message'] = 'Updated Successfully...!';
         }
-
+        }
+        else{
+            $response['status'] = 'fail';
+            $response['message'] = 'Fields Cant Be Empty...!';
+        }
         echo json_encode($response);
     }
 

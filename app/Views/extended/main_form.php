@@ -8,19 +8,19 @@
             <input type="hidden" name="UID" id="UID" value="<?= ((isset($PAGE['UID'])) ? $PAGE['UID'] : '0') ?>">
             <div class="form-row">
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom04">FullName</label>
+                    <label for="validationCustom04">FullName <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="Profile[FullName]" id="validationCustom04"
                            placeholder="Full Name" value="<?= ((isset($PAGE['FullName'])) ? $PAGE['FullName'] : '') ?>"
                            required="">
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom04">Email</label>
+                    <label for="validationCustom04">Email <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="Profile[Email]" id="validationCustom04"
                            placeholder="Email" value="<?= ((isset($PAGE['Email'])) ? $PAGE['Email'] : '') ?>"
                            required="">
                 </div>
                 <div class="col-md-3 mb-3">
-                    <label for="validationCustom04">Contact No</label>
+                    <label for="validationCustom04">Contact No <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="Profile[ContactNo]" id="validationCustom04"
                            placeholder="Contact No"
                            value="<?= ((isset($PAGE['ContactNo'])) ? $PAGE['ContactNo'] : '') ?>"
@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group row">
-                        <label class="col-sm-4">City:</label>
+                        <label class="col-sm-4">City<span class="text-danger">*</span></label>
                         <div class="col-sm-12">
                             <select id="city" name="Profile[City]" class="form-control"
                                     data-validation-engine="validate[required]">
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group row">
-                        <label class="col-sm-12">Sub Domain</label>
+                        <label class="col-sm-12">Sub Domain <span class="text-danger">*</span></label>
                         <div class="col-sm-12">
                             <input type="text" id="SubDomainUrl" name="Profile[SubDomainUrl]" placeholder="Sub Domain"
                                    value="<?= ((isset($PAGE['SubDomainUrl'])) ? $PAGE['SubDomainUrl'] : '') ?>" class="form-control"/>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group row">
-                        <label class="col-sm-12">Deployment Date </label>
+                        <label class="col-sm-12">Deployment Date <span class="text-danger">*</span></label>
                         <div class="col-sm-12">
                             <input type="date"
                                    value="<?= ((isset($PAGE['DeploymentDate'])) ? $PAGE['DeploymentDate'] : '') ?>" id="deployment_date" name="Profile[DeploymentDate]" placeholder="Deployment Date" data-validation-engine="validate[required]" class="form-control"/>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group row">
-                        <label class="col-sm-12">SMS Credits</label>
+                        <label class="col-sm-12">SMS Credits </label>
                         <div class="col-sm-12">
                             <input type="text" id="SMSCredits" name="Profile[SMSCredits]" placeholder="SMS Credits"
                                    value="<?= ((isset($PAGE['SMSCredits'])) ? $PAGE['SMSCredits'] : '') ?>" class="form-control"/>

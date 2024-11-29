@@ -218,8 +218,8 @@ $routes->group('extended', static function ($routes) {
     $routes->get('extended_default_config', 'Extended::index');
     $routes->post('submit', 'Extended::extended_profile_form_submit');
     $routes->post('get-profile', 'Extended::fetch_profiles');
-    $routes->post('delete', 'Extended::delete');
-    $routes->get('update/(:num)', 'Extended::index');
+//    $routes->post('delete', 'Extended::delete');
+    $routes->get('update-profile/(:num)', 'Extended::index');
 
 });
 

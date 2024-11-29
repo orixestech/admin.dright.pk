@@ -47,7 +47,7 @@
                 <th>SMS Credits</th>
                 <th >Actions</th>
             </tr>
-            <div class="mt-5" id="Response"></div>
+            <div class="mt-5" id="delResponse"></div>
 
             </tfoot>
         </table>
@@ -80,20 +80,20 @@
             location.href = "<?=$path?>extended/add-profile";
 
         }
-        function UpdateProfile() {
-            location.href = "<?=$path?>extended/lookup-options/" + id;
+        function UpdateProfile(id) {
+            location.href = "<?=$path?>extended/update-profile/" + id;
 
         }
-        function DeleteImage(id) {
+        function DeleteProfile(id) {
             if (confirm("Are you Sure You want to Delete this Permanently ?")) {
-                response = AjaxResponse("extended/delete", "id=" + id);
+                response = AjaxResponse("extended/delete_profile", "id=" + id);
                 if (response.status == 'success') {
                     $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
                     setTimeout(function () {
                         location.reload();
                     }, 1000);
                 } else {
-                    $("#Response").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Deleted</strong>  </div>')
+                    $("#delResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Deleted</strong>  </div>')
                     setTimeout(function () {
                         location.reload();
                     }, 1000);

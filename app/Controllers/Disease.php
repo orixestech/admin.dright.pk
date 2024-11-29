@@ -105,7 +105,8 @@ class Disease extends BaseController
                     $response['status'] = 'fail';
                     $response['message'] = 'Data Didnt Submitted Successfully...!';
                 }
-            } else {
+            }
+            else {
                 foreach ($Disease as $key => $value) {
                     $record[$key] = $value;
                 }
