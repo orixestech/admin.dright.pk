@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use PhpParser\Node\Expr\Exit_;
 
 class BuilderModel extends Model
 {
@@ -38,6 +39,7 @@ class BuilderModel extends Model
         FROM "public"."profile_metas"  
         where "public"."profile_metas"."ProfileUID" = \'' . $id . '\' And "public"."profile_metas"."Option" = \'' . $option . '\'; ';
         $Admin = $Crud->ExecutePgSQL($SQL);
+//        print_r($Admin);exit();
         return $Admin;
     }
     public function general_banners()

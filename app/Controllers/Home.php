@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\BuilderModel;
 use App\Models\Crud;
 use App\Models\Main;
 
@@ -117,14 +118,46 @@ class Home extends BaseController
             if ($table == '') {
                 $column = 'Image';
             }
-            if ($table == 'profile') {
+            if ($table == 'profiles') {
                 $column = 'Profile';
+            }  if ($table == 'profiles') {
+                $dbtable = 'public.profile_metas';
+                $option = 'initatived_logo';
+                $column = 'Value';
+
             }
 
             $image = base64_decode($record[$column]);
             echo $image;
         }
         exit;
+    }public function load_image_meta()
+    {
+        $Code = getSegment(2);
+        $Code = base64_decode($Code);
+        list($driver, $table, $uid) = explode('|', $Code);
+        $Crud = new Crud();
+        $BuilderModel = new BuilderModel();
+        header('Content-Type: image');
+
+
+        $record= $BuilderModel->get_website_profile_meta_data_by_id_option($uid,'initatived_logo');
+//        print_r($record);exit;
+        if ($driver == 'pgsql') {
+            if ($table == '') {
+                $column = 'Image';
+            }
+            if ($table == 'profile_metas') {
+                $column = 'Value';
+
+            }
+            $image = base64_decode($record[$column]);
+            echo $image;
+        }
+
+
+        exit;
+
     }
 
     public function table()

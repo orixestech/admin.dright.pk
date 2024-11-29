@@ -89,6 +89,19 @@ if (!function_exists('load_image')) {
         $URL = $path . 'load_image/' . $code;
         return $URL;
     }
+}if (!function_exists('load_image_meta')) {
+    function load_image_meta($key)
+    {
+        global $CI;
+
+        $path = PATH;
+//        $template = Template;
+
+        $code = base64_encode($key);
+        $code = str_replace("=", "", $code);
+        $URL = $path . 'load_image_meta/' . $code;
+        return $URL;
+    }
 }
 if ( !function_exists( 'CheckdLogin' ) ) {
     function CheckdLogin( $data )
