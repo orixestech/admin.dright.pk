@@ -1,17 +1,27 @@
 <br>
 <br>
+<?php
+
+use App\Models\Crud;
+
+$Crud = new Crud();
+
+$specialities = $Crud->SingleRecord('specialities', array("UID" => $UID));
+
+
+?>
 <div id="kt_app_content" class="app-content flex-column-fluid">
     <div id="kt_app_content_container" class="app-container">
         <form method="post" action="" name="eventgalleryaddform" id="eventgalleryaddform" enctype="multipart/form-data">
             <input type="hidden" id="UID" name="UID" value="0">
-            <input type="hidden" id="SpecialityID" name="SpecialityID" value="<?= $UID;?>">
+            <input type="hidden" id="SpecialityID" name="SpecialityID" value="<?= $UID; ?>">
 
             <div class="col-lg-12">
                 <div class="card card_height_100 mb_30">
                     <div class="white_card_header">
                         <div class="box_header m-0">
                             <div class="main-title mt-3" style="margin-left: 30px;">
-                                <h3 class="m-0">Add Gallery Details</h3>
+                                <h3 class="m-0">Add Gallery</h3>
                             </div>
                         </div>
                     </div>
@@ -49,7 +59,50 @@
     </div>
 </div>
 
+<link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
+<link rel="stylesheet" href="<?= $template ?>vendors/select2/css/select2.min.css" type="text/css">
 
+<div class="card">
+    <div class="card-body">
+        <h4><?= $specialities['Name']; ?> Gallery</h4>
+
+        <div class="row">
+
+            <?php foreach ($Images as $IM) {
+
+                echo '<div class="col-md-2" style="margin-top:20px;"><a href="javascript:void(0);" onclick="DeleteSpecialityImage(' . $IM['UID'] . ');"><i style="color:#FF0000; position: absolute;left: 170px;font-size: 20px;" class="fa fa-remove"></i></a>
+										<img src="' . $path . 'upload/specialities/' . $IM['Value'] . '" class="img-thumbnail">
+									</div>';
+
+            } ?>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    function DeleteSpecialityImage(id) {
+        if (confirm("Are you Sure You want to Delete this Permanently ?")) {
+            response = AjaxResponse("builder/delete_specialities_image", "id=" + id);
+            if (response.status == 'success') {
+                $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            } else {
+                $("#Response").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Deleted</strong>  </div>')
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            }
+
+        }
+    }
+</script>
+<script src="<?= $template ?>vendors/select2/js/select2.min.js"></script>
+<script src="<?= $template ?>vendors/dataTable/datatables.min.js"></script>
+<script src="<?= $template ?>assets/js/examples/datatable.js"></script>
+<script src="<?= $template ?>vendors/prism/prism.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
@@ -98,7 +151,7 @@
         if (response.status == 'success') {
             $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
             setTimeout(function () {
-                location.href = "<?=$path?>builder/specialities";
+                location.reload();
             }, 500);
         } else {
             $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Field not Filled Properly!</strong> ' + response.message + ' </div>');

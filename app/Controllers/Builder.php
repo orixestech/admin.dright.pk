@@ -89,8 +89,11 @@ class Builder extends BaseController
 
     public function gallery()
     {
+        $BuilderModel = new \App\Models\BuilderModel();
+
         $data = $this->data;
         $UID = getSegment(3);
+        $data['Images']= $BuilderModel->get_speciality_images_by_id($UID);
         $data['UID'] = $UID;
         echo view('header', $data);
         echo view('builder/specialities_gallery', $data);
@@ -477,6 +480,18 @@ class Builder extends BaseController
         $id = $_POST['id'];
 //        print_r($id);exit();
         $Crud->DeleteRecord("websites_images", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = ' Deleted Successfully...!';
+        echo json_encode($response);
+    }
+    public
+    function delete_specialities_image()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+//        print_r($id);exit();
+        $Crud->DeleteRecord("speciality_metas", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['message'] = ' Deleted Successfully...!';

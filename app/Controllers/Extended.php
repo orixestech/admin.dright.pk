@@ -21,10 +21,13 @@ class Extended extends BaseController
     public function index()
     {
         $data = $this->data;
-        $data['page'] = getSegment(2);
+        $data['PAGE'] = array();
 
+        $data['page'] = getSegment(2);
+        $PharmacyModal = new \App\Models\PharmacyModal();
+        $data['Cities'] = $PharmacyModal->citites();
         echo view('header', $data);
-        if ($data['page'] == 'add') {
+        if ($data['page'] == 'add-profile') {
             echo view('extended/main_form', $data);
 
         } elseif ($data['page'] == 'update') {
@@ -32,6 +35,9 @@ class Extended extends BaseController
 
         } elseif ($data['page'] == 'extended_default_lookup') {
             echo view('extended/extended_default_lookup', $data);
+
+        } elseif ($data['page'] == 'extended_profile_detail') {
+            echo view('extended/extended_profile_detail', $data);
 
         }  elseif ($data['page'] == 'extended_default_config') {
             echo view('extended/extended_default_config', $data);
@@ -288,6 +294,43 @@ class Extended extends BaseController
 
         echo json_encode($response);
     }
+    public function submit_profile()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Profile = $this->request->getVar('Profile');
+
+
+        if ($id == 0) {
+            foreach ($Profile as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+
+            $RecordId = $Crud->AddRecord("extended_profiles", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Profile Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($Profile as $key => $value) {
+                $record[$key] = $value;
+            }
+
+
+            $Crud->UpdateRecord("extended_profiles", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = 'Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
 
     public function delete_default_lookup()
     {
@@ -318,6 +361,15 @@ class Extended extends BaseController
         $Crud = new Crud();
         $id = $this->request->getVar('id');
         $Crud->DeleteRecord('extended_admin_setings', array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = ' Deleted Successfully...!';
+        echo json_encode($response);
+    }  public function delete_profile()
+    {
+        $Crud = new Crud();
+        $id = $this->request->getVar('id');
+        $Crud->DeleteRecord('extended_profiles', array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['message'] = ' Deleted Successfully...!';
