@@ -102,7 +102,7 @@ if($page=='add-hospital'){
                 </div>
              <?php   if($page!='add-hospital'){?>
                 <div class="col-md-6">
-                <img src="<?=load_image('pgsql|profile|' . $PAGE['UID'])?>" height="70">
+                <img src="<?=load_image('pgsql|initatived|' .$PAGE['UID'])?>" height="70">
                 </div>
                 <?php }?>
                 <div class="col-md-12">
@@ -110,9 +110,8 @@ if($page=='add-hospital'){
                         <label class="col-sm-12">Short Description</label>
                         <div class="col-sm-12">
                             <textarea class="form-control" name="short_description" id="short_description"
-                                      rows="6">
-                                <?php if (is_array($short_desc) && !empty($short_desc)) { ?>
-                                    <?= isset($short_desc[0]['Value']) ? $short_desc[0]['Value'] : ''; ?>
+                                      rows="6"><?php if (is_array($short_desc) && !empty($short_desc)) { ?>
+                                    <?= isset($short_desc[0]['Value']) ?$short_desc[0]['Value']: ''; ?>
                                 <?php } ?></textarea>
                         </div>
                     </div>

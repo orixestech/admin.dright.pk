@@ -19,9 +19,7 @@
                 <div class="mt-5" id="AddSmsCreditsResponse"></div>
 
                 <th>Sr No</th>
-<!--                <th>Profile</th>-->
                 <th>Name</th>
-<!--                <th>Sponsors</th>-->
                 <th>Email</th>
                 <th>City</th>
                 <th>Telemedicine Credits</th>
@@ -36,9 +34,7 @@
             <tfoot>
             <tr>
                 <th>Sr No</th>
-<!--                <th>Profile</th>-->
                 <th>Name</th>
-<!--                <th>Sponsors</th>-->
                 <th>Email</th>
                 <th>City</th>
                 <th>Telemedicine Credits</th>
@@ -78,7 +74,10 @@
             location.href = "<?=$path?>builder/add-doctor";
 
         }
+        function EditDoctors(id) {
+            location.href = "<?=$path?>builder/update-doctor/" + id;
 
+        }
         function AddTeleMedicineCredits( id, newcredits ){
 
             if( confirm( "Are You Want To Add " + newcredits + " Telemedicine Credits" ) ){

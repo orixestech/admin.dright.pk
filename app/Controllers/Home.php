@@ -116,7 +116,8 @@ class Home extends BaseController
 
             if ($table == '') {
                 $column = 'Image';
-            }  if ($table == 'profile') {
+            }
+            if ($table == 'profile') {
                 $column = 'Profile';
             }
 

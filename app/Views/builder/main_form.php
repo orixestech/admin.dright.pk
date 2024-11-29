@@ -1,5 +1,40 @@
 <br>
+<?php
 
+use App\Models\BuilderModel;
+$speciality='';
+$qualification='';
+$department='';
+$pmdcno='';
+$telemedicine_id='';
+$short_desc='';
+$initatived_text='';
+$sponsor='';
+$initatived_logo='';
+$healthcarestatus='';
+$patientportal='';
+$theme='';
+$BuilderModel = new BuilderModel();
+//print_r($page);exit();
+if($page=='add-doctor'){
+
+}else{
+    $speciality =$BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'speciality');
+    $qualification = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'qualification' );
+    $department = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'department' );
+    $pmdcno = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'pmdcno' );
+    $telemedicine_id = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'telemedicine_id' );
+    $short_desc = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'short_description' );
+    $initatived_text = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'initatived_text' );
+    $sponsor = $BuilderModel->get_profile_options_data_by_id_option( $PAGE[ 'UID' ], 'sponsor' );
+    $initatived_logo = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'initatived_logo' );
+    $healthcarestatus = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'healthcare_status' );
+    $patient_portal = $BuilderModel->get_website_profile_meta_data_by_id_option( $PAGE[ 'UID' ], 'patient_portal' );
+    $theme = $BuilderModel->get_profile_options_data_by_id_option( $PAGE[ 'UID' ], 'theme' );
+}
+
+//print_r($patient_portal);exit();
+?>
 <div class="card">
     <div class="card-body">
         <h6 class="card-title"><?= ((isset($PAGE['UID'])) ? 'Update' : 'Add New') ?> Doctor</h6>
@@ -88,7 +123,7 @@
                         <label class="col-sm-12">Qualification</label>
                         <div class="col-sm-12">
                             <input type="text" id="qualification" name="qualification" placeholder="Qualification"
-                                   class="form-control"/>
+                                   value="<?php if (is_array($qualification) && !empty($qualification)) { ?><?= isset($qualification[0]['Value'])?$qualification[0]['Value']: ''; ?><?php } ?>"  class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -96,7 +131,9 @@
                     <div class="form-group row">
                         <label class="col-sm-12">PMDC No</label>
                         <div class="col-sm-12">
-                            <input type="text" id="pmdcno" name="pmdcno" placeholder="PMDCNo" class="form-control"/>
+                            <input type="text" id="pmdcno" name="pmdcno" placeholder="PMDCNo"
+                     value="<?php if (is_array($pmdcno) && !empty($pmdcno)) { ?><?= isset($pmdcno[0]['Value'])?$pmdcno[0]['Value']: ''; ?><?php } ?>"
+                                   class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -107,6 +144,8 @@
                         <label class="col-sm-12">Department</label>
                         <div class="col-sm-12">
                             <input type="text" id="department" name="department" placeholder="Department"
+ value="<?php if (is_array($department) && !empty($department)) { ?><?= isset($department[0]['Value'])?$department[0]['Value']: ''; ?><?php } ?>"
+
                                    class="form-control"/>
                         </div>
                     </div>
@@ -116,6 +155,7 @@
                         <label class="col-sm-12">Sub Domain</label>
                         <div class="col-sm-12">
                             <input type="text" id="sub_domain" name="sub_domain" placeholder="Sub Domain"
+                                   value="<?= ((isset($PAGE['SubDomain'])) ? $PAGE['SubDomain'] : '') ?>"
                                    class="form-control"/>
                         </div>
                     </div>
@@ -125,6 +165,8 @@
                         <label class="col-sm-12">Admin Domain</label>
                         <div class="col-sm-12">
                             <input type="text" id="AdminDomain" name="AdminDomain" placeholder="Admin Domain"
+                                   value="<?= ((isset($PAGE['AdminDomain'])) ? $PAGE['AdminDomain'] : '') ?>"
+
                                    class="form-control"/>
                         </div>
                     </div>
@@ -134,6 +176,8 @@
                         <label class="col-sm-12">e-Health Key</label>
                         <div class="col-sm-12">
                             <input type="text" id="telemedicine_id" name="telemedicine_id" placeholder="e-Health Key"
+                                   value="<?php if (is_array($telemedicine_id) && !empty($telemedicine_id)) { ?><?= isset($telemedicine_id[0]['Value'])?$telemedicine_id[0]['Value']: ''; ?><?php } ?>"
+
                                    class="form-control"/>
                         </div>
                     </div>
@@ -147,7 +191,11 @@
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
                 </div>
-
+                <?php   if($page!='add-doctor'){?>
+                    <div class="col-md-6">
+                        <img src="<?=load_image('pgsql|profile|' .$PAGE['UID'])?>" height="70">
+                    </div>
+                <?php }?>
 
                 <div class="col-md-5 mb-3">
 
@@ -158,12 +206,19 @@
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
                 </div>
+                <?php   if($page!='add-doctor'){?>
+                    <div class="col-md-6">
+                        <img src="<?=load_image('pgsql|profile|' .$PAGE['UID'])?>" height="70">
+                    </div>
+                <?php }?>
                 <div class="col-md-6">
                     <div class="form-group row">
                         <label class="col-sm-12">Short Description</label>
                         <div class="col-sm-12">
                             <textarea class="form-control" name="short_description" id="short_description"
-                                      rows="6"></textarea>
+                                      rows="6"><?php if (is_array($short_desc) && !empty($short_desc)) { ?>
+                                    <?= isset($short_desc[0]['Value']) ?$short_desc[0]['Value']: ''; ?>
+                                <?php } ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -172,37 +227,65 @@
                         <label class="col-sm-12">Initatived Text</label>
                         <div class="col-sm-12">
                             <textarea class="form-control" name="initatived_text" id="initatived_text"
-                                      rows="6"></textarea>
+                                      rows="6"><?php if (is_array($initatived_text) && !empty($initatived_text)) { ?>
+                                    <?= isset($initatived_text[0]['Value']) ?$initatived_text[0]['Value']: ''; ?>
+                                <?php } ?></textarea>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-sm-12">Add-ons</label>
+                        <div class="col-sm-12">
+                            <select name="healthcare_status" id="healthcare_status" class="form-control">
+                                <option value=""
+
+                                    <?php if (is_array($healthcarestatus) && !empty($healthcarestatus)) { ?>
+                                        <?= (isset($healthcarestatus[0]['Value']) && $healthcarestatus[0]['Value'] == '') ? 'selected' : ''; ?>
+                                    <?php } ?>
+
+                                >Please Select</option>
+                                <option value="1"
+                                    <?php if (is_array($healthcarestatus) && !empty($healthcarestatus)) { ?>
+                                        <?= (isset($healthcarestatus[0]['Value']) && $healthcarestatus[0]['Value'] == '1') ? 'selected' : ''; ?>
+                                    <?php } ?>
+
+                                >Show</option>
+                                <option value="0"
+                                    <?php if (is_array($healthcarestatus) && !empty($healthcarestatus)) { ?>
+                                        <?= (isset($healthcarestatus[0]['Value']) && $healthcarestatus[0]['Value'] == '0') ? 'selected' : ''; ?>
+                                    <?php } ?>
+
+                                >Hide</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
                     <div class="form-group row">
                         <label class="col-sm-12">Theme Setting</label>
                         <div class="col-sm-12">
                             <select name="theme" id="theme" class="form-control">
-                                <option value="0">Please Select</option>
-                                <option value="basic">Basic (Free)</option>
-                                <option value="deep-mind">Premium (Paid)</option>
-
+                                <option value="0" <?=(is_array($theme) && !empty($theme) && isset($theme[0]['Description']) && $theme[0]['Description'] == '0') ? 'selected' : '' ?>>Please Select</option>
+                                <option value="basic" <?=(is_array($theme) && !empty($theme) && isset($theme[0]['Description']) && $theme[0]['Description'] == 'basic') ? 'selected' : '' ?>>Basic (Free)</option>
+                                <option value="deep-mind" <?=(is_array($theme) && !empty($theme) && isset($theme[0]['Description']) && $theme[0]['Description'] == 'deep-mind') ? 'selected' : '' ?>>Premium (Paid)</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group row">
                         <label class="col-sm-12">Patient Portal</label>
                         <div class="col-sm-12">
                             <select name="patient_portal" id="patient_portal" class="form-control">
-                                <option value="">Please Select</option>
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-
+                                <option value=""<?=(is_array($patient_portal) && !empty($patient_portal) && isset($patient_portal[0]['Value']) && $patient_portal[0]['Value'] == '') ? 'selected' : '' ?>>Please Select</option>
+                                <option value="1"<?=(is_array($patient_portal) && !empty($patient_portal) && isset($patient_portal[0]['Value']) && $patient_portal[0]['Value'] == '1') ? 'selected' : '' ?>>Yes</option>
+                                <option value="0"<?=(is_array($patient_portal) && !empty($patient_portal) && isset($patient_portal[0]['Value']) && $patient_portal[0]['Value'] == '0') ? 'selected' : '' ?>>No</option>
                             </select>
                         </div>
                     </div>
                 </div>
-
 
             </div>
             <div class="mt-4" id="ajaxResponse"></div>
