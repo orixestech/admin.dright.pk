@@ -70,6 +70,9 @@
         function Addspecialities() {
             $('#AddspecialitiesModal').modal('show');
 
+        }     function AddGallery(id) {
+            location.href = "<?=$path?>builder/specialities-gallery/" + id;
+
         }
         function Addheading(id) {
             LoadSpecialityMetaDiv( id, 'heading', 'SpecialityHeadingDiv' );

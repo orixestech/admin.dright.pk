@@ -77,7 +77,11 @@
     </script>
     <script>
         function AddProfile() {
-            $('#AddProfileModal').modal('show');
+            location.href = "<?=$path?>extended/add-profile";
+
+        }
+        function UpdateProfile() {
+            location.href = "<?=$path?>extended/lookup-options/" + id;
 
         }
         function DeleteImage(id) {

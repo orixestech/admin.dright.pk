@@ -57,6 +57,7 @@ $routes->group('builder', static function ($routes) {
     $routes->post('delete-banner', 'Builder::delete_banner');
     $routes->post('delete-images', 'Builder::delete_images');
     $routes->get('update-doctor/(:num)', 'Builder::index');
+    $routes->get('specialities-gallery/(:num)', 'Builder::gallery');
     $routes->get('update-hospital/(:num)', 'Builder::index');
 });
 $routes->group('users', static function ($routes) {
@@ -108,7 +109,7 @@ $routes->group('diet', static function ($routes) {
     $routes->post('delete', 'HealthCare::delete_item');
     $routes->post('delete-category', 'HealthCare::delete_category');
     $routes->get('fruit-detail/(:num)', 'HealthCare::diet');
-    $routes->get('dry-fruites-detail/(:num)', 'HealthCare::diet');
+    $routes->get('dry-fruits-detail/(:num)', 'HealthCare::diet');
     $routes->get('miscellaneous-detail/(:num)', 'HealthCare::diet');
     $routes->get('pulses-grains-detail/(:num)', 'HealthCare::diet');
     $routes->get('vegetable-detail/(:num)', 'HealthCare::diet');
@@ -212,7 +213,7 @@ $routes->group('specialities', static function ($routes) {
 });
 $routes->group('extended', static function ($routes) {
     $routes->get('/', 'Extended::index');
-    $routes->get('add', 'Extended::index');
+    $routes->get('add-profile', 'Extended::index');
     $routes->get('extended_default_lookup', 'Extended::index');
     $routes->get('extended_default_config', 'Extended::index');
     $routes->post('submit', 'Extended::extended_profile_form_submit');

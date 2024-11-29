@@ -197,7 +197,7 @@ class Representatives extends BaseController
         $record = [];
 
         // Retrieve input values
-        $RCCID = $this->request->getVar('RepresentativeUID');
+        $RCCID = $this->request->getVar('RCCUID');
         $SerialPrefix = $this->request->getVar('serial_prefix');
         $StartSerial = (int)$this->request->getVar('start_serial');
         $EndSerial = (int)$this->request->getVar('end_serial');

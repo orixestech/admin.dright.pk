@@ -56,8 +56,8 @@ if (isset($SessionFilters['MedicineName']) && $SessionFilters['MedicineName'] !=
         <table id="frutis" class="table table-striped table-bordered">
             <thead>            <tr>
                 <th>Sr No</th>
+                <th>Medicine Name</th>
                 <th>Company</th>
-                <th>Title</th>
                 <th>Ingredients</th>
                 <th>Dosage Form</th>
                 <th>Packing</th>
@@ -71,8 +71,8 @@ if (isset($SessionFilters['MedicineName']) && $SessionFilters['MedicineName'] !=
             <tfoot>
             <tr>
                 <th>Sr No</th>
+                <th>Medicine Name</th>
                 <th>Company</th>
-                <th>Title</th>
                 <th>Ingredients</th>
                 <th>Dosage Form</th>
                 <th>Packing</th>

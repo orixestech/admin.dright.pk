@@ -18,8 +18,45 @@ class ExtendedModel extends Model
     {
         $Crud = new Crud();
         $SQL = "SELECT * FROM  `extended_profiles` ORDER BY `extended_profiles`.`FullName` ASC";
-//        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
+    }
+    public function GetExtendedProfielDataByID($ID)
+    {
+        $Crud = new Crud();
+        $SQL = "SELECT * FROM `extended_profiles` WHERE `UID` = '" . $ID . "'";
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
+    public
+    function GetAdminUsersByHospitalDB($DBName)
+    {
+        $ExtendedDb = $this->Postgre->LoadPGDB($DBName);
+
+        $ExtendedDb->trans_start();
+        $ExtendedDb->select('*');
+        $ExtendedDb->from('clinta.AdminUsers');
+        $ExtendedDb->where('Archive', 0);
+        $query = $ExtendedDb->get();
+        $data = $query->result_array();
+        $ExtendedDb->trans_complete();
+
+        return $data;
+    }
+    public
+    function GetAdminSettingsByHospitalDB($DBName)
+    {
+
+        $ExtendedDb = $this->Postgre->LoadPGDB($DBName);
+
+        $ExtendedDb->trans_start();
+        $ExtendedDb->select('*');
+        $ExtendedDb->from('clinta.AdminSettings');
+        $ExtendedDb->order_by('Key', 'ASC');
+        $query = $ExtendedDb->get();
+        $data = $query->result_array();
+        $ExtendedDb->trans_complete();
+
+        return $data;
     }
     public function get_all_extended_default_lookups($keyword)
     {

@@ -45,7 +45,7 @@ class MedicineModel extends Model
 ';
         if (isset($SessionFilters['MedicineName']) && $SessionFilters['MedicineName'] != '') {
             $MedicineName = $SessionFilters['MedicineName'];
-            $SQL .= ' AND  "MedicineTitle" LIKE \'%' . $MedicineName . '%\'';
+            $SQL .= ' AND  `MedicineTitle` LIKE \'%' . $MedicineName . '%\'';
         }
         if($keyword!=''){
             $SQL .= ' AND  ( `MedicineTitle` LIKE \'%' . $keyword . '%\'  OR `Ingredients` LIKE \'%' . $keyword . '%\') ';

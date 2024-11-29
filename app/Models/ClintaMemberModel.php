@@ -34,12 +34,19 @@ class ClintaMemberModel extends Model
 
     public function members($keyword)
     {
+        $session = session();
+        $SessionFilters = $session->get('MemberFilters');
         $SQL = "SELECT * FROM public_users 
          WHERE oauth_provider != 'dummy' ";
+        if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
+            $Name = $SessionFilters['Name'];
+            $SQL .= ' AND  `FirstName` LIKE \'%' . $Name . '%\'';
+        }
         if($keyword!=''){
             $SQL .= ' AND  ( `Title` LIKE \'%' . $keyword . '%\'  OR `FirstName` LIKE \'%' . $keyword . '%\' OR `SystemDate` LIKE \'%' . $keyword . '%\' OR `Membership` LIKE \'%' . $keyword . '%\' OR `LastName` LIKE \'%' . $keyword . '%\') ';
         }
         $SQL .= ' ORDER BY `SystemDate` DESC';
+//        print_r($SQL);exit();
         return $SQL;
     }
 

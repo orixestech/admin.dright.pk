@@ -5,7 +5,7 @@
             <form method="post" action="" name="AddRCCReceiptsForm" id="AddRCCReceiptsForm" class="needs-validation" novalidate=""
                 enctype="multipart/form-data">
                 <input type="hidden" name="UID" id="UID" value="0">
-                <input type="hidden" name="RepresentativeUID" id="RepresentativeUID" value="">
+                <input type="hidden" name="RCCUID" id="RCCUID" value="">
                 <div class="modal-header">
                     <h5 class="modal-title">Add </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

@@ -220,4 +220,18 @@ class ClintaMember extends BaseController
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
     }
+    public function search_filter()
+    {
+        $session = session();
+        $Name = $this->request->getVar('Name');
+        $AllFilter = array(
+            'Name' => $Name
+
+        );
+        $session->set('MemberFilters', $AllFilter);
+        $response['status'] = "success";
+        $response['message'] = "Filters Updated Successfully";
+
+        echo json_encode($response);
+    }
 }

@@ -1,5 +1,15 @@
 <link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
+<?php
 
+$session = session();
+$SessionFilters = $session->get('InvestigationFilters');
+$Category='';
+if (isset($SessionFilters['Category']) && $SessionFilters['Category'] != '') {
+    $Category = $SessionFilters['Category'];
+}if (isset($SessionFilters['Type']) && $SessionFilters['Type'] != '') {
+    $Type = $SessionFilters['Type'];
+}
+?>
 <div class="card">
     <div class="card-body">
         <h4><?php if($UID=='1'){
@@ -16,6 +26,48 @@
               Add
             </button>
            </span></h4>
+        <hr>
+        <form method="post" name="AllInvestigationFilterForm" id="AllInvestigationFilterForm"
+              onsubmit="SearchFilterFormSubmit('AllInvestigationFilterForm');">
+            <div class="form-group">
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <label for="validationCustom02">Category</label>
+                        <select class="form-control" id="Category" name="Category">
+                            <option value="">Please Select</option>
+
+                            <?php  foreach ($category as $record) { ?>
+                                <option value="<?= $record['UID'] ?>"
+                                ><?= ucwords($record['Name']); ?></option>
+                            <?php } ?>
+                        </select> </div>
+                    <div class="form-group col-md-3">
+                        <label for="validationCustom02">Type</label>
+                        <select class="form-control" id="Type" name="Type">
+                            <option value="">Please Select</option>
+
+                            <?php  foreach ($type as $record) { ?>
+                                <option value="<?= $record['UID'] ?>"
+                                ><?= ucwords($record['Name']); ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12" style="float: right">
+                                 <span style="float: right;">
+                                    <button class="btn btn-outline-primary" onclick="ClearAllFilter('InvestigationFilters');"
+                                            type="button">Clear</button>
+
+                                <button class="btn btn-outline-success"
+                                        onclick="SearchFilterFormSubmit('AllInvestigationFilterForm');"
+                                        type="button">Search!</button>
+                                 </span>
+                    </div>
+                    <div class="mt-4" id="FilterResponse"></div>
+
+                </div>
+            </div>
+
+        </form>
     </div>
     <div class="table-responsive">
         <table id="frutis" class="table table-striped table-bordered">
@@ -102,6 +154,23 @@
                     }, 1000);
                 }
 
+            }
+        }
+        function SearchFilterFormSubmit(parent) {
+
+            var data = $("form#" + parent).serialize();
+            var rslt = AjaxResponse('investigation/investiagation_search_filter', data);
+            if (rslt.status == 'success') {
+                $("#AllInvestigationFilterForm form #FilterResponse").html(rslt.message);
+                location.reload();
+            }
+        }
+
+        function ClearAllFilter(Session) {
+            var rslt = AjaxResponse('home/clear_session', 'SessionName=' + Session);
+            if (rslt.status == 'success') {
+                $("#AllInvestigationFilterForm form #FilterResponse").html(rslt.message);
+                location.reload();
             }
         }
     </script>
