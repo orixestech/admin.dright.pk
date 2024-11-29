@@ -11,7 +11,7 @@ class ExtendedModel extends Model
 
     public function __construct()
     {
-//        $this->data = $this->DefaultVariable();
+        //        $this->data = $this->DefaultVariable();
     }
 
     public function extended_profiles()
@@ -30,58 +30,107 @@ class ExtendedModel extends Model
     public
     function GetAdminUsersByHospitalDB($DBName)
     {
-        $ExtendedDb = $this->Postgre->LoadPGDB($DBName);
+        if ($_SERVER['HTTP_HOST'] == 'localhost')
+            $DBName = 'clinta_extended';
 
-        $ExtendedDb->trans_start();
-        $ExtendedDb->select('*');
-        $ExtendedDb->from('clinta.AdminUsers');
-        $ExtendedDb->where('Archive', 0);
-        $query = $ExtendedDb->get();
-        $data = $query->result_array();
-        $ExtendedDb->trans_complete();
-
-        return $data;
+        $custom = [
+            'DSN'          => '',
+            'hostname'     => PGDB_HOST,
+            'username'     => 'clinta_postgre',
+            'password'     => 'PostgreSql147',
+            'database'     => $DBName,
+            'DBDriver' => 'Postgre',
+            'DBPrefix' => '',
+            'pConnect' => false,
+            'DBDebug' => true,
+            'charset' => 'utf8',
+            'DBCollat' => 'utf8_general_ci',
+            'swapPre' => '',
+            'encrypt' => false,
+            'compress' => false,
+            'strictOn' => false,
+            'failover' => [],
+            'port' => 5432,
+            'numberNative' => false,
+        ];
+        $ExtendedDb = \Config\Database::connect($custom);
+        $builder = $ExtendedDb->table('clinta.AdminUsers');
+        $builder->select('*');
+        $builder->where([
+            'Archive' => 0
+        ]);
+        $query = $builder->get();
+        $records = $query->getResultArray();
+        if (!is_array($records)) {
+            $records = array();
+        }
+        //echo $db->getLastQuery() . "<hr>";
+        //$db->close();
+        return $records;
     }
     public
     function GetAdminSettingsByHospitalDB($DBName)
     {
+        if ($_SERVER['HTTP_HOST'] == 'localhost')
+            $DBName = 'clinta_extended';
 
-        $ExtendedDb = $this->Postgre->LoadPGDB($DBName);
-
-        $ExtendedDb->trans_start();
-        $ExtendedDb->select('*');
-        $ExtendedDb->from('clinta.AdminSettings');
-        $ExtendedDb->order_by('Key', 'ASC');
-        $query = $ExtendedDb->get();
-        $data = $query->result_array();
-        $ExtendedDb->trans_complete();
-
-        return $data;
+        $custom = [
+            'DSN'          => '',
+            'hostname'     => PGDB_HOST,
+            'username'     => 'clinta_postgre',
+            'password'     => 'PostgreSql147',
+            'database'     => $DBName,
+            'DBDriver' => 'Postgre',
+            'DBPrefix' => '',
+            'pConnect' => false,
+            'DBDebug' => true,
+            'charset' => 'utf8',
+            'DBCollat' => 'utf8_general_ci',
+            'swapPre' => '',
+            'encrypt' => false,
+            'compress' => false,
+            'strictOn' => false,
+            'failover' => [],
+            'port' => 5432,
+            'numberNative' => false,
+        ];
+        $ExtendedDb = \Config\Database::connect($custom);
+        $builder = $ExtendedDb->table('clinta.AdminUsers');
+        $builder->select('*');
+        $builder->orderBy('Key', 'ÁSC');
+        $query = $builder->get();
+        $records = $query->getResultArray();
+        if (!is_array($records)) {
+            $records = array();
+        }
+        //echo $db->getLastQuery() . "<hr>";
+        //$db->close();
+        return $records;
     }
     public function get_all_extended_default_lookups($keyword)
     {
         $Crud = new Crud();
         $SQL = "SELECT * FROM  `extended_lookups` WHERE `Archive` = '0' ";
-        if($keyword!=''){
-//            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+        if ($keyword != '') {
+            //            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
             $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Key` LIKE \'%' . $keyword . '%\') ';
         }
         $SQL .= ' ORDER BY `Name` ASC';
-//        print_r($SQL);exit();
-//        $Admin = $Crud->ExecuteSQL($SQL);
+        //        print_r($SQL);exit();
+        //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
     public function get_all_extended_default_config($keyword)
     {
         $Crud = new Crud();
         $SQL = "SELECT * FROM  `extended_admin_setings` ";
-        if($keyword!=''){
-//            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+        if ($keyword != '') {
+            //            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
             $SQL .= ' Where ( `Name` LIKE \'%' . $keyword . '%\'  OR `Key` LIKE \'%' . $keyword . '%\') ';
         }
         $SQL .= ' ORDER BY `Name` ASC';
-//        print_r($SQL);exit();
-//        $Admin = $Crud->ExecuteSQL($SQL);
+        //        print_r($SQL);exit();
+        //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
 
@@ -97,11 +146,11 @@ class ExtendedModel extends Model
 
         WHERE "public"."profiles"."Type" =\'' . $ID . '\' 
         ORDER BY "public"."profiles"."Name" ASC ';
-//        $Admin = $Crud->ExecutePgSQL($SQL);
-//        print_r($SQL);exit();
+        //        $Admin = $Crud->ExecutePgSQL($SQL);
+        //        print_r($SQL);exit();
         return $SQL;
     }
-  
+
 
     public
     function get_datatables()
@@ -111,9 +160,9 @@ class ExtendedModel extends Model
         $SQL = $this->extended_profiles();
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
-//        echo nl2br($SQL); exit;
+        //        echo nl2br($SQL); exit;
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
+        //        print_r($records);exit();
 
         return $records;
     }
@@ -125,10 +174,10 @@ class ExtendedModel extends Model
 
         $SQL = $this->extended_profiles();
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
+        //        print_r($records);exit();
         return count($records);
     }
-  public
+    public
     function get_default_extended_lookup_datatables($keyword)
     {
         $Crud = new Crud();
@@ -136,9 +185,9 @@ class ExtendedModel extends Model
         $SQL = $this->get_all_extended_default_lookups($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
-//        echo nl2br($SQL); exit;
+        //        echo nl2br($SQL); exit;
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
+        //        print_r($records);exit();
 
         return $records;
     }
@@ -150,9 +199,10 @@ class ExtendedModel extends Model
 
         $SQL = $this->get_all_extended_default_lookups($keyword);
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
+        //        print_r($records);exit();
         return count($records);
-    } public
+    }
+    public
     function get_default_extended_config_datatables($keyword)
     {
         $Crud = new Crud();
@@ -160,9 +210,9 @@ class ExtendedModel extends Model
         $SQL = $this->get_all_extended_default_config($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
-//        echo nl2br($SQL); exit;
+        //        echo nl2br($SQL); exit;
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
+        //        print_r($records);exit();
 
         return $records;
     }
@@ -174,8 +224,7 @@ class ExtendedModel extends Model
 
         $SQL = $this->get_all_extended_default_config($keyword);
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
+        //        print_r($records);exit();
         return count($records);
     }
-
 }
