@@ -840,6 +840,7 @@ class Builder extends BaseController
         // Load the uploaded file using CodeIgniter's services
         $file = $this->request->getFile('profile');
         $fileContents = '';
+
         if ($file->isValid() && !$file->hasMoved()) {
             $fileContents = file_get_contents($file->getTempName());
 
@@ -902,16 +903,15 @@ class Builder extends BaseController
                     $ExtendedArray = array('clinta_extended_profiles', 'short_description');
                     foreach ($ExtendedArray as $M) {
 
-                        if ($this->request->getVar($M) != '') {
 
-                            $record_meta['ProfileUID'] = $website_profile_id;
-                            $record_meta['Option'] = $M;
-                            $record_meta['Value'] = $this->request->getVar($M);
+                        $record_meta['ProfileUID'] = $website_profile_id;
+                        $record_meta['Option'] = $M;
+                        $record_meta['Value'] = $this->request->getVar($M);
 
-                            $id = $Crud->AddRecordPG("public.profile_metas", $record_meta);
+                        $id = $Crud->AddRecordPG("public.profile_metas", $record_meta);
 
-                        }
                     }
+
 
                     $message = 'Dear Clinta Support,
 "' . $this->request->getVar('name') . '" New Hospital Added Successfully in Clinta Apanel,
@@ -986,15 +986,14 @@ Password: ' . $this->request->getVar('password');
                 }
                 foreach ($ExtendedArray as $M) {
 
-                    if ($this->request->getVar($M) != '') {
 
-                        $record_meta['ProfileUID'] = $id;
-                        $record_meta['Option'] = $M;
-                        $record_meta['Value'] = $this->request->getVar($M);
+                    $record_meta['ProfileUID'] = $id;
+                    $record_meta['Option'] = $M;
+                    $record_meta['Value'] = $this->request->getVar($M);
 
-                        $idd = $Crud->AddRecordPG("public.profile_metas", $record_meta);
+                    $idd = $Crud->AddRecordPG("public.profile_metas", $record_meta);
 
-                    }
+
                 }
 
                 $theme = $this->request->getVar('theme');
@@ -1002,41 +1001,32 @@ Password: ' . $this->request->getVar('password');
 
                 foreach ($Options as $key => $value) {
 
-                    if ($value != '') {
-                        $Data = $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id, 'Name' => $key));
+                    $Data = $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id, 'Name' => $key));
 //                                print_r($Data);
 
-                        if (isset($Data['UID'])) {
-                            $record_option['Description'] = $value;
-                            $website_profile_id = $Crud->UpdateeRecord("public.options", $record_option, array('UID' => $Data['UID']));
+                    if (isset($Data['UID'])) {
+                        $record_option['Description'] = $value;
+                        $website_profile_id = $Crud->UpdateeRecord("public.options", $record_option, array('UID' => $Data['UID']));
 
-                        } else {
-                            $record_option['Description'] = $value;
-                            $record_option['Name'] = $key;
-                            $record_option['ProfileUID'] = $id;
-
-                            $id = $Crud->AddRecordPG("public.options", $record_option);
-
-                        }
-//                            echo 'cccc';exit();
-
-                        $data = array();
-                        $data['status'] = "success";
-                        $data['id'] = $id;
-                        $data['message'] = "Hospitals Profile Updated Successfully.....!";
                     } else {
+                        $record_option['Description'] = $value;
+                        $record_option['Name'] = $key;
+                        $record_option['ProfileUID'] = $id;
 
-                        $data = array();
-                        $data['status'] = "fail";
-                        $data['message'] = "Error in Updating Hospitals Profile...!";
+                        $id = $Crud->AddRecordPG("public.options", $record_option);
+
                     }
+//                            echo 'cccc';exit();
 
 
                 }
             }
 
 //            }
-
+            $data = array();
+            $data['status'] = "success";
+            $data['id'] = $id;
+            $data['message'] = "Hospitals Profile Updated Successfully.....!";
         }
 
         echo json_encode($data);
@@ -1139,7 +1129,7 @@ Password: ' . $this->request->getVar('password');
 
                     foreach ($Metas as $M) {
 
-                        if ($this->request->getVar($M) != '') {
+
 
                             $record_meta['ProfileUID'] = $website_profile_id;
                             $record_meta['Option'] = $M;
@@ -1147,7 +1137,7 @@ Password: ' . $this->request->getVar('password');
 
                             $id = $Crud->AddRecordPG("public.profile_metas", $record_meta);
 
-                        }
+
                     }
 
                     $Sponsor = $this->request->getVar('sponsor');
@@ -1155,14 +1145,14 @@ Password: ' . $this->request->getVar('password');
                     $Options = array('award_nav' => 'show', 'patient_nav' => 'show', 'research_nav' => 'show', 'theme_css' => 'dore.light.red.css', 'custom_banners' => '5', 'theme' => ((isset($theme) && $theme != '') ? $theme : ''), 'sms_credits' => 100, 'notify_sms' => 1, 'notify_email' => 1, 'sponsor' => ((isset($Sponsor) && $Sponsor != '') ? $Sponsor : ''));
                     foreach ($Options as $key => $value) {
 
-                        if ($value != '') {
+
                             $record_option['ProfileUID'] = $website_profile_id;
                             $record_option['Name'] = $key;
                             $record_option['Description'] = $value;
 
                             $id = $Crud->AddRecordPG("public.options", $record_option);
 
-                        }
+
                     }
 
                     $response = array();
@@ -1221,11 +1211,11 @@ Password: ' . $this->request->getVar('password');
                 }
                 $Metas = array('speciality', 'qualification', 'pmdcno', 'department', 'short_description', 'telemedicine_id', 'initatived_text', 'healthcare_status');
                 foreach ($Metas as $M) {
-                    if ($this->request->getVar($M) != '') {
+
                         $sql = 'SELECT * FROM public."profile_metas" WHERE "ProfileUID" = \'' . $id . '\' AND  "Option"= \'' . $M . '\'';
                         $ProfileMetaData = $Crud->ExecutePgSQL($sql);
                         if (isset($ProfileMetaData['UID'])) {
-                             $Crud->DeleteRecordPG("public.profile_metas", array('UID' => $ProfileMetaData['UID']));
+                            $Crud->DeleteRecordPG("public.profile_metas", array('UID' => $ProfileMetaData['UID']));
                             $record_meta['Value'] = $this->request->getVar($M);
                             $record_meta['Option'] = $M;
                             $record_meta['ProfileUID'] = $id;
@@ -1236,7 +1226,7 @@ Password: ' . $this->request->getVar('password');
                             $record_meta['ProfileUID'] = $id;
                             $id = $Crud->AddRecordPG("public.profile_metas", $record_meta);
                         }
-                    }
+
                 }
 
 
@@ -1245,7 +1235,7 @@ Password: ' . $this->request->getVar('password');
                 $Options_record = array();
                 foreach ($Options as $key => $value) {
 
-                    if ($value != '') {
+
                         $Data = $Crud->SingleeRecord('public."options"', array("ProfileUID" => $id, 'Name' => $key));
 
                         if (isset($Data['UID'])) {
@@ -1261,7 +1251,7 @@ Password: ' . $this->request->getVar('password');
                             $Options_record['ProfileUID'] = $id;
                             $id = $Crud->AddRecordPG("public.options", $Options_record);
                         }
-                    }
+
 
                 }
 
@@ -1291,8 +1281,7 @@ Password: ' . $this->request->getVar('password');
                 $response['id'] = $id;
                 $response['message'] = "Doctors Profile Updated Suuccessfully.....!";
 
-            }
-            else {
+            } else {
 
                 $response = array();
                 $response['status'] = "fail";
@@ -1417,7 +1406,7 @@ Password: ' . $this->request->getVar('password');
             $data[] = isset($record['Image'])
                 ? "<img src='" . load_image('mysql|sponsors|' . $record['UID']) . "' style='display: block; padding: 2px; border: 1px solid #145388 !important; border-radius: 3px; width: 150px;' />"
                 : '';
-
+            $imageurl = load_image('mysql|sponsors|' . $record['UID']);
             $data[] = '
     <td class="text-end">
         <div class="dropdown">
@@ -1425,13 +1414,13 @@ Password: ' . $this->request->getVar('password');
                 Actions
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="UpdateSponser(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="DeleteSponser(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-                <a class="dropdown-item" onclick="SponserProduct(' . htmlspecialchars($record['UID']) . ')">Sponser Product</a>
-
+                <a class="dropdown-item" onclick="UpdateSponser(\'' . htmlspecialchars($record['UID']) . '\', \'' . htmlspecialchars($imageurl) . '\')">Update</a>
+                <a class="dropdown-item" onclick="DeleteSponser(\'' . htmlspecialchars($record['UID']) . '\')">Delete</a>
+                <a class="dropdown-item" onclick="SponserProduct(\'' . htmlspecialchars($record['UID']) . '\')">Sponser Product</a>
             </div>
         </div>
     </td>';
+
             $dataarr[] = $data;
         }
 

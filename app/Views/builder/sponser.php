@@ -67,7 +67,7 @@
         function SponserProduct(id) {
             location.href = "<?=$path?>builder/sponsor_product/" + id;
         }
-        function UpdateSponser(id) {
+        function UpdateSponser(id,imageurl) {
             var Items = AjaxResponse("builder/get_sponser_record", "id=" + id);
 
             $('#UpdateSponsereModal form#UpdateSponserForm input#UID').val(Items.record.UID);
@@ -76,7 +76,7 @@
 
             var imageHTML;
             if (Items.record.Image) {
-                imageHTML = '<img src="<?= load_image("mysql|sponsors| ") ?>' + Items.record.UID + '" style="display: block; padding: 2px; border: 1px solid #145388 !important; border-radius: 3px; width: 150px;" />';
+                imageHTML = '<img src="'+ imageurl + '" style="display: block; padding: 2px; border: 1px solid #145388 !important; border-radius: 3px; width: 150px;" />';
             } else {
                 imageHTML = '';
             }

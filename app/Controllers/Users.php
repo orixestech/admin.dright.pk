@@ -169,8 +169,7 @@ class Users extends BaseController
                 $record[$key] = ((isset($value)) ? $value : '');
             }
             $record['Password'] = $Main->CRYPT($record['Password'], 'hide');
-
-            $RecordId = $Crud->AddRecord("system_users", $record, 1);
+            $RecordId = $Crud->AddRecord("system_users", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $response['status'] = 'success';
                 $response['message'] = 'User Added Successfully...!';

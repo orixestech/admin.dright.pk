@@ -120,11 +120,6 @@ class Home extends BaseController
             }
             if ($table == 'profiles') {
                 $column = 'Profile';
-            }  if ($table == 'profiles') {
-                $dbtable = 'public.profile_metas';
-                $option = 'initatived_logo';
-                $column = 'Value';
-
             }
 
             $image = base64_decode($record[$column]);
@@ -145,7 +140,7 @@ class Home extends BaseController
 //        print_r($record);exit;
         if ($driver == 'pgsql') {
             if ($table == '') {
-                $column = 'Image';
+                $column = '';
             }
             if ($table == 'profile_metas') {
                 $column = 'Value';

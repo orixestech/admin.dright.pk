@@ -29,18 +29,12 @@
                         <input type="text" class="form-control" id="Email"  name="User[Email]"
                                placeholder="Email"
                              required="">
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="validationCustom02">Password</label>
                         <input type="text" class="form-control" id="Password"  name="User[Password]"
                                placeholder="Enter Password"
                              required="">
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
                     </div>
 
 
@@ -50,17 +44,6 @@
                             <option value="editor">Editor</option>
                             <option value="admin">Admin</option>
                         </select>
-<!--                        <select class="select2-example">-->
-<!--                        <option>Select</option>-->
-<!--                        <option value="France">France</option>-->
-<!--                        <option value="Brazil">Brazil</option>-->
-<!--                        <option value="Yemen">Yemen</option>-->
-<!--                        <option value="United States">United States</option>-->
-<!--                        <option value="China">China</option>-->
-<!--                        <option value="Argentina">Argentina</option>-->
-<!--                        <option value="Bulgaria">Bulgaria</option>-->
-<!--                    </select>-->
-
                     </div>
                 </div>
             </div>
@@ -69,7 +52,7 @@
                 <button type="button" class="btn btn-primary" onclick="AddUserFormFunction()">Save changes</button>
             </div>
             </form>
-            <div class="mt-4" id="ajaxResponse"></div>
+            <div class="mt-4" id="addajaxResponse"></div>
 
         </div>
     </div>
@@ -90,12 +73,12 @@
 
         response = AjaxUploadResponse("users/submit", formdata);
         if (response.status === 'success') {
-            $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
+            $("#addajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
             setTimeout(function () {
                 location.reload();
             }, 500);
         } else {
-            $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');
+            $("#addajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');
         }
     }
 </script>
