@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Crud;
 use App\Models\Main;
+use App\Models\SupportTicketModel;
 
 class SupportTickets extends BaseController
 {
@@ -46,20 +47,33 @@ class SupportTickets extends BaseController
     }
     public function fetch_data()
     {
-        $Users = new SupportTickets();
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $Users = new SupportTicketModel();
 
-        $Data = $Users->get_diseases_datatables($keyword);
+        $Data = $Users->get_datatables();
 //        print_r($Data);exit();
-        $totalfilterrecords = $Users->count_diseases_datatables($keyword);
+        $totalfilterrecords = $Users->count_datatables();
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
+            $Profile = $Users->GetExtendedProfielDataByID( $record['ProductProfielID'] );
+            $CreatedBy = $Users->GetExtendedUserDataByDBOrID($Profile[0]['DatabaseName'], $record['CreatedBY'] );
+            $LatestCommentData = $Users->GetLatestCommentDataByTicketID( $record['UID'] );
+
             $cnt++;
             $data = array();
             $data[] = $cnt;
-            $data[] = isset($record['DiseaseName']) ? htmlspecialchars($record['DiseaseName']) : '';
-            $data[] = isset($record['Title']) ? htmlspecialchars($record['Title']) : '';
+            $data[] = isset($Profile[0]['FullName']) ? htmlspecialchars($Profile[0]['FullName']) : '';
+            $data[] = isset($record['ModuleID']) ? htmlspecialchars($record['ModuleID']) : '';
+            $data[] = isset($record['ModuleID'])
+                ? '<a href="' . $path . 'module/tickets_reply/' . $record['UID'] . '">#' . $record['UID'] . ' - ' . $record['Subject'] . '</a>'
+                : '';
+            $data[] = isset($CreatedBy['FullName']) ? htmlspecialchars($CreatedBy['FullName']) : '';
+
+            $data[] = isset($record['SystemDate']) ? date("d M, Y h:i A", strtotime( $record['SystemDate'] )) : '';
+            $data[] = isset($LatestCommentData[0]['SystemDate']) ? date("d M, Y h:i A", strtotime( $LatestCommentData[0]['SystemDate'] )) : '';
+
+            $data[] = isset($record['Status']) ? htmlspecialchars($record['Status']) : '';
+
             $data[] = '
     <td class="text-end">
         <div class="dropdown">

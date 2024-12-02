@@ -32,33 +32,32 @@ class SupportTicketModel extends Model
 //        return $data;
 //    }
 
-    public function diseases($keyword)
+    public function GetAllClinTaExtendedSupportTicketsData()
     {
-
         $Crud = new Crud();
-//        $SQL = 'SELECT * FROM `diseases` where `Archive`=\'0\' Order By `DiseaseName` ASC';
-
-        $SQL = 'SELECT diseases.*, lookups_options.Name AS Title FROM diseases 
-    LEFT JOIN lookups_options ON diseases.BodySystem = lookups_options.UID
-        WHERE diseases.`Archive`=\'0\'
-
-';
-        if($keyword!=''){
-            $SQL .= ' AND  diseases.`DiseaseName` LIKE \'%' . $keyword . '%\'   ';
-//            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Tag` LIKE \'%' . $keyword . '%\') ';
-        }
-        $SQL .= ' ORDER BY diseases.`DiseaseName` ASC';
-
+        $key='ClinTa_Extended';
+        $session = session();
+        $SessionFilters = $session->get('ExtendedFilters');
+        $SQL = 'SELECT * FROM `tasks` where `Product` = \'' . $key . '\'';
 //        $Admin = $Crud->ExecuteSQL($SQL);
+        if (isset($SessionFilters['profiles']) && $SessionFilters['profiles'] != '') {
+            $ProductProfielID = $SessionFilters['ProductProfielID'];
+            $SQL .= ' AND  `ProductProfielID` LIKE \'%' . $ProductProfielID . '%\'';
+        }if (isset($SessionFilters['Status']) && $SessionFilters['Status'] != '') {
+        $Status = $SessionFilters['Status'];
+        $SQL .= ' AND  `Status` LIKE \'%' . $Status . '%\'';
+    }
+
+        $SQL .=' Order By `SystemDate` DESC';
         return $SQL;
     }
 
     public
-    function get_diseases_datatables($keyword)
+    function get_datatables()
     {
         $Crud = new Crud();
 
-        $SQL = $this->diseases($keyword);
+        $SQL = $this->GetAllClinTaExtendedSupportTicketsData();
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -67,14 +66,74 @@ class SupportTicketModel extends Model
     }
 
     public
-    function count_diseases_datatables($keyword)
+    function count_datatables()
     {
         $Crud = new Crud();
 
-        $SQL = $this->diseases($keyword);
+        $SQL = $this->GetAllClinTaExtendedSupportTicketsData();
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
 
+    public
+    function GetExtendedUserDataByDBOrID($DBName, $uid)
+    {
+        if ($_SERVER['HTTP_HOST'] == 'localhost')
+            $DBName = 'clinta_extended';
 
+        $custom = [
+            'DSN'          => '',
+            'hostname'     => PGDB_HOST,
+            'username'     => 'clinta_postgre',
+            'password'     => 'PostgreSql147',
+            'database'     => $DBName,
+            'DBDriver' => 'Postgre',
+            'DBPrefix' => '',
+            'pConnect' => false,
+            'DBDebug' => true,
+            'charset' => 'utf8',
+            'DBCollat' => 'utf8_general_ci',
+            'swapPre' => '',
+            'encrypt' => false,
+            'compress' => false,
+            'strictOn' => false,
+            'failover' => [],
+            'port' => 5432,
+            'numberNative' => false,
+        ];
+        $ExtendedDb = \Config\Database::connect($custom);
+        $builder = $ExtendedDb->table('clinta.AdminUsers');
+        $builder->select('*');
+        $builder->where([
+            'UID' => $uid,
+            'Archive' => 0
+        ]);
+        $query = $builder->get();
+        $records = $query->getResultArray();
+        if (!is_array($records)) {
+            $records = array();
+        }
+        //echo $db->getLastQuery() . "<hr>";
+        //$db->close();
+        return $records;
+    }
+    public function GetLatestCommentDataByTicketID($key)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `taskcomments` where `TaskID` = \'' . $key . '\'';
+
+        $SQL .= ' ORDER BY `SystemDate` DESC';
+        //        print_r($SQL);exit();
+        //        $Admin = $Crud->ExecuteSQL($SQL);
+        return $SQL;
+    }
+    public function GetExtendedProfielDataByID($key)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `extended_profiles` where `UID` = \'' . $key . '\'';
+
+        //        print_r($SQL);exit();
+        //        $Admin = $Crud->ExecuteSQL($SQL);
+        return $SQL;
+    }
 }
