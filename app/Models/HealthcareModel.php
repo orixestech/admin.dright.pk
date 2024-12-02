@@ -44,6 +44,19 @@ class HealthcareModel extends Model
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
+    public function ListAllFrenchises( $keyword)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `public_branches` where 1=1  ';
+        if ($keyword != '') {
+            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+//            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Tag` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY `SystemDate` DESC';
+
+//        $Admin = $Crud->ExecuteSQL($SQL);
+        return $SQL;
+    }
 
     public function DietCategory()
     {
@@ -231,6 +244,31 @@ class HealthcareModel extends Model
 //        print_r($records);exit();
         return count($records);
     }
+    public
+    function get_frenchises_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->ListAllFrenchises( $keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+
+    public
+    function count_frenchises_datatables( $keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->ListAllFrenchises($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+        return count($records);
+    }
 
     public
     function get_diet_category_datatables()
@@ -313,5 +351,7 @@ class HealthcareModel extends Model
 //        print_r($records);exit();
         return count($records);
     }
+
+
 
 }

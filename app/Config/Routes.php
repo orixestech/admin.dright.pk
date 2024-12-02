@@ -83,6 +83,13 @@ $routes->group('document', static function ($routes) {
     $routes->get('dashboard', 'Document::dashboard');
     $routes->post('submit', 'Document::form_submit');
     $routes->post('delete', 'Document::delete');
+});$routes->group('frenchises', static function ($routes) {
+    $routes->get('', 'HealthCare::frenchises');
+    $routes->get('add', 'HealthCare::frenchises');
+    $routes->get('update/(:num)', 'HealthCare::frenchises');
+
+    $routes->post('submit', 'HealthCare::form_submit_frenchises');
+    $routes->post('delete', 'HealthCare::delete_frenchises');
 });
 $routes->group('diet', static function ($routes) {
     $routes->get('/', 'HealthCare::index');

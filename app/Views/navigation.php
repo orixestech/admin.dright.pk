@@ -522,7 +522,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= $path ?>franchises">
+                    <a href="<?= $path ?>frenchises/">
                         <span class="nav-link-icon">
                             <i data-feather="book"></i>
                         </span>

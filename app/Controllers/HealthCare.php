@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Crud;
 use App\Models\HealthcareModel;
 use App\Models\Main;
+use App\Models\PharmacyModal;
 
 
 class HealthCare extends BaseController
@@ -90,6 +91,32 @@ class HealthCare extends BaseController
         echo view('header', $data);
         echo view('healthcare/dashboard', $data);
         echo view('footer', $data);
+    } public function frenchises()
+    {
+        $data = $this->data;
+        $data['page'] = getSegment(2);
+        $PharmacyModal = new PharmacyModal();
+
+        $data['cities'] = $PharmacyModal->citites();
+        $data[ 'PAGE' ] = array ();
+
+        echo view('header', $data);
+    if ($data['page'] == 'add') {
+            echo view('health_care/branch_main_form', $data);
+//
+        } elseif($data['page'] == 'update') {
+        $UID = getSegment( 3 );
+        $data[ 'UID' ] = $UID;
+        $Crud = new Crud();
+        $PAGE = $Crud->SingleRecord( 'public_branches', array ( "UID" => $UID ) );
+        $data[ 'PAGE' ] = $PAGE;
+        echo view('health_care/branch_main_form', $data);
+//
+    }else{
+        echo view('health_care/frenchises', $data);
+
+    }
+        echo view('footer', $data);
     }
 
     public function diet_categories()
@@ -99,6 +126,7 @@ class HealthCare extends BaseController
         echo view('health_care/diet_categories', $data);
         echo view('footer', $data);
     }
+
     public function support_videos()
     {
         $data = $this->data;
@@ -152,6 +180,8 @@ class HealthCare extends BaseController
 
         echo json_encode($response);
     }
+
+
     public function fetch_support_videos()
     {
         $Healthcare = new HealthcareModel();
@@ -199,10 +229,10 @@ class HealthCare extends BaseController
     {
         $Healthcare = new HealthcareModel();
         $item = 'fruits';
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
-        $Data = $Healthcare->get_diet_datatables($item,$keyword);
-        $totalfilterrecords = $Healthcare->count_diet_datatables($item,$keyword);
+        $Data = $Healthcare->get_diet_datatables($item, $keyword);
+        $totalfilterrecords = $Healthcare->count_diet_datatables($item, $keyword);
 //        print_r($Data);
 //        exit();
 
@@ -251,10 +281,9 @@ class HealthCare extends BaseController
     {
         $Healthcare = new HealthcareModel();
         $item = 'dry-fruites';
-               $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
-        $Data = $Healthcare->get_diet_datatables($item,$keyword);
-;
-        $totalfilterrecords = $Healthcare->count_diet_datatables($item,$keyword);
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+        $Data = $Healthcare->get_diet_datatables($item, $keyword);;
+        $totalfilterrecords = $Healthcare->count_diet_datatables($item, $keyword);
 
 //        print_r($Data);
 //        exit();
@@ -305,10 +334,9 @@ class HealthCare extends BaseController
     {
         $Healthcare = new HealthcareModel();
         $item = 'pulses-grains';
-               $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
-        $Data = $Healthcare->get_diet_datatables($item,$keyword);
-;
-        $totalfilterrecords = $Healthcare->count_diet_datatables($item,$keyword);
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+        $Data = $Healthcare->get_diet_datatables($item, $keyword);;
+        $totalfilterrecords = $Healthcare->count_diet_datatables($item, $keyword);
 
 //        print_r($Data);
 //        exit();
@@ -358,7 +386,7 @@ class HealthCare extends BaseController
     public function fetch_vegetable()
     {
         $Healthcare = new HealthcareModel();
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
         $Data = $Healthcare->get_vegetable_datatables($keyword);
         $totalfilterrecords = $Healthcare->count_vegetable_datatables($keyword);
@@ -410,7 +438,7 @@ class HealthCare extends BaseController
     public function fetch_miscellaneous()
     {
         $Healthcare = new HealthcareModel();
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
         $Data = $Healthcare->get_miscellaneous_datatables($keyword);
         $totalfilterrecords = $Healthcare->count_miscellaneous_datatables($keyword);
@@ -511,6 +539,72 @@ class HealthCare extends BaseController
 
         echo json_encode($response);
     }
+    public function form_submit_frenchises()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Item = $this->request->getVar('Branch');
+
+        $filename = "";
+        $filenameProfile = "";
+
+        if ($_FILES['Image']['tmp_name']) {
+            $ext = @end(@explode(".", basename($_FILES['Image']['name'])));
+            $uploaddir = ROOT . "/upload/franchise/";
+            $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
+
+            if (move_uploaded_file($_FILES['Image']['tmp_name'], $uploaddir . $uploadfile)) {
+                $filename = $uploadfile;
+            }
+        }  if ($_FILES['Profile']['tmp_name']) {
+            $ext = @end(@explode(".", basename($_FILES['Profile']['name'])));
+            $uploaddir = ROOT . "/upload/franchise/";
+            $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
+
+            if (move_uploaded_file($_FILES['Profile']['tmp_name'], $uploaddir . $uploadfile)) {
+                $filenameProfile = $uploadfile;
+            }
+        }
+
+//        print_r($Item);exit();
+        if ($id == 0) {
+            foreach ($Item as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+            if ($filename != "") {
+                $record['ContactPersonImage'] = $filename;
+            } if ($filenameProfile != "") {
+                $record['ProfileImage'] = $filename;
+            }
+            $RecordId = $Crud->AddRecord("public_branches", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($Item as $key => $value) {
+                $record[$key] = $value;
+            }
+
+            if ($filename != "") {
+                $record['ContactPersonImage'] = $filename;
+            } if ($filenameProfile != "") {
+                $record['ProfileImage'] = $filename;
+            }
+            $Crud->UpdateRecord("public_branches", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = 'Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
 
     public function category_form_submit()
     {
@@ -551,7 +645,8 @@ class HealthCare extends BaseController
 
         echo json_encode($response);
     }
-  public function support_videos_form_submit()
+
+    public function support_videos_form_submit()
     {
         $Crud = new Crud();
         $Main = new Main();
@@ -630,7 +725,8 @@ class HealthCare extends BaseController
         $response['message'] = 'Item Record Get Successfully...!';
         echo json_encode($response);
     }
-  public function get_record_support_video()
+
+    public function get_record_support_video()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
@@ -679,12 +775,25 @@ class HealthCare extends BaseController
         $response['message'] = 'Deleted Successfully...!';
         echo json_encode($response);
     }
+
     public function delete_support_video()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
 
         $Crud->DeleteRecord("support_videos", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = 'Deleted Successfully...!';
+        echo json_encode($response);
+    }
+
+    public function delete_frenchises()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $Crud->DeleteRecord("public_branches", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['message'] = 'Deleted Successfully...!';

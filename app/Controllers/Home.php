@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\BuilderModel;
 use App\Models\Crud;
+use App\Models\HealthcareModel;
 use App\Models\Main;
 
 class Home extends BaseController
@@ -59,6 +60,63 @@ class Home extends BaseController
         echo json_encode($response);
     }
 
+    public function fetch_frenchises()
+    {
+        $Healthcare = new HealthcareModel();
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+
+        $Data = $Healthcare->get_frenchises_datatables($keyword);
+        $totalfilterrecords = $Healthcare->count_frenchises_datatables($keyword);
+//        print_r($Data);
+//        exit();
+
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = (isset($record['ProfileImage']) && $record['ProfileImage'] != '')
+                ? '<img src="' . PATH . 'upload/franchise/' . $record['ProfileImage'] . '" class="img-thumbnail" style="height:80px;">'
+                : '<img class="img-thumbnail" style="height:40px;" src="' . PATH . 'upload/franchise/no-images.png">';
+            $data[] = isset($record['FullName']) ? htmlspecialchars($record['FullName']) : '';
+            $data[] = isset($record['Email']) ? htmlspecialchars($record['Email']) : '';
+            $data[] = isset($record['ShortProfile']) ? htmlspecialchars($record['ShortProfile']) : '';
+            $data[] = isset($record['ShortBusinessDesc']) ? htmlspecialchars($record['ShortBusinessDesc']) : '';
+            $data[] = isset($record['Status'])
+                ? ($record['Status'] == 2
+                    ? 'requested'
+                    : ($record['Status'] == 1
+                        ? 'active'
+                        : 'block'))
+                : '';
+//            echo 'fff00';exit();
+
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateBranches(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteBranches(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+            </div>
+        </div>
+    </td>';
+
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+
+        echo json_encode($response);
+    }
 
     /**
      * Clears the given session variable.
