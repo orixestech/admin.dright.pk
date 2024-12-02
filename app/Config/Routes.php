@@ -26,12 +26,10 @@ $routes->post('/use-login-submit', 'Home::use_login_submit');
 
 $routes->group('support-ticket', static function ($routes) {
     $routes->get('clinta_extended', 'SupportTickets::index');
-    $routes->get('add', 'SupportTickets::index');
     $routes->get('dashboard', 'SupportTickets::dashboard');
-    $routes->get('pending', 'SupportTickets::index');
+    $routes->post('fetch-data', 'SupportTickets::fetch_data');
     $routes->post('submit', 'SupportTickets::ticket_form_submit');
     $routes->post('delete', 'SupportTickets::delete_ticket');
-    $routes->get('update/(:num)', 'SupportTickets::index');
 });
 $routes->group('builder', static function ($routes) {
     $routes->get('/', 'Builder::index');
