@@ -87,7 +87,6 @@ $routes->group('document', static function ($routes) {
     $routes->get('', 'HealthCare::frenchises');
     $routes->get('add', 'HealthCare::frenchises');
     $routes->get('update/(:num)', 'HealthCare::frenchises');
-
     $routes->post('submit', 'HealthCare::form_submit_frenchises');
     $routes->post('delete', 'HealthCare::delete_frenchises');
 });
