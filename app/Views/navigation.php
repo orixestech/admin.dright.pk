@@ -78,14 +78,14 @@
                         <span>Pharmacy</span>
                     </a>
                 </li>
-<!--                <li>-->
-<!--                    <a href="" data-menu-target="#diseases" --><?php //= ($segment_a == 'diseases' ? 'class="active"' : '') ?><!--
-<!-                     <span class="menu-tab-icon">-->
-<!--                            <i data-feather="users"></i>-->
-<!--                        </span>-->
-<!--                        <span>Diseases</span>-->
-<!--                    </a>-->
-<!--                </li>-->
+                <li>
+                    <a href="" data-menu-target="#apps" <?= ($segment_a == 'supportticket' ? 'class="active"' : '') ?>
+                    >     <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                    </span>
+                        <span>Support Ticket</span>
+                    </a>
+                </li>
                 <li>
                     <a href=""
                         data-menu-target="#laboratories" <?= ($segment_a == 'laboratories' ? 'class="active"' : '') ?>>
@@ -172,25 +172,11 @@
                     </a>
 
                 </li>
+
                 <li>
-                    <a href="todo-list.html">
-                        <span class="nav-link-icon" data-feather="check-circle"></span>
-                        <span>All Ticket</span>
-                        <span class="badge badge-warning small-badge">2</span>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="<?= $path ?>support-ticket/add">Add</a>
-                        </li>
-                        <li>
-                            <a href="<?= $path ?>support-ticket">All </a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="<?= $path ?>support-ticket/pending">
+                    <a href="<?= $path ?>support-ticket/clinta_extended">
                         <span class="nav-link-icon" data-feather="file"></span>
-                        <span>Pending</span>
+                        <span>Clinta Extended</span>
                     </a>
                 </li>
             </ul>

@@ -25,7 +25,7 @@ $routes->post('/clear_session', 'Home::clear_session');
 $routes->post('/use-login-submit', 'Home::use_login_submit');
 
 $routes->group('support-ticket', static function ($routes) {
-    $routes->get('/', 'SupportTickets::index');
+    $routes->get('clinta_extended', 'SupportTickets::index');
     $routes->get('add', 'SupportTickets::index');
     $routes->get('dashboard', 'SupportTickets::dashboard');
     $routes->get('pending', 'SupportTickets::index');

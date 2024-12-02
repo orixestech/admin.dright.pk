@@ -67,8 +67,6 @@ class Discount extends BaseController
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
-
-
             $cnt++;
             $data = array();
             $data[] = $cnt;
@@ -103,6 +101,7 @@ class Discount extends BaseController
     }
 
     public function fetch_investigation_parameter()
+
     {
         $InvestigationModel = new InvestigationModel();
         $Lookup = new LookupModal();
