@@ -209,8 +209,8 @@ class Home extends BaseController
                 $dbtable = 'sponsors_products_promotional_material';
                 $column = 'File';
                 $defaultimg = 'no-sponsors.jpg';
-
-                $data = $this->Modules->get_image_data($dbtable, $id);
+                $Crud = new Crud();
+                $data = $Crud->SingleRecord($dbtable, array("UID" => $id));
                 if ($data[$column] == '') {
                     $fileURL = ROOT . "/upload/discount/" . $defaultimg;
                     echo file_get_contents($fileURL);
@@ -222,7 +222,8 @@ class Home extends BaseController
                 $dbtable = 'taskattachments';
                 $column = 'File';
                 $defaultimg = 'no-image.png';
-                $data = $this->Modules->get_image_data($dbtable, $id);
+                $Crud = new Crud();
+                $data = $Crud->SingleRecord($dbtable, array("UID" => $id));
                 if ($data[$column] == '') {
                     $fileURL = ROOT . "/upload/" . $defaultimg;
                     echo file_get_contents($fileURL);
