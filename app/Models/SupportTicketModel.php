@@ -75,48 +75,64 @@ class SupportTicketModel extends Model
         return count($records);
     }
 
-    public
-    function GetExtendedUserDataByDBOrID($DBName, $uid)
+    public function GetExtendedUserDataByDBOrID($DBName, $uid)
     {
-        if ($_SERVER['HTTP_HOST'] == 'localhost')
+        // Set database name for localhost
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
             $DBName = 'clinta_extended';
+        }
 
+        // Custom database configuration
         $custom = [
             'DSN'          => '',
             'hostname'     => PGDB_HOST,
             'username'     => 'clinta_postgre',
             'password'     => 'PostgreSql147',
             'database'     => $DBName,
-            'DBDriver' => 'Postgre',
-            'DBPrefix' => '',
-            'pConnect' => false,
-            'DBDebug' => true,
-            'charset' => 'utf8',
-            'DBCollat' => 'utf8_general_ci',
-            'swapPre' => '',
-            'encrypt' => false,
-            'compress' => false,
-            'strictOn' => false,
-            'failover' => [],
-            'port' => 5432,
+            'DBDriver'     => 'Postgre',
+            'DBPrefix'     => '',
+            'pConnect'     => false,
+            'DBDebug'      => true,
+            'charset'      => 'utf8',
+            'DBCollat'     => 'utf8_general_ci',
+            'swapPre'      => '',
+            'encrypt'      => false,
+            'compress'     => false,
+            'strictOn'     => false,
+            'failover'     => [],
+            'port'         => 5432,
             'numberNative' => false,
         ];
-        $ExtendedDb = \Config\Database::connect($custom);
-        $builder = $ExtendedDb->table('clinta.AdminUsers');
-        $builder->select('*');
-        $builder->where([
-            'UID' => $uid,
-            'Archive' => 0
-        ]);
-        $query = $builder->get();
-        $records = $query->getResultArray();
-        if (!is_array($records)) {
-            $records = array();
+
+        try {
+            // Connect to the custom database
+            $ExtendedDb = \Config\Database::connect($custom);
+
+            // Query builder for the table
+            $builder = $ExtendedDb->table('clinta.AdminUsers');
+
+            // Fetch records with specified conditions
+            $builder->select('*');
+            $builder->where([
+                'UID' => $uid,
+                'Archive' => 0
+            ]);
+
+            $query = $builder->get();
+            $records = $query->getResultArray();
+
+            if (!is_array($records)) {
+                $records = [];
+            }
+
+            return $records;
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes
+            log_message('error', 'Database connection or query failed: ' . $e->getMessage());
+            return [];
         }
-        //echo $db->getLastQuery() . "<hr>";
-        //$db->close();
-        return $records;
     }
+
     public function GetLatestCommentDataByTicketID($key)
     {
         $Crud = new Crud();
@@ -124,8 +140,8 @@ class SupportTicketModel extends Model
 
         $SQL .= ' ORDER BY `SystemDate` DESC';
         //        print_r($SQL);exit();
-        //        $Admin = $Crud->ExecuteSQL($SQL);
-        return $SQL;
+                $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
     }
     public function GetExtendedProfielDataByID($key)
     {
@@ -133,7 +149,31 @@ class SupportTicketModel extends Model
         $SQL = 'SELECT * FROM `extended_profiles` where `UID` = \'' . $key . '\'';
 
         //        print_r($SQL);exit();
-        //        $Admin = $Crud->ExecuteSQL($SQL);
-        return $SQL;
+                $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
+    public function GetTicketDataByID($key)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `tasks` where `UID` = \'' . $key . '\'';
+         $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
+    public function GetTicketAllCommentsData($key)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `taskcomments` where `TaskID` = \'' . $key . '\' Order by `SystemDate` DESC';
+        $Admin = $Crud->ExecuteSQL($SQL);
+//        print_r($SQL);exit();
+
+        return $Admin;
+    }
+    public function GetAllAttachmentsByCommentID($key)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `taskattachments` where `CommentID` = \'' . $key . '\' Order by `SystemDate` DESC';
+         $Admin = $Crud->ExecuteSQL($SQL);
+//         print_r($SQL);exit();
+        return $Admin;
     }
 }

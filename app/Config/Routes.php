@@ -11,6 +11,7 @@ $routes->get('/', 'Home::index');
 $routes->get('table', 'Home::table');
 $routes->get('login', 'Home::login');
 $routes->get('load_image/(.*)', 'Home::load_image');
+$routes->get('promotion_material_file_download/(.*)', 'Home::promotion_material_file_download');
 $routes->get('load_image_meta/(.*)', 'Home::load_image_meta');
 //$routes->post('login-form-submit', 'Home::system_user_login_submit');
 $routes->get('/logout', 'Home::logout');
@@ -28,8 +29,12 @@ $routes->group('support-ticket', static function ($routes) {
     $routes->get('clinta_extended', 'SupportTickets::index');
     $routes->get('dashboard', 'SupportTickets::dashboard');
     $routes->post('fetch-data', 'SupportTickets::fetch_data');
+    $routes->post('update-deadline-form-submit', 'SupportTickets::UpdateDeadLineFormSubmit');
+    $routes->post('TicketReplyFormSubmit', 'SupportTickets::TicketReplyFormSubmit');
     $routes->post('submit', 'SupportTickets::ticket_form_submit');
+    $routes->post('load_tickets_comments', 'SupportTickets::load_tickets_comments');
     $routes->post('delete', 'SupportTickets::delete_ticket');
+    $routes->get('tickets_reply/(:num)', 'SupportTickets::index');
 });
 $routes->group('builder', static function ($routes) {
     $routes->get('/', 'Builder::index');

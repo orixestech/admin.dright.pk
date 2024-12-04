@@ -184,6 +184,54 @@ class Home extends BaseController
             echo $image;
         }
         exit;
+    } public function promotion_material_file_download()
+    {
+        $code = getSegment(3);
+        $code = explode("_", base64_decode($code));
+        $table = $code[0];
+        $id = $code[1];
+        $extension = $code[2];
+
+        if ($extension == 'pdf' || $extension == 'PDF') {
+            header('Content-Type: pdf');
+        } else if ($extension == 'jpeg' || $extension == 'jpg' || $extension == 'png' || $extension == 'PNG' || $extension == 'JPG' || $extension == 'JPEG') {
+            header('Content-Type: image');
+        } else if ($extension == 'doc' || $extension == 'docx' || $extension == 'DOC' || $extension == 'DOCX') {
+            header('Content-Type: application/msword');
+        } else if ($extension == 'xls' || $extension == 'xlsx') {
+            header('Content-Type: application/vnd.ms-excel');
+        }
+        header('Content-Disposition: attachment; filename="temp.' . $extension . '"');
+
+        switch ($table) {
+
+            case 'product-material';
+                $dbtable = 'sponsors_products_promotional_material';
+                $column = 'File';
+                $defaultimg = 'no-sponsors.jpg';
+
+                $data = $this->Modules->get_image_data($dbtable, $id);
+                if ($data[$column] == '') {
+                    $fileURL = ROOT . "/upload/discount/" . $defaultimg;
+                    echo file_get_contents($fileURL);
+                } else {
+                    echo base64_decode($data[$column]);
+                }
+                break;
+            case'task-attachments';
+                $dbtable = 'taskattachments';
+                $column = 'File';
+                $defaultimg = 'no-image.png';
+                $data = $this->Modules->get_image_data($dbtable, $id);
+                if ($data[$column] == '') {
+                    $fileURL = ROOT . "/upload/" . $defaultimg;
+                    echo file_get_contents($fileURL);
+                } else {
+                    echo base64_decode($data[$column]);
+                }
+                break;
+        }
+        ;
     }public function load_image_meta()
     {
         $Code = getSegment(2);

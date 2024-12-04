@@ -13,6 +13,19 @@ if (!function_exists('getSegment')) {
     }
 }
 
+if (!function_exists('promotion_material_file_download')) {
+    function promotion_material_file_download($key)
+    {
+        global $CI;
+
+        $path =PATH;
+
+        $code = base64_encode($key);
+        $code = str_replace("=", "", $code);
+        $URL = $path . 'module/promotion_material_file_download/' . $code;
+        return $URL;
+    }
+}
 if (!function_exists('ping')) {
     function ping($host, $port = 80, $timeout = 6)
     {
