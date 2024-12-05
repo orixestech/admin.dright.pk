@@ -40,8 +40,8 @@ class SupportTicketModel extends Model
         $SessionFilters = $session->get('ExtendedFilters');
         $SQL = 'SELECT * FROM `tasks` where `Product` = \'' . $key . '\'';
 //        $Admin = $Crud->ExecuteSQL($SQL);
-        if (isset($SessionFilters['profiles']) && $SessionFilters['profiles'] != '') {
-            $ProductProfielID = $SessionFilters['ProductProfielID'];
+        if (isset($SessionFilters['Profile']) && $SessionFilters['Profile'] != '') {
+            $ProductProfielID = $SessionFilters['Profile'];
             $SQL .= ' AND  `ProductProfielID` LIKE \'%' . $ProductProfielID . '%\'';
         }if (isset($SessionFilters['Status']) && $SessionFilters['Status'] != '') {
         $Status = $SessionFilters['Status'];

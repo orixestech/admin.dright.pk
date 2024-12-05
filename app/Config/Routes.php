@@ -32,6 +32,7 @@ $routes->group('support-ticket', static function ($routes) {
     $routes->post('update-deadline-form-submit', 'SupportTickets::UpdateDeadLineFormSubmit');
     $routes->post('TicketReplyFormSubmit', 'SupportTickets::TicketReplyFormSubmit');
     $routes->post('submit', 'SupportTickets::ticket_form_submit');
+    $routes->post('search_filter', 'SupportTickets::search_filter');
     $routes->post('load_tickets_comments', 'SupportTickets::load_tickets_comments');
     $routes->post('delete', 'SupportTickets::delete_ticket');
     $routes->get('tickets_reply/(:num)', 'SupportTickets::index');

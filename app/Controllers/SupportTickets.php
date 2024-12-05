@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Crud;
+use App\Models\ExtendedModel;
 use App\Models\Main;
 use App\Models\SupportTicketModel;
 
@@ -18,11 +19,15 @@ class SupportTickets extends BaseController
     }
 
     public function index()
-    {
+    {        $Crud = new Crud();
+
         $data = $this->data;
         $data['page'] = getSegment(2);
         $data['PAGE'] = array();
         $SupportTicketModel= new SupportTicketModel();
+        $ExtendedModel= new ExtendedModel();
+        $SQL = $ExtendedModel->extended_profiles();
+        $data['extended_profiles'] = $Crud->ExecuteSQL($SQL);
 
         echo view('header', $data);
         if ($data['page'] == 'pending') {
@@ -310,5 +315,27 @@ class SupportTickets extends BaseController
 
         echo $html;
     }
+    public
+    function search_filter()
+    {
+        $session = session();
+//        $Key = $this->request->getVar( 'Key' );
+        $city = $this->request->getVar('Profile');
 
+
+        $AllFilter = array(
+//            'Key' => $Key,
+            'Profile' => $city,
+
+        );
+
+
+//        print_r($AllFilter);exit();
+        $session->set('ExtendedFilters', $AllFilter);
+
+        $response['status'] = "success";
+        $response['message'] = "Filters Updated Successfully";
+
+        echo json_encode($response);
+    }
 }
