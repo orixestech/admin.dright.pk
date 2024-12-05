@@ -180,10 +180,10 @@ $routes->group('therapy', static function ($routes) {
 });
 $routes->group('customers', static function ($routes) {
     $routes->get('/', 'Customers::index');
-    $routes->get('add', 'Customers::index');
+    $routes->get('add-customer', 'Customers::index');
     $routes->post('submit', 'Customers::customer_form_submit');
     $routes->post('delete', 'Customers::delete');
-    $routes->get('update/(:num)', 'Customers::index');
+    $routes->get('add-customer/(:num)', 'Customers::index');
 
 });
 

@@ -35,7 +35,7 @@ class CustomerModel extends Model
     public function Customers()
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `lookups` where `Archive`=\'0\' Order By `Name` ASC';
+        $SQL = 'SELECT * FROM `customers` where `Archive`=\'0\' Order By `CreateDate` DESC';
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }

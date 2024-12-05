@@ -525,20 +525,13 @@
 
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<?= $path ?>customers/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>
                         </span>
                         <span>Customers</span>
                     </a>
-                    <ul>
-                        <li>
-                            <a href="<?= $path ?>customers/">All</a>
-                        </li>
-                        <li>
-                            <a href="<?= $path ?>customers/add">Add</a>
-                        </li>
-                    </ul>
+
                 </li>
                 <li>
                     <a href="<?= $path ?>representative/">
