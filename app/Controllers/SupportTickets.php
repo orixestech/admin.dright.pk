@@ -75,11 +75,12 @@ class SupportTickets extends BaseController
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
             $Profile = $Users->GetExtendedProfielDataByID($record['ProductProfielID'] );
-//            print_r($Profile);exit();
-//            $CreatedBy = $Users->GetExtendedUserDataByDBOrID($Profile[0]['DatabaseName'], $record['CreatedBY'] );
-//            $LatestCommentData = $Users->GetLatestCommentDataByTicketID( $record['UID'] );
-            $CreatedBy['FullName']='';
-            $LatestCommentData[0]['SystemDate']='';
+            $CreatedBy = $Users->GetExtendedUserDataByDBOrID($Profile[0]['DatabaseName'], $record['CreatedBY'] );
+//            print_r($CreatedBy);exit();
+
+            $LatestCommentData = $Users->GetLatestCommentDataByTicketID( $record['UID'] );
+//            $CreatedBy['FullName']='';
+//            $LatestCommentData[0]['SystemDate']='';
             $cnt++;
             $data = array();
             $data[] = $cnt;
@@ -88,26 +89,14 @@ class SupportTickets extends BaseController
             $data[] = isset($record['ModuleID'])
                 ? '<a href="' . PATH . 'support-ticket/tickets_reply/' . $record['UID'] . '">#' . $record['UID'] . ' - ' . $record['Subject'] . '</a>'
                 : '';
-            $data[] = isset($CreatedBy['FullName']) ? htmlspecialchars($CreatedBy['FullName']) : '';
+            $data[] = isset($CreatedBy[0]['FullName']) ? htmlspecialchars($CreatedBy[0]['FullName']) : '';
 
             $data[] = isset($record['SystemDate']) ? date("d M, Y h:i A", strtotime( $record['SystemDate'] )) : '';
             $data[] = isset($LatestCommentData[0]['SystemDate']) ? date("d M, Y h:i A", strtotime( $LatestCommentData[0]['SystemDate'] )) : '';
+            $data[] = isset($record['DeadLine']) ? date("d M, Y h:i A", strtotime( $record['DeadLine'] )) : '';
 
             $data[] = isset($record['Status']) ? htmlspecialchars($record['Status']) : '';
 
-            $data[] = '
-    <td class="text-end">
-        <div class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                Actions
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="UpdateDisease(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="DeleteDisease(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-
-            </div>
-        </div>
-    </td>';
             $dataarr[] = $data;
         }
 
