@@ -3,7 +3,8 @@
 <div class="card">
     <div class="card-body">
         <h6 class="card-title"><?= ((isset($PAGE['UID'])) ? 'Update' : 'Add New') ?> Customer Detail</h6>
-        <form method="post" action="" name="AddCustomerDetail" id="AddCustomerDetail" class="needs-validation" novalidate=""
+        <form method="post" action="" name="AddCustomerDetail" id="AddCustomerDetail" class="needs-validation"
+              novalidate=""
               enctype="multipart/form-data">
             <input type="hidden" name="UID" id="UID" value="<?= ((isset($PAGE['UID'])) ? $PAGE['UID'] : '0') ?>">
             <div class="form-row">
@@ -35,26 +36,26 @@
                                 <option value="">Please Select</option>
                                 <?php foreach ($Cities as $record) { ?>
                                     <option value="<?= $record['UID'] ?>" <?= (isset($PAGE['City']) && $PAGE['City'] == $record['UID']) ? 'selected' : '' ?>
-                                    ><?= ucwords($record['FullName']); ?></option>
+                                    ><?= ucwords($record['Name']); ?></option>
                                 <?php } ?>                                </select>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group row">
-                        <label class="col-sm-4">City<span class="text-danger">*</span></label>
+                        <label class="col-sm-4">Category<span class="text-danger">*</span></label>
                         <div class="col-sm-12">
                             <select id="city" name="Customer[Category]" class="form-control"
                                     data-validation-engine="validate[required]">
                                 <option value="">Please Select</option>
                                 <?php foreach ($category as $record) { ?>
                                     <option value="<?= $record['UID'] ?>" <?= (isset($PAGE['Category']) && $PAGE['Category'] == $record['UID']) ? 'selected' : '' ?>
-                                    ><?= ucwords($record['FullName']); ?></option>
+                                    ><?= ucwords($record['Name']); ?></option>
                                 <?php } ?></select>
                         </div>
                     </div>
                 </div>
- <div class="col-md-3">
+                <div class="col-md-3">
                     <div class="form-group row">
                         <label class="col-sm-4">Type<span class="text-danger">*</span></label>
                         <div class="col-sm-12">
@@ -67,13 +68,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-sm-12">Address</label>
+                        <div class="col-sm-12">
+                            <textarea type="text" id="Address" name="Customer[Address]" placeholder="Address"
+                                      class="form-control"><?= ((isset($PAGE['Address'])) ? $PAGE['Address'] : '') ?></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"><h3>Clinic Details</h3></div>
 
                 <div class="col-md-3">
                     <div class="form-group row">
-                        <label class="col-sm-12">DataBase Name</label>
+                        <label class="col-sm-12">Clinic Name:
+                            (same as shown on prescription)</label>
                         <div class="col-sm-12">
-                            <input type="text" id="qualification" name="Customer[DatabaseName]" placeholder="Database Name"
-                                   value="<?= ((isset($PAGE['DatabaseName'])) ? $PAGE['DatabaseName'] : '') ?>" class="form-control"/>
+                            <input type="text" id="qualification" name="Clinic[ClinicName]"
+                                   placeholder="Database Name"
+                                   value="<?= ((isset($PAGE['ClinicName'])) ? $PAGE['ClinicName'] : '') ?>"
+                                   class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -81,8 +95,9 @@
                     <div class="form-group row">
                         <label class="col-sm-12">Sub Domain <span class="text-danger">*</span></label>
                         <div class="col-sm-12">
-                            <input type="text" id="SubDomainUrl" name="Customer[SubDomainUrl]" placeholder="Sub Domain"
-                                   value="<?= ((isset($PAGE['SubDomainUrl'])) ? $PAGE['SubDomainUrl'] : '') ?>" class="form-control"/>
+                            <input type="text" id="SubDomainUrl" name="Clinic[SubDomainUrl]" placeholder="Sub Domain"
+                                   value="<?= ((isset($PAGE['SubDomainUrl'])) ? $PAGE['SubDomainUrl'] : '') ?>"
+                                   class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -90,8 +105,9 @@
                     <div class="form-group row">
                         <label class="col-sm-12">Facebook Link</label>
                         <div class="col-sm-12">
-                            <input type="text" id="FacebookUrl" name="Customer[FacebookUrl]" placeholder="Facebook Url"
-                                   value="<?= ((isset($PAGE['FacebookUrl'])) ? $PAGE['FacebookUrl'] : '') ?>" class="form-control"/>
+                            <input type="text" id="FacebookUrl" name="Clinic[FacebookUrl]" placeholder="Facebook Url"
+                                   value="<?= ((isset($PAGE['FacebookUrl'])) ? $PAGE['FacebookUrl'] : '') ?>"
+                                   class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -100,7 +116,9 @@
                         <label class="col-sm-12">Deployment Date <span class="text-danger">*</span></label>
                         <div class="col-sm-12">
                             <input type="date"
-                                   value="<?= ((isset($PAGE['DeploymentDate'])) ? $PAGE['DeploymentDate'] : '') ?>" id="deployment_date" name="Customer[DeploymentDate]" placeholder="Deployment Date" data-validation-engine="validate[required]" class="form-control"/>
+                                   value="<?= ((isset($PAGE['DeploymentDate'])) ? $PAGE['DeploymentDate'] : '') ?>"
+                                   id="deployment_date" name="Clinic[DeploymentDate]" placeholder="Deployment Date"
+                                   data-validation-engine="validate[required]" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -108,8 +126,9 @@
                     <div class="form-group row">
                         <label class="col-sm-12">SMS Credits </label>
                         <div class="col-sm-12">
-                            <input type="text" id="SMSCredits" name="Customer[SMSCredits]" placeholder="SMS Credits"
-                                   value="<?= ((isset($PAGE['SMSCredits'])) ? $PAGE['SMSCredits'] : '') ?>" class="form-control"/>
+                            <input type="text" id="SMSCredits" name="Clinic[SMSCredits]" placeholder="SMS Credits"
+                                   value="<?= ((isset($PAGE['SMSCredits'])) ? $PAGE['SMSCredits'] : '') ?>"
+                                   class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -118,7 +137,8 @@
                         <label class="col-sm-12">Sale Agent</label>
                         <div class="col-sm-12">
                             <input type="text" id="SaleAgent" name="Customer[SaleAgent]" placeholder="Sale Agent"
-                                   value="<?= ((isset($PAGE['SaleAgent'])) ? $PAGE['SaleAgent'] : '') ?>" class="form-control"/>
+                                   value="<?= ((isset($PAGE['SaleAgent'])) ? $PAGE['SaleAgent'] : '') ?>"
+                                   class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -126,16 +146,9 @@
                     <div class="form-group row">
                         <label class="col-sm-12"> Expire Date </label>
                         <div class="col-sm-12">
-                            <input type="date"     value="<?= ((isset($PAGE['ExpireDate'])) ? $PAGE['ExpireDate'] : '') ?>" id="expire_date" name="Customer[ExpireDate]" placeholder="Expire Date" data-validation-engine="validate[required]" class="form-control"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group row">
-                        <label class="col-sm-12">Address</label>
-                        <div class="col-sm-12">
-                            <textarea type="text" id="Address" name="Customer[Address]" placeholder="Address"
-                                      class="form-control"><?= ((isset($PAGE['Address'])) ? $PAGE['Address'] : '') ?></textarea>
+                            <input type="date" value="<?= ((isset($PAGE['ExpireDate'])) ? $PAGE['ExpireDate'] : '') ?>"
+                                   id="expire_date" name="Customer[ExpireDate]" placeholder="Expire Date"
+                                   data-validation-engine="validate[required]" class="form-control"/>
                         </div>
                     </div>
                 </div>

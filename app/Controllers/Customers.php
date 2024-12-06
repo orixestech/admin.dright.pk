@@ -23,14 +23,15 @@ class Customers extends BaseController
     {
         $data = $this->data;
         $data['page'] = getSegment(2);
-        $data['PAGE'] = array();
         $LookupOptionData = new Main();
         $data['Cities'] = $LookupOptionData->LookupsOption("city", 0);
         $data['category'] = $LookupOptionData->LookupsOption("category", 0);
 
         echo view('header', $data);
        if ($data['page'] == 'add-customer'){
-            echo view('customers/main_form', $data);
+           $data['PAGE'] = array();
+
+           echo view('customers/main_form', $data);
 
         }elseif ($data['page'] == 'update-customer'){
            $UID = getSegment(3);
