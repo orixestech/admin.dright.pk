@@ -24,8 +24,10 @@ class Customers extends BaseController
         $data = $this->data;
         $data['page'] = getSegment(2);
         $LookupOptionData = new Main();
+        $CustomerModel = new CustomerModel();
         $data['Cities'] = $LookupOptionData->LookupsOption("city", 0);
         $data['category'] = $LookupOptionData->LookupsOption("category", 0);
+        $data['Laboratory'] = $CustomerModel->LaboratoryDropDown();
 
         echo view('header', $data);
        if ($data['page'] == 'add-customer'){
@@ -38,6 +40,7 @@ class Customers extends BaseController
            $data['UID'] = $UID;
            $Crud = new Crud();
            $PAGE = $Crud->SingleRecord('customers', array("UID" => $UID));
+           $data['lab']=$CustomerModel->get_customer_lab_data($UID);
            $data['PAGE'] = $PAGE;
             echo view('customers/main_form', $data);
 
@@ -115,6 +118,94 @@ class Customers extends BaseController
         $Crud->UpdateRecord($table, $record, $where);
         $response['status'] = 'success';
         $response['message'] = 'Deleted Successfully...!';
+
+        echo json_encode($response);
+    }
+    public function form_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Item = $this->request->getVar('Customer');
+
+        $filename = "";
+
+        if ($_FILES['Image']['tmp_name']) {
+            $ext = @end(@explode(".", basename($_FILES['Image']['name'])));
+            $uploaddir = ROOT . "/upload/customer/";
+            $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
+
+            if (move_uploaded_file($_FILES['Image']['tmp_name'], $uploaddir . $uploadfile)) {
+                $filename = $uploadfile;
+            }
+        }
+        // Populate record with input values
+        foreach ($Item as $key => $value) {
+            $record[$key] = $value ?? '';
+        }
+
+        // Handle OwnPad logic
+        if ($Item['OwnPad'] == 0) {
+            $record['padTopMargin'] = null;
+            $record['padBottomMargin'] = null;
+        } else if ($Item['OwnPad'] == 1) {
+            $record['padTopMargin'] = $Item['padTopMargin'] ?? null;
+            $record['padBottomMargin'] = $Item['padBottomMargin'] ?? null;
+        }
+
+        // Handle RX Logo logic
+        if ($Item['padRXLogo'] == 0) {
+            $record['padLeftWidth'] = $Item['padLeftWidth'] ?? null;
+        } else if ($Item['padRXLogo'] == 1) {
+            $record['padLeftWidth'] = null;
+        }
+
+        // File addition to record
+        if ($filename != "") {
+            $record['Logo'] = $filename;
+        }
+        $Lab = $this->request->getVar('laboratory');
+
+        if ($id == 0) {
+            $RecordId = $Crud->AddRecord("customers", $record);
+            //print_r($Lab);
+            if (isset($Lab) && $Lab != '') {
+                $record2=array();
+                foreach ($Lab as $L) {
+                    $record2['LabID'] = $L;
+                    $record2['CustomerID'] = $RecordId;
+                  $Crud->AddRecord("customer_labs", $record2);
+
+
+                }
+            }
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Customer Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            $Crud->UpdateRecord("customers", $record, array("UID" => $id));
+            $Crud->DeleteRecord("customer_labs", array("UID" => $id));
+
+            if (isset($Lab) && $Lab != '') {
+                $record2=array();
+                foreach ($Lab as $L) {
+                    $record2['CustomerID'] = $id;
+                    $record2['LabID'] = $L;
+                    $Crud->AddRecord("customer_labs", $record2);
+
+
+                }
+            }
+            $response['status'] = 'success';
+            $response['message'] = 'Item Updated Successfully...!';
+        }
 
         echo json_encode($response);
     }

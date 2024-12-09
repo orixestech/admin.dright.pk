@@ -39,6 +39,26 @@ class CustomerModel extends Model
 //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
+    public function get_customer_lab_data($ID)
+    {
+        $Crud = new Crud();
+
+        // Sanitizing the input to prevent SQL injection
+        $ID = intval($ID); // Assuming CustomerID is an integer
+
+        $SQL = "SELECT `LabID` FROM `customer_labs` WHERE `CustomerID` = '$ID'";
+        $Admin = $Crud->ExecuteSQL($SQL);
+
+        return $Admin;
+    }
+
+    public function LaboratoryDropDown()
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `laboratories`  Order By `FullName` DESC';
+        $Admin = $Crud->ExecuteSQL($SQL);
+        return $Admin;
+    }
     public
     function get_datatables()
     {

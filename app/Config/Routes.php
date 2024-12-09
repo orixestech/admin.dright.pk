@@ -183,7 +183,7 @@ $routes->group('customers', static function ($routes) {
     $routes->get('add-customer', 'Customers::index');
     $routes->post('submit', 'Customers::customer_form_submit');
     $routes->post('delete', 'Customers::delete');
-    $routes->get('add-customer/(:num)', 'Customers::index');
+    $routes->get('update-customer/(:num)', 'Customers::index');
 
 });
 
