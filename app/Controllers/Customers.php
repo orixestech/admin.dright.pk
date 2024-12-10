@@ -113,7 +113,7 @@ class Customers extends BaseController
         }
 
         $response = array(
-            "draw" => intval($this->request->getVargetPost('draw')),
+            "draw" => intval($this->request->getPost('draw')),
             "recordsTotal" => count($Data),
             "recordsFiltered" => $totalfilterrecords,
             "data" => $dataarr
@@ -124,7 +124,7 @@ class Customers extends BaseController
     public function delete()
     {
         $data = $this->data;
-        $UID = $this->request->getVargetVar('id');
+        $UID = $this->request->getVar('id');
         $Crud = new Crud();
         $table = "customers";
         $record['Archive'] = 1;
@@ -138,7 +138,7 @@ class Customers extends BaseController
     public function delete_user()
     {
         $data = $this->data;
-        $UID = $this->request->getVargetVar('id');
+        $UID = $this->request->getVar('id');
         $Crud = new Crud();
         $table = "customer_accounts";
         $record['Archive'] = 1;
@@ -156,8 +156,8 @@ class Customers extends BaseController
         $response = array();
         $record = array();
 
-        $id = $this->request->getVargetVar('UID');
-        $Item = $this->request->getVargetVar('Customer');
+        $id = $this->request->getVar('UID');
+        $Item = $this->request->getVar('Customer');
 
         $filename = "";
 
@@ -195,7 +195,7 @@ class Customers extends BaseController
         if ($filename != "") {
             $record['Logo'] = $filename;
         }
-        $Lab = $this->request->getVargetVar('laboratory');
+        $Lab = $this->request->getVar('laboratory');
 
         if ($id == 0) {
             $KEY= $Main->GenAccessKey("+3 months");
