@@ -51,6 +51,42 @@ class CustomerModel extends Model
 
         return $Admin;
     }
+    public function GetUsersByCustID($ID)
+    {
+        $Crud = new Crud();
+
+        // Sanitizing the input to prevent SQL injection
+        $ID = intval($ID); // Assuming CustomerID is an integer
+
+        $SQL = "SELECT * FROM `customer_accounts` WHERE `CustomerID` = '$ID' AND `Archive` = '0'";
+        $Admin = $Crud->ExecuteSQL($SQL);
+
+        return $Admin;
+    }
+    public function GetCustomerByID($ID)
+    {
+        $Crud = new Crud();
+
+        // Sanitizing the input to prevent SQL injection
+        $ID = intval($ID); // Assuming CustomerID is an integer
+
+        $SQL = "SELECT * FROM `customers` WHERE `UID` = '$ID'";
+        $Admin = $Crud->ExecuteSQL($SQL);
+
+        return $Admin;
+    }
+    public function GetCustomerDiscountDataByCustID($ID)
+    {
+        $Crud = new Crud();
+
+        // Sanitizing the input to prevent SQL injection
+        $ID = intval($ID); // Assuming CustomerID is an integer
+
+        $SQL = "SELECT * FROM `discounts` WHERE `DiscountRefID` = '$ID' AND `DiscountRef` = 'Customer' ORDER BY   `DiscountTitle` ASC ";
+        $Admin = $Crud->ExecuteSQL($SQL);
+
+        return $Admin;
+    }
 
     public function LaboratoryDropDown()
     {

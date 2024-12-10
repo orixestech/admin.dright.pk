@@ -64,6 +64,9 @@
         function UpdateCustomer(id) {
             location.href = "<?=$path?>customers/update-customer/" + id;
 
+        }   function CustomerProfile(id) {
+            location.href = "<?=$path?>customers/customer-profile/" + id;
+
         }
 
         function DeleteCustomer(id) {

@@ -41,6 +41,38 @@ class Main extends Model
         }
         return $data;
     }
+    public
+    function GenAccessKey( $ExpireString = null ) {
+        $key = array();
+
+        $strpart = array();
+        $str = md5( "Clinta-" . rand( 111111, 9999999 ) );
+        //$strpart[] = substr( $str, rand( 5, 25 ), 5 );
+        $strpart[] = rand( 100, 999 );
+
+        $str = md5( "Clinta-" . rand( 111111, 9999999 ) );
+        //$strpart[] = substr( $str, rand( 5, 25 ), 5 );
+        $strpart[] = rand( 100, 999 );
+
+        $str = md5( "Clinta-" . rand( 111111, 9999999 ) );
+        //$strpart[] = substr( $str, rand( 5, 25 ), 5 );
+        $strpart[] = rand( 100, 999 );
+
+        $str = md5( "Clinta-" . rand( 111111, 9999999 ) );
+        //$strpart[] = substr( $str, rand( 5, 25 ), 5 );
+        $strpart[] = rand( 100, 999 );
+
+        $str = md5( "Clinta-" . rand( 111111, 9999999 ) );
+        //$strpart[] = substr( $str, rand( 5, 25 ), 5 );
+        $strpart[] = rand( 100, 999 );
+
+        $key[ "key" ] = strtoupper( implode( "-", $strpart ) );
+        $key[ "created" ] = date( "Y-m-d" );
+        $key[ "expire" ] = ( ( is_null( $ExpireString ) ) ? date( "Y-m-d", strtotime( "+4 Months" ) ) : date( "Y-m-d", strtotime( $ExpireString ) ) );
+
+        return $key;
+    }
+
     public function image_uploader($file, $newWidth = 1024, $newHeight = 800)
     {
         $fileName = str_replace(' ', '_', $file->getName());

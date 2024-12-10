@@ -35,7 +35,8 @@ class Customers extends BaseController
 
            echo view('customers/main_form', $data);
 
-        }elseif ($data['page'] == 'update-customer'){
+        }
+       elseif ($data['page'] == 'update-customer'){
            $UID = getSegment(3);
            $data['UID'] = $UID;
            $Crud = new Crud();
@@ -44,10 +45,21 @@ class Customers extends BaseController
            $data['PAGE'] = $PAGE;
             echo view('customers/main_form', $data);
 
-        }else {
-//
-            echo view('customers/index', $data);
+        }
+       elseif ($data['page'] == 'customer-profile'){
+           $UID = getSegment(3);
+           $data['UID'] = $UID;
+           $Crud = new Crud();
+           $data['Users']=$CustomerModel->GetUsersByCustID($UID);
+           $data['Discounts']=$CustomerModel->GetCustomerDiscountDataByCustID($UID);
 
+           $PAGE = $Crud->SingleRecord('customers', array("UID" => $UID));
+           $data['Customer'] = $PAGE;
+            echo view('customers/customer_profile', $data);
+
+        }
+       else {
+            echo view('customers/index', $data);
         }
         echo view('footer', $data);
     }
@@ -91,6 +103,7 @@ class Customers extends BaseController
             <div class="dropdown-menu">
                 <a class="dropdown-item" onclick="UpdateCustomer(' . htmlspecialchars($record['UID']) . ')">Update</a>
                 <a class="dropdown-item" onclick="DeleteCustomer(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                <a class="dropdown-item" onclick="CustomerProfile(' . htmlspecialchars($record['UID']) . ')">Profile</a>
 
             </div>
         </div>
@@ -99,7 +112,7 @@ class Customers extends BaseController
         }
 
         $response = array(
-            "draw" => intval($this->request->getPost('draw')),
+            "draw" => intval($this->request->getVargetPost('draw')),
             "recordsTotal" => count($Data),
             "recordsFiltered" => $totalfilterrecords,
             "data" => $dataarr
@@ -110,9 +123,23 @@ class Customers extends BaseController
     public function delete()
     {
         $data = $this->data;
-        $UID = $this->request->getVar('id');
+        $UID = $this->request->getVargetVar('id');
         $Crud = new Crud();
         $table = "customers";
+        $record['Archive'] = 1;
+        $where = array('UID' => $UID);
+        $Crud->UpdateRecord($table, $record, $where);
+        $response['status'] = 'success';
+        $response['message'] = 'Deleted Successfully...!';
+
+        echo json_encode($response);
+    }
+    public function delete_user()
+    {
+        $data = $this->data;
+        $UID = $this->request->getVargetVar('id');
+        $Crud = new Crud();
+        $table = "customer_accounts";
         $record['Archive'] = 1;
         $where = array('UID' => $UID);
         $Crud->UpdateRecord($table, $record, $where);
@@ -128,8 +155,8 @@ class Customers extends BaseController
         $response = array();
         $record = array();
 
-        $id = $this->request->getVar('UID');
-        $Item = $this->request->getVar('Customer');
+        $id = $this->request->getVargetVar('UID');
+        $Item = $this->request->getVargetVar('Customer');
 
         $filename = "";
 
@@ -167,9 +194,12 @@ class Customers extends BaseController
         if ($filename != "") {
             $record['Logo'] = $filename;
         }
-        $Lab = $this->request->getVar('laboratory');
+        $Lab = $this->request->getVargetVar('laboratory');
 
         if ($id == 0) {
+            $KEY= $Main->GenAccessKey("+3 months");
+            $record['SerialKey'] = $KEY['key'];
+
             $RecordId = $Crud->AddRecord("customers", $record);
             //print_r($Lab);
             if (isset($Lab) && $Lab != '') {
@@ -209,4 +239,74 @@ class Customers extends BaseController
 
         echo json_encode($response);
     }
+    public function user_form_submit()
+    {
+        $Crud = new Crud();
+        $response = [];
+
+        // Retrieve input variables
+        $id = $this->request->getVar('uid');
+        $Aqualification0 = $this->request->getVar('Aqualification0') ?? '';
+        $Aqualification1 = $this->request->getVar('Aqualification1') ?? '';
+        $Aqualifications = implode(', ', array_filter([$Aqualification0, $Aqualification1])); // Combine qualifications if not empty
+
+        // Prepare the record array
+        $record = [
+            'CustomerID' => $this->request->getVar('CustomerID'),
+            'UserType' => $this->request->getVar('UserType'),
+            'FullName' => $this->request->getVar('FullName'),
+            'Email' => $this->request->getVar('Email'),
+            'Password' =>$this->request->getVar('Password'),
+            'Contact' => $this->request->getVar('Contact'),
+            'PrimaryQualification' => $this->request->getVar('Pqualification'),
+            'AdvanceQualification' => $Aqualifications,
+        ];
+
+        // Perform Insert or Update operation
+        if ($id > 0) {
+            // Update existing record
+            $updateResult = $Crud->UpdateRecord("customer_accounts", $record, ["UID" => $id]);
+            if ($updateResult) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Customer updated successfully!',
+                ];
+            } else {
+                $response = [
+                    'status' => 'fail',
+                    'message' => 'Failed to update customer.',
+                ];
+            }
+        } else {
+//            print_r($record);exit();
+            $RecordId = $Crud->AddRecord("customer_accounts", $record);
+            if ($RecordId > 0) {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Customer added successfully!',
+                ];
+            } else {
+                $response = [
+                    'status' => 'fail',
+                    'message' => 'Failed to add customer.',
+                ];
+            }
+        }
+
+        // Send response
+        echo json_encode($response);
+    }
+    public function get_record()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("customer_accounts", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Item Record Get Successfully...!';
+        echo json_encode($response);
+    }
+
 }

@@ -184,6 +184,7 @@ $routes->group('customers', static function ($routes) {
     $routes->post('submit', 'Customers::customer_form_submit');
     $routes->post('delete', 'Customers::delete');
     $routes->get('update-customer/(:num)', 'Customers::index');
+    $routes->get('customer-profile/(:num)', 'Customers::index');
 
 });
 
