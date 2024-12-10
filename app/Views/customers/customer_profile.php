@@ -19,7 +19,7 @@ $filedir = "desktop_backups/";
 $file = "desktop_backups/Backup-" . $Customer[ 'UID' ] . ".json";
 if ( file_exists( $file ) ) {
     $JSON = json_decode( file_get_contents( "desktop_backups/Backup-" . $Customer[ 'UID' ] . ".json" ), true );
-    
+
 } else {
     $JSON = '';
 }

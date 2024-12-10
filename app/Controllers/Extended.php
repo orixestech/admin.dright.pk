@@ -25,6 +25,7 @@ class Extended extends BaseController
 
         $data['page'] = getSegment(2);
         $PharmacyModal = new \App\Models\PharmacyModal();
+        $ExtendedModel = new \App\Models\ExtendedModel();
         $data['Cities'] = $PharmacyModal->citites();
         echo view('header', $data);
         if ($data['page'] == 'add-profile') {
@@ -42,6 +43,17 @@ class Extended extends BaseController
             echo view('extended/extended_default_lookup', $data);
 
         } elseif ($data['page'] == 'extended_profile_detail') {
+            $UID = getSegment(3);
+            $data['UID'] = $UID;
+            $Crud = new Crud();
+            $data['HospitalData'] = $ExtendedModel->GetExtendedProfielDataByID($UID);
+            $data['HospitalAdminUsers'] = $ExtendedModel->GetAdminUsersByHospitalDB($data['HospitalData'][0]['DatabaseName']);
+
+
+
+            $data['HospitalAdminSettings'] = $ExtendedModel->GetAdminSettingsByHospitalDB($data['HospitalData'][0]['DatabaseName']);
+//            echo '<pre>'; print_r($data['HospitalAdminSettings']);exit();
+
             echo view('extended/extended_profile_detail', $data);
 
         }  elseif ($data['page'] == 'extended_default_config') {
@@ -114,6 +126,7 @@ class Extended extends BaseController
         </button>
         <div class="dropdown-menu">
             <a class="dropdown-item" onclick="UpdateProfile(' . $record['UID'] . ');">Edit</a>
+            <a class="dropdown-item" onclick="ProfileDetail(' . $record['UID'] . ');">Detail</a>
             <a class="dropdown-item" onclick="DeleteProfile(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
 
             $data[] .= '

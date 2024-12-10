@@ -83,6 +83,9 @@
         function UpdateProfile(id) {
             location.href = "<?=$path?>extended/update-profile/" + id;
 
+        }function ProfileDetail(id) {
+            location.href = "<?=$path?>extended/extended_profile_detail/" + id;
+
         }
         function DeleteProfile(id) {
             if (confirm("Are you Sure You want to Delete this Permanently ?")) {

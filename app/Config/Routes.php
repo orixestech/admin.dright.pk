@@ -232,6 +232,7 @@ $routes->group('extended', static function ($routes) {
     $routes->post('get-profile', 'Extended::fetch_profiles');
 //    $routes->post('delete', 'Extended::delete');
     $routes->get('update-profile/(:num)', 'Extended::index');
+    $routes->get('extended_profile_detail/(:num)', 'Extended::index');
 
 });
 

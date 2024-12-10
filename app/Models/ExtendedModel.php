@@ -67,6 +67,46 @@ class ExtendedModel extends Model
         //echo $db->getLastQuery() . "<hr>";
         //$db->close();
         return $records;
+    }  public
+    function GetExtendedProductCategoriesByDBName($DBName)
+    {
+        if ($_SERVER['HTTP_HOST'] == 'localhost')
+            $DBName = 'clinta_extended';
+
+        $custom = [
+            'DSN'          => '',
+            'hostname'     => PGDB_HOST,
+            'username'     => 'clinta_postgre',
+            'password'     => 'PostgreSql147',
+            'database'     => $DBName,
+            'DBDriver' => 'Postgre',
+            'DBPrefix' => '',
+            'pConnect' => false,
+            'DBDebug' => true,
+            'charset' => 'utf8',
+            'DBCollat' => 'utf8_general_ci',
+            'swapPre' => '',
+            'encrypt' => false,
+            'compress' => false,
+            'strictOn' => false,
+            'failover' => [],
+            'port' => 5432,
+            'numberNative' => false,
+        ];
+        $ExtendedDb = \Config\Database::connect($custom);
+        $builder = $ExtendedDb->table('inventory.product_categories');
+        $builder->select('*');
+        $builder->where([
+            'Archive' => 0
+        ]);
+        $query = $builder->get();
+        $records = $query->getResultArray();
+        if (!is_array($records)) {
+            $records = array();
+        }
+        //echo $db->getLastQuery() . "<hr>";
+        //$db->close();
+        return $records;
     }
     public
     function GetAdminSettingsByHospitalDB($DBName)
@@ -95,9 +135,9 @@ class ExtendedModel extends Model
             'numberNative' => false,
         ];
         $ExtendedDb = \Config\Database::connect($custom);
-        $builder = $ExtendedDb->table('clinta.AdminUsers');
+        $builder = $ExtendedDb->table('clinta.AdminSettings');
         $builder->select('*');
-        $builder->orderBy('Key', 'ÁSC');
+        $builder->orderBy('Key', 'ASC');
         $query = $builder->get();
         $records = $query->getResultArray();
         if (!is_array($records)) {
@@ -149,6 +189,61 @@ class ExtendedModel extends Model
         //        $Admin = $Crud->ExecutePgSQL($SQL);
         //        print_r($SQL);exit();
         return $SQL;
+    }
+    public function GetExtendedLookupsDataByDBOrID($DBName,$key)
+    {
+        $Crud = new Crud();
+//        $id=0;
+        // Define the database name based on the environment
+        $DBName = ($_SERVER['HTTP_HOST'] == 'localhost') ? 'clinta_extended' : '';
+
+        // Custom database connection configuration
+        $custom = [
+            'DSN'          => '',
+            'hostname'     => PGDB_HOST,
+            'username'     => 'clinta_postgre',
+            'password'     => 'PostgreSql147',
+            'database'     => $DBName,
+            'DBDriver'     => 'Postgre',
+            'DBPrefix'     => '',
+            'pConnect'     => false,
+            'DBDebug'      => true,
+            'charset'      => 'utf8',
+            'DBCollat'     => 'utf8_general_ci',
+            'swapPre'      => '',
+            'encrypt'      => false,
+            'compress'     => false,
+            'strictOn'     => false,
+            'failover'     => [],
+            'port'         => 5432,
+            'numberNative' => false,
+        ];
+
+        // Connect to the extended database
+        $ExtendedDb = \Config\Database::connect($custom);
+
+        // Retrieve the UID from the Lookups table based on the provided key
+        $builder = $ExtendedDb->table('clinta."Lookups"');
+        $builder->select('UID');
+        $builder->where('Key', $key);
+        $query = $builder->get();
+
+        $lookupRecord = $query->getRowArray();
+        if (empty($lookupRecord)) {
+            return []; // Return an empty array if no UID found
+        }
+
+        $lookupId = $lookupRecord['UID'];
+
+        // Retrieve the LookupsOptions based on the lookup UID
+        $builder = $ExtendedDb->table('clinta."LookupsOptions"');
+        $builder->where('LookupID', $lookupId);
+        $builder->orderBy('Name', 'ASC');
+        $query = $builder->get();
+
+        $options = $query->getResultArray();
+
+        return $options;
     }
 
 

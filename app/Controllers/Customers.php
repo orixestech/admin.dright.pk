@@ -25,6 +25,7 @@ class Customers extends BaseController
         $data['page'] = getSegment(2);
         $LookupOptionData = new Main();
         $CustomerModel = new CustomerModel();
+
         $data['Cities'] = $LookupOptionData->LookupsOption("city", 0);
         $data['category'] = $LookupOptionData->LookupsOption("category", 0);
         $data['Laboratory'] = $CustomerModel->LaboratoryDropDown();
