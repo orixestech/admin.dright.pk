@@ -5,16 +5,12 @@ use App\Models\LookupModal;
 $LookupOptionData = new LookupModal();
 $Province = $LookupOptionData->LookupOptionBYID($Customer['Province']);
 $Province = isset($Province[0]['Name']) && $Province[0]['Name'] !== '' ? $Province[0]['Name'] : '';
-
 $City = $LookupOptionData->LookupOptionBYID( $Customer[ 'City' ] );
 $City = $City[0]['Name'];
-
 $Speciality = $LookupOptionData->LookupOptionBYID( $Customer[ 'Speciality' ] );
 $Speciality = isset($Speciality[0]['Name']) && $Speciality[0]['Name'] !== '' ? $Speciality[0]['Name'] : '';
-
 $Category = $LookupOptionData->LookupOptionBYID( $Customer[ 'Category' ] );
 $Category = isset($Category[0]['Name']) && $Category[0]['Name'] !== '' ? $Category[0]['Name'] : '';
-
 //$statusurl = $this->Orixes->SeoUrl( 'module/customer/status/' . $Customer[ 'UID' ] );
 $statusurl = '';
 
@@ -23,8 +19,7 @@ $filedir = "desktop_backups/";
 $file = "desktop_backups/Backup-" . $Customer[ 'UID' ] . ".json";
 if ( file_exists( $file ) ) {
     $JSON = json_decode( file_get_contents( "desktop_backups/Backup-" . $Customer[ 'UID' ] . ".json" ), true );
-
-
+    
 } else {
     $JSON = '';
 }
