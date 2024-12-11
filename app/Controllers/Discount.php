@@ -243,21 +243,18 @@ class Discount extends BaseController
         echo json_encode($response);
     }
 
-    public function delete_investigation()
-    {
-        $data = $this->data;
-        $UID = $this->request->getVar('id');
-        $Crud = new Crud();
-        $table = "investigation";
-        $record['Archive'] = 1;
-        $where = array('UID' => $UID);
-        $Crud->UpdateRecord($table, $record, $where);
-        $response['status'] = 'success';
-        $response['message'] = 'Deleted Successfully...!';
 
+    public function delete_discount_center()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $Crud->DeleteRecord("discount_center", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = 'Diet Deleted Successfully...!';
         echo json_encode($response);
     }
-
     public function delete_investigation_parameter()
     {
         $data = $this->data;

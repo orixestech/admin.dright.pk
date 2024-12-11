@@ -41,6 +41,8 @@
                 <th>Premium Discount</th>
                 <th>Actions</th>
             </tr>
+            <div class="mt-4" id="Response"></div>
+
             </tfoot>
         </table>
     </div>
@@ -83,7 +85,7 @@
 
         function DeleteDiscountCenter(id) {
             if (confirm("Are you Sure U want to Delete this?")) {
-                response = AjaxResponse("investigation/delete_investigation", "id=" + id);
+                response = AjaxResponse("discount/delete_discount_center", "id=" + id);
                 if (response.status == 'success') {
                     $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
                     setTimeout(function () {
