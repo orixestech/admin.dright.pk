@@ -583,4 +583,128 @@ class Extended extends BaseController
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
     }
+    public
+    function update_extended_admin_settings()
+    {
+
+        //echo'<pre>';print_r( $_REQUEST );exit;
+
+        $DBName = $this->request->getVar('DBName');
+        $data = array();
+        $SKey = array();
+        $Keys = '';
+
+        foreach ($_POST as $K => $V) {
+            if ($K == 'specialized_mode') {
+                foreach ($V as $arr) {
+                    $SKey[] = $arr;
+                }
+                $Keys = implode(",", $SKey);
+                $data [$K] = $Keys;
+
+            } else {
+                $data [$K] = $V;
+            }
+        }
+
+        if ($_FILES['profile_logo']) {
+            $data ['profile_logo'] = $_FILES['profile_logo'];
+        }
+
+        $data['DBName'] = $DBName;
+
+        $updateResponse = $this->UpdateAdminSettings($data);
+
+        $result = array();
+        if ($updateResponse == true) {
+            $result['status'] = 'success';
+            $result['msg'] = 'Successfully updated Admin Settings';
+        } else {
+            $result['status'] = 'fail';
+            $result['msg'] = 'Fail to update system settings';
+
+        }
+        echo json_encode($result);
+    }
+
+    public function UpdateAdminSettings($result = [])
+    {
+        // Set database name based on environment
+        $DBName = ($_SERVER['HTTP_HOST'] == 'localhost') ? 'clinta_extended' : $result['DBName'];
+
+        // Define the custom database configuration
+        $custom = [
+            'DSN'          => '',
+            'hostname'     => PGDB_HOST,
+            'username'     => 'clinta_postgre',
+            'password'     => 'PostgreSql147',
+            'database'     => $DBName,
+            'DBDriver'     => 'Postgre',
+            'DBPrefix'     => '',
+            'pConnect'     => false,
+            'DBDebug'      => true,
+            'charset'      => 'utf8',
+            'DBCollat'     => 'utf8_general_ci',
+            'swapPre'      => '',
+            'encrypt'      => false,
+            'compress'     => false,
+            'strictOn'     => false,
+            'failover'     => [],
+            'port'         => 5432,
+            'numberNative' => false,
+        ];
+
+        // Establish database connection
+        $ExtendedDb = \Config\Database::connect($custom);
+
+        // Clear descriptions except for `profile_logo`
+        $ExtendedDb->transStart();
+        $ExtendedDb->table('clinta.AdminSettings')
+            ->set('Description', '')
+            ->where('Key !=', 'profile_logo')
+            ->update();
+        $ExtendedDb->transComplete();
+
+        // Process each setting in the input array
+        $ExtendedDb->transStart();
+        $cnt = 0;
+        foreach ($result as $key => $value) {
+            if ($key === 'DBName') {
+                continue; // Skip DBName
+            }
+
+            if ($key === 'profile_logo') {
+                // Handle profile_logo specifically
+                if (is_object($value) && $value->isValid() && !$value->hasMoved()) {
+                    $fileContents = file_get_contents($value->getTempName());
+
+                    if (!empty($fileContents)) {
+                        $ExtendedDb->table('clinta.AdminSettings')
+                            ->set('Description', base64_encode($fileContents))
+                            ->set('OrderNo', $cnt)
+                            ->where('Key', $key)
+                            ->update();
+                    }
+                } else {
+                    $ExtendedDb->table('clinta.AdminSettings')
+                        ->set('OrderNo', $cnt)
+                        ->where('Key', $key)
+                        ->update();
+                }
+            } else {
+                // Handle other settings
+                $ExtendedDb->table('clinta.AdminSettings')
+                    ->set('Description', $value)
+                    ->set('OrderNo', $cnt)
+                    ->where('Key', $key)
+                    ->update();
+            }
+
+            $cnt++;
+        }
+        $ExtendedDb->transComplete();
+
+        return true;
+    }
+
 }

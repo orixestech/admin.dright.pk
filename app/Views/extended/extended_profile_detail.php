@@ -445,7 +445,7 @@ $ExtendedModel = new \App\Models\ExtendedModel();
         function UpdateAdminSettings() {
 
             var formData = new window.FormData($("form#AdminSettingsForm")[0]);
-            var rslt = ajaxUploadResponse("module/update_extended_admin_settings", formData);
+            var rslt = AjaxUploadResponse("extended/update_extended_admin_settings", formData);
             if (rslt.status == 'success') {
 
                 $(" div#AdminSettingResponse").html( '<div class="alert alert-success ks-solid ks-active-border" role="alert">' + rslt.msg + '</div>' );
