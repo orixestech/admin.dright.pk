@@ -201,7 +201,38 @@ class ExtendedModel extends Model
         //        $Admin = $Crud->ExecuteSQL($SQL);
         return $SQL;
     }
-    public function get_all_extended_default_config($keyword)
+    function AssignAccessLevelToUserByID($dbname, $id)
+    {
+
+        $error = true;
+        //$ExtendedDb = $this->load->database( $dbname , TRUE);
+        $ExtendedDb = $this->Postgre->LoadPGDB($dbname);
+
+        $AccessLevels = $this->GetCEConfigItem('AccessLevel');
+        //echo "Final Access Level>>>"; print_r($AccessLevels); exit;
+        $result = array();
+        foreach ($AccessLevels as $key => $value) {
+            foreach ($value as $accesslevel => $descriptio) {
+                $result[] = $accesslevel;
+            }
+        }
+
+
+        if ($error == 'false') {
+            $data = array();
+            $data['status'] = "success";
+            $data['msg'] = "User Access Levels Successfully updated...!";
+
+        } else {
+            $data = array();
+            $data['status'] = "fail";
+            $data['msg'] = "Error...!";
+
+        }
+
+        echo json_encode($data);
+    }
+        public function get_all_extended_default_config($keyword)
     {
         $Crud = new Crud();
         $SQL = "SELECT * FROM  `extended_admin_setings` ";

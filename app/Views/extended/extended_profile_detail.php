@@ -374,11 +374,11 @@ $ExtendedModel = new \App\Models\ExtendedModel();
             <td>' . $HAU['MobileNo'] . '</td>
             <td>
                 <a title="Edit User" href="javascript:void(0);" onclick="ExtendedEditUserModal(\'' . $HospitalData[0]['DatabaseName'] . '\', ' . $HAU['UID'] . ');" class="btn btn-primary-outline ks-no-text"><span class="fa fa-pencil ks-icon"></span></a>
-                <a title="Assign All AccessLevels" href="javascript:void(0);" onclick="AssignAllExtendedAccessToUser(\'' . $HospitalData[0]['DatabaseName'] . '\', ' . $HAU['UID'] . ');" class="btn btn-danger-outline ks-no-text"><span class="fa fa-recycle ks-icon"></span></a>
             </td>
           </tr>';
                                                 }
                                                 ?>
+<!--                                                              <a title="Assign All AccessLevels" href="javascript:void(0);" onclick="AssignAllExtendedAccessToUser(\'' . $HospitalData[0]['DatabaseName'] . '\', ' . $HAU['UID'] . ');" class="btn btn-danger-outline ks-no-text"><span class="fa fa-recycle ks-icon"></span></a>-->
 
                                                 </tbody>
                                             </table>
