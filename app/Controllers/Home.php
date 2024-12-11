@@ -165,6 +165,8 @@ class Home extends BaseController
             }
             if ($table == 'sponsors') {
                 $column = 'Image';
+            }  if ($table == 'discount_center') {
+                $column = 'Image';
             }
 
             $image = base64_decode($record[$column]);

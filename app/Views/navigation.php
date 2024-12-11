@@ -516,6 +516,14 @@
                     </a>
                 </li>
                 <li>
+                    <a href="<?= $path ?>discount/discount_center">
+                        <span class="nav-link-icon">
+                            <i data-feather="book"></i>
+                        </span>
+                        <span>Discounts</span>
+                    </a>
+                </li>
+                <li>
                     <a href="<?= $path ?>clinta_members/">
                         <span class="nav-link-icon">
                             <i data-feather="layers"></i>

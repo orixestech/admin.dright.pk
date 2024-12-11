@@ -13,14 +13,13 @@ class DiscountModel extends Model
     public function ListDiscountCenter($keyword)
     {
         $Crud = new Crud();
-        $SQL = 'SELECT * FROM `investigation` where 1=1 
+        $SQL = 'SELECT * FROM `discount_center` where 1=1 
                       ';
         if($keyword!=''){
-            $SQL .= ' AND  `Name` LIKE \'%' . $keyword . '%\'   ';
+            $SQL .= ' AND  `Title` LIKE \'%' . $keyword . '%\'   ';
         }
-        $SQL .=' Order By `Name` ASC';
-//print_r($SQL);exit();
-return $SQL;
+        $SQL .=' Order By `OrderID` ASC';
+        return $SQL;
     }    public function investigation_parameter($keyword,$ID)
     {
         $Crud = new Crud();
@@ -34,7 +33,7 @@ return $SQL;
         return $SQL;
     }
     public
-    function get_datatables($keyword)
+    function get_discount_datatables($keyword)
     {
         $Crud = new Crud();
 
@@ -47,7 +46,7 @@ return $SQL;
     }
 
     public
-    function count_datatables($keyword)
+    function count_discount_datatables($keyword)
     {
         $Crud = new Crud();
 

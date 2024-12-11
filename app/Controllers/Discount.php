@@ -20,14 +20,22 @@ class Discount extends BaseController
         $this->data = $this->MainModel->DefaultVariable();
     }
 
-    public function listdiscount()
+    public function discount_center()
     {
         $data = $this->data;
         $data['page'] = getSegment(3);
         $LookupOptionData = new Main();
-
         echo view('header', $data);
+
+        if ($data['page'] == 'add-discount'){
+            $data['PAGE'] = array();
+
+            echo view('customers/main_form', $data);
+
+        }else{
             echo view('discount/index', $data);
+
+        }
 
 
         echo view('footer', $data);
@@ -61,8 +69,9 @@ class Discount extends BaseController
 
         $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
-        $Data = $DiscountModel->get_datatables($keyword);
-        $totalfilterrecords = $DiscountModel->count_datatables($keyword);
+        $Data = $DiscountModel->get_discount_datatables($keyword);
+//        print_r($Data);exit();
+        $totalfilterrecords = $DiscountModel->count_discount_datatables($keyword);
 
         $dataarr = array();
         $cnt = $_POST['start'];
@@ -70,9 +79,16 @@ class Discount extends BaseController
             $cnt++;
             $data = array();
             $data[] = $cnt;
-            $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
-            $data[] = isset($Category[0]['Name']) ? htmlspecialchars($Category[0]['Name']) : '';
-            $data[] = isset($Type[0]['Name']) ? htmlspecialchars($Type[0]['Name']) : '';
+            $data[] = isset($record['Department']) ? htmlspecialchars($record['Department']) : '';
+
+            $data[] = isset($record['Image'])
+                ? "<img src='" . load_image('mysql|discount_center|' . $record['UID']) . "' style='display: block; padding: 2px; border: 1px solid #145388 !important; border-radius: 3px; width: 150px;' />"
+                : '';
+            $data[] = isset($record['Title']) ? htmlspecialchars($record['Title']) : '';
+            $data[] = isset($record['Address']) ? htmlspecialchars($record['Address']) : '';
+            $data[] = isset($record['Services']) ? htmlspecialchars($record['Services']) : '';
+            $data[] = isset($record['BasicDiscount']) ? htmlspecialchars($record['BasicDiscount']) : '';
+            $data[] = isset($record['PremiumDiscount']) ? htmlspecialchars($record['PremiumDiscount']) : '';
             $data[] = '
     <td class="text-end">
         <div class="dropdown">
@@ -80,8 +96,8 @@ class Discount extends BaseController
                 Actions
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="UpdateInvestigation(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="DeleteInvestigation(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                <a class="dropdown-item" onclick="EditDiscountCenter(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteDiscountCenter(' . htmlspecialchars($record['UID']) . ')">Delete</a>
                 <a class="dropdown-item" onclick="ViewParameter(' . htmlspecialchars($record['UID']) . ')">View Parameter</a>
 
             </div>
