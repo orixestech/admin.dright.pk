@@ -94,6 +94,16 @@ class Crud extends Model
         $pgsql->close();
         return $records;
     }
+    public
+    function ExecutePgSQLExtended($Query, $view = false)
+    {
+        $pgsql = \Config\Database::connect('clinta_extended');
+        $records = $pgsql->query($Query)->getResult('array');
+        if ($view)
+            echo $pgsql->getLastQuery() . "<hr>";
+        $pgsql->close();
+        return $records;
+    }
 
     public
     function AddRecord($table, $records, $view = false)
@@ -111,10 +121,27 @@ class Crud extends Model
         $insertID = $db->insertID();
         // $db->close();
         return $insertID;
-    }    public
+    }
+    public
     function AddRecordPG($table, $records, $view = false)
     {
         $db = \Config\Database::connect('website_db');
+        $db->db_debug = false;
+        $builder = $db->table($table);
+        $builder->insert($records);
+        if ($view) {
+            $QUERY = $db->getLastQuery() . ";<br>";
+            // $Main = new Main();
+            //  $Main->SendEmail('info@orixestech.com', 'Umrah Furas :: Insert Query Error', $QUERY);
+            echo $QUERY;
+        }
+        $insertID = $db->insertID();
+        // $db->close();
+        return $insertID;
+    }  public
+    function AddRecordExtended($table, $records, $view = false)
+    {
+        $db = \Config\Database::connect('clinta_extended');
         $db->db_debug = false;
         $builder = $db->table($table);
         $builder->insert($records);
@@ -132,6 +159,18 @@ class Crud extends Model
     function DeleteRecordPG($table, $where)
     {
         $db = \Config\Database::connect('website_db');
+        $builder = $db->table($table);
+        if (count($where) > 0) {
+            $builder->where($where);
+        }
+        $builder->delete();
+        $db->close();
+
+        return true;
+    }   public
+    function DeleteRecordExtended($table, $where)
+    {
+        $db = \Config\Database::connect('clinta_extended');
         $builder = $db->table($table);
         if (count($where) > 0) {
             $builder->where($where);
@@ -159,6 +198,28 @@ class Crud extends Model
     function SingleRecord($table, $wheres = array(), $view = false)
     {
         $db = \Config\Database::connect();
+        $builder = $db->table($table);
+
+        $builder->select('*');
+        if (count($wheres) > 0) {
+            $builder->where($wheres);
+        }
+        $query = $builder->get();
+        $record = (array)$query->getRowArray();
+        if (!is_array($record)) {
+            $record = array();
+        }
+        //print_r($record);
+        //$record = $query->getRowArray();
+        if ($view) echo $db->getLastQuery() . "<hr>";
+
+        // $db->close();
+        return $record;
+    }
+    public
+    function SingleRecordExtended($table, $wheres = array(), $view = false)
+    {
+        $db = \Config\Database::connect('clinta_extended');
         $builder = $db->table($table);
 
         $builder->select('*');
@@ -233,6 +294,19 @@ class Crud extends Model
     function UpdateeRecord($table, $records, $where)
     {
         $db = \Config\Database::connect('website_db');
+        $builder = $db->table($table);
+        if (count($where) > 0) {
+            $builder->where($where);
+        }
+        $builder->update($records);
+        // echo $db->getLastQuery() . "<hr>";
+
+        // $db->close();
+        return true;
+    }  public
+    function UpdateRecordExtended($table, $records, $where)
+    {
+        $db = \Config\Database::connect('clinta_extended');
         $builder = $db->table($table);
         if (count($where) > 0) {
             $builder->where($where);

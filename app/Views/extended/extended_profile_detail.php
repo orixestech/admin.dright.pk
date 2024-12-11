@@ -4,44 +4,46 @@
 $ExtendedModel = new \App\Models\ExtendedModel();
 
 ?>
-
-<div class="ks-container">
-    <div class="ks-column ks-page">
-        <div class="ks-header">
-            <section class="ks-title">
-                <h5><a href="<?=$path?>">Home</a> <i class="fa fa-angle-right breed"></i><a href="<?=$path?>module/extended_profiles/list">Extended Profile</a>
-                    <i class="fa fa-angle-right breed"></i><a  href="javascript:void(0);">Details</a></h5>
-            </section>
-        </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">Extended Profile</h6>
+            </div>
         <div class="ks-content">
             <div class="ks-body ks-profile">
                 <div class="ks-header">
                     <div class="ks-user">
                         <div class="ks-info">
-                            <div class="ks-name">
+                            <div class="ks-name"  style="margin-left: 50px;">
                                 <h2><?=$HospitalData[0]['FullName']?></h2>
                             </div>
                             <?php
                             if( $HospitalData[0]['Email'] != '' ){
-                                echo'<div class="ks-description">
+                                echo'<div class="ks-description" style="margin-left: 50px;">
                                            <strong>Email:</strong> '.$HospitalData[0]['Email'].'
                                         </div>';
                             }
                             if( $HospitalData[0]['ContactNo'] != '' ){
-                                echo' <div class="ks-description">
+                                echo' <div class="ks-description"  style="margin-left: 50px;">
                                                 <strong>ContactNo:</strong>  '.$HospitalData[0]['ContactNo'].'
                                             </div>';
                             }?>
                         </div>
                     </div>
                 </div>
-                <div class="ks-tabs-container ks-tabs-default ks-tabs-no-separator ks-full ks-light">
-                    <ul class="nav ks-nav-tabs">
-                        <li class="nav-item"> <a class="nav-link active" href="#" data-toggle="tab" data-target="#settings" aria-expanded="false">Settings</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="#" data-toggle="tab" data-target="#users" aria-expanded="false">Users</a> </li>
-                    </ul>
+                <br>
+                <ul class="nav nav-tabs mb-3" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile-tab-content" role="tab" aria-controls="profile-tab-content" aria-selected="true">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="discount-tab" data-toggle="tab" href="#discount-tab-content" role="tab" aria-controls="discount-tab-content" aria-selected="false">Discount</a>
+                    </li>
+
+                </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="settings" role="tabpanel" aria-expanded="false">
+                        <div class="tab-pane fade show active" id="profile-tab-content" role="tabpanel" aria-labelledby="profile-tab">
                             <div class="ks-users-tab">
 
                                 <div class="card panel panel-default ks-widget ks-widget-progress-list">
@@ -340,7 +342,7 @@ $ExtendedModel = new \App\Models\ExtendedModel();
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="users" role="tabpanel" aria-expanded="false">
+                        <div class="tab-pane fade" id="discount-tab-content" role="tabpanel" aria-labelledby="discount-tab">
                             <div class="ks-users-tab">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -354,28 +356,30 @@ $ExtendedModel = new \App\Models\ExtendedModel();
                                                     <th>Email</th>
                                                     <th>Mobile No</th>
                                                     <th width="120">Actions
-                                                        <a onclick="AddNewUserModal( '<?=$HospitalData[0]['DatabaseName']?>' );" title="Add New Admin User" style="padding: 2px 10px !important; height: 20px !important;" href="javascript:void(0);"
-                                                           class="pull-right btn btn-primary btn-sm"><span class="fa fa-plus"></span></a>
+                                                        <a onclick="AddNewUserModal('<?=$HospitalData[0]['DatabaseName']?>' );" title="Add New Admin User" class="pull-right btn btn-gradient-secondary btn-sm"><span class="fa fa-plus"></span></a>
+
                                                     </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <?php
                                                 $cnt = 0;
-                                                foreach( $HospitalAdminUsers as $HAU ){
+                                                foreach ($HospitalAdminUsers as $HAU) {
                                                     $cnt++;
-                                                    echo'<tr>
-                                                                    <td>'.$cnt.'</td>
-                                                                    <td>'.$HAU['FullName'].'</td>
-                                                                    <td>'.$HAU['Username'].'</td>
-                                                                    <td>'.$HAU['Email'].'</td>
-                                                                    <td>'.$HAU['MobileNo'].'</td>
-                                                                    <td>
-                                                                        <a title="Edit User" href="javascript:void(0);" onclick="ExtendedEditUserModal( \''.$HospitalData[0]['DatabaseName'].'\' , '.$HAU['UID'].' );" class="btn btn-primary-outline ks-no-text"><span class="fa fa-pencil ks-icon"></span></a>
-                                                                        <a title="Assign All AccessLevels" href="javascript:void(0);" onclick="AssignAllExtendedAccessToUser( \''.$HospitalData[0]['DatabaseName'].'\' , '.$HAU['UID'].' );" class="btn btn-danger-outline ks-no-text"><span class="fa fa-recycle ks-icon"></span></a>
-                                                                    </td>
-                                                                 </tr>';
-                                                }?>
+                                                    echo '<tr>
+            <td>' . $cnt . '</td>
+            <td>' . $HAU['FullName'] . '</td>
+            <td>' . $HAU['Username'] . '</td>
+            <td>' . $HAU['Email'] . '</td>
+            <td>' . $HAU['MobileNo'] . '</td>
+            <td>
+                <a title="Edit User" href="javascript:void(0);" onclick="ExtendedEditUserModal(\'' . $HospitalData[0]['DatabaseName'] . '\', ' . $HAU['UID'] . ');" class="btn btn-primary-outline ks-no-text"><span class="fa fa-pencil ks-icon"></span></a>
+                <a title="Assign All AccessLevels" href="javascript:void(0);" onclick="AssignAllExtendedAccessToUser(\'' . $HospitalData[0]['DatabaseName'] . '\', ' . $HAU['UID'] . ');" class="btn btn-danger-outline ks-no-text"><span class="fa fa-recycle ks-icon"></span></a>
+            </td>
+          </tr>';
+                                                }
+                                                ?>
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -384,100 +388,50 @@ $ExtendedModel = new \App\Models\ExtendedModel();
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
-<!--    --><?php //$this->load->view( "inner-html/extended-add-user-modal" ); ?>
+    <?php echo view( "extended/modal/add_user" ); ?>
+    <?php echo view( "extended/modal/update_user" ); ?>
 <!--    --><?php //$this->load->view( "inner-html/extended-edit-user-modal" ); ?>
     <script type="text/javascript">
-        function AddNewUserModal( dbname ) {
+        function AddNewUserModal(dbname) {
 
-            $("#AddNewUser form#AddNewUserForm input#DBName").val( dbname );
+            $("#AddNewUserModal form#AddNewUserForm input#DBName").val( dbname );
 
-            $('#AddNewUser').modal({
-                show: true,
-                backdrop: 'static',
-                keyboard: false
-            })
+            $('#AddNewUserModal').modal('show');
+
         }
 
-        function ExtendedEditUserModal( DBNAME, UID ) {
+        function ExtendedEditUserModal(DBNAME,UID) {
 
-            $("#EditNewUser form#EditUserForm input#id").val( UID );
-            $("#EditNewUser form#EditUserForm input#DBName").val( DBNAME );
+            $("#updateNewUserModal form#EditUserForm input#id").val(UID);
+            $("#updateNewUserModal form#EditUserForm input#DBName").val(DBNAME);
 
-            rslt = ajaxreqResponse( "form_process/extended_admin_user_data_by_id", "dbname=" + DBNAME + "&uid=" + UID  );
+            rslt = AjaxResponse( "extended/get_record", "dbname=" + DBNAME + "&uid=" + UID  );
+            // alert(rslt);
+            // console.log(rslt);
             if( rslt != '' ){
 
-                $("#EditNewUser form#EditUserForm input#name").val( rslt.FullName );
-                $("#EditNewUser form#EditUserForm input#user_name").val( rslt.Username );
-                $("#EditNewUser form#EditUserForm input#email").val( rslt.Email );
-                $("#EditNewUser form#EditUserForm input#contactno").val( rslt.MobileNo );
-                $("#EditNewUser form#EditUserForm select#usertype").val( rslt.AccessLevel );
+                $("#updateNewUserModal form#EditUserForm input#name").val( rslt.record.FullName );
+                $("#updateNewUserModal form#EditUserForm input#user_name").val( rslt.record.Username );
+                $("#updateNewUserModal form#EditUserForm input#email").val( rslt.record.Email );
+                $("#updateNewUserModal form#EditUserForm input#contactno").val( rslt.record.MobileNo );
+                $("#updateNewUserModal form#EditUserForm select#usertype").val( rslt.record.AccessLevel );
                 if(  rslt.BranchID == 0 ){
-                    $("#EditNewUser form#EditUserForm select#branch").val('');
-                    $("#EditNewUser form#EditUserForm div#branchdiv").css( 'display', 'none' );
+                    $("#updateNewUserModal form#EditUserForm select#branch").val('');
+                    $("#updateNewUserModal form#EditUserForm div#branchdiv").css( 'display', 'none' );
                 }else{
-                    $("#EditNewUser form#EditUserForm select#branch").val( rslt.BranchID );
-                    $("#EditNewUser form#EditUserForm div#branchdiv").css( 'display', '' );
+                    $("#updateNewUserModal form#EditUserForm select#branch").val( rslt.record.BranchID );
+                    $("#updateNewUserModal form#EditUserForm div#branchdiv").css( 'display', '' );
                 }
             }
 
-            $('#EditNewUser').modal({
-                show: true,
-                backdrop: 'static',
-                keyboard: false
-            })
+            $('#updateNewUserModal').modal('show');
+
         }
 
-        function ExtendedAdminUserFormSubmit( parent ) {
 
-            var validate = $( "form#" + parent ).validationEngine( 'validate' );
-            if( validate == false ){
-                return false;
-            }
-
-            data = $("form#" + parent).serialize();
-
-            rslt = ajaxreqResponse( "form_process/extended_admin_user_form_submit", data );
-            if( rslt.status == 'success' ){
-
-                if( rslt.form_type == 'add' ){
-
-                    $("form#AddNewUserForm div#AjaxResult").css( 'display', '' );
-                    $("form#AddNewUserForm div#AjaxResult").html( '<div class="alert alert-success ks-solid ks-active-border" role="alert">' + rslt.msg + '</div>' );
-                    setTimeout( function () {
-                        $("#AddNewUser form#AddNewUserForm")[0].reset();
-                        $("#AddNewUser").modal( 'hide' );
-                        window.location.href = location.href;
-                    }, 1500 );
-                }else{
-
-                    $("form#EditUserForm div#AjaxResult").css( 'display', '' );
-                    $("form#EditUserForm div#AjaxResult").html( '<div class="alert alert-success ks-solid ks-active-border" role="alert">' + rslt.msg + '</div>' );
-                    setTimeout( function () {
-                        $("#EditNewUser").modal( 'hide' );
-                        window.location.href = location.href;
-                    }, 1500 );
-
-                }
-            }else{
-                if( rslt.form_type == 'add' ){
-                    $("form#AddNewUserForm div#AjaxResult").html( '<div class="alert alert-danger ks-solid ks-active-border" role="alert">' + rslt.msg + '</div>' );
-                    setTimeout( function () {
-                        $("form#AddNewUserForm div#AjaxResult").css( 'display', 'none' );
-                    }, 1500 );
-
-                }else{
-
-                    $("form#EditUserForm div#AjaxResult").html( '<div class="alert alert-danger ks-solid ks-active-border" role="alert">' + rslt.msg + '</div>' );
-                    setTimeout( function () {
-                        $("form#EditUserForm div#AjaxResult").css( 'display', 'none' );
-                    }, 1500 );
-                }
-            }
-        }
 
         function AssignAllExtendedAccessToUser( DBNAME, UID ) {
 

@@ -71,6 +71,26 @@ class Database extends Config
         'port' => 5432,
         'numberNative' => false,
     ];
+  public array $clinta_extended = [
+        'DSN'          => '',
+        'hostname'     => PGDB_HOST,
+        'username'     => 'clinta_postgre',
+        'password'     => 'PostgreSql147',
+        'database'     => 'clinta_extended',
+        'DBDriver' => 'Postgre',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug' => true,
+        'charset' => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre' => '',
+        'encrypt' => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port' => 5432,
+        'numberNative' => false,
+    ];
 
     //    /**
     //     * Sample database connection for SQLite3.

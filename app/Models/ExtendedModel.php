@@ -147,6 +147,47 @@ class ExtendedModel extends Model
         //$db->close();
         return $records;
     }
+    public
+    function GetExtendedUserDataByDBOrID($DBName,$uid)
+    {
+        if ($_SERVER['HTTP_HOST'] == 'localhost')
+            $DBName = 'clinta_extended';
+
+        $custom = [
+            'DSN'          => '',
+            'hostname'     => PGDB_HOST,
+            'username'     => 'clinta_postgre',
+            'password'     => 'PostgreSql147',
+            'database'     => $DBName,
+            'DBDriver' => 'Postgre',
+            'DBPrefix' => '',
+            'pConnect' => false,
+            'DBDebug' => true,
+            'charset' => 'utf8',
+            'DBCollat' => 'utf8_general_ci',
+            'swapPre' => '',
+            'encrypt' => false,
+            'compress' => false,
+            'strictOn' => false,
+            'failover' => [],
+            'port' => 5432,
+            'numberNative' => false,
+        ];
+        $ExtendedDb = \Config\Database::connect($custom);
+        $builder = $ExtendedDb->table('clinta.AdminUsers');
+        $builder->select('*');
+        $builder->where([
+            'UID' => $uid,
+            'Archive' => 0,
+        ]);        $query = $builder->get();
+        $records = $query->getResultArray();
+        if (!is_array($records)) {
+            $records = array();
+        }
+        //echo $db->getLastQuery() . "<hr>";
+        //$db->close();
+        return $records;
+    }
     public function get_all_extended_default_lookups($keyword)
     {
         $Crud = new Crud();

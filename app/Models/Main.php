@@ -111,6 +111,18 @@ class Main extends Model
         $imageData = file_get_contents($filePath);
         return base64_encode($imageData);
     }
+//    function GetCEConfigItem($item)
+//    {
+//        $config = array();
+//        $path = config_item('clinta_extended_core_config');
+//        include($path);
+//        $path = config_item('clinta_extended_config');
+//        include($path);
+//
+//        //print_r($config);
+//
+//        return $config[$item];
+//    }
 
 //<-- Ci3 Image uploader function
 

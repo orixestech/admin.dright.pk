@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Controllers;
+use CodeIgniter\Database\Config;
 
 use App\Models\Crud;
 use App\Models\ExtendedModel;
 use App\Models\Main;
 use App\Models\PharmacyModal;
+
 
 class Extended extends BaseController
 {
@@ -409,6 +411,175 @@ class Extended extends BaseController
         $response = array();
         $response['status'] = 'success';
         $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
+        echo json_encode($response);
+    }
+
+    function extended_admin_user_form_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+
+        $DBName = $this->request->getVar('DBName');
+//        $AccessLevels = $Main->GetCEConfigItem('AccessLevel');
+        $AccessLevels = array();
+        $result = [];
+
+        foreach ($AccessLevels as $key => $value) {
+            foreach ($value as $accesslevel => $description) {
+                $result[] = $accesslevel;
+            }
+        }
+
+        $id = $this->request->getVar('id');
+        $name = $this->request->getVar('name');
+        $username = $this->request->getVar('user_name');
+        $email = $this->request->getVar('email');
+        $contactno = $this->request->getVar('contactno');
+        $password = $this->request->getVar('password');
+        $usertype = $this->request->getVar('usertype');
+        $branch = $this->request->getVar('branch') ?: 0;
+
+        if ($_SERVER['HTTP_HOST'] == 'localhost') {
+            $DBName = 'clinta_extended';
+        }
+
+        $custom = [
+            'DSN'          => '',
+            'hostname'     => PGDB_HOST,
+            'username'     => 'clinta_postgre',
+            'password'     => 'PostgreSql147',
+            'database'     => $DBName,
+            'DBDriver'     => 'Postgre',
+            'DBPrefix'      => '',
+            'pConnect'      => false,
+            'DBDebug'       => true,
+            'charset'       => 'utf8',
+            'DBCollat'      => 'utf8_general_ci',
+            'swapPre'       => '',
+            'encrypt'       => false,
+            'compress'      => false,
+            'strictOn'      => false,
+            'failover'      => [],
+            'port'          => 5432,
+            'numberNative'  => false,
+        ];
+
+        $ExtendedDb = \Config\Database::connect($custom);
+        $builder = $ExtendedDb->table('clinta.AdminUsers');
+        $builder->select('*');
+        $builder->where('Username', $username);
+        $query = $builder->get();
+        $records = $query->getResultArray();
+
+        if ($id == 0) {
+            if (!empty($records)) {
+                $data = [
+                    'status' => "fail",
+                    'form_type' => "add",
+                    'message' => "User Name Already Exist...!"
+                ];
+            } else {
+                // Start transaction
+                $ExtendedDb->transStart();
+
+                $data = [
+                    'Username'    => $username,
+                    'Password'    => $password,
+                    'FullName'    => $name,
+                    'MobileNo'    => $contactno ?: '',
+                    'AccessLevel' => $usertype,
+                    'Email'       => $email ?: '',
+                    'BranchID'    => $branch,
+                    'Archive'     => 0,
+                ];
+
+                if ($ExtendedDb->table('clinta.AdminUsers')->insert($data)) {
+                    $insert_id = $ExtendedDb->insertID();
+                    foreach ($result as $r) {
+                        $ExtendedDb->table('clinta.AccessLevel')->insert([
+                            'UserID'   => $insert_id,
+                            'AccessKey' => $r,
+                            'Access'    => 1
+                        ]);
+                    }
+                    $ExtendedDb->transComplete();
+                    $data = [
+                        'status' => "success",
+                        'form_type' => "add",
+                        'message' => "User Account Successfully Added...!"
+                    ];
+                } else {
+                    $ExtendedDb->transRollback();
+                    $data = [
+                        'status' => "fail",
+                        'form_type' => "add",
+                        'message' => "Error...!"
+                    ];
+                }
+            }
+        } else {
+            $ExtendedDb->transStart();
+            $builder->select('*');
+            $builder->where('Username', $username);
+            $builder->where('UID !=', $id);
+            $query = $builder->get();
+            $row = $query->getRowArray();
+
+            if ($row) {
+                $data = [
+                    'status' => "fail",
+                    'form_type' => "edit",
+                    'message' => "User Name Already Exist...!"
+                ];
+            } else {
+                $data = [
+                    'Username'    => $username,
+                    'FullName'    => $name,
+                    'MobileNo'    => $contactno ?: '',
+                    'AccessLevel' => $usertype,
+                    'Email'       => $email ?: '',
+                    'BranchID'    => $branch,
+                    'Archive'     => 0,
+                ];
+
+                if ($password != '') {
+                    $data['Password'] = $password;
+                }
+
+                $builder->where('UID', $id);
+                if ($builder->update($data)) {
+                    $ExtendedDb->transComplete();
+                    $data = [
+                        'status' => "success",
+                        'form_type' => "edit",
+                        'message' => "User Account Successfully updated...!"
+                    ];
+                } else {
+                    $ExtendedDb->transRollback();
+                    $data = [
+                        'status' => "fail",
+                        'form_type' => "edit",
+                        'message' => "Error...!"
+                    ];
+                }
+            }
+        }
+
+        echo json_encode($data);
+    }
+    public function get_record()
+    {
+        $Crud = new Crud();
+        $ExtendedModel = new ExtendedModel();
+
+        $dbname= $_POST['dbname'];
+        $id = $_POST['uid'];
+        $record=    $ExtendedModel->GetExtendedUserDataByDBOrID($dbname,$id);
+//        $record = $Crud->SingleRecordExtended('clinta."AdminUsers"', array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record[0];
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
     }
