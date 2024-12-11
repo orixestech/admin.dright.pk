@@ -38,7 +38,7 @@ $ExtendedModel = new \App\Models\ExtendedModel();
                         <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile-tab-content" role="tab" aria-controls="profile-tab-content" aria-selected="true">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="discount-tab" data-toggle="tab" href="#discount-tab-content" role="tab" aria-controls="discount-tab-content" aria-selected="false">Discount</a>
+                        <a class="nav-link" id="discount-tab" data-toggle="tab" href="#discount-tab-content" role="tab" aria-controls="discount-tab-content" aria-selected="false">User</a>
                     </li>
 
                 </ul>
