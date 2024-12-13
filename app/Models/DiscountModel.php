@@ -20,7 +20,50 @@ class DiscountModel extends Model
         }
         $SQL .=' Order By `OrderID` ASC';
         return $SQL;
-    }    public function investigation_parameter($keyword,$ID)
+    }
+    public function get_speciality_data()
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `specialities` where `Archive`=\'0\'
+                      ';
+
+        $SQL .=' Order By `Name` ASC';
+        $records = $Crud->ExecuteSQL($SQL);
+
+        return $records;
+    }
+    public function GetDiscountCenterImagesByID($id)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `discount_center_images` where `DiscountCenterID`=\'' . $id . '\'
+                      ';
+
+        $SQL .=' Order By `SortOrder` ';
+        $records = $Crud->ExecuteSQL($SQL);
+
+        return $records;
+    }
+    public function get_discount_center_Specialities_by_id($id)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `discount_center_specialities` where `DiscountCenterUID`=\'' . $id . '\'
+                      ';
+
+        $records = $Crud->ExecuteSQL($SQL);
+
+        return $records;
+    }
+    public function get_discount_center_timings_by_doct_id($id)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `discount_center_timings` where `DiscountCenterID`=\'' . $id . '\'
+                      ';
+
+        $records = $Crud->ExecuteSQL($SQL);
+
+        return $records;
+    }
+    public function investigation_parameter($keyword,$ID)
     {
         $Crud = new Crud();
         $SQL = 'SELECT * FROM `investigation_parameters` where `Archive`=\'0\'  AND `InvestigationUID`=\'' . $ID . '\'

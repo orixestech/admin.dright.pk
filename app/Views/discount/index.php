@@ -4,7 +4,7 @@
     <div class="card-body">
         <h4>Discount Center
             <span style="float: right;">
-                <button type="button" onclick="AddInvestigation()"
+                <button type="button" onclick="AddDiscount()"
                         class="btn btn-primary "
                         data-toggle="modal" data-target="#exampleModal">
               Add
@@ -69,8 +69,8 @@
 
     </script>
     <script>
-        function AddInvestigation(id) {
-            location.href = "<?=$path?>discount/view_parameter/" + id;
+        function AddDiscount() {
+            location.href = "<?=$path?>discount/discount_center/add-discount/" ;
 
 
         }
@@ -79,7 +79,7 @@
         }
 
         function EditDiscountCenter(id) {
-            location.href = "<?=$path?>investigation/view_parameter/" + id;
+            location.href = "<?=$path?>discount/discount_center/update-discount/" + id;
 
         }
 

@@ -25,14 +25,29 @@ class Discount extends BaseController
         $data = $this->data;
         $data['page'] = getSegment(3);
         $LookupOptionData = new Main();
+        $DiscountModel = new DiscountModel();
         echo view('header', $data);
+        $data['Specialities'] =$DiscountModel->get_speciality_data();
 
         if ($data['page'] == 'add-discount'){
-            $data['PAGE'] = array();
 
-            echo view('customers/main_form', $data);
+            $data['PAGE'] = array();
+            $Crud = new Crud();
+            echo view('discount/main_form', $data);
+
+        }else if($data['page'] == 'update-discount') {
+            $UID = getSegment(4);
+//            print_r($UID);exit();
+            $data['UID'] = $UID;
+            $Crud = new Crud();
+            $PAGE = $Crud->SingleRecord('discount_center', array("UID" => $UID));
+            $data['Images'] =$DiscountModel->GetDiscountCenterImagesByID($UID);
+
+            $data['Data'] = $PAGE;
+            echo view('discount/update_discount_main_form', $data);
 
         }else{
+
             echo view('discount/index', $data);
 
         }
@@ -167,41 +182,149 @@ class Discount extends BaseController
     }
 
 
-    public function investigation_submit()
+    public function discount_form_submit()
     {
         $Crud = new Crud();
         $Main = new Main();
         $response = array();
-        $record = array();
 
-        $id = $this->request->getVar('UID');
-        $Investigation = $this->request->getVar('Investigation');
+        $id = $this->request->getVar('id');
+//        $logedInUserName = $_SESSION('UserName');
+        $title = $this->request->getVar('title');
+        $department = $this->request->getVar('department');
 
-        if (!empty($Investigation['Name'])) {
-            if ($id == 0) {
-                foreach ($Investigation as $key => $value) {
-                    $record[$key] = ((isset($value)) ? $value : '');
+        $record = [
+            'Department' => $department,
+            'Title' => $title,
+            'ContactEmail' => $this->request->getVar('email'),
+            'Website' => $this->request->getVar('website'),
+            'ContactNumbers' => $this->request->getVar('contactno'),
+            'Address' => $this->request->getVar('address'),
+            'Services' => '',
+            'Facilities' => $this->request->getVar('facilities'),
+            'ShortHistory' => $this->request->getVar('short_history'),
+            'BasicDiscount' => $this->request->getVar('basic_discount'),
+            'PremiumDiscount' => $this->request->getVar('premium_discount'),
+            'OrderID' => $this->request->getVar('order_id')
+        ];
+
+        if ($_FILES['profile_image']['tmp_name'] != '') {
+            $ext = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
+            $uploadDir = ROOT . "/upload/discount/";
+            $fileName = strtolower($Main->RandFileName() . "." . $ext);
+
+            if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $uploadDir . $fileName)) {
+                $record['Image'] = $fileName;
+            }
+        }
+
+        if ($id == 0) {
+            $discountCenterId = $Crud->AddRecord("discount_center", $record);
+
+            if ($discountCenterId > 0) {
+                // Specialities Handling
+                $specialities = $this->request->getVar('specialities');
+                if (!empty($specialities)) {
+                    foreach ($specialities as $speciality) {
+                        $specialityRecord = [
+                            'DiscountCenterUID' => $discountCenterId,
+                            'Speciality' => $speciality
+                        ];
+                        $Crud->AddRecord("discount_center_specialities", $specialityRecord);
+                    }
                 }
 
-                $RecordId = $Crud->AddRecord("investigation", $record);
-                if (isset($RecordId) && $RecordId > 0) {
-                    $response['status'] = 'success';
-                    $response['message'] = 'Added Successfully...!';
-                } else {
-                    $response['status'] = 'fail';
-                    $response['message'] = 'Data Didnt Submitted Successfully...!';
+                // Timings Handling
+                $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                $startTimes = $this->request->getVar('start_time');
+                $endTimes = $this->request->getVar('end_time');
+
+                foreach ($days as $day) {
+                    if (!empty($startTimes[$day]) && !empty($endTimes[$day])) {
+                        $timingRecord = [
+                            'DiscountCenterID' => $discountCenterId,
+                            'Weekday' => $day,
+                            'StartTime' => $startTimes[$day],
+                            'EndTime' => $endTimes[$day]
+                        ];
+                        $Crud->AddRecord("discount_center_timings", $timingRecord);
+                    }
                 }
-            } else {
-                foreach ($Investigation as $key => $value) {
-                    $record[$key] = $value;
+
+                // Images Handling
+                if (!empty($_FILES['image']['name'][0])) {
+                    $sortOrders = $this->request->getVar('sort_order');
+                    $files = $_FILES['image'];
+                    for ($i = 0; $i < count($files['name']); $i++) {
+                        $ext = pathinfo($files['name'][$i], PATHINFO_EXTENSION);
+                        $fileName = strtolower($Main->RandFileName() . "." . $ext);
+
+                        if (move_uploaded_file($files['tmp_name'][$i], $uploadDir . $fileName)) {
+                            $imageRecord = [
+                                'DiscountCenterID' => $discountCenterId,
+                                'Image' => $fileName,
+                                'SortOrder' => $sortOrders[$i]
+                            ];
+                            $Crud->AddRecord("discount_center_images", $imageRecord);
+                        }
+                    }
                 }
-                $Crud->UpdateRecord("investigation", $record, array("UID" => $id));
+
                 $response['status'] = 'success';
-                $response['message'] = 'Updated Successfully...!';
+                $response['message'] = 'Discount Center Added Successfully!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Error Adding Discount Center!';
             }
         } else {
-            $response['status'] = 'fail';
-            $response['message'] = 'Name Cant Be Empty...!';
+            $Crud->UpdateRecord("discount_center", $record, ['UID' => $id]);
+
+            // Update Specialities
+            $Crud->DeleteRecord("discount_center_specialities", ['DiscountCenterUID' => $id]);
+            $specialities = $this->request->getVar('specialities');
+            if (!empty($specialities)) {
+                foreach ($specialities as $speciality) {
+                    $specialityRecord = [
+                        'DiscountCenterUID' => $id,
+                        'Speciality' => $speciality
+                    ];
+                    $Crud->AddRecord("discount_center_specialities", $specialityRecord);
+                }
+            }
+
+            // Update Timings
+            $Crud->DeleteRecord("discount_center_timings", ['DiscountCenterID' => $id]);
+            foreach ($days as $day) {
+                if (!empty($startTimes[$day]) && !empty($endTimes[$day])) {
+                    $timingRecord = [
+                        'DiscountCenterID' => $id,
+                        'Weekday' => $day,
+                        'StartTime' => $startTimes[$day],
+                        'EndTime' => $endTimes[$day]
+                    ];
+                    $Crud->AddRecord("discount_center_timings", $timingRecord);
+                }
+            }
+
+            // Update Images
+            if (!empty($_FILES['image']['name'][0])) {
+                for ($i = 0; $i < count($files['name']); $i++) {
+                    $ext = pathinfo($files['name'][$i], PATHINFO_EXTENSION);
+                    $fileName = strtolower($Main->RandFileName() . "." . $ext);
+
+                    if (move_uploaded_file($files['tmp_name'][$i], $uploadDir . $fileName)) {
+                        $imageRecord = [
+                            'DiscountCenterID' => $id,
+                            'Image' => $fileName,
+                            'SortOrder' => $sortOrders[$i]
+                        ];
+                        $Crud->AddRecord("discount_center_images", $imageRecord);
+                    }
+                }
+            }
+
+            $response['status'] = 'success';
+            $response['message'] = 'Discount Center Updated Successfully!';
         }
 
         echo json_encode($response);
