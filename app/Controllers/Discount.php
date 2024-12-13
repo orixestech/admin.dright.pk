@@ -75,13 +75,30 @@ class Discount extends BaseController
         $data = $this->data;
         $data['UID'] = getSegment(3);
         echo view('header', $data);
-        $LookupOptionData = new Main();
-
-        $data['Group'] = $LookupOptionData->LookupsOption("discount_group", 0);
 
         echo view('discount/discount_center_doctor', $data);
+        echo view('footer', $data);
+    }
+    public function discount_center_doctor_form()
+    {
+        $data = $this->data;
+        $data['UID'] = getSegment(4);
+        $data['page'] = getSegment(3);
+        if ($data['page'] == 'update-doctor'){
+            $ID = getSegment(4);
+//            print_r($UID);exit();
+            $data['ID'] = $ID;
+            $Crud = new Crud();
+            $PAGE = $Crud->SingleRecord('discount_center', array("UID" => $ID));
+            echo view('header', $data);
+            echo view('discount/discount_doctor_main_form', $data);
+
+        }else{
+            $data['PAGE'] = array();
 
 
+        echo view('discount/discount_doctor_main_form', $data);
+        }
         echo view('footer', $data);
     }
 
@@ -432,6 +449,210 @@ class Discount extends BaseController
         }
 
         echo json_encode($response);
+    }
+   public function discount_doctor_form_submit()
+    {
+        $Crud = new Crud();
+        $id = $this->request->getVar('id');
+        $discountcenterid = $this->request->getVar('discountcenterid');
+        $Main = new Main();
+
+        $filename = "";
+        $record = array();
+
+
+        if ($_FILES['profile']['tmp_name']) {
+            $ext = @end(@explode(".", basename($_FILES['profile']['name'])));
+            $uploaddir = ROOT . "/upload/discount/doctors/";
+            $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
+
+            if (move_uploaded_file($_FILES['profile']['tmp_name'], $uploaddir . $uploadfile)) {
+                $filename = $uploadfile;
+            }
+        }
+        $record = [
+            'DiscountCenterUID' => $discountcenterid,
+            'Name' => $this->request->getVar('name'),
+            'Qualification' => $this->request->getVar('qualification'),
+            'PMDCno' => $this->request->getVar('pmdc'),
+            'Speciality' => $this->request->getVar('Speciality'),
+            'ShortDesc' => $this->request->getVar('short_description'),
+            'Department' => $this->request->getVar('department'),
+            'Website' => $this->request->getVar('Website'),
+            'Profile' => $filename ?: '',
+        ];
+
+
+        if ($id == 0) {
+
+            $RecordId = $Crud->AddRecord("discount_center_doctors", $record);
+
+            if ($RecordId) {
+                // Add timings
+                $this->manageDoctorTimings($RecordId, $_REQUEST);
+                $data = ['status' => "success", 'id' => $discountcenterid, 'msg' => "Discount Center Doctors Added Successfully!"];
+            } else {
+                $data = ['status' => "fail", 'msg' => "Error in Adding Discount Center Doctors!"];
+            }
+
+                ///////////////////////// Docotrs Specialities Segment Start //////////////////////////////////
+
+                /*$Speciality = $this->request->getVar( 'speciality' );
+
+				for( $i = 0; $i < count( $Speciality ); $i++ ){
+
+						$this->db->trans_start();
+						$this->db->set('DiscountCenterUID', $discountcenterid);
+						$this->db->set('DiscountCenterDoctorUID', $docid);
+						$this->db->set('Speciality', $Speciality[$i]);
+						$this->db->insert('discount_center_doctors_specialities');
+						$this->db->trans_complete();
+
+				}*/
+
+                ////////////////////// Doctors Timings Segment Start /////////////////////////////////
+                $Shift = array('morning', 'evening');
+                $Days = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
+
+                $timingArray = array();
+                $StartTime = $_REQUEST['start_time'];
+                $EndTime = $_REQUEST['end_time'];
+                $on_call = $_REQUEST['on_call'];
+
+                foreach ($Shift as $ME) {
+                    foreach ($Days as $Day) {
+                        $fdata = array();
+                        $fdata['DiscountDoctUID'] = $discountcenterid;
+                        $fdata['Shift'] = $ME;
+                        $fdata['Weekday'] = $Day;
+                        (isset($StartTime[$ME][$Day]) && $StartTime[$ME][$Day] != '') ? $fdata['StartTime'] = $StartTime[$ME][$Day] : '';
+                        (isset($EndTime[$ME][$Day]) && $EndTime[$ME][$Day] != '') ? $fdata['EndTime'] = $EndTime[$ME][$Day] : '';
+                        (isset($on_call[$ME][$Day])) ? $fdata['OnCall'] = 1 : '';
+
+                        $timingArray[] = $fdata;
+                    }
+                }
+
+                foreach ($timingArray as $timequery) {
+                    if (isset($timequery['StartTime']) || isset($timequery['EndTime']) || isset($timequery['OnCall'])) {
+                        $this->db->trans_start();
+                        $this->db->db_debug = FALSE;
+                        $this->db->insert('discount_center_doctors_timings', $timequery);
+                        //echo $this->db->last_query();
+                        $this->db->trans_complete();
+                    }
+                }
+
+
+                $data = array();
+                $data['status'] = "success";
+                $data['id'] = $discountcenterid;
+                $data['msg'] = "Discount Center Doctors Added Suuccessfully.....!";
+                echo json_encode($data);
+
+
+            } else {
+
+                $data = array();
+                $data['status'] = "fail";
+                $data['msg'] = "Error in Adding Discount Center Doctors...!";
+                echo json_encode($data);
+            }
+
+
+        } else {
+
+            $this->db->trans_start();
+            $this->db->set('DiscountCenterUID', $discountcenterid);
+            $this->db->set('Name', $this->request->getVar('name'));
+            $this->db->set('Qualification', $this->request->getVar('qualification'));
+            $this->db->set('PMDCno', $this->request->getVar('pmdc'));
+            $this->db->set('Speciality', $this->request->getVar('Speciality'));
+            $this->db->set('ShortDesc', $this->request->getVar('short_description'));
+            $this->db->set('Department', $this->request->getVar('department'));
+            $this->db->set('Website', $this->request->getVar('Website'));
+            if ($filename != '') {
+
+                $this->db->set('Profile', $filename);
+            }
+
+            $this->db->where('UID', $id);
+            if ($this->db->update('discount_center_doctors')) {
+                $this->db->trans_complete();
+
+                ///////////////////////// Docotrs Specialities Segment Start //////////////////////////////////
+
+                /*$Speciality = $this->request->getVar( 'speciality' );
+					$this->db->trans_start();
+					$this->db->where( 'DiscountCenterDoctorUID', $id );
+					$this->db->delete( 'discount_center_doctors_specialities' );
+					$this->db->trans_complete();
+
+					for( $i = 0; $i< count( $Speciality ); $i++ ){
+
+						$this->db->trans_start();
+						$this->db->set('DiscountCenterUID', $discountcenterid);
+						$this->db->set('DiscountCenterDoctorUID', $id);
+						$this->db->set('Speciality', $Speciality[$i]);
+						$this->db->insert('discount_center_doctors_specialities');
+						$this->db->trans_complete();
+
+					}*/
+
+                ////////////////////// Doctors Timings Segment Start /////////////////////////////////
+
+                $this->db->trans_start();
+                $this->db->where('DiscountDoctUID', $id);
+                $this->db->delete('discount_center_doctors_timings');
+                $this->db->trans_complete();
+
+                $Shift = array('morning', 'evening');
+                $Days = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
+
+                $timingArray = array();
+                $StartTime = $_REQUEST['start_time'];
+                $EndTime = $_REQUEST['end_time'];
+                $on_call = $_REQUEST['on_call'];
+
+                foreach ($Shift as $ME) {
+                    foreach ($Days as $Day) {
+                        $fdata = array();
+                        $fdata['DiscountDoctUID'] = $id;
+                        $fdata['Shift'] = $ME;
+                        $fdata['Weekday'] = $Day;
+                        (isset($StartTime[$ME][$Day]) && $StartTime[$ME][$Day] != '') ? $fdata['StartTime'] = $StartTime[$ME][$Day] : '';
+                        (isset($EndTime[$ME][$Day]) && $EndTime[$ME][$Day] != '') ? $fdata['EndTime'] = $EndTime[$ME][$Day] : '';
+                        (isset($on_call[$ME][$Day])) ? $fdata['OnCall'] = 1 : '';
+
+                        $timingArray[] = $fdata;
+                    }
+                }
+
+                foreach ($timingArray as $timequery) {
+                    if (isset($timequery['StartTime']) || isset($timequery['EndTime']) || isset($timequery['OnCall'])) {
+                        $this->db->trans_start();
+                        $this->db->db_debug = FALSE;
+                        $this->db->insert('discount_center_doctors_timings', $timequery);
+                        //echo $this->db->last_query();
+                        $this->db->trans_complete();
+                    }
+                }
+
+
+                $data = array();
+                $data['status'] = "success";
+                $data['id'] = $discountcenterid;
+                $data['msg'] = "Discount Center Doctors Updated Suuccessfully.....!";
+                echo json_encode($data);
+            } else {
+
+                $data = array();
+                $data['status'] = "fail";
+                $data['msg'] = "Error in Updating Discount Center Doctors...!";
+                echo json_encode($data);
+            }
+
+        }
     }
 
 

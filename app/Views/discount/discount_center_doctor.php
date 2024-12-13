@@ -62,24 +62,16 @@
 
     </script>
     <script>
-        function AddDiscountOffer(id) {
-            $('#AddDiscountOfferModal form#AddDiscountOfferForm input#DiscountCenterID').val(id);
-            $('#AddDiscountOfferModal').modal('show');
+        function AddDiscountDoctor(id) {
+            location.href = "<?=$path?>discount/discount_center_doctor_form/add-doctor/" + id;
+
 
         }
 
 
         function EditDiscountCenterOffer(id,discountid) {
-            var Items = AjaxResponse("discount/get_record_discount_offer", "id=" + id);
+            location.href = "<?=$path?>discount/discount_center_doctor_form/update-doctor/" + id;
 
-            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#UID').val(Items.record.UID);
-            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#CurrentPrice').val(Items.record.CurrentPrice);
-            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#DiscountCenterID').val(discountid);
-            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#BasicDiscount').val(Items.record.BasicDiscount);
-            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#PremiumDiscount').val(Items.record.PremiumDiscount);
-            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#ServiceName').val(Items.record.ServiceName);
-            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm select#Group').val(Items.record.Group);
-            $('#UpdateDiscountOfferModal').modal('show');
         }
 
         function DeleteDiscountCenterOffer(id) {
