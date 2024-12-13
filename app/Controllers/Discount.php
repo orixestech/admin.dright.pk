@@ -70,6 +70,20 @@ class Discount extends BaseController
 
         echo view('footer', $data);
     }
+    public function discount_center_doctor()
+    {
+        $data = $this->data;
+        $data['UID'] = getSegment(3);
+        echo view('header', $data);
+        $LookupOptionData = new Main();
+
+        $data['Group'] = $LookupOptionData->LookupsOption("discount_group", 0);
+
+        echo view('discount/discount_center_doctor', $data);
+
+
+        echo view('footer', $data);
+    }
 
     public function dashboard()
     {
@@ -117,6 +131,7 @@ class Discount extends BaseController
                 <a class="dropdown-item" onclick="EditDiscountCenter(' . htmlspecialchars($record['UID']) . ')">Update</a>
                 <a class="dropdown-item" onclick="DeleteDiscountCenter(' . htmlspecialchars($record['UID']) . ')">Delete</a>
                 <a class="dropdown-item" onclick="discount_offer(' . htmlspecialchars($record['UID']) . ')">Discount Offer</a>
+                <a class="dropdown-item" onclick="discount_center_doctor(' . htmlspecialchars($record['UID']) . ')">Discount Doctor</a>
 
             </div>
         </div>
@@ -133,7 +148,53 @@ class Discount extends BaseController
 
         echo json_encode($response);
     }
+    public function fetch_discount_doctor()
+    {
+        $DiscountModel = new DiscountModel();
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+        $ID = $this->request->getVar('UID');
 
+        $Data = $DiscountModel->get_datatables_discount_doctor($ID, $keyword);
+        $totalfilterrecords = $DiscountModel->count_datatables_discount_doctor($ID, $keyword);
+
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = (isset($record['Image']) && $record['Image'] != '')
+                ? '<img src="' . PATH . 'upload/doctors/' . $record['Image'] . '" class="img-thumbnail" style="height:80px;">'
+                : '<img class="img-thumbnail" style="height:40px;" src="' . PATH . 'upload/doctors/images.png">';
+
+            $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
+            $data[] = isset($record['Qualification']) ? htmlspecialchars($record['Qualification']) : '';
+            $data[] = isset($record['Speciality']) ? htmlspecialchars($record['Speciality']) : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateDiscountDoctor(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteDiscountDoctor(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+            </div>
+        </div>
+    </td>';
+
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+
+        echo json_encode($response);
+    }
     public function fetch_discount_offer()
 
     {

@@ -2,52 +2,43 @@
 
 <div class="card">
     <div class="card-body">
-        <h4>Discount Center
+        <h4>Discounts Center Doctor
             <span style="float: right;">
-                <button type="button" onclick="AddDiscount()"
+                <button type="button" onclick="AddDiscountDoctor(<?=$UID?>)"
                         class="btn btn-primary "
                         data-toggle="modal" data-target="#exampleModal">
               Add
             </button>
            </span></h4>
-
     </div>
     <div class="table-responsive">
         <table id="frutis" class="table table-striped table-bordered">
-            <thead>
-            <tr>
-                <th>Sr. No</th>
-                <th>Department</th>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Address</th>
-                <th>Services</th>
-                <th>Basic Discount</th>
-                <th>Premium Discount</th>
-                <th>Actions</th>
+            <thead>    	<tr>
+                <th width="80">Sr. No</th>
+                <th>Profile</th>
+                <th>Name</th>
+                <th>Qualification</th>
+                <th>Speciality</th>
+                <th width="180">Actions</th>
             </tr>
             </thead>
             <tbody>
             </tbody>
             <tfoot>
             <tr>
-                <th>Sr. No</th>
-                <th>Department</th>
-                <th>Image</th>
-                <th>Title</th>
-                <th>Address</th>
-                <th>Services</th>
-                <th>Basic Discount</th>
-                <th>Premium Discount</th>
-                <th>Actions</th>
+                <th width="80">Sr. No</th>
+                <th>Profile</th>
+                <th>Name</th>
+                <th>Qualification</th>
+                <th>Speciality</th>
+                <th width="180">Actions</th>
             </tr>
             <div class="mt-4" id="Response"></div>
 
             </tfoot>
         </table>
     </div>
-<!--    --><?php //echo view('investigation/modal/add_lab'); ?>
-<!--    --><?php //echo view('investigation/modal/update_lab'); ?>
+
     <script>
         $(document).ready(function (){
             $('#frutis').DataTable({
@@ -61,34 +52,39 @@
                 "pageLength": 100,
                 "autoWidth": true,
                 "ajax": {
-                    "url": "<?= $path ?>discount/fetch_discount",
+                    "url": "<?= $path ?>discount/fetch_discount_doctor",
                     "type": "POST",
-
+                    data: {
+                        UID: '<?=$UID?>' // Wrap UID in quotes for string data
+                    }
                 }
             });});
 
     </script>
     <script>
-        function AddDiscount() {
-            location.href = "<?=$path?>discount/discount_center/add-discount/" ;
-
-
-        }
-        function discount_offer(id) {
-            location.href = "<?=$path?>discount/discount_center_offer/" + id;
-        }
-        function discount_center_doctor(id) {
-            location.href = "<?=$path?>discount/discount_center_doctor/" + id;
-        }
-
-        function EditDiscountCenter(id) {
-            location.href = "<?=$path?>discount/discount_center/update-discount/" + id;
+        function AddDiscountOffer(id) {
+            $('#AddDiscountOfferModal form#AddDiscountOfferForm input#DiscountCenterID').val(id);
+            $('#AddDiscountOfferModal').modal('show');
 
         }
 
-        function DeleteDiscountCenter(id) {
+
+        function EditDiscountCenterOffer(id,discountid) {
+            var Items = AjaxResponse("discount/get_record_discount_offer", "id=" + id);
+
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#UID').val(Items.record.UID);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#CurrentPrice').val(Items.record.CurrentPrice);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#DiscountCenterID').val(discountid);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#BasicDiscount').val(Items.record.BasicDiscount);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#PremiumDiscount').val(Items.record.PremiumDiscount);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#ServiceName').val(Items.record.ServiceName);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm select#Group').val(Items.record.Group);
+            $('#UpdateDiscountOfferModal').modal('show');
+        }
+
+        function DeleteDiscountCenterOffer(id) {
             if (confirm("Are you Sure U want to Delete this?")) {
-                response = AjaxResponse("discount/delete_discount_center", "id=" + id);
+                response = AjaxResponse("discount/delete_discount_center_offers", "id=" + id);
                 if (response.status == 'success') {
                     $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
                     setTimeout(function () {
@@ -101,23 +97,6 @@
                     }, 1000);
                 }
 
-            }
-        }
-        function SearchFilterFormSubmit(parent) {
-
-            var data = $("form#" + parent).serialize();
-            var rslt = AjaxResponse('investigation/investiagation_search_filter', data);
-            if (rslt.status == 'success') {
-                $("#AllInvestigationFilterForm form #FilterResponse").html(rslt.message);
-                location.reload();
-            }
-        }
-
-        function ClearAllFilter(Session) {
-            var rslt = AjaxResponse('home/clear_session', 'SessionName=' + Session);
-            if (rslt.status == 'success') {
-                $("#AllInvestigationFilterForm form #FilterResponse").html(rslt.message);
-                location.reload();
             }
         }
     </script>
