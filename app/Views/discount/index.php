@@ -74,8 +74,8 @@
 
 
         }
-        function ViewParameter(id) {
-            location.href = "<?=$path?>investigation/view_parameter/" + id;
+        function discount_offer(id) {
+            location.href = "<?=$path?>discount/discount_center_offer/" + id;
         }
 
         function EditDiscountCenter(id) {

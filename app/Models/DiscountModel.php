@@ -21,6 +21,16 @@ class DiscountModel extends Model
         $SQL .=' Order By `OrderID` ASC';
         return $SQL;
     }
+    public function ListDiscountCenterOffers($id,$keyword)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `discount_center_offers`  where `DiscountCenterID`=\'' . $id . '\'
+                      ';
+        if($keyword!=''){
+            $SQL .= ' AND  `Title` LIKE \'%' . $keyword . '%\'   ';
+        }
+        return $SQL;
+    }
     public function get_speciality_data()
     {
         $Crud = new Crud();
@@ -58,7 +68,6 @@ class DiscountModel extends Model
         $Crud = new Crud();
         $SQL = 'SELECT * FROM `discount_center_timings` where `DiscountCenterID`=\'' . $id . '\'
                       ';
-
         $records = $Crud->ExecuteSQL($SQL);
 
         return $records;
@@ -79,7 +88,6 @@ class DiscountModel extends Model
     function get_discount_datatables($keyword)
     {
         $Crud = new Crud();
-
         $SQL = $this->ListDiscountCenter($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
@@ -92,17 +100,15 @@ class DiscountModel extends Model
     function count_discount_datatables($keyword)
     {
         $Crud = new Crud();
-
         $SQL = $this->ListDiscountCenter($keyword);
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
   public
-    function get_datatables_investigation_parameter($keyword,$ID)
+    function get_datatables_discount_offer($ID,$keyword)
     {
         $Crud = new Crud();
-
-        $SQL = $this->investigation_parameter($keyword,$ID);
+        $SQL = $this->ListDiscountCenterOffers($ID,$keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
 //        echo nl2br($SQL); exit;
@@ -111,11 +117,10 @@ class DiscountModel extends Model
     }
 
     public
-    function count_datatables_investigation_parameter($keyword,$ID)
+    function count_datatables_discount_offer($ID,$keyword)
     {
         $Crud = new Crud();
-
-        $SQL = $this->investigation_parameter($keyword,$ID);
+        $SQL = $this->ListDiscountCenterOffers($ID,$keyword);
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }

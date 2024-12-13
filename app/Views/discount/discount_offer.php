@@ -2,9 +2,9 @@
 
 <div class="card">
     <div class="card-body">
-        <h4>Parameters
+        <h4>Discounts Center Offers
             <span style="float: right;">
-                <button type="button" onclick="AddInvestigationParameter(<?=$UID?>)"
+                <button type="button" onclick="AddDiscountOffer(<?=$UID?>)"
                         class="btn btn-primary "
                         data-toggle="modal" data-target="#exampleModal">
               Add
@@ -13,29 +13,35 @@
     </div>
     <div class="table-responsive">
         <table id="frutis" class="table table-striped table-bordered">
-            <thead>            <tr>
-                <th>Sr No</th>
-                <th>Parameters</th>
-                <th>Minimum Range</th>
-                <th>Maximum Range</th>
-                <th>Actions</th>
+            <thead>        <tr>
+                <th width="80">Sr. No</th>
+                <th>Group</th>
+                <th>Service Name</th>
+                <th>Current Price</th>
+                <th>Basic Discount</th>
+                <th>Premium Discount</th>
+                <th width="180">Actions</th>
             </tr>
             </thead>
             <tbody>
             </tbody>
             <tfoot>
             <tr>
-                <th>Sr No</th>
-                <th>Parameters</th>
-                <th>Minimum Range</th>
-                <th>Maximum Range</th>
-                <th>Actions</th>
+                <th width="80">Sr. No</th>
+                <th>Group</th>
+                <th>Service Name</th>
+                <th>Current Price</th>
+                <th>Basic Discount</th>
+                <th>Premium Discount</th>
+                <th width="180">Actions</th>
             </tr>
+            <div class="mt-4" id="Response"></div>
+
             </tfoot>
         </table>
     </div>
-    <?php echo view('investigation/modal/add_parameter'); ?>
-    <?php echo view('investigation/modal/update_parameter'); ?>
+    <?php echo view('discount/modal/add_offer'); ?>
+    <?php echo view('discount/modal/update_offer'); ?>
     <script>
         $(document).ready(function (){
             $('#frutis').DataTable({
@@ -49,7 +55,7 @@
                 "pageLength": 100,
                 "autoWidth": true,
                 "ajax": {
-                    "url": "<?= $path ?>investigation/fetch_investigation_parameter",
+                    "url": "<?= $path ?>discount/fetch_discount_offer",
                     "type": "POST",
                     data: {
                         UID: '<?=$UID?>' // Wrap UID in quotes for string data
@@ -59,27 +65,29 @@
 
     </script>
     <script>
-        function AddInvestigationParameter(id) {
-            $('#AddInvestigationParameterModal form#AddInvestigationParameterForm input#InvestigationUID').val(id);
-            $('#AddInvestigationParameterModal').modal('show');
+        function AddDiscountOffer(id) {
+            $('#AddDiscountOfferModal form#AddDiscountOfferForm input#DiscountCenterID').val(id);
+            $('#AddDiscountOfferModal').modal('show');
 
         }
      
 
-        function UpdateInvestigationParameter(id,investigationid) {
-            var Items = AjaxResponse("investigation/get_record_parameter", "id=" + id);
+        function EditDiscountCenterOffer(id,discountid) {
+            var Items = AjaxResponse("discount/get_record_discount_offer", "id=" + id);
 
-            $('#UpdateInvestigationParameterModal form#UpdateInvestigationParameterForm input#UID').val(Items.record.UID);
-            $('#UpdateInvestigationParameterModal form#UpdateInvestigationParameterForm input#InvestigationUID').val(investigationid);
-            $('#UpdateInvestigationParameterModal form#UpdateInvestigationParameterForm input#Parameters').val(Items.record.Parameters);
-            $('#UpdateInvestigationParameterModal form#UpdateInvestigationParameterForm input#MinRange').val(Items.record.MinRange);
-            $('#UpdateInvestigationParameterModal form#UpdateInvestigationParameterForm input#MaxRange').val(Items.record.MaxRange);
-            $('#UpdateInvestigationParameterModal').modal('show');
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#UID').val(Items.record.UID);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#CurrentPrice').val(Items.record.CurrentPrice);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#DiscountCenterID').val(discountid);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#BasicDiscount').val(Items.record.BasicDiscount);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#PremiumDiscount').val(Items.record.PremiumDiscount);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm input#ServiceName').val(Items.record.ServiceName);
+            $('#UpdateDiscountOfferModal form#UpdateDiscountOfferForm select#Group').val(Items.record.Group);
+            $('#UpdateDiscountOfferModal').modal('show');
         }
 
-        function DeleteInvestigationParameter(id) {
+        function DeleteDiscountCenterOffer(id) {
             if (confirm("Are you Sure U want to Delete this?")) {
-                response = AjaxResponse("investigation/delete_investigation_parameter", "id=" + id);
+                response = AjaxResponse("discount/delete_discount_center_offers", "id=" + id);
                 if (response.status == 'success') {
                     $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
                     setTimeout(function () {

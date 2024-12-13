@@ -56,13 +56,16 @@ class Discount extends BaseController
         echo view('footer', $data);
     }
 
-    public function view_parameter()
+    public function discount_center_offer()
     {
         $data = $this->data;
         $data['UID'] = getSegment(3);
         echo view('header', $data);
+        $LookupOptionData = new Main();
 
-        echo view('investigation/parameter', $data);
+        $data['Group'] = $LookupOptionData->LookupsOption("discount_group", 0);
+
+        echo view('discount/discount_offer', $data);
 
 
         echo view('footer', $data);
@@ -113,7 +116,7 @@ class Discount extends BaseController
             <div class="dropdown-menu">
                 <a class="dropdown-item" onclick="EditDiscountCenter(' . htmlspecialchars($record['UID']) . ')">Update</a>
                 <a class="dropdown-item" onclick="DeleteDiscountCenter(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-                <a class="dropdown-item" onclick="ViewParameter(' . htmlspecialchars($record['UID']) . ')">View Parameter</a>
+                <a class="dropdown-item" onclick="discount_offer(' . htmlspecialchars($record['UID']) . ')">Discount Offer</a>
 
             </div>
         </div>
@@ -131,29 +134,32 @@ class Discount extends BaseController
         echo json_encode($response);
     }
 
-    public function fetch_investigation_parameter()
+    public function fetch_discount_offer()
 
     {
-        $InvestigationModel = new InvestigationModel();
+        $DiscountModel = new DiscountModel();
         $Lookup = new LookupModal();
 
         $ID = $this->request->getVar('UID');
 
         $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
-        $Data = $InvestigationModel->get_datatables_investigation_parameter($keyword, $ID);
-        $totalfilterrecords = $InvestigationModel->count_datatables_investigation_parameter($keyword, $ID);
+        $Data = $DiscountModel->get_datatables_discount_offer($ID,$keyword);
+        $totalfilterrecords = $DiscountModel->count_datatables_discount_offer($ID,$keyword);
 
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
+            $Group = $Lookup->LookupOptionBYID($record['Group']);
 
             $cnt++;
             $data = array();
             $data[] = $cnt;
-            $data[] = isset($record['Parameters']) ? htmlspecialchars($record['Parameters']) : '';
-            $data[] = isset($record['MinRange']) ? htmlspecialchars($record['MinRange']) : '';
-            $data[] = isset($record['MaxRange']) ? htmlspecialchars($record['MaxRange']) : '';
+            $data[] = isset($Group[0]['Name']) ? htmlspecialchars($Group[0]['Name']) : '';
+            $data[] = isset($record['ServiceName']) ? htmlspecialchars($record['ServiceName']) : '';
+            $data[] = isset($record['CurrentPrice']) ? htmlspecialchars($record['CurrentPrice']) : '';
+            $data[] = isset($record['BasicDiscount']) ? htmlspecialchars($record['BasicDiscount']) : '';
+            $data[] = isset($record['PremiumDiscount']) ? htmlspecialchars($record['PremiumDiscount']) : '';
 
             $data[] = '
     <td class="text-end">
@@ -162,8 +168,8 @@ class Discount extends BaseController
                 Actions
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="UpdateInvestigationParameter(\'' . htmlspecialchars($record['UID']) . '\', \'' . htmlspecialchars($ID) . '\')">Update</a>
-                <a class="dropdown-item" onclick="DeleteInvestigationParameter(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+                <a class="dropdown-item" onclick="EditDiscountCenterOffer(\'' . htmlspecialchars($record['UID']) . '\', \'' . htmlspecialchars($ID) . '\')">Update</a>
+                <a class="dropdown-item" onclick="DeleteDiscountCenterOffer(' . htmlspecialchars($record['UID']) . ')">Delete</a>
 
             </div>
         </div>
@@ -278,6 +284,7 @@ class Discount extends BaseController
             }
         } else {
             $Crud->UpdateRecord("discount_center", $record, ['UID' => $id]);
+            $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
             // Update Specialities
             $Crud->DeleteRecord("discount_center_specialities", ['DiscountCenterUID' => $id]);
@@ -330,7 +337,7 @@ class Discount extends BaseController
         echo json_encode($response);
     }
 
-    public function parameter_form_submit()
+    public function discount_offer_form_submit()
     {
         $Crud = new Crud();
         $Main = new Main();
@@ -338,15 +345,15 @@ class Discount extends BaseController
         $record = array();
 
         $id = $this->request->getVar('UID');
-        $Parameter = $this->request->getVar('Parameter');
+        $Offer = $this->request->getVar('Offer');
 
 //print_r($Lookup);exit();
         if ($id == 0) {
-            foreach ($Parameter as $key => $value) {
+            foreach ($Offer as $key => $value) {
                 $record[$key] = ((isset($value)) ? $value : '');
             }
 
-            $RecordId = $Crud->AddRecord("investigation_parameters", $record);
+            $RecordId = $Crud->AddRecord("discount_center_offers", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $response['status'] = 'success';
                 $response['message'] = 'Added Successfully...!';
@@ -355,10 +362,10 @@ class Discount extends BaseController
                 $response['message'] = 'Data Didnt Submitted Successfully...!';
             }
         } else {
-            foreach ($Parameter as $key => $value) {
+            foreach ($Offer as $key => $value) {
                 $record[$key] = $value;
             }
-            $Crud->UpdateRecord("investigation_parameters", $record, array("UID" => $id));
+            $Crud->UpdateRecord("discount_center_offers", $record, array("UID" => $id));
             $response['status'] = 'success';
             $response['message'] = 'Updated Successfully...!';
         }
@@ -375,43 +382,29 @@ class Discount extends BaseController
         $Crud->DeleteRecord("discount_center", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
-        $response['message'] = 'Diet Deleted Successfully...!';
+        $response['message'] = 'Deleted Successfully...!';
         echo json_encode($response);
     }
-    public function delete_investigation_parameter()
+    public function delete_discount_center_offers()
     {
         $data = $this->data;
         $UID = $this->request->getVar('id');
         $Crud = new Crud();
-        $table = "investigation_parameters";
-        $record['Archive'] = 1;
-        $where = array('UID' => $UID);
-        $Crud->UpdateRecord($table, $record, $where);
+        $Crud->DeleteRecord("discount_center_offers", array("UID" => $UID));
+
         $response['status'] = 'success';
         $response['message'] = 'Deleted Successfully...!';
 
         echo json_encode($response);
     }
 
-    public function get_record()
+
+    public function get_record_discount_offer()
     {
         $Crud = new Crud();
         $id = $_POST['id'];
 
-        $record = $Crud->SingleRecord("investigation", array("UID" => $id));
-        $response = array();
-        $response['status'] = 'success';
-        $response['record'] = $record;
-        $response['message'] = 'Record Get Successfully...!';
-        echo json_encode($response);
-    }
-
-    public function get_record_parameter()
-    {
-        $Crud = new Crud();
-        $id = $_POST['id'];
-
-        $record = $Crud->SingleRecord("investigation_parameters", array("UID" => $id));
+        $record = $Crud->SingleRecord("discount_center_offers", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['record'] = $record;
