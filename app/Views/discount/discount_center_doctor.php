@@ -69,12 +69,12 @@
         }
 
 
-        function EditDiscountCenterOffer(id,discountid) {
+        function UpdateDiscountDoctor(id) {
             location.href = "<?=$path?>discount/discount_center_doctor_form/update-doctor/" + id;
 
         }
 
-        function DeleteDiscountCenterOffer(id) {
+        function DeleteDiscountDoctor(id) {
             if (confirm("Are you Sure U want to Delete this?")) {
                 response = AjaxResponse("discount/delete_discount_center_offers", "id=" + id);
                 if (response.status == 'success') {

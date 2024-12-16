@@ -27,26 +27,26 @@ class Discount extends BaseController
         $LookupOptionData = new Main();
         $DiscountModel = new DiscountModel();
         echo view('header', $data);
-        $data['Specialities'] =$DiscountModel->get_speciality_data();
+        $data['Specialities'] = $DiscountModel->get_speciality_data();
 
-        if ($data['page'] == 'add-discount'){
+        if ($data['page'] == 'add-discount') {
 
             $data['PAGE'] = array();
             $Crud = new Crud();
             echo view('discount/main_form', $data);
 
-        }else if($data['page'] == 'update-discount') {
+        } else if ($data['page'] == 'update-discount') {
             $UID = getSegment(4);
 //            print_r($UID);exit();
             $data['UID'] = $UID;
             $Crud = new Crud();
             $PAGE = $Crud->SingleRecord('discount_center', array("UID" => $UID));
-            $data['Images'] =$DiscountModel->GetDiscountCenterImagesByID($UID);
+            $data['Images'] = $DiscountModel->GetDiscountCenterImagesByID($UID);
 
             $data['Data'] = $PAGE;
             echo view('discount/update_discount_main_form', $data);
 
-        }else{
+        } else {
 
             echo view('discount/index', $data);
 
@@ -70,34 +70,39 @@ class Discount extends BaseController
 
         echo view('footer', $data);
     }
+
     public function discount_center_doctor()
     {
         $data = $this->data;
         $data['UID'] = getSegment(3);
-        echo view('header', $data);
+//        print_r( $data['UID'] );exit();
 
+        echo view('header', $data);
         echo view('discount/discount_center_doctor', $data);
         echo view('footer', $data);
     }
+
     public function discount_center_doctor_form()
     {
         $data = $this->data;
         $data['UID'] = getSegment(4);
         $data['page'] = getSegment(3);
-        if ($data['page'] == 'update-doctor'){
+        echo view('header', $data);
+
+        if ($data['page'] == 'update-doctor') {
             $ID = getSegment(4);
 //            print_r($UID);exit();
             $data['ID'] = $ID;
             $Crud = new Crud();
-            $PAGE = $Crud->SingleRecord('discount_center', array("UID" => $ID));
-            echo view('header', $data);
-            echo view('discount/discount_doctor_main_form', $data);
+            $PAGE = $Crud->SingleRecord('discount_center_doctors', array("UID" => $ID));
+            $data['Data'] = $PAGE;
+            echo view('discount/discount_doc_update_form', $data);
 
-        }else{
+        } else {
             $data['PAGE'] = array();
 
 
-        echo view('discount/discount_doctor_main_form', $data);
+            echo view('discount/discount_doctor_main_form', $data);
         }
         echo view('footer', $data);
     }
@@ -112,7 +117,7 @@ class Discount extends BaseController
 
     public function fetch_discount()
     {
-       $DiscountModel = new DiscountModel();
+        $DiscountModel = new DiscountModel();
         $Lookup = new LookupModal();
 
 
@@ -165,6 +170,7 @@ class Discount extends BaseController
 
         echo json_encode($response);
     }
+
     public function fetch_discount_doctor()
     {
         $DiscountModel = new DiscountModel();
@@ -212,6 +218,7 @@ class Discount extends BaseController
 
         echo json_encode($response);
     }
+
     public function fetch_discount_offer()
 
     {
@@ -222,8 +229,8 @@ class Discount extends BaseController
 
         $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
-        $Data = $DiscountModel->get_datatables_discount_offer($ID,$keyword);
-        $totalfilterrecords = $DiscountModel->count_datatables_discount_offer($ID,$keyword);
+        $Data = $DiscountModel->get_datatables_discount_offer($ID, $keyword);
+        $totalfilterrecords = $DiscountModel->count_datatables_discount_offer($ID, $keyword);
 
         $dataarr = array();
         $cnt = $_POST['start'];
@@ -450,66 +457,43 @@ class Discount extends BaseController
 
         echo json_encode($response);
     }
-   public function discount_doctor_form_submit()
+
+    public function discount_doctor_form_submit()
     {
         $Crud = new Crud();
         $id = $this->request->getVar('id');
         $discountcenterid = $this->request->getVar('discountcenterid');
         $Main = new Main();
-
-        $filename = "";
-        $record = array();
-
-
-        if ($_FILES['profile']['tmp_name']) {
+        $profile = '';
+        if ($_FILES['profile']['tmp_name'] != '') {
             $ext = @end(@explode(".", basename($_FILES['profile']['name'])));
             $uploaddir = ROOT . "/upload/discount/doctors/";
             $uploadfile = strtolower($Main->RandFileName() . "." . $ext);
 
             if (move_uploaded_file($_FILES['profile']['tmp_name'], $uploaddir . $uploadfile)) {
-                $filename = $uploadfile;
+                $profile = $uploadfile;
             }
         }
-        $record = [
-            'DiscountCenterUID' => $discountcenterid,
-            'Name' => $this->request->getVar('name'),
-            'Qualification' => $this->request->getVar('qualification'),
-            'PMDCno' => $this->request->getVar('pmdc'),
-            'Speciality' => $this->request->getVar('Speciality'),
-            'ShortDesc' => $this->request->getVar('short_description'),
-            'Department' => $this->request->getVar('department'),
-            'Website' => $this->request->getVar('Website'),
-            'Profile' => $filename ?: '',
-        ];
-
-
         if ($id == 0) {
 
-            $RecordId = $Crud->AddRecord("discount_center_doctors", $record);
+            $record['DiscountCenterUID'] = $discountcenterid;
+            $record['Name'] = $this->request->getVar('name');
+            $record['Qualification'] = $this->request->getVar('qualification');
+            $record['PMDCno'] = $this->request->getVar('pmdc');
+            $record['Speciality'] = $this->request->getVar('Speciality');
+            $record['ShortDesc'] = $this->request->getVar('short_description');
+            $record['Department'] = $this->request->getVar('department');
+            $record['Website'] = $this->request->getVar('Website');
 
-            if ($RecordId) {
-                // Add timings
-                $this->manageDoctorTimings($RecordId, $_REQUEST);
-                $data = ['status' => "success", 'id' => $discountcenterid, 'msg' => "Discount Center Doctors Added Successfully!"];
+            if ($profile != '') {
+                $record['Profile'] = $profile;
+
             } else {
-                $data = ['status' => "fail", 'msg' => "Error in Adding Discount Center Doctors!"];
+                $record['Profile'] = $profile;
+
             }
-
-                ///////////////////////// Docotrs Specialities Segment Start //////////////////////////////////
-
-                /*$Speciality = $this->request->getVar( 'speciality' );
-
-				for( $i = 0; $i < count( $Speciality ); $i++ ){
-
-						$this->db->trans_start();
-						$this->db->set('DiscountCenterUID', $discountcenterid);
-						$this->db->set('DiscountCenterDoctorUID', $docid);
-						$this->db->set('Speciality', $Speciality[$i]);
-						$this->db->insert('discount_center_doctors_specialities');
-						$this->db->trans_complete();
-
-				}*/
-
+            $docid = $Crud->AddRecord("discount_center_doctors", $record);
+            if (isset($docid) && $docid > 0) {
                 ////////////////////// Doctors Timings Segment Start /////////////////////////////////
                 $Shift = array('morning', 'evening');
                 $Days = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
@@ -522,7 +506,7 @@ class Discount extends BaseController
                 foreach ($Shift as $ME) {
                     foreach ($Days as $Day) {
                         $fdata = array();
-                        $fdata['DiscountDoctUID'] = $discountcenterid;
+                        $fdata['DiscountDoctUID'] = $docid;
                         $fdata['Shift'] = $ME;
                         $fdata['Weekday'] = $Day;
                         (isset($StartTime[$ME][$Day]) && $StartTime[$ME][$Day] != '') ? $fdata['StartTime'] = $StartTime[$ME][$Day] : '';
@@ -535,11 +519,9 @@ class Discount extends BaseController
 
                 foreach ($timingArray as $timequery) {
                     if (isset($timequery['StartTime']) || isset($timequery['EndTime']) || isset($timequery['OnCall'])) {
-                        $this->db->trans_start();
-                        $this->db->db_debug = FALSE;
-                        $this->db->insert('discount_center_doctors_timings', $timequery);
-                        //echo $this->db->last_query();
-                        $this->db->trans_complete();
+
+                        $id = $Crud->AddRecord("discount_center_doctors_timings", $timequery);
+
                     }
                 }
 
@@ -560,51 +542,27 @@ class Discount extends BaseController
             }
 
 
-        } else {
+        }
+        else {
 
-            $this->db->trans_start();
-            $this->db->set('DiscountCenterUID', $discountcenterid);
-            $this->db->set('Name', $this->request->getVar('name'));
-            $this->db->set('Qualification', $this->request->getVar('qualification'));
-            $this->db->set('PMDCno', $this->request->getVar('pmdc'));
-            $this->db->set('Speciality', $this->request->getVar('Speciality'));
-            $this->db->set('ShortDesc', $this->request->getVar('short_description'));
-            $this->db->set('Department', $this->request->getVar('department'));
-            $this->db->set('Website', $this->request->getVar('Website'));
-            if ($filename != '') {
+            $record['DiscountCenterUID'] = $discountcenterid;
+            $record['Name'] = $this->request->getVar('name');
+            $record['Qualification'] = $this->request->getVar('qualification');
+            $record['PMDCno'] = $this->request->getVar('pmdc');
+            $record['Speciality'] = $this->request->getVar('Speciality');
+            $record['ShortDesc'] = $this->request->getVar('short_description');
+            $record['Department'] = $this->request->getVar('department');
+            $record['Website'] = $this->request->getVar('Website');
 
-                $this->db->set('Profile', $filename);
+            if ($profile != '') {
+                $record['Profile'] = $profile;
+
             }
 
-            $this->db->where('UID', $id);
-            if ($this->db->update('discount_center_doctors')) {
-                $this->db->trans_complete();
 
-                ///////////////////////// Docotrs Specialities Segment Start //////////////////////////////////
+            if ($Crud->UpdateRecord("discount_center_offers", $record, array("UID" => $id))) {
 
-                /*$Speciality = $this->request->getVar( 'speciality' );
-					$this->db->trans_start();
-					$this->db->where( 'DiscountCenterDoctorUID', $id );
-					$this->db->delete( 'discount_center_doctors_specialities' );
-					$this->db->trans_complete();
-
-					for( $i = 0; $i< count( $Speciality ); $i++ ){
-
-						$this->db->trans_start();
-						$this->db->set('DiscountCenterUID', $discountcenterid);
-						$this->db->set('DiscountCenterDoctorUID', $id);
-						$this->db->set('Speciality', $Speciality[$i]);
-						$this->db->insert('discount_center_doctors_specialities');
-						$this->db->trans_complete();
-
-					}*/
-
-                ////////////////////// Doctors Timings Segment Start /////////////////////////////////
-
-                $this->db->trans_start();
-                $this->db->where('DiscountDoctUID', $id);
-                $this->db->delete('discount_center_doctors_timings');
-                $this->db->trans_complete();
+                $Crud->DeleteRecord("discount_center_doctors_timings", array("DiscountDoctUID" => $id));
 
                 $Shift = array('morning', 'evening');
                 $Days = array('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
@@ -630,11 +588,8 @@ class Discount extends BaseController
 
                 foreach ($timingArray as $timequery) {
                     if (isset($timequery['StartTime']) || isset($timequery['EndTime']) || isset($timequery['OnCall'])) {
-                        $this->db->trans_start();
-                        $this->db->db_debug = FALSE;
-                        $this->db->insert('discount_center_doctors_timings', $timequery);
-                        //echo $this->db->last_query();
-                        $this->db->trans_complete();
+                        $id = $Crud->AddRecord("discount_center_doctors_timings", $timequery);
+
                     }
                 }
 
@@ -653,7 +608,12 @@ class Discount extends BaseController
             }
 
         }
+
     }
+
+
+
+
 
 
     public function delete_discount_center()
@@ -734,4 +694,32 @@ class Discount extends BaseController
 
         echo json_encode($response);
     }
+    public
+    function get_doctor_timings_data()
+    {
+        $DiscountModel = new DiscountModel();
+
+        $id = $this->request->getVar('id');
+
+        $Data = $DiscountModel->get_doct_timings_by_doct_id($id);
+        $result = array();
+
+        foreach ($Data as $D) {
+
+            $arr = array();
+
+            $arr['UID'] = $D['UID'];
+            $arr['DiscountDoctUID'] = $D['DiscountDoctUID'];
+            $arr['Shift'] = $D['Shift'];
+            $arr['Weekday'] = $D['Weekday'];
+            $arr['StartTime'] = (($D['StartTime'] != null) ? date('H:i', strtotime($D['StartTime'])) : null);
+            $arr['EndTime'] = (($D['EndTime'] != null) ? date('H:i', strtotime($D['EndTime'])) : null);
+            $arr['OnCall'] = $D['OnCall'];
+
+            $result[] = $arr;
+        }
+
+        echo json_encode($result);
+    }
+
 }

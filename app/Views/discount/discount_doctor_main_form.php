@@ -117,10 +117,7 @@ use App\Models\DiscountModel;
 									</div>';
                 }?>
                 <div class="col-md-12">
-                    <div id="AjaxResult"></div>
-                </div>
-                <div class="clearfix form-actions col-md-12">
-                    <button type="button" class="btn btn-success pull-right" onClick="DiscountCenterDoctorFormSubmit( 'AddDiscountCenterDoctors' )"> <i class="icon-ok bigger-110"></i> Submit </button>
+                    <div id="ajaxResponse"></div>
                 </div>
             </div>
         </form>

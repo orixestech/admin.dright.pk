@@ -11,7 +11,7 @@ use App\Models\DiscountModel;
         <form method="post" action="" name="AddDiscountCenter" id="AddDiscountCenter" class="needs-validation"
               novalidate=""
               enctype="multipart/form-data">
-            <input type="hidden" name="UID" id="UID" value="<?= ((isset($PAGE['UID'])) ? $PAGE['UID'] : '0') ?>">
+            <input type="hidden" name="UID" id="UID" value="0">
             <div class="row form-group">
                 <div class="col-md-6">
                     <div class="form-group row">
@@ -19,10 +19,10 @@ use App\Models\DiscountModel;
                         <div class="col-sm-12">
                             <select name="department" id="department" class="form-control" data-validation-engine="validate[required]">
                                 <option value="0">Please Select</option>
-                                <option value="Clinic" <?=( ( $PAGE[ 'Department']=='Clinic' )? 'selected' : '' )?> >Clinic</option>
-                                <option value="Hospital" <?=( ( $PAGE[ 'Department']=='Hospital' )? 'selected' : '' )?> >Hospital</option>
-                                <option value="Laboratory" <?=( ( $PAGE[ 'Department']=='Laboratory' )? 'selected' : '' )?> >Laboratory</option>
-                                <option value="Diagnostic Center" <?=( ( $PAGE[ 'Department']=='Diagnostic Center' )? 'selected' : '' )?> >Diagnostic Center</option>
+                                <option value="Clinic"  >Clinic</option>
+                                <option value="Hospital"  >Hospital</option>
+                                <option value="Laboratory">Laboratory</option>
+                                <option value="Diagnostic Center" >Diagnostic Center</option>
 
                             </select>
                         </div>

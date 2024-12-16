@@ -81,6 +81,15 @@ class DiscountModel extends Model
 
         return $records;
     }
+    public function get_doct_timings_by_doct_id($id)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `discount_center_doctors_timings` where `DiscountDoctUID`=\'' . $id . '\'
+                      ';
+        $records = $Crud->ExecuteSQL($SQL);
+
+        return $records;
+    }
     public function investigation_parameter($keyword,$ID)
     {
         $Crud = new Crud();
