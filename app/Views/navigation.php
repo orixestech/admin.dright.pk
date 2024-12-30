@@ -1,4 +1,5 @@
 <!-- Navigation -->
+<!-- Navigation -->
 <style>
     .navigation .navigation-menu-tab ul li a {
         padding: 4px 0 !important;
@@ -700,7 +701,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= $path ?>users/access-level">
+                    <a href="<?= $path ?>users">
                         <span class="nav-link-icon">
                             <i data-feather="mail"></i>
                         </span>

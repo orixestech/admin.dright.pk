@@ -39,7 +39,25 @@ class Main extends Model
                 exit;
             }
         }
+        $rolls_permissions = $this->GetRollsPermissions();
+        $data['rolls_permissions'] = $rolls_permissions;
         return $data;
+    }
+    public function GetRollsPermissions()
+    {
+        $Crud = new Crud();
+        $settings = $Crud->ListRecords('admin_access', [], ['Module' => 'ASC', 'AccessKey' => 'ASC']);
+
+        $final = [];
+        foreach ($settings as $setting) {
+            $TEMP = [];
+            $TEMP['uid'] = $setting['UID'];
+            $TEMP['key'] = $setting['AccessKey'];
+            $TEMP['title'] = $setting['Description'];
+
+            $final[$setting['Module']][] = $TEMP;
+        }
+        return $final;
     }
     public
     function GenAccessKey( $ExpireString = null ) {

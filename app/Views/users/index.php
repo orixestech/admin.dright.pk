@@ -67,7 +67,9 @@
             $('#AddUserModal').modal('show');
 
         }
-    
+        function AddAccessLevel(id) {
+            location.href = "<?=$path?>users/access_level/" + id;
+        }
         function UpdateUser(id) {
             var Items = AjaxResponse("users/get-record", "id=" + id);
 

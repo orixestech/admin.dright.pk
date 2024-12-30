@@ -48,6 +48,20 @@ class Users extends BaseController
         echo view('support_ticket/dashboard', $data);
         echo view('footer', $data);
     }
+    public function access_level()
+    {
+        $data = $this->data;
+        $Users = new SystemUser();
+
+        $data['UserID'] = getSegment(3);
+        $data['UserRoll']  = $Users->system_user_roll($data['UserID']);
+
+//        print_r($data['UserRoll']);exit();
+//        $date['user'] = 1;
+        echo view('header', $data);
+        echo view('users/access_level', $data);
+        echo view('footer', $data);
+    }
 
     public function fetch_users()
     {
@@ -72,6 +86,7 @@ class Users extends BaseController
                 Actions
             </button>
             <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="AddAccessLevel(' . htmlspecialchars($record['UID']) . ')">Access Level</a>
                 <a class="dropdown-item" onclick="UpdateUser(' . htmlspecialchars($record['UID']) . ')">Update</a>
                 <a class="dropdown-item" onclick="DeleteUser(' . htmlspecialchars($record['UID']) . ')">Delete</a>
 
@@ -185,6 +200,33 @@ class Users extends BaseController
             $response['status'] = 'success';
             $response['message'] = 'User Updated Successfully...!';
         }
+
+        echo json_encode($response);
+    }
+    public function user_roll_form_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $UserID = $this->request->getVar('UserID');
+        $access = $this->request->getVar('access');
+        $Crud->DeleteRecord("system_users_access", array("UserID" => $UserID));
+//            print_r($access);exit();
+        foreach ($access as $key => $value) {
+                $record['AccessID'] = $key ;
+                $record['UserID'] = $UserID ;
+            $RecordId = $Crud->AddRecord("system_users_access", $record);
+
+        }
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Access Level Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
 
         echo json_encode($response);
     }

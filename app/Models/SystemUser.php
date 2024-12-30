@@ -26,6 +26,14 @@ class SystemUser extends Model
         $SQL .= ' ORDER BY `SystemDate` DESC';
         return $SQL;
     }
+    public function system_user_roll($id)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT `AccessID` FROM `system_users_access` where `UserID`=\'' . $id . '\'  ';
+        $records = $Crud->ExecuteSQL($SQL);
+
+        return $records;
+    }
 
 
     public function DietAdminCategoryList($keyword)
