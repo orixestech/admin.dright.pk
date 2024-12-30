@@ -34,13 +34,13 @@ $record = $Crud->SingleRecord("system_users", array("UID" => $UserID));
                 <div class="card-header d-flex justify-content-between align-items-center ">
                     <h5 class="mb-0"><?= $Segment ?></h5>
                     <div>
-                        <button type="button" class="btn btn-sm btn-danger me-2">Disable All</button>
-                        <button type="button" class="btn btn-sm btn-success">Enable All</button>
+                        <button type="button" class="btn btn-sm btn-danger me-2" onclick="toggleCheckboxes('<?= $SegmentKey ?>', false)">Disable All</button>
+                        <button type="button" class="btn btn-sm btn-success" onclick="toggleCheckboxes('<?= $SegmentKey ?>', true)">Enable All</button>
                     </div>
                 </div>
 
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row" id="segment_<?= $SegmentKey ?>">
                         <?php foreach ($form as $input): ?>
                             <div class="col-md-4 col-sm-6 mb-3">
                                 <div class="form-check form-check-custom form-check-success">
@@ -67,6 +67,19 @@ $record = $Crud->SingleRecord("system_users", array("UID" => $UserID));
             <button type="button" class="btn btn-primary" onclick="AddUserAccessFormFunction()">Save Changes</button>
         </div>
     </form>
+
+    <script>
+        // Function to enable/disable checkboxes in a specific segment
+        function toggleCheckboxes(segmentKey, enable) {
+            // Get all checkboxes within the specific segment
+            const checkboxes = document.querySelectorAll(`#segment_${segmentKey} .form-check-input`);
+
+            // Loop through each checkbox and set its checked property
+            checkboxes.forEach(function(checkbox) {
+                checkbox.checked = enable;
+            });
+        }
+    </script>
 </div>
 
 
