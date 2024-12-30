@@ -35,10 +35,49 @@
                         <span>Builder</span>
                     </a>
                 </li>
+                <li>
+                    <a href="#" data-menu-target="#forms" <?= ($segment_a == 'diet' || $segment_a == 'customers' || $segment_a == 'diseases' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i class="pe-is-w-thermometer-1-f"></i>
+                        </span>
+                        <span>Health Care</span>
+                    </a>
+                </li>
 
-
-
-
+                <!--                <li>-->
+                <!--                    <a href=""-->
+                <!--                        data-menu-target="#customers" --><?php //= ($segment_a == 'customers' ? 'class="active"' : '') ?><!--
+<!                     <span class="menu-tab-icon">-->
+                <!--                            <i data-feather="users"></i>-->
+                <!--                        </span>-->
+                <!--                        <span>Customers</span>-->
+                <!--                    </a>-->
+                <!--                </li>-->
+                <li>
+                    <a href="#" data-menu-target="#plugins" <?= ($segment_a == 'extended' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="gift"></i>
+                        </span>
+                        <span>Extended</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                       data-menu-target="#investigation" <?= ($segment_a == 'investigation' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="layers"></i>
+                        </span>
+                        <span>Investigation</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-menu-target="#other" <?= ($segment_a == 'medicine' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="arrow-up-right"></i>
+                        </span>
+                        <span>Pharmacy</span>
+                    </a>
+                </li>
                 <li>
                     <a href="" data-menu-target="#apps" <?= ($segment_a == 'supportticket' ? 'class="active"' : '') ?>
                     >     <span class="menu-tab-icon">
@@ -47,31 +86,73 @@
                         <span>Support Ticket</span>
                     </a>
                 </li>
-
+                <li>
+                    <a href=""
+                       data-menu-target="#laboratories" <?= ($segment_a == 'laboratories' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="users"></i>
+                        </span>
+                        <span>Laboratories</span>
+                    </a>
+                </li>
+                <!--                <li>-->
+                <!--                    <a href=""-->
+                <!--                        data-menu-target="#investigation" --><?php //= ($segment_a == 'investigation' ? 'class="active"' : '') ?><!--
+<!-                       <span class="menu-tab-icon">-->
+                <!--                            <i data-feather="users"></i>-->
+                <!--                        </span>-->
+                <!--                        <span>Investigation</span>-->
+                <!--                    </a>-->
+                <!--                </li>-->
+                <!--                <li>-->
+                <!--                    <a href=""-->
+                <!--                        data-menu-target="#laboratories" --><?php //= ($segment_a == 'specialities' ? 'class="active"' : '') ?><!--
+<!-                       <span class="menu-tab-icon">-->
+                <!--                            <i data-feather="users"></i>-->
+                <!--                        </span>-->
+                <!--                        <span>Specialities</span>-->
+                <!--                    </a>-->
+                <!--                </li>-->
+                <!--                <li>-->
+                <!--                    <a href="#"-->
+                <!--                        data-menu-target="#apps" --><?php //= ($segment_a == 'support-ticket' ? 'class="active"' : '') ?>
+                <!--                        <span class="menu-tab-icon">-->
+                <!--                            <i data-feather="globe"></i>-->
+                <!--                        </span>-->
+                <!--                        <span>Support Ticket</span>-->
+                <!--                    </a>-->
+                <!--                </li>-->
                 <li>
                     <a href="#" data-menu-target="#users" <?= ($segment_a == 'users' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="users"></i>
                         </span>
-                        <span>System</span>
+                        <span>Support System</span>
                     </a>
                 </li>
-
+                <!--                <li>-->
+                <!--                    <a href="" data-menu-target="#lookups" --><?php //= ($segment_a == 'lookups' ? 'class="active"' : '') ?><!--
+<!                      <span class="menu-tab-icon">-->
+                <!--                            <i data-feather="users"></i>-->
+                <!--                        </span>-->
+                <!--                        <span>Lookups</span>-->
+                <!--                    </a>-->
+                <!--                </li>-->
                 <li>
                     <a href=""
-                        data-menu-target="#document" <?= ($segment_a == 'document' ? 'class="active"' : '') ?>>
+                       data-menu-target="#document" <?= ($segment_a == 'document' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="users"></i>
                         </span>
                         <span>Documentations</span>
                     </a>
                 </li>
-<!--                <li >-->
-<!--                    <a href="--><?php //= $path ?><!--logout" >  <span class="menu-tab-icon">-->
-<!--                            <i data-feather="clock"></i>-->
-<!--                        </span> <span>Logout</span></a>-->
-<!---->
-<!--                </li>-->
+                <!--                <li >-->
+                <!--                    <a href="--><?php //= $path ?><!--logout" >  <span class="menu-tab-icon">-->
+                <!--                            <i data-feather="clock"></i>-->
+                <!--                        </span> <span>Logout</span></a>-->
+                <!---->
+                <!--                </li>-->
 
             </ul>
         </div>
@@ -312,26 +393,26 @@
 
                 </li>
             </ul>
-<!--            <ul id="Specialities">-->
-<!--                <li class="navigation-divider">Specialities</li>-->
-<!--            -->
-<!--                <li>-->
-<!--                    <a href="#">-->
-<!--                        <span class="nav-link-icon">-->
-<!--                            <i data-feather="layers"></i>-->
-<!--                        </span>-->
-<!--                        <span>Specialities</span>-->
-<!--                    </a>-->
-<!--                    <ul>-->
-<!--                        <li>-->
-<!--                            <a href="--><?php //= $path ?><!--specialities/">All</a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="--><?php //= $path ?><!--specialities/add">Add</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--            </ul>-->
+            <!--            <ul id="Specialities">-->
+            <!--                <li class="navigation-divider">Specialities</li>-->
+            <!--            -->
+            <!--                <li>-->
+            <!--                    <a href="#">-->
+            <!--                        <span class="nav-link-icon">-->
+            <!--                            <i data-feather="layers"></i>-->
+            <!--                        </span>-->
+            <!--                        <span>Specialities</span>-->
+            <!--                    </a>-->
+            <!--                    <ul>-->
+            <!--                        <li>-->
+            <!--                            <a href="--><?php //= $path ?><!--specialities/">All</a>-->
+            <!--                        </li>-->
+            <!--                        <li>-->
+            <!--                            <a href="--><?php //= $path ?><!--specialities/add">Add</a>-->
+            <!--                        </li>-->
+            <!--                    </ul>-->
+            <!--                </li>-->
+            <!--            </ul>-->
             <ul id="investigation">
                 <li class="navigation-divider">investigation</li>
 
@@ -361,7 +442,7 @@
                     </a>
                 </li>
             </ul>
-<!--            health care-->
+            <!--            health care-->
             <ul id="forms">
                 <li class="navigation-divider">Health Care</li>
                 <li>
@@ -618,15 +699,15 @@
                         <span>Lookups</span>
                     </a>
                 </li>
-<!--                <li>-->
-<!--                    <a href="--><?php //= $path ?><!--users/access-level">-->
-<!--                        <span class="nav-link-icon">-->
-<!--                            <i data-feather="mail"></i>-->
-<!--                        </span>-->
-<!--                        <span>Access Level</span>-->
-<!--                    </a>-->
-<!---->
-<!--                </li>-->
+                <!--                <li>-->
+                <!--                    <a href="--><?php //= $path ?><!--users/access-level">-->
+                <!--                        <span class="nav-link-icon">-->
+                <!--                            <i data-feather="mail"></i>-->
+                <!--                        </span>-->
+                <!--                        <span>Access Level</span>-->
+                <!--                    </a>-->
+                <!---->
+                <!--                </li>-->
                 <li>
                     <a href="<?= $path ?>users/admin-activites">
                         <span class="nav-link-icon">
