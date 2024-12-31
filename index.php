@@ -50,9 +50,9 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
     //    define('DB_NAME', 'clinta_maindb');
     define('PGDB_HOST', '117.20.29.46');
     define('DB_HOST', '127.0.0.1');
-    define('DB_USER', 'dright_clintamaindb');
-    define('DB_PASS', 'dright_clintamaindb');
-    define('DB_NAME', 'dright_clintamaindb');
+    define('DB_USER', 'clinta_maindb');
+    define('DB_PASS', 'clinta_maindb');
+    define('DB_NAME', 'clinta_maindb');
 }
 // Ensure the current directory is pointing to the front controller's directory
 if (getcwd() . DIRECTORY_SEPARATOR !== FCPATH) {
