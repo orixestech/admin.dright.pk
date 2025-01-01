@@ -23,14 +23,14 @@ class Home extends BaseController
         $data = $this->data;
         echo '<pre>';
         $Crud = new Crud();
-        // $Query = 'SELECT "UID", "Heading" FROM public."banner"';
-        // $records = $Crud->ExecutePgSQL($Query);
-        // print_r($records);
+         $Query = 'SELECT "UID" FROM clinta."AdminLog"';
+         $records = $Crud->ExecutePgSQLClinta($Query);
+         print_r($records);
 
 
-        $Main = new Main();
-        echo $Main->CRYPT("Shaheryar", "hide");
-        echo $Main->CRYPT("U2hhaGVyeWFy", "show");
+//        $Main = new Main();
+//        echo $Main->CRYPT("Shaheryar", "hide");
+//        echo $Main->CRYPT("U2hhaGVyeWFy", "show");
     }
 
     public function index()
@@ -39,6 +39,12 @@ class Home extends BaseController
         echo view('header', $data);
         echo view('home', $data);
         echo view('footer', $data);
+    }
+    public function ipaddress()
+    {
+        $ipAddress = $this->request->getIPAddress();
+        return $ipAddress;
+
     }
 
     public function fruit_search_filter()
@@ -346,6 +352,7 @@ class Home extends BaseController
 
         $Crud = new Crud();
         $Main = new Main();
+        $ipAddress = $this->request->getIPAddress();
 
         $password = $Main->CRYPT($password, 'hide');
 
@@ -367,7 +374,13 @@ class Home extends BaseController
                 'logged_in' => TRUE
             ];
 
+
             $session->set($SessionArray);
+
+            $msg=$_SESSION['FullName'].' Logged In Admin Dright';
+            $logesegment='Log IN';
+            $Main->adminlog($logesegment, $msg,$ipAddress);
+
             $response['status'] = "success";
             $response['message'] = "You are successfully logged";
         } else {

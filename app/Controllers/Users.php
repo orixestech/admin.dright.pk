@@ -186,6 +186,11 @@ class Users extends BaseController
             $record['Password'] = $Main->CRYPT($record['Password'], 'hide');
             $RecordId = $Crud->AddRecord("system_users", $record);
             if (isset($RecordId) && $RecordId > 0) {
+                $Main = new Main();
+
+                $msg=$_SESSION['FullName'].' Add User Through Admin Dright';
+                $logesegment='Users';
+                $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
                 $response['status'] = 'success';
                 $response['message'] = 'User Added Successfully...!';
             } else {
@@ -196,6 +201,10 @@ class Users extends BaseController
             foreach ($User as $key => $value) {
                 $record[$key] = $value;
             }
+
+            $msg=$_SESSION['FullName'].' Update User Through Admin Dright';
+            $logesegment='Users';
+            $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
             $Crud->UpdateRecord("system_users", $record, array("UID" => $id));
             $response['status'] = 'success';
             $response['message'] = 'User Updated Successfully...!';

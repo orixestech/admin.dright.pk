@@ -353,4 +353,26 @@ print_r($_FILES[$NAME]['name']);exit();
         $key = substr(md5(rand(100, 9999999) . "|" . date("U")), 10, 10);
         return $key;
     }
+    public function adminlog($logID,$message,$ipAddress){
+
+
+        $Crud = new Crud();
+        $record=array();
+        $record['LogSegment']=$logID;
+        $record['LogNotes']=$message;
+        $record['LogIP']=$ipAddress;
+        $RecordId = $Crud->AddRecordClinta('clinta."AdminLog"', $record);
+//       print_r($RecordId);exit();
+
+
+        if (isset($RecordId) && $RecordId > 0) {
+            $response['status'] = 'success';
+            $response['message'] = 'Added Successfully...!';
+        } else {
+            $response['status'] = 'fail';
+            $response['message'] = 'Data Didnt Submitted Successfully...!';
+        }
+
+
+    }
 }

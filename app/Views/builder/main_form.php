@@ -7,6 +7,7 @@ $speciality = '';
 $qualification = '';
 $department = '';
 $pmdcno = '';
+$patient_portal = '';
 $telemedicine_id = '';
 $short_desc = '';
 $initatived_text = '';

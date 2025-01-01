@@ -17,6 +17,8 @@ class Builder extends BaseController
 
         $this->MainModel = new Main();
         $this->data = $this->MainModel->DefaultVariable();
+//        $ipAddress = $this->request->getIPAddress();
+
     }
 
     public function index()
@@ -278,7 +280,7 @@ class Builder extends BaseController
             $data[] = $record['Name'];
 //            $data[] = '<img src="' . load_image('sponsors_' . $Sponsor) . '" height="45">';
             $data[] = $record['Email'];
-            $data[] = $city[0]['FullName'];
+            $data[] = isset($city[0]['FullName'])?$city[0]['FullName']:'';
 
             // TeleMedicine Credits Column
             $telemedicineCredits = isset($TeleMedicineCredits[0]['Description']) && $TeleMedicineCredits[0]['Description'] != ''
@@ -488,6 +490,7 @@ class Builder extends BaseController
         $id = $_POST['id'];
 //        print_r($id);exit();
         $Crud->DeleteRecord("speciality_metas", array("UID" => $id));
+
         $response = array();
         $response['status'] = 'success';
         $response['message'] = ' Deleted Successfully...!';
@@ -502,6 +505,11 @@ class Builder extends BaseController
 //        print_r($id);exit();
         $Crud->DeleteRecordPG('public."profiles"', array("UID" => $id));
         $Crud->DeleteRecordPG('public."profile_metas"', array("ProfileUID" => $id));
+        $Main = new Main();
+
+        $msg=$_SESSION['FullName'].' Delete Doctor Through Admin Dright';
+        $logesegment='Doctor';
+        $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
         $response = array();
         $response['status'] = 'success';
         $response['message'] = ' Deleted Successfully...!';
@@ -516,6 +524,11 @@ class Builder extends BaseController
 //        print_r($id);exit();
         $Crud->DeleteRecordPG('public."profiles"', array("UID" => $id));
         $Crud->DeleteRecordPG('public."profile_metas"', array("ProfileUID" => $id));
+        $Main = new Main();
+
+        $msg=$_SESSION['FullName'].' Delete Hospital Through Admin Dright';
+        $logesegment='Hospital';
+        $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
         $response = array();
         $response['status'] = 'success';
         $response['message'] = ' Deleted Successfully...!';
@@ -543,6 +556,11 @@ class Builder extends BaseController
 
         }
         $Crud->DeleteRecord('specialities', array("UID" => $id));
+        $Main = new Main();
+
+        $msg=$_SESSION['FullName'].' Delete specialities Through Admin Dright';
+        $logesegment='Specialities';
+        $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
         $response['status'] = 'success';
         $response['message'] .= ' And Specialities Deleted Successfully...!';
         echo json_encode($response);
@@ -558,6 +576,7 @@ class Builder extends BaseController
         $id = $this->request->getVar('id');
 
         $Crud->DeleteRecord('speciality_metas', array("UID" => $id));
+
         $response['status'] = 'success';
         $response['message'] = '  Specialities Meta Deleted Successfully...!';
         echo json_encode($response);
@@ -659,6 +678,11 @@ class Builder extends BaseController
         $record['Description'] = $oldcredits + $newcredits;
         $RecordId = $Crud->AddRecordPG('public."options"', $record);
         if (isset($RecordId) && $RecordId > 0) {
+            $Main = new Main();
+
+            $msg=$_SESSION['FullName'].' Add Telemedicine Credit Through Admin Dright';
+            $logesegment='Telemedicine Credit';
+            $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
             $response['status'] = 'success';
             $response['message'] = 'Telemedicine Credits Added Successfully...!';
         } else {
@@ -777,6 +801,11 @@ class Builder extends BaseController
         $record['Name'] = 'sms_credits';
         $record['Description'] = $oldcredits + $newcredits;
         $RecordId = $Crud->AddRecordPG('public."options"', $record);
+        $Main = new Main();
+
+        $msg=$_SESSION['FullName'].' Add SMS Credit Through Admin Dright';
+        $logesegment='SMS Credit';
+        $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
         if (isset($RecordId) && $RecordId > 0) {
             $response['status'] = 'success';
             $response['message'] = 'SMS Credits Added Successfully...!';
@@ -796,6 +825,9 @@ class Builder extends BaseController
         $record = array();
 
 
+        $msg=$_SESSION['FullName'].' Specialities Image Submit Through Admin Dright';
+        $logesegment='Image Submit';
+        $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
         $filename = "";
 
         if ($_FILES['Image']['tmp_name']) {
@@ -840,7 +872,6 @@ class Builder extends BaseController
         // Load the uploaded file using CodeIgniter's services
         $file = $this->request->getFile('profile');
         $fileContents = '';
-
         if ($file->isValid() && !$file->hasMoved()) {
             $fileContents = file_get_contents($file->getTempName());
 
@@ -929,7 +960,9 @@ Password: ' . $this->request->getVar('password');
                         $Main->send($mobile, $message);
                     }
 //                    echo 'sdvsdv';exit();
-
+                    $msg=$_SESSION['FullName'].' Hospital Profile Submit Through Admin Dright';
+                    $logesegment='Hospitals';
+                    $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
                     $data = array();
                     $data['status'] = "success";
                     $data['id'] = $website_profile_id;
@@ -1021,7 +1054,9 @@ Password: ' . $this->request->getVar('password');
 
                 }
             }
-
+            $msg=$_SESSION['FullName'].' Hospital Profile Update Through Admin Dright';
+            $logesegment='Hospitals';
+            $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
 //            }
             $data = array();
             $data['status'] = "success";
@@ -1066,7 +1101,8 @@ Password: ' . $this->request->getVar('password');
 //            print_r($initatived_logo);exit();
 
         }
-//        exit();
+
+
         if ($id == 0) {
 
             $Data = $Crud->SingleeRecord('public."profiles"', array("Email" => $email, 'ContactNo' => $ContactNo));
@@ -1156,6 +1192,9 @@ Password: ' . $this->request->getVar('password');
                     }
 
                     $response = array();
+                    $msg=$_SESSION['FullName'].' Doctor Profile Submit Through Admin Dright';
+                    $logesegment='Doctor';
+                    $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
                     $response['status'] = "success";
                     $response['id'] = $website_profile_id;
                     $response['message'] = "Doctor Profile Added Suuccessfully.....!";
@@ -1275,7 +1314,9 @@ Password: ' . $this->request->getVar('password');
                     $id = $Crud->AddRecordPG("public.profile_metas", $records);
                 }
 
-
+                $msg=$_SESSION['FullName'].' Doctor Profile Update Through Admin Dright';
+                $logesegment='Doctor';
+                $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
                 $response = array();
                 $response['status'] = "success";
                 $response['id'] = $id;
@@ -1457,6 +1498,9 @@ Password: ' . $this->request->getVar('password');
             $record['Image'] = base64_encode($fileImage);
             $RecordId = $Crud->AddRecord("sponsors", $record);
             if (isset($RecordId) && $RecordId > 0) {
+                $msg=$_SESSION['FullName'].' Submit Sponser Through Admin Dright';
+                $logesegment='Sponsors';
+                $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
                 $response['status'] = 'success';
                 $response['message'] = 'Added Successfully...!';
             } else {
@@ -1470,6 +1514,9 @@ Password: ' . $this->request->getVar('password');
             $record['Image'] = base64_encode($fileImage);
 
             $Crud->UpdateRecord("sponsors", $record, array("UID" => $id));
+            $msg=$_SESSION['FullName'].' Update Sponsor Through Admin Dright';
+            $logesegment='Sponsors';
+            $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
             $response['status'] = 'success';
             $response['message'] = 'Updated Successfully...!';
         }
@@ -1503,6 +1550,9 @@ Password: ' . $this->request->getVar('password');
             $record['Image'] = 'bb';
             $RecordId = $Crud->AddRecord("sponsors_products", $record);
             if (isset($RecordId) && $RecordId > 0) {
+                $msg=$_SESSION['FullName'].' Submit Sponsor Product Through Admin Dright';
+                $logesegment='Sponsors Product';
+                $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
                 $response['status'] = 'success';
                 $response['message'] = 'Added Successfully...!';
             } else {
@@ -1516,6 +1566,9 @@ Password: ' . $this->request->getVar('password');
             $record['Image'] = 'bb';
 
             $Crud->UpdateRecord("sponsors_products", $record, array("UID" => $id));
+            $msg=$_SESSION['FullName'].' Submit Sponsor Product Through Admin Dright';
+            $logesegment='Sponsors Product';
+            $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
             $response['status'] = 'success';
             $response['message'] = 'Updated Successfully...!';
         }
@@ -1529,10 +1582,16 @@ Password: ' . $this->request->getVar('password');
         $data = $this->data;
         $UID = $this->request->getVar('id');
         $Crud = new Crud();
+
         $table = "sponsors";
         $record['Archive'] = 1;
         $where = array('UID' => $UID);
         $Crud->UpdateRecord($table, $record, $where);
+        $Main = new Main();
+
+        $msg=$_SESSION['FullName'].' Delete Sponsor Through Admin Dright';
+        $logesegment='Sponsors';
+        $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
         $response['status'] = 'success';
         $response['message'] = 'Deleted Successfully...!';
 
@@ -1549,6 +1608,11 @@ Password: ' . $this->request->getVar('password');
         $record['Archive'] = 1;
         $where = array('UID' => $UID);
         $Crud->UpdateRecord($table, $record, $where);
+        $Main = new Main();
+
+        $msg=$_SESSION['FullName'].' Delete Sponsor Product Through Admin Dright';
+        $logesegment='Sponsors Product';
+        $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
         $response['status'] = 'success';
         $response['message'] = 'Deleted Successfully...!';
 

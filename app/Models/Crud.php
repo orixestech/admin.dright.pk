@@ -93,6 +93,15 @@ class Crud extends Model
             echo $pgsql->getLastQuery() . "<hr>";
         $pgsql->close();
         return $records;
+    }    public
+    function ExecutePgSQLClinta($Query, $view = false)
+    {
+        $pgsql = \Config\Database::connect('clinta_extended');
+        $records = $pgsql->query($Query)->getResult('array');
+        if ($view)
+            echo $pgsql->getLastQuery() . "<hr>";
+        $pgsql->close();
+        return $records;
     }
     public
     function ExecutePgSQLExtended($Query, $view = false)
@@ -109,6 +118,23 @@ class Crud extends Model
     function AddRecord($table, $records, $view = false)
     {
         $db = \Config\Database::connect();
+        $db->db_debug = false;
+        $builder = $db->table($table);
+        $builder->insert($records);
+        if ($view) {
+            $QUERY = $db->getLastQuery() . ";<br>";
+            // $Main = new Main();
+            //  $Main->SendEmail('info@orixestech.com', 'Umrah Furas :: Insert Query Error', $QUERY);
+            echo $QUERY;
+        }
+        $insertID = $db->insertID();
+        // $db->close();
+        return $insertID;
+    }
+    public
+    function AddRecordClinta($table, $records, $view = false)
+    {
+        $db = \Config\Database::connect('clinta_extended');
         $db->db_debug = false;
         $builder = $db->table($table);
         $builder->insert($records);
