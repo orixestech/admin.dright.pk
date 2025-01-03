@@ -156,7 +156,10 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
             }
         }
 
+        function AddTheme(id) {
+            location.href = "<?=$path?>builder/add_theme/" + id;
 
+        }
         function DeleteHospital(id) {
             if (confirm("Are you Sure U want to Delete this?")) {
                 response = AjaxResponse("builder/delete-hospital", "id=" + id);

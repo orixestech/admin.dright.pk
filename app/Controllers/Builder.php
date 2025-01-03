@@ -110,7 +110,7 @@ class Builder extends BaseController
 //        $data['Metas'] = $BuilderModel->GetThemeSettingsDataByID($UID);
         $data['UID'] = $UID;
         echo view('header', $data);
-        echo view('builder/doctors_meta', $data);
+        echo view('builder/hospital_meta', $data);
         echo view('footer', $data);
     }
 
@@ -395,7 +395,8 @@ class Builder extends BaseController
         </button>
         <div class="dropdown-menu">
             <a class="dropdown-item" onclick="Updatehospital(' . $record['UID'] . ');">Edit</a>
-            <a class="dropdown-item" onclick="DeleteHospital(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+            <a class="dropdown-item" onclick="DeleteHospital(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+            <a class="dropdown-item" onclick="AddTheme(' . htmlspecialchars($record['UID']) . ')">Add Theme</a>';
 
             if ($record['SubDomain'] != '') {
                 $data[] .= '
