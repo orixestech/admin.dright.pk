@@ -1727,7 +1727,9 @@ Password: ' . $this->request->getVar('password');
                 $record['ProfileUID']=$ProfileUID;
                 $RecordId = $Crud->AddRecordPG('public."options"', $record);
             }
-
+            $msg=$_SESSION['FullName'].' Update Theme Setting Through Admin Dright';
+            $logesegment='Hospital';
+            $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
             if (isset($RecordId) && $RecordId > 0) {
                 $response['status'] = 'success';
                 $response['message'] = 'Added Successfully...!';
