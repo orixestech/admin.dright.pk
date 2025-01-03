@@ -73,6 +73,11 @@
         function AddDoctor() {
             location.href = "<?=$path?>builder/add-doctor";
 
+
+        }
+        function AddTheme(id) {
+            location.href = "<?=$path?>builder/add_theme/" + id;
+
         }
         function EditDoctors(id) {
             location.href = "<?=$path?>builder/update-doctor/" + id;

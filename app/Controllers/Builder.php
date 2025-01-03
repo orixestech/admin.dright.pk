@@ -101,6 +101,18 @@ class Builder extends BaseController
         echo view('builder/specialities_gallery', $data);
         echo view('footer', $data);
     }
+    public function add_theme()
+    {
+        $BuilderModel = new \App\Models\BuilderModel();
+
+        $data = $this->data;
+        $UID = getSegment(3);
+//        $data['Metas'] = $BuilderModel->GetThemeSettingsDataByID($UID);
+        $data['UID'] = $UID;
+        echo view('header', $data);
+        echo view('builder/doctors_meta', $data);
+        echo view('footer', $data);
+    }
 
     public function gallery_form_submit()
     {
@@ -308,14 +320,15 @@ class Builder extends BaseController
         </button>
         <div class="dropdown-menu">
             <a class="dropdown-item" onclick="EditDoctors(' . $record['UID'] . ');">Edit</a>
-            <a class="dropdown-item" onclick="DeleteDoctor(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+            <a class="dropdown-item" onclick="DeleteDoctor(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+            <a class="dropdown-item" onclick="AddTheme(' . htmlspecialchars($record['UID']) . ')">Add Theme</a>';
 
             if ($record['SubDomain'] != '') {
                 $data[] .= '
             <a class="dropdown-item" href="http://' . $record['SubDomain'] . '/" target="_blank">Website Link</a>
-            <a class="dropdown-item" onclick="SendDoctorProfileInfo(' . $record['UID'] . ');">Send Website Detail</a>
+       
             <a class="dropdown-item" href="' . PATH . 'module/websites_profile/meta/' . $record['UID'] . '">Add Profile Meta</a>
-            <a class="dropdown-item" onclick="AddNewBanner(' . $record['UID'] . ');">Add Individualized Banner</a>';
+           ';
             }
 
             $data[] .= '
@@ -1299,7 +1312,7 @@ Password: ' . $this->request->getVar('password');
 
                 if (isset($Data['UID'])) {
 
-                    $Crud->DeleteRecordPG("profile_metas.options", array('UID' => $Data['UID']));
+                    $Crud->DeleteRecordPG("public.profile_metas", array('UID' => $Data['UID']));
                     $records['ProfileUID'] = $id;
                     $records['Option'] = 'initatived_logo';
                     $records['Value'] = base64_encode($fileinitatived_logo);
@@ -1692,5 +1705,40 @@ Password: ' . $this->request->getVar('password');
 
         echo json_encode($response);
     }
+    public function theme_form_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $ProfileUID = $this->request->getVar('ProfileUID');
+        $id = $this->request->getVar('id');
+        $option = $this->request->getVar('option');
+
+//print_r($Lookup);exit();
+        if ($id == 0) {
+            foreach ($option as $key => $value) {
+                $Crud->DeleteRecordPG("public.options", array('Name' => $key));
+
+                $record['Name'] = $key;
+                $record['Description'] = ((isset($value)) ? $value : '');
+                $record['ProfileUID']=$ProfileUID;
+                $RecordId = $Crud->AddRecordPG('public."options"', $record);
+            }
+
+            if (isset($RecordId) && $RecordId > 0) {
+                $response['status'] = 'success';
+                $response['message'] = 'Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+
+        }
+
+        echo json_encode($response);
+    }
+
 
 }

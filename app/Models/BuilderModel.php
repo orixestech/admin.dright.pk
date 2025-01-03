@@ -23,6 +23,31 @@ class BuilderModel extends Model
         $Admin = $Crud->ExecuteSQL($SQL);
         return $Admin;
     }
+    public function GetThemeSettingsDataByID($id)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT *
+        FROM "public"."options"  
+        where "public"."options"."ProfileUID" = \'' . $id . '\'';
+        $Admin = $Crud->ExecutePgSQL($SQL);
+        return $Admin;
+    }
+    public
+    function OptionExtra( $id, $options = array () )
+    {
+        $db = \Config\Database::connect('website_db');
+        $SQL = 'SELECT * FROM "public"."options" 
+        where "public"."options"."ProfileUID" = \'' . $id . '\' ';
+        if ( count( $options ) > 0 ) {
+            $SQL .= ' AND "Name" IN (\'' . implode( "', '", $options ) . '\') ';
+        }
+        $rslt = $db->query( $SQL )->getResult( 'array' );
+        $records = array ();
+        foreach ( $rslt as $row ) {
+            $records[ $row[ 'Name' ] ] = $row[ 'Description' ];
+        }
+        return ((isset($records)) ? $records :'' );
+    }
     public function get_profile_options_data_by_id_option($id, $option)
     {
         $Crud = new Crud();

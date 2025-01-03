@@ -12,6 +12,79 @@ if (!function_exists('getSegment')) {
         }
     }
 }
+if (!function_exists('BackAdminHost')) {
+    function BackAdminHost($Host)
+    {
+        /// ----------------- GET FROM aPanel --------------------------------
+//        $URL = 'https://builder-api.clinta.biz/branding/apanel-admin';
+////        $URL = 'http://localhost/clintabuilder-apis/branding/apanel-admin';
+//        $Request = '{ "host": "' . $Host . '" }';
+//        $HostAdmin = CurlRequest($URL, $Request);
+//        print_r($HostAdmin);
+//        $HostAdmin = $HostAdmin['data']['domain'];
+        /// ----------------- GET FROM aPanel --------------------------------
+        switch ($Host) {
+            case "admin-builder-v3.clinta.biz":
+                $HostAdmin = "builder-v3.clinta.biz";
+                break;
+            case "admin-doctor-builder-v3.clinta.biz":
+                $HostAdmin = "doctor-builder-v3.clinta.biz";
+                break;
+            case "admin.test.com":
+                $HostAdmin = "test.com";
+                break;
+            case "admin.reliancehospital.org":
+                $HostAdmin = "reliancehospital.org";
+                break;
+            case "localhost":
+                $HostAdmin = "reliancehospital.org";
+                //$HostAdmin = "drburhan.clinta.biz";
+                break;
+            case "admin-usmandoctor.clinta.biz":
+                $HostAdmin = "usmandoctor.clinta.biz";
+                break;
+            case "admin-drburhan.clinta.biz":
+                $HostAdmin = "drburhan.clinta.biz";
+                break;
+            case "admin-usmanhospital.clinta.biz":
+                $HostAdmin = "usmanhospital.clinta.biz";
+                break;
+            case "admin-haadiyahdoctor.clinta.biz":
+                $HostAdmin = "haadiyahdoctor.clinta.biz";
+                break;
+            case "admin-haadiyahhospital.clinta.biz":
+                $HostAdmin = "haadiyahhospital.clinta.biz";
+                break;
+            case "admin-javeddoctor.clinta.biz":
+                $HostAdmin = "javeddoctor.clinta.biz";
+                break;
+            case "admin-javedhospital.clinta.biz":
+                $HostAdmin = "javedhospital.clinta.biz";
+                break;
+            case "admin-demohospital.clinta.biz":
+                $HostAdmin = "demohospital.clinta.biz";
+                break;
+            case "admin.reliancehomehealth.org":
+                $HostAdmin = "reliancehomehealth.org";
+                break;
+            case "admin.relianceaesthetics.com":
+                $HostAdmin = "relianceaesthetics.com";
+                break;
+
+            case "admin.doct-theme3.clinta.biz":
+                $HostAdmin = "doct-theme3.clinta.biz";
+                break;
+            case "admin.h-theme3.clinta.biz":
+                $HostAdmin = "h-theme3.clinta.biz";
+                break;
+
+            default:
+                $HostAdmin = "";
+        }
+
+        return $HostAdmin;
+    }
+}
 
 if (!function_exists('promotion_material_file_download')) {
     function promotion_material_file_download($key)
