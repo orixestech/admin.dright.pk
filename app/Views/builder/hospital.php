@@ -12,16 +12,16 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
 }
 ?>
 <div class="card">
-    <div class="card-body">
-        <h4>Hospital
+    <div class="card-header mt-3" >
+        <h3>Hospital
             <span style="float: right;">
-                <button type="button" onclick="AddDoctor()"
+                <button type="button" onclick="AddHospital()"
                         class="btn btn-primary "
                         data-toggle="modal" data-target="#exampleModal">
-              Add
+              Add Hospital
             </button>
-           </span></h4>
-        <hr>
+           </span></h3>
+        <br>
         <div class="row">
             <div class="col-md-12">
                 <h5>Search Filters</h5>
@@ -70,6 +70,7 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
             </div>
         </div>
     </div>
+    <div class="card-body">
     <div class="table-responsive">
         <table id="doctor" class="table table-striped table-bordered">
             <thead>
@@ -106,7 +107,7 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
             </tfoot>
         </table>
     </div>
-
+    </div>
     <script>
         $(document).ready(function () {
             $('#doctor').DataTable({
@@ -128,7 +129,7 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
 
     </script>
     <script>
-        function AddDoctor() {
+        function AddHospital() {
             location.href = "<?=$path?>builder/add-hospital";
 
         } function Updatehospital(id) {

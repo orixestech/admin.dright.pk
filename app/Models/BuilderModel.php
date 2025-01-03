@@ -124,7 +124,13 @@ class BuilderModel extends Model
     {
         $Crud = new Crud();
         $session = session();
-        $SessionFilters = $session->get('HospitalFilters');
+        if($ID=='doctors'){
+            $SessionFilters = $session->get('DoctorFilters');
+
+        }else{
+            $SessionFilters = $session->get('HospitalFilters');
+
+        }
         $SQL = 'SELECT "public"."profiles".*
         FROM "public"."profiles"  
         WHERE "public"."profiles"."Type" =\'' . $ID . '\' 

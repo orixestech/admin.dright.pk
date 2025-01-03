@@ -1419,6 +1419,27 @@ Password: ' . $this->request->getVar('password');
         $response['message'] = "Filters Updated Successfully";
 
         echo json_encode($response);
+    }  public
+    function doctor_search_filter()
+    {
+        $session = session();
+//        $Key = $this->request->getVar( 'Key' );
+        $city = $this->request->getVar('City');
+        $Name = $this->request->getVar('Name');
+        $AllFilter = array(
+//            'Key' => $Key,
+            'City' => $city,
+            'Name' => $Name,
+
+        );
+
+//        print_r($AllFilter);exit();
+        $session->set('DoctorFilters', $AllFilter);
+
+        $response['status'] = "success";
+        $response['message'] = "Filters Updated Successfully";
+
+        echo json_encode($response);
     }
 
     public

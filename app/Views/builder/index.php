@@ -1,16 +1,79 @@
 <link rel="stylesheet" href="<?= $template ?>vendors/dataTable/datatables.min.css" type="text/css">
+<?php
+
+$session = session();
+$SessionFilters = $session->get('DoctorFilters');
+$Name='';
+$City='';
+if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
+    $Name = $SessionFilters['Name'];
+}if (isset($SessionFilters['City']) && $SessionFilters['City'] != '') {
+    $City = $SessionFilters['City'];
+}
+?>
 
 <div class="card">
-    <div class="card-body">
-        <h4>Doctors
+    <div class="card-header mt-3">
+        <h3>Doctors
             <span style="float: right;">
                 <button type="button" onclick="AddDoctor()"
                         class="btn btn-primary "
                         data-toggle="modal" data-target="#exampleModal">
-              Add
+              Add Doctor
             </button>
-           </span></h4>
+           </span>
+        </h3>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <h5>Search Filters</h5>
+                <hr>
+                <form method="post" name="AllDoctorFilterForm" id="AllDoctorFilterForm"
+                      onsubmit="SearchFilterFormSubmit('AllDoctorFilterForm');">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label class="form-control-label no-padding-right">Name:</label>
+                                <input type="text" id="Name" name="Name" placeholder="Name"
+                                       class="form-control "  value="<?=$Name;?>" data-validation-engine="validate[required]"
+                                       data-errormessage="MAC Address is required"/>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group row">
+                                    <label class="col-sm-4">City:</label>
+                                    <div class="col-sm-12">
+                                        <select id="City" name="City" class="form-control"
+                                                data-validation-engine="validate[required]">
+                                            <option value="">Please Select</option>
+                                            <?php foreach ($Cities as $record) { ?>
+                                                <option value="<?= $record['UID'] ?>" <?= (isset($City) && $City == $record['UID']) ? 'selected' : '' ?>
+                                                ><?= ucwords($record['FullName']); ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12" style="float: right">
+                                 <span style="float: right;">
+                                    <button class="btn btn-outline-primary" onclick="ClearAllFilter('AllDoctorFilterForm');"
+                                            type="button">Clear</button>
+
+                                <button class="btn btn-outline-success"
+                                        onclick="SearchFilterFormSubmit('AllDoctorFilterForm');"
+                                        type="button">Search!</button>
+                                 </span>
+                            </div>
+                            <div class="mt-4" id="FilterResponse"></div>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
     </div>
+    <div class="card-body">
     <div class="table-responsive">
         <table id="doctor" class="table table-striped table-bordered">
             <thead>
@@ -48,7 +111,8 @@
             </tfoot>
         </table>
     </div>
-
+    </div>
+</div>
     <script>
         $(document).ready(function () {
             $('#doctor').DataTable({
@@ -137,6 +201,23 @@
                     }, 1000);
                 }
 
+            }
+        }
+        function SearchFilterFormSubmit(parent) {
+
+            var data = $("form#" + parent).serialize();
+            var rslt = AjaxResponse('builder/doctor_search_filter', data);
+            if (rslt.status == 'success') {
+                $("#AllDoctorFilterForm form #FilterResponse").html(rslt.message);
+                location.reload();
+            }
+        }
+
+        function ClearAllFilter(Session) {
+            var rslt = AjaxResponse('home/clear_session', 'SessionName=' + Session);
+            if (rslt.status == 'success') {
+                $("#AllDoctorFilterForm form #FilterResponse").html(rslt.message);
+                location.reload();
             }
         }
     </script>
