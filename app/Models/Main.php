@@ -361,7 +361,7 @@ print_r($_FILES[$NAME]['name']);exit();
         $record['LogSegment']=$logID;
         $record['LogNotes']=$message;
         $record['LogIP']=$ipAddress;
-        $RecordId = $Crud->AddRecordClinta('clinta."AdminLog"', $record);
+        $RecordId = $Crud->AddRecordClinta('public."AdminLog"', $record);
 //       print_r($RecordId);exit();
 
 
