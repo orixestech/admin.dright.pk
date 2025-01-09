@@ -64,6 +64,15 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group row">
+                        <label class="col-sm-12">Pharma Name <span class="text-danger">*</span></label>
+                        <div class="col-sm-12">
+                            <input type="text" id="PharmaName" name="Profile[PharmaName]" placeholder="Pharma Name"
+                                   value="<?= ((isset($PAGE['PharmaName'])) ? $PAGE['PharmaName'] : '') ?>" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group row">
                         <label class="col-sm-12">Facebook Link</label>
                         <div class="col-sm-12">
                             <input type="text" id="FacebookUrl" name="Profile[FacebookUrl]" placeholder="Facebook Url"

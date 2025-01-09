@@ -35,9 +35,14 @@
                         <span>Builder</span>
                     </a>
                 </li>
-
-
-
+                <li>
+                    <a href="#" data-menu-target="#plugins" <?= ($segment_a == 'extended' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="gift"></i>
+                        </span>
+                        <span>Extended</span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="" data-menu-target="#apps" <?= ($segment_a == 'supportticket' ? 'class="active"' : '') ?>
@@ -482,12 +487,6 @@
                         <span>Dashboard</span>
                     </a>
 
-                </li>
-                <li>
-                    <a href="<?= $path ?>extended">
-                        <span class="nav-link-icon" data-feather="alert-triangle"></span>
-                        <span>Database Compare</span>
-                    </a>
                 </li>
                 <li>
                     <a href="<?= $path ?>extended">
