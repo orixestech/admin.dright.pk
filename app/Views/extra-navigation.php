@@ -1,4 +1,5 @@
 <!-- Navigation -->
+<!-- Navigation -->
 <style>
     .navigation .navigation-menu-tab ul li a {
         padding: 4px 0 !important;
@@ -36,24 +37,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-menu-target="#forms" <?= ($segment_a == 'diet' || $segment_a == 'customers' || $segment_a == 'diseases' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i class="pe-is-w-thermometer-1-f"></i>
-                        </span>
-                        <span>Health Care</span>
-                    </a>
-                </li>
-
-                <!--                <li>-->
-                <!--                    <a href=""-->
-                <!--                        data-menu-target="#customers" --><?php //= ($segment_a == 'customers' ? 'class="active"' : '') ?><!--
-<!                     <span class="menu-tab-icon">-->
-                <!--                            <i data-feather="users"></i>-->
-                <!--                        </span>-->
-                <!--                        <span>Customers</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
-                <li>
                     <a href="#" data-menu-target="#plugins" <?= ($segment_a == 'extended' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="gift"></i>
@@ -61,23 +44,7 @@
                         <span>Extended</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#"
-                       data-menu-target="#investigation" <?= ($segment_a == 'investigation' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="layers"></i>
-                        </span>
-                        <span>Investigation</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" data-menu-target="#other" <?= ($segment_a == 'medicine' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="arrow-up-right"></i>
-                        </span>
-                        <span>Pharmacy</span>
-                    </a>
-                </li>
+
                 <li>
                     <a href="" data-menu-target="#apps" <?= ($segment_a == 'supportticket' ? 'class="active"' : '') ?>
                     >     <span class="menu-tab-icon">
@@ -86,58 +53,16 @@
                         <span>Support Ticket</span>
                     </a>
                 </li>
-                <li>
-                    <a href=""
-                       data-menu-target="#laboratories" <?= ($segment_a == 'laboratories' ? 'class="active"' : '') ?>>
-                        <span class="menu-tab-icon">
-                            <i data-feather="users"></i>
-                        </span>
-                        <span>Laboratories</span>
-                    </a>
-                </li>
-                <!--                <li>-->
-                <!--                    <a href=""-->
-                <!--                        data-menu-target="#investigation" --><?php //= ($segment_a == 'investigation' ? 'class="active"' : '') ?><!--
-<!-                       <span class="menu-tab-icon">-->
-                <!--                            <i data-feather="users"></i>-->
-                <!--                        </span>-->
-                <!--                        <span>Investigation</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
-                <!--                <li>-->
-                <!--                    <a href=""-->
-                <!--                        data-menu-target="#laboratories" --><?php //= ($segment_a == 'specialities' ? 'class="active"' : '') ?><!--
-<!-                       <span class="menu-tab-icon">-->
-                <!--                            <i data-feather="users"></i>-->
-                <!--                        </span>-->
-                <!--                        <span>Specialities</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
-                <!--                <li>-->
-                <!--                    <a href="#"-->
-                <!--                        data-menu-target="#apps" --><?php //= ($segment_a == 'support-ticket' ? 'class="active"' : '') ?>
-                <!--                        <span class="menu-tab-icon">-->
-                <!--                            <i data-feather="globe"></i>-->
-                <!--                        </span>-->
-                <!--                        <span>Support Ticket</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
+
                 <li>
                     <a href="#" data-menu-target="#users" <?= ($segment_a == 'users' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
                             <i data-feather="users"></i>
                         </span>
-                        <span>Support System</span>
+                        <span>System</span>
                     </a>
                 </li>
-                <!--                <li>-->
-                <!--                    <a href="" data-menu-target="#lookups" --><?php //= ($segment_a == 'lookups' ? 'class="active"' : '') ?><!--
-<!                      <span class="menu-tab-icon">-->
-                <!--                            <i data-feather="users"></i>-->
-                <!--                        </span>-->
-                <!--                        <span>Lookups</span>-->
-                <!--                    </a>-->
-                <!--                </li>-->
+
                 <li>
                     <a href=""
                        data-menu-target="#document" <?= ($segment_a == 'document' ? 'class="active"' : '') ?>>
@@ -566,12 +491,6 @@
                 </li>
                 <li>
                     <a href="<?= $path ?>extended">
-                        <span class="nav-link-icon" data-feather="alert-triangle"></span>
-                        <span>Database Compare</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= $path ?>extended">
                         <span class="nav-link-icon" data-feather="crop"></span>
                         <span>Profiles</span>
                     </a>
@@ -744,3 +663,4 @@
         );
     });
 </script>
+
