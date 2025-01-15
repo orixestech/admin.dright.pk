@@ -28,13 +28,18 @@ $routes->post('/use-login-submit', 'Home::use_login_submit');
 $routes->group('support-ticket', static function ($routes) {
     $routes->get('clinta_extended', 'SupportTickets::index');
     $routes->get('dashboard', 'SupportTickets::dashboard');
+    $routes->get('items', 'SupportTickets::items');
     $routes->post('fetch-data', 'SupportTickets::fetch_data');
+    $routes->post('fetch-items', 'SupportTickets::fetch_items');
+    $routes->post('get-record-items', 'SupportTickets::get_item_record');
     $routes->post('update-deadline-form-submit', 'SupportTickets::UpdateDeadLineFormSubmit');
     $routes->post('TicketReplyFormSubmit', 'SupportTickets::TicketReplyFormSubmit');
     $routes->post('submit', 'SupportTickets::ticket_form_submit');
+    $routes->post('submit-item', 'SupportTickets::item_form_submit');
     $routes->post('search_filter', 'SupportTickets::search_filter');
     $routes->post('load_tickets_comments', 'SupportTickets::load_tickets_comments');
     $routes->post('delete', 'SupportTickets::delete_ticket');
+    $routes->post('delete-item', 'SupportTickets::delete_item');
     $routes->get('tickets_reply/(:num)', 'SupportTickets::index');
 });
 $routes->group('builder', static function ($routes) {

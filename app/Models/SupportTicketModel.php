@@ -176,4 +176,40 @@ class SupportTicketModel extends Model
 //         print_r($SQL);exit();
         return $Admin;
     }
+    public function Items($keyword)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `items` where 1=1';
+        if($keyword!=''){
+            $SQL .= ' AND `Name`  LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .=' Order by `Name` Asc';
+//         $Admin = $Crud->ExecuteSQL($SQL);
+//         print_r($SQL);exit();
+        return $SQL;
+    }
+    public
+    function get_item_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->Items($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecuteSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+
+    public
+    function count_item_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->Items($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    }
 }

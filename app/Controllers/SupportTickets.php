@@ -64,6 +64,13 @@ class SupportTickets extends BaseController
         echo view('support_ticket/dashboard', $data);
         echo view('footer', $data);
     }
+    public function items()
+    {
+        $data = $this->data;
+        echo view('header', $data);
+        echo view('support_ticket/items', $data);
+        echo view('footer', $data);
+    }
     public function fetch_data()
     {
         $Users = new SupportTicketModel();
@@ -139,6 +146,47 @@ class SupportTickets extends BaseController
                     $record[$key] = $value;
                 }
                 $Crud->UpdateRecord("diseases", $record, array("UID" => $id));
+                $response['status'] = 'success';
+                $response['message'] = 'Updated Successfully...!';
+            }
+
+        }
+        else{
+            $response['status'] = 'fail';
+            $response['message'] = 'Name Cant Be Empty...!';
+        }
+
+        echo json_encode($response);
+    }
+    public function item_form_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $Item = $this->request->getVar('Item');
+        if (!empty($Item['Name'])) {
+            if ($id == 0) {
+                foreach ($Item as $key => $value) {
+                    $record[$key] = ((isset($value)) ? $value : '');
+                }
+
+                $RecordId = $Crud->AddRecord("items", $record);
+                if (isset($RecordId) && $RecordId > 0) {
+                    $response['status'] = 'success';
+                    $response['message'] = 'Added Successfully...!';
+                } else {
+                    $response['status'] = 'fail';
+                    $response['message'] = 'Data Didnt Submitted Successfully...!';
+                }
+            }
+            else {
+                foreach ($Item as $key => $value) {
+                    $record[$key] = $value;
+                }
+                $Crud->UpdateRecord("items", $record, array("UID" => $id));
                 $response['status'] = 'success';
                 $response['message'] = 'Updated Successfully...!';
             }
@@ -325,6 +373,76 @@ class SupportTickets extends BaseController
         $response['status'] = "success";
         $response['message'] = "Filters Updated Successfully";
 
+        echo json_encode($response);
+    }
+    public
+    function delete_item()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+//        print_r($id);exit();
+        $Crud->DeleteRecord('items', array("UID" => $id));
+        $Main = new Main();
+
+        $msg=$_SESSION['FullName'].' Delete Item Through Admin Dright';
+        $logesegment='Item';
+        $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
+        $response = array();
+        $response['status'] = 'success';
+        $response['message'] = ' Deleted Successfully...!';
+        echo json_encode($response);
+    }
+    public
+    function get_item_record()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("items", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
+        echo json_encode($response);
+    }
+    public
+    function fetch_items()
+    {
+        $Model = new SupportTicketModel();
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+
+        $Data = $Model->get_item_datatables($keyword);
+        $totalfilterrecords = $Model->count_item_datatables($keyword);
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
+            $data[] = isset($record['Price']) ? htmlspecialchars($record['Price']) : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateItem(\'' . htmlspecialchars($record['UID']) . '\')">Update</a>
+                <a class="dropdown-item" onclick="DeleteItem(\'' . htmlspecialchars($record['UID']) . '\')">Delete</a>
+            </div>
+        </div>
+    </td>';
+
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
         echo json_encode($response);
     }
 }

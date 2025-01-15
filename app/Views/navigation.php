@@ -181,6 +181,12 @@
                         <span>Clinta Extended</span>
                     </a>
                 </li>
+                <li>
+                    <a href="<?= $path ?>support-ticket/items">
+                        <span class="nav-link-icon" data-feather="file"></span>
+                        <span>Items</span>
+                    </a>
+                </li>
             </ul>
             <ul id="lookups">
                 <li class="navigation-divider">Lookups</li>
