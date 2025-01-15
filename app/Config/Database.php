@@ -76,7 +76,7 @@ class Database extends Config
         'hostname'     => PGDB_HOST,
         'username' => 'dright_maindb',
         'password' => 'drightPostgrSQL',
-        'database'     => 'clinta_extended',
+        'database'     => 'dright_web_builder',
         'DBDriver' => 'Postgre',
         'DBPrefix' => '',
         'pConnect' => false,
