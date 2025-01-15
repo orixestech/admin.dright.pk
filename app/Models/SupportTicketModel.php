@@ -86,8 +86,8 @@ class SupportTicketModel extends Model
         $custom = [
             'DSN'          => '',
             'hostname'     => PGDB_HOST,
-            'username'     => 'clinta_postgre',
-            'password'     => 'PostgreSql147',
+            'username'     => PGDB_USER,
+            'password'     => PGDB_PASS,
             'database'     => $DBName,
             'DBDriver'     => 'Postgre',
             'DBPrefix'     => '',

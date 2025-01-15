@@ -36,8 +36,8 @@ class ExtendedModel extends Model
         $custom = [
             'DSN'          => '',
             'hostname'     => PGDB_HOST,
-            'username'     => 'clinta_postgre',
-            'password'     => 'PostgreSql147',
+            'username'     => PGDB_USER,
+            'password'     => PGDB_PASS,
             'database'     => $DBName,
             'DBDriver' => 'Postgre',
             'DBPrefix' => '',
@@ -67,7 +67,8 @@ class ExtendedModel extends Model
         //echo $db->getLastQuery() . "<hr>";
         //$db->close();
         return $records;
-    }  public
+    }
+    public
     function GetExtendedProductCategoriesByDBName($DBName)
     {
         if ($_SERVER['HTTP_HOST'] == 'localhost')
@@ -76,8 +77,8 @@ class ExtendedModel extends Model
         $custom = [
             'DSN'          => '',
             'hostname'     => PGDB_HOST,
-            'username'     => 'clinta_postgre',
-            'password'     => 'PostgreSql147',
+            'username'     => PGDB_USER,
+            'password'     => PGDB_PASS,
             'database'     => $DBName,
             'DBDriver' => 'Postgre',
             'DBPrefix' => '',
@@ -117,8 +118,8 @@ class ExtendedModel extends Model
         $custom = [
             'DSN'          => '',
             'hostname'     => PGDB_HOST,
-            'username'     => 'clinta_postgre',
-            'password'     => 'PostgreSql147',
+            'username'     => PGDB_USER,
+            'password'     => PGDB_PASS,
             'database'     => $DBName,
             'DBDriver' => 'Postgre',
             'DBPrefix' => '',
@@ -148,7 +149,7 @@ class ExtendedModel extends Model
         return $records;
     }
     public
-    function GetExtendedUserDataByDBOrID($DBName,$uid)
+    function GetExtendedUserDataByDBOrID($DBName, $uid)
     {
         if ($_SERVER['HTTP_HOST'] == 'localhost')
             $DBName = 'clinta_extended';
@@ -156,8 +157,8 @@ class ExtendedModel extends Model
         $custom = [
             'DSN'          => '',
             'hostname'     => PGDB_HOST,
-            'username'     => 'clinta_postgre',
-            'password'     => 'PostgreSql147',
+            'username'     => PGDB_USER,
+            'password'     => PGDB_PASS,
             'database'     => $DBName,
             'DBDriver' => 'Postgre',
             'DBPrefix' => '',
@@ -179,7 +180,8 @@ class ExtendedModel extends Model
         $builder->where([
             'UID' => $uid,
             'Archive' => 0,
-        ]);        $query = $builder->get();
+        ]);
+        $query = $builder->get();
         $records = $query->getResultArray();
         if (!is_array($records)) {
             $records = array();
@@ -222,17 +224,15 @@ class ExtendedModel extends Model
             $data = array();
             $data['status'] = "success";
             $data['msg'] = "User Access Levels Successfully updated...!";
-
         } else {
             $data = array();
             $data['status'] = "fail";
             $data['msg'] = "Error...!";
-
         }
 
         echo json_encode($data);
     }
-        public function get_all_extended_default_config($keyword)
+    public function get_all_extended_default_config($keyword)
     {
         $Crud = new Crud();
         $SQL = "SELECT * FROM  `extended_admin_setings` ";
@@ -262,10 +262,10 @@ class ExtendedModel extends Model
         //        print_r($SQL);exit();
         return $SQL;
     }
-    public function GetExtendedLookupsDataByDBOrID($DBName,$key)
+    public function GetExtendedLookupsDataByDBOrID($DBName, $key)
     {
         $Crud = new Crud();
-//        $id=0;
+        //        $id=0;
         // Define the database name based on the environment
         $DBName = ($_SERVER['HTTP_HOST'] == 'localhost') ? 'clinta_extended' : '';
 
@@ -273,8 +273,8 @@ class ExtendedModel extends Model
         $custom = [
             'DSN'          => '',
             'hostname'     => PGDB_HOST,
-            'username'     => 'clinta_postgre',
-            'password'     => 'PostgreSql147',
+            'username'     => PGDB_USER,
+            'password'     => PGDB_PASS,
             'database'     => $DBName,
             'DBDriver'     => 'Postgre',
             'DBPrefix'     => '',

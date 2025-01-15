@@ -447,7 +447,7 @@ class Extended extends BaseController
         $custom = [
             'DSN'          => '',
             'hostname'     => PGDB_HOST,
-            'username'     => 'clinta_postgre',
+            'username'     => PGDB_USER,
             'password'     => 'PostgreSql147',
             'database'     => $DBName,
             'DBDriver'     => 'Postgre',
@@ -636,8 +636,8 @@ class Extended extends BaseController
         $custom = [
             'DSN'          => '',
             'hostname'     => PGDB_HOST,
-            'username'     => 'clinta_postgre',
-            'password'     => 'PostgreSql147',
+            'username'     => PGDB_USER,
+            'password'     => PGDB_PASS,
             'database'     => $DBName,
             'DBDriver'     => 'Postgre',
             'DBPrefix'     => '',
