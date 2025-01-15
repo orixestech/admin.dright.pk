@@ -17,7 +17,16 @@ class Home extends BaseController
         $this->MainModel = new Main();
         $this->data = $this->MainModel->DefaultVariable();
     }
+    public function invoice()
+    {
+        $data = $this->data;
+        $UID = getSegment(3);
+        $data['UID'] = $UID;
 
+        echo view('header', $data);
+        echo view('invoice', $data);
+        echo view('footer', $data);
+    }
     public function testing()
     {
         $data = $this->data;
