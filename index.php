@@ -57,25 +57,27 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
 
 define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 
-define('PGDB_HOST', '127.0.0.1');
-define('PGDB_USER', 'dright_maindb');
-define('PGDB_PASS', 'drightPostgrSQL');
+
 
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('PATH', 'http://localhost/admin.dright.net/');
     define('TEMPLATE', 'http://localhost/admin.dright.net/template/');
     define('ROOT', dirname(__FILE__) . "/");
-
+    define('PGDB_HOST', '127.0.0.1');
+    define('PGDB_USER', 'clinta_postgre');
+    define('PGDB_PASS', 'PostgreSql147');
     define('DB_HOST', '127.0.0.1');
     define('DB_USER', 'root');
     define('DB_PASS', '');
-    define('DB_NAME', 'dright_clintamaindb');
+    define('DB_NAME', 'clinta_maindb');
 } else {
 
     define('PATH', 'https://admin.dright.net/');
     define('TEMPLATE', 'https://admin.dright.net/template/');
     define('ROOT', dirname(__FILE__) . "/");
-
+    define('PGDB_HOST', '127.0.0.1');
+    define('PGDB_USER', 'dright_maindb');
+    define('PGDB_PASS', 'drightPostgrSQL');
     define('DB_HOST', '127.0.0.1');
     define('DB_USER', 'dright_clintamaindb');
     define('DB_PASS', 'dright_clintamaindb');
