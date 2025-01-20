@@ -2,8 +2,10 @@
 <?php
 
 $checknav=new \App\Models\SystemUser();
-$Dashboard=$checknav->checkAccessKey('builder-listing');
-//    echo $checknav;exit();
+$Dashboard=$checknav->checkAccessKey('dashboards');
+$hospital=$checknav->checkAccessKey('hospital');
+$doctor=$checknav->checkAccessKey('doctor');
+
 ?>
 
 <style>
@@ -638,18 +640,26 @@ $Dashboard=$checknav->checkAccessKey('builder-listing');
                     </a>
 
                 </li>
+                <?php
+                if ($doctor == 1) {
+                ?>
                 <li>
                     <a href="<?= $path ?>builder/">
                         <span class="nav-link-icon" data-feather="hash"></span>
                         <span>Doctors</span>
                     </a>
                 </li>
+                <?php } ?>
+                <?php
+                if ($hospital == 1) {
+                ?>
                 <li>
                     <a href="<?= $path ?>builder/hospital">
                         <span class="nav-link-icon" data-feather="search"></span>
                         <span>Hospital</span>
                     </a>
                 </li>
+                <?php } ?>
                 <li>
                     <a href="<?= $path ?>builder/images">
                         <span class="nav-link-icon" data-feather="layout"></span>

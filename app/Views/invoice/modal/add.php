@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="<?= $template ?>vendors/select2/css/select2.min.css" type="text/css">
 
 
-<div class="modal" id="AddItemInvoiceModal" tabindex="-1" role="dialog">
+<div class="modal" id="AddInvoiceModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form method="post" action="" name="AddInvoiceDetail" id="AddInvoiceDetail" class="needs-validation" novalidate=""
@@ -16,21 +16,33 @@
             <div class="modal-body">
                 <div class="form-row">
                     <div class="col-md-6 mb-3">
-                        <label for="validationCustom02">Name</label>
-                        <select class="form-control" id="Name" name="Invoice[Name]">
-                            <option value="">Please Select</option>
+                        <label for="validationCustom01">Name</label>
+                        <input type="text" class="form-control" id="Name" name="Invoice[Name]"
+                               placeholder="Enter name"
+                               required="">
 
-                            <?php  foreach ($AllItems as $record) { ?>
-                                <option value="<?= $record['UID'] ?>"
-                                ><?= ucwords($record['Name']); ?></option>
-                            <?php } ?>
-                        </select>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="validationCustom01">Price</label>
-                        <input type="text" class="form-control" id="Price" name="Invoice[Price]"
-                               placeholder="Enter "
-                              readonly>
+                        <label for="validationCustom01">Phone Number</label>
+                        <input type="text" class="form-control" id="PhoneNumber" name="Invoice[PhoneNumber]"
+                               placeholder="Enter phone number"
+                               required="">
+
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label for="validationCustom01">Email</label>
+                        <input type="text" class="form-control" id="Email" name="Invoice[Email]"
+                               placeholder="Enter Email"
+                               required="">
+
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="validationCustom01">Address</label>
+                        <textarea type="text" class="form-control" id="Address" name="Invoice[Address]"
+                                  placeholder="Enter Address"
+                                  required=""></textarea>
+
                     </div>
 
                 </div>
@@ -50,35 +62,6 @@
 
 <script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#Name').change(function () {
-            let itemId = $(this).val(); // Get the selected item's UID
-
-            if (itemId) {
-                // Make an AJAX call to fetch the price
-                $.ajax({
-                    url: '<?=$path?>invoice/get_item_price', // Adjust the URL as needed
-                    method: 'POST',
-                    data: { UID: itemId },
-                    success: function (response) {
-                        let data = JSON.parse(response); // Assuming JSON response
-                        if (data.success) {
-                            $('#Price').val(data.price); // Update the price input field
-                        } else {
-                            alert(data.message);
-                        }
-                    },
-                    error: function () {
-                        alert('An error occurred while fetching the price.');
-                    }
-                });
-            } else {
-                $('#Price').val(''); // Clear the price field if no item is selected
-            }
-        });
-    });
 
 
 

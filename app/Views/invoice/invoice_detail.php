@@ -150,12 +150,18 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
-<?php echo view('invoice/modal/add'); ?>
+<script src="<?= $template ?>vendors/select2/js/select2.min.js"></script>
+<script src="<?= $template ?>vendors/dataTable/datatables.min.js"></script>
+<script src="<?= $template ?>assets/js/examples/datatable.js"></script>
+<script src="<?= $template ?>vendors/prism/prism.js"></script>
+<?php echo view('invoice/modal/invoice_detail_items'); ?>
+
 <script>
     function AddItemforInvoice() {
-        $('#AddItemInvoiceModal').modal('show');
+        $('#ItemInvoiceDetailModal').modal('show');
 
     }
 
