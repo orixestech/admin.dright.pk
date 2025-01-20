@@ -169,6 +169,66 @@ class SystemUser extends Model
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
+    public function checkAcccessKey($key)
+    {
+        $db = \Config\Database::connect(); // Connect to the database
+        $builder = $db->table('admin_access'); // Table for access levels
 
+        // Start a transaction
+        $db->transStart();
+
+        // Fetch UID based on the provided key
+        $builder->select('UID')
+            ->where('AccessKey', $key);
+        $accessLevel = $builder->get()->getRowArray();
+
+        if (!$accessLevel || !isset($accessLevel['UID'])) {
+            $db->transComplete();
+            return 0; // Return 0 if no UID found for the key
+        }
+
+        $UID = $accessLevel['UID'];
+
+        // Check if an entry exists in system_users_access with the same UID and UserID
+        $systemAccessBuilder = $db->table('system_users_access');
+        $systemAccessBuilder->select('1') // We only need to check existence
+        ->where('AccessID', $UID)
+            ->where('UserID', $_SESSION['UID']); // Replace this with the actual UserID input
+        $exists = $systemAccessBuilder->get()->getRowArray();
+        print_r($exists);
+        $db->transComplete();
+
+        // Return 1 if an entry exists, otherwise return 0
+        return ($exists) ? 1 : 0;
+    }
+    public function checkAccessKey($key)
+    {
+        $Crud = new Crud();
+
+        // SQL query to get the UID from the lookups table based on the key
+        $SQL = 'SELECT UID FROM admin_access WHERE `AccessKey` = \'' . $key . '\'';
+
+        // Execute the query and get the result
+        $sqlResult1 = $Crud->ExecuteSQL($SQL);
+
+        // Get the lookup UID
+        if (!empty($sqlResult1)) {
+            $Id = $sqlResult1[0]['UID'];
+        } else {
+            return []; // Return an empty array if no result found
+        }
+
+        // SQL query to get the lookup options using the lookup UID
+        $SQL2 = 'SELECT * FROM system_users_access WHERE AccessID = \'' . $Id . '\' And UserID = \'' . $_SESSION['UID'] . '\' ';
+
+        // Execute the second query and get the results
+        $Admin = $Crud->ExecuteSQL($SQL2);
+        if(count($Admin)>0){
+            $Admin=1;
+        }else{
+            $Admin=0;
+        }
+        return $Admin;
+    }
 
 }

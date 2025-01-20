@@ -1,5 +1,10 @@
 
+<?php
 
+$checknav=new \App\Models\SystemUser();
+$Dashboard=$checknav->checkAccessKey('builder-listing');
+//    echo $checknav;exit();
+?>
 
 <style>
     .navigation .navigation-menu-tab ul li a {
@@ -21,6 +26,9 @@
         <!-- Menu tab -->
         <div class="navigation-menu-tab">
             <ul>
+                <?php
+                if ($Dashboard == 1) {
+                ?>
                 <li>
                     <a href="" data-menu-target="#dashboards" <?= ($segment_a == 'dashboards' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
@@ -29,6 +37,7 @@
                         <span>Dashboards</span>
                     </a>
                 </li>
+                <?php } ?>
                 <li>
                     <a href="#" data-menu-target="#pages" <?= ($segment_a == 'builder' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
