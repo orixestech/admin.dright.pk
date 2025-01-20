@@ -23,6 +23,20 @@
 
                     </div>
                     <div class="col-md-6 mb-3">
+                        <label for="validationCustom01">Code</label>
+                        <input type="text" class="form-control" id="Code" name="Item[Code]"
+                               placeholder="Enter name"
+                              required="">
+
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="validationCustom02"> Type</label>
+                        <select class="form-control" id="Type" name="Item[Type]">
+                            <option value="monthly">Monthly</option>
+                            <option value="annually">Annually</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
                         <label for="validationCustom01">Price</label>
                         <input type="text" class="form-control" id="Price" name="Item[Price]"
                                placeholder="Enter Price"

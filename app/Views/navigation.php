@@ -64,6 +64,14 @@
                     </a>
                 </li>
                 <li>
+                    <a href="#" data-menu-target="#invoice" <?= ($segment_a == 'invoice' ? 'class="active"' : '') ?>>
+                        <span class="menu-tab-icon">
+                            <i data-feather="gift"></i>
+                        </span>
+                        <span>Invoice</span>
+                    </a>
+                </li>
+                <li>
                     <a href="#"
                        data-menu-target="#investigation" <?= ($segment_a == 'investigation' ? 'class="active"' : '') ?>>
                         <span class="menu-tab-icon">
@@ -179,6 +187,18 @@
                     <a href="<?= $path ?>support-ticket/clinta_extended">
                         <span class="nav-link-icon" data-feather="file"></span>
                         <span>Clinta Extended</span>
+                    </a>
+                </li>
+
+            </ul>
+            <ul id="invoice">
+                <li class="navigation-divider">Invoice</li>
+
+
+                <li>
+                    <a href="<?= $path ?>home/invoice">
+                        <span class="nav-link-icon" data-feather="file"></span>
+                        <span>Invoice</span>
                     </a>
                 </li>
                 <li>

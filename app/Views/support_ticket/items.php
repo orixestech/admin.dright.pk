@@ -71,6 +71,8 @@
 
             $('#UpdateItemModal form#UpdateItemForm input#UID').val(Items.record.UID);
             $('#UpdateItemModal form#UpdateItemForm input#Name').val(Items.record.Name);
+            $('#UpdateItemModal form#UpdateItemForm input#Code').val(Items.record.Code);
+            $('#UpdateItemModal form#UpdateItemForm select#Type').val(Items.record.Type);
             $('#UpdateItemModal form#UpdateItemForm input#Price').val(Items.record.Price);
             $('#UpdateItemModal').modal('show');
         }
