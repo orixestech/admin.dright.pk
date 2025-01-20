@@ -25,6 +25,24 @@ class SystemUser extends Model
         }
         $SQL .= ' ORDER BY `SystemDate` DESC';
         return $SQL;
+    }   public function invoice($keyword)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `invoices` where `Archive`=\'0\'  ';
+        if($keyword!=''){
+            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Email` LIKE \'%' . $keyword . '%\' OR `PhoneNumber` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY `SystemDate` DESC';
+        return $SQL;
+    } public function items()
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `items` where 1=1  ';
+
+        $SQL .= ' ORDER BY `Name` DESC';
+        $records = $Crud->ExecuteSQL($SQL);
+
+        return $records;
     }
     public function system_user_roll($id)
     {
@@ -80,10 +98,7 @@ class SystemUser extends Model
         $SQL = $this->systemusers($keyword);
         if ($_POST['length'] != -1)
             $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
-//        echo nl2br($SQL); exit;
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
-
         return $records;
     }
 
@@ -94,7 +109,26 @@ class SystemUser extends Model
 
         $SQL = $this->systemusers($keyword);
         $records = $Crud->ExecuteSQL($SQL);
-//        print_r($records);exit();
+        return count($records);
+    }    public
+    function get_invoice_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->invoice($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public
+    function count_invoice_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->invoice($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
     public function get_admin_activity_datatables($keyword)

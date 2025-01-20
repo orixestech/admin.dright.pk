@@ -196,7 +196,7 @@
 
 
                 <li>
-                    <a href="<?= $path ?>home/invoice">
+                    <a href="<?= $path ?>invoice/index">
                         <span class="nav-link-icon" data-feather="file"></span>
                         <span>Invoice</span>
                     </a>
