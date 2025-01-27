@@ -48,13 +48,14 @@ class Users extends BaseController
         echo view('support_ticket/dashboard', $data);
         echo view('footer', $data);
     }
+
     public function access_level()
     {
         $data = $this->data;
         $Users = new SystemUser();
 
         $data['UserID'] = getSegment(3);
-        $data['UserRoll']  = $Users->system_user_roll($data['UserID']);
+        $data['UserRoll'] = $Users->system_user_roll($data['UserID']);
 
 //        print_r($data['UserRoll']);exit();
 //        $date['user'] = 1;
@@ -66,7 +67,7 @@ class Users extends BaseController
     public function fetch_users()
     {
         $Users = new SystemUser();
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
         $Data = $Users->get_users_datatables($keyword);
         $totalfilterrecords = $Users->count_users_datatables($keyword);
@@ -79,18 +80,25 @@ class Users extends BaseController
             $data[] = isset($record['FullName']) ? htmlspecialchars($record['FullName']) : '';
             $data[] = isset($record['Email']) ? htmlspecialchars($record['Email']) : '';
             $data[] = isset($record['AccessLevel']) ? htmlspecialchars($record['AccessLevel']) : '';
+
+            $Actions = [];
+            if( $Users->checkAccessKey('dashboards') )
+                $Actions[] = '<a class="dropdown-item" onclick="AddAccessLevel(' . htmlspecialchars($record['UID']) . ')">Access Level</a>';
+
+            if( $Users->checkAccessKey('dashboards') )
+                $Actions[] = '<a class="dropdown-item" onclick="UpdateUser(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+
+            if( $Users->checkAccessKey('dashboards') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteUser(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+
+
             $data[] = '
     <td class="text-end">
         <div class="dropdown">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 Actions
             </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="AddAccessLevel(' . htmlspecialchars($record['UID']) . ')">Access Level</a>
-                <a class="dropdown-item" onclick="UpdateUser(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="DeleteUser(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-
-            </div>
+            <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
         </div>
     </td>';
             $dataarr[] = $data;
@@ -104,10 +112,11 @@ class Users extends BaseController
         );
         echo json_encode($response);
     }
+
     public function fetch_admin_activites()
     {
         $Users = new SystemUser();
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
         $Data = $Users->get_admin_activity_datatables($keyword);
         $totalfilterrecords = $Users->count_admin_activity_datatables($keyword);
@@ -135,10 +144,11 @@ class Users extends BaseController
         );
         echo json_encode($response);
     }
+
     public function fetch_admin_approval()
     {
         $Users = new SystemUser();
-        $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
         $Data = $Users->get_diet_admin_category_datatables($keyword);
         $totalfilterrecords = $Users->count_diet_admin_category_datatables($keyword);
@@ -156,7 +166,6 @@ class Users extends BaseController
             $data[] = ($record['ApprovedBy'] > 0) ? '<span class="btn btn-info rounded btn-sm">Approved</span>' : '<a href="javascript:void(0)" onClick="ApproveQuery(' . $record['UID'] . ')" class="btn btn-danger-outline ks-no-text"><span class="fa fa-check ks-icon"></span></a>';
 
 
-
             $dataarr[] = $data;
         }
 
@@ -168,6 +177,7 @@ class Users extends BaseController
         );
         echo json_encode($response);
     }
+
     public function user_form_submit()
     {
         $Crud = new Crud();
@@ -188,9 +198,9 @@ class Users extends BaseController
             if (isset($RecordId) && $RecordId > 0) {
                 $Main = new Main();
 
-                $msg=$_SESSION['FullName'].' Add User Through Admin Dright';
-                $logesegment='Users';
-                $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
+                $msg = $_SESSION['FullName'] . ' Add User Through Admin Dright';
+                $logesegment = 'Users';
+                $Main->adminlog($logesegment, $msg, $this->request->getIPAddress());
                 $response['status'] = 'success';
                 $response['message'] = 'User Added Successfully...!';
             } else {
@@ -202,9 +212,9 @@ class Users extends BaseController
                 $record[$key] = $value;
             }
 
-            $msg=$_SESSION['FullName'].' Update User Through Admin Dright';
-            $logesegment='Users';
-            $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
+            $msg = $_SESSION['FullName'] . ' Update User Through Admin Dright';
+            $logesegment = 'Users';
+            $Main->adminlog($logesegment, $msg, $this->request->getIPAddress());
             $Crud->UpdateRecord("system_users", $record, array("UID" => $id));
             $response['status'] = 'success';
             $response['message'] = 'User Updated Successfully...!';
@@ -212,6 +222,7 @@ class Users extends BaseController
 
         echo json_encode($response);
     }
+
     public function user_roll_form_submit()
     {
         $Crud = new Crud();
@@ -224,21 +235,22 @@ class Users extends BaseController
         $Crud->DeleteRecord("system_users_access", array("UserID" => $UserID));
 //            print_r($access);exit();
         foreach ($access as $key => $value) {
-                $record['AccessID'] = $key ;
-                $record['UserID'] = $UserID ;
+            $record['AccessID'] = $key;
+            $record['UserID'] = $UserID;
             $RecordId = $Crud->AddRecord("system_users_access", $record);
 
         }
-            if (isset($RecordId) && $RecordId > 0) {
-                $response['status'] = 'success';
-                $response['message'] = 'Access Level Added Successfully...!';
-            } else {
-                $response['status'] = 'fail';
-                $response['message'] = 'Data Didnt Submitted Successfully...!';
-            }
+        if (isset($RecordId) && $RecordId > 0) {
+            $response['status'] = 'success';
+            $response['message'] = 'Access Level Added Successfully...!';
+        } else {
+            $response['status'] = 'fail';
+            $response['message'] = 'Data Didnt Submitted Successfully...!';
+        }
 
         echo json_encode($response);
     }
+
     public function delete_user()
     {
         $Crud = new Crud();
@@ -249,6 +261,7 @@ class Users extends BaseController
         $response['message'] = 'User Deleted Successfully...!';
         echo json_encode($response);
     }
+
     public function get_item_record()
     {
         $Crud = new Crud();
@@ -261,6 +274,7 @@ class Users extends BaseController
         $response['message'] = 'Record Get Successfully...!';
         echo json_encode($response);
     }
+
     public function get_admin_updates_record()
     {
         $Crud = new Crud();

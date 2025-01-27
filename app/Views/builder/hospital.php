@@ -83,6 +83,7 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
                 <!--                <th>Sponsors</th>-->
                 <th>Email</th>
                 <th>City</th>
+                <th>SubDomain</th>
                 <th>SMS Credits</th>
 
                 <th>Actions</th>
@@ -108,6 +109,8 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
         </table>
     </div>
     </div>
+    <?php echo view('builder/modal/add_banner'); ?>
+
     <script>
         $(document).ready(function () {
             $('#doctor').DataTable({
@@ -194,6 +197,12 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
                 $("#AllHospitalFilterForm form #FilterResponse").html(rslt.message);
                 location.reload();
             }
+        }
+        function AddBanner() {
+            $('#AddBannerModal form#AddBannerForm input#ProfileUID').val(id);
+
+            $('#AddBannerModal').modal('show');
+
         }
     </script>
 

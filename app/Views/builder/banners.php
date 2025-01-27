@@ -5,12 +5,12 @@
 <div class="card">
     <div class="card-body">
         <h4>Banners
-            <span style="float: right;">            <button type="button" onclick="AddBanner()"
-                                                            class="btn btn-primary "
-                                                            data-toggle="modal" data-target="#exampleModal">
-              Add
-            </button>
-           </span>
+<!--            <span style="float: right;">            <button type="button" onclick="AddBanner()"-->
+<!--                                                            class="btn btn-primary "-->
+<!--                                                            data-toggle="modal" data-target="#exampleModal">-->
+<!--              Add-->
+<!--            </button>-->
+<!--           </span>-->
         </h4>
     </div>
     <div class="table-responsive">

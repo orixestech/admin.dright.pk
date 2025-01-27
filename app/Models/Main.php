@@ -32,6 +32,28 @@ class Main extends Model
         $data['session'] = $session->get();
         $data['page'] = ($page == '') ? 'home' : $page;
 
+
+//            $Crud = new Crud();
+//
+//            // SQL query to get the AccessKey values for the current user
+//            $SQL = 'SELECT a.`AccessKey` FROM `admin_access` a LEFT JOIN `system_users_access` s ON a.`UID` = s.`AccessID` WHERE s.`UserID`= \'' . $_SESSION['UID'] . '\'';
+//
+//            // Execute the query and get the result
+//            $sqlResult = $Crud->ExecuteSQL($SQL);
+//
+//// Initialize an array to hold the access keys (if not already set)
+//        if (!isset($_SESSION['access_keys'])) {
+//            $_SESSION['access_keys'] = [];
+//        }
+//
+//// Check if the query returned any results
+//        if (!empty($sqlResult)) {
+//            // Iterate through the results and add the AccessKey values to the session
+//            foreach ($sqlResult as $row) {
+//                $_SESSION['access_keys'][] = $row['AccessKey'];
+//            }
+//        }
+        // Redirect if not logged in (check login status)
         if ($data['segment_a'] != 'use-login-submit' && $data['segment_a'] != 'login') {
             if (!isset($data['session']['logged_in'])) {
                 $session->destroy();
@@ -39,14 +61,18 @@ class Main extends Model
                 exit;
             }
         }
+
+        // Fetch and set rolls permissions
         $rolls_permissions = $this->GetRollsPermissions();
         $data['rolls_permissions'] = $rolls_permissions;
+
         return $data;
     }
+
     public function GetRollsPermissions()
     {
         $Crud = new Crud();
-        $settings = $Crud->ListRecords('admin_access', [], ['Module' => 'ASC', 'AccessKey' => 'ASC']);
+        $settings = $Crud->ListRecords('admin_access', [], ['AccessKey' => 'ASC',]);
 
         $final = [];
         foreach ($settings as $setting) {

@@ -7,6 +7,7 @@
             <form method="post" action="" name="AddBannerForm" id="AddBannerForm" class="needs-validation" novalidate=""
                   enctype="multipart/form-data">
                 <input type="hidden" name="UID" id="UID" value="0">
+                <input type="hidden" name="ProfileUID" id="ProfileUID" value="0">
                 <div class="modal-header">
                     <h5 class="modal-title">Add </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

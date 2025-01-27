@@ -15,26 +15,29 @@ class SystemUser extends Model
     }
 
 
-
     public function systemusers($keyword)
     {
         $Crud = new Crud();
         $SQL = 'SELECT * FROM `system_users` where `Archive`=\'0\' AND `Email`!=\'info@orixestech.com\' ';
-        if($keyword!=''){
+        if ($keyword != '') {
             $SQL .= ' AND  ( `FullName` LIKE \'%' . $keyword . '%\'  OR `Email` LIKE \'%' . $keyword . '%\' OR `AccessLevel` LIKE \'%' . $keyword . '%\') ';
         }
         $SQL .= ' ORDER BY `SystemDate` DESC';
         return $SQL;
-    }   public function invoice($keyword)
+    }
+
+    public function invoice($keyword)
     {
         $Crud = new Crud();
         $SQL = 'SELECT * FROM `invoices` where `Archive`=\'0\'  ';
-        if($keyword!=''){
+        if ($keyword != '') {
             $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Email` LIKE \'%' . $keyword . '%\' OR `PhoneNumber` LIKE \'%' . $keyword . '%\') ';
         }
         $SQL .= ' ORDER BY `SystemDate` DESC';
         return $SQL;
-    } public function items()
+    }
+
+    public function items()
     {
         $Crud = new Crud();
         $SQL = 'SELECT * FROM `items` where 1=1  ';
@@ -44,6 +47,7 @@ class SystemUser extends Model
 
         return $records;
     }
+
     public function system_user_roll($id)
     {
         $Crud = new Crud();
@@ -65,13 +69,14 @@ class SystemUser extends Model
         WHERE 1=1
 
 ';
-        if($keyword!=''){
+        if ($keyword != '') {
             $SQL .= ' AND  admin_updates.`Description` LIKE \'%' . $keyword . '%\'  ';
 //            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Tag` LIKE \'%' . $keyword . '%\') ';
         }
         $SQL .= ' ORDER BY admin_updates.`ApprovedBy` DESC';
         return $SQL;
     }
+
     public function AdminActivityList($keyword)
     {
 
@@ -83,13 +88,14 @@ class SystemUser extends Model
         WHERE 1=1
 
 ';
-        if($keyword!=''){
+        if ($keyword != '') {
             $SQL .= ' AND  admin_log.`Description` LIKE \'%' . $keyword . '%\'  ';
 //            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Tag` LIKE \'%' . $keyword . '%\') ';
         }
         $SQL .= ' ORDER BY admin_log.`SystemDate` DESC';
         return $SQL;
     }
+
     public
     function get_users_datatables($keyword)
     {
@@ -110,7 +116,9 @@ class SystemUser extends Model
         $SQL = $this->systemusers($keyword);
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
-    }    public
+    }
+
+    public
     function get_invoice_datatables($keyword)
     {
         $Crud = new Crud();
@@ -131,6 +139,7 @@ class SystemUser extends Model
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
+
     public function get_admin_activity_datatables($keyword)
     {
         $Crud = new Crud();
@@ -150,6 +159,7 @@ class SystemUser extends Model
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
+
     public function get_diet_admin_category_datatables($keyword)
     {
         $Crud = new Crud();
@@ -173,31 +183,49 @@ class SystemUser extends Model
     public function checkAccessKey($key)
     {
         $Crud = new Crud();
-
-        // SQL query to get the UID from the lookups table based on the key
-        $SQL = 'SELECT UID FROM admin_access WHERE `AccessKey` = \'' . $key . '\'';
-
-        // Execute the query and get the result
-        $sqlResult1 = $Crud->ExecuteSQL($SQL);
-
-        // Get the lookup UID
-        if (!empty($sqlResult1)) {
-            $Id = $sqlResult1[0]['UID'];
+        $SQL = 'SELECT * FROM system_users_access 
+                WHERE AccessID IN ( SELECT UID FROM admin_access WHERE `AccessKey` = \'' . $key . '\' )
+                And UserID = \'' . $_SESSION['UID'] . '\' ';
+        $Admin = $Crud->ExecuteSQL($SQL);
+        if (count($Admin) > 0) {
+            return true;
         } else {
-            return []; // Return an empty array if no result found
+            return false;
         }
-
-        // SQL query to get the lookup options using the lookup UID
-        $SQL2 = 'SELECT * FROM system_users_access WHERE AccessID = \'' . $Id . '\' And UserID = \'' . $_SESSION['UID'] . '\' ';
-
-        // Execute the second query and get the results
-        $Admin = $Crud->ExecuteSQL($SQL2);
-        if(count($Admin)>0){
-            $Admin=1;
-        }else{
-            $Admin=0;
-        }
-        return $Admin;
     }
+
+    public function checkAccessKeyforsession($key)
+    {
+
+
+        // Check if the session has already stored all valid access keys
+        if (!isset($_SESSION['access_keys'])) {
+            // Fetch all access keys for the current user and store them in the session
+            $Crud = new Crud();
+
+            // SQL query to get the UID from the lookups table for the current user
+            $SQL = 'SELECT a.AccessKey FROM admin_access a
+                INNER JOIN system_users_access s ON a.UID = s.AccessID
+                WHERE s.UserID = \'' . $_SESSION['UID'] . '\'';
+
+            // Execute the query and get the result
+            $sqlResult = $Crud->ExecuteSQL($SQL);
+
+            // Check if we got results and store the access keys in the session
+            if (!empty($sqlResult)) {
+                $_SESSION['access_keys'] = array_column($sqlResult, 'AccessKey');
+            } else {
+                $_SESSION['access_keys'] = []; // No keys found, set to empty array
+            }
+        }
+
+        // Check if the provided key exists in the session access keys
+        if (in_array($key, $_SESSION['access_keys'])) {
+            return 1;  // Key is found, access is granted
+        } else {
+            return 0;  // Key is not found, no access
+        }
+    }
+
 
 }

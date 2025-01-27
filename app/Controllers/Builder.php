@@ -376,6 +376,7 @@ class Builder extends BaseController
 //            $data[] = '<img src="' . load_image('sponsors_' . $Sponsor) . '" height="45">';
             $data[] = $record['Email'];
             $data[] = $city[0]['FullName'];
+            $data[] = $record['SubDomain'];
 
 
             // SMS Credits Column
@@ -396,12 +397,12 @@ class Builder extends BaseController
         <div class="dropdown-menu">
             <a class="dropdown-item" onclick="Updatehospital(' . $record['UID'] . ');">Edit</a>
             <a class="dropdown-item" onclick="DeleteHospital(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-            <a class="dropdown-item" onclick="AddTheme(' . htmlspecialchars($record['UID']) . ')">Add Theme</a>';
+            <a class="dropdown-item" onclick="AddTheme(' . htmlspecialchars($record['UID']) . ')">Add Theme</a> <a class="dropdown-item" onclick="AddBanner(' . $record['UID'] . ');">Add Individualized Banner</a>';
 
             if ($record['SubDomain'] != '') {
                 $data[] .= '
             <a class="dropdown-item" href="http://' . $record['SubDomain'] . '/" target="_blank">Website Link</a>
-            <a class="dropdown-item" onclick="AddNewBanner(' . $record['UID'] . ');">Add Individualized Banner</a>';
+           ';
             }
 
             $data[] .= '

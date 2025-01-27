@@ -15,7 +15,7 @@ $record = $Crud->SingleRecord("system_users", array("UID" => $UserID));
         <div id="kt_app_toolbar_container" class="container-fluid d-flex justify-content-between align-items-center">
             <div class="page-title">
                 <h1 class="text-gray-900 fw-bold fs-3 my-0">
-                    User "<?=$record['FullName']?>" Permissions
+                   User "<?=$record['FullName']?>" Permissions
                 </h1>
             </div>
             <div>

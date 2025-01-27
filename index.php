@@ -38,7 +38,8 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('DB_HOST', '127.0.0.1');
     define('DB_USER', 'root');
     define('DB_PASS', '');
-    define('DB_NAME', 'dright_clintamaindb');
+//    define('DB_NAME', 'dright_clintamaindb');
+    define('DB_NAME', 'clinta_maindb');
 } else {
     define('PATH', 'https://admin.dright.net/');
     define('TEMPLATE', 'https://admin.dright.net/template/');

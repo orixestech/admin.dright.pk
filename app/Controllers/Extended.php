@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\SystemUser;
 use CodeIgniter\Database\Config;
 
 use App\Models\Crud;
@@ -98,7 +99,16 @@ class Extended extends BaseController
 //                $PharmacyInvoiceDateTime = '';
 //                $InvoiceDateTime = '';
             }
-//
+        $Users = new SystemUser();
+            $Actions = [];
+            if( $Users->checkAccessKey('extended_profiles_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="UpdateProfile(' . $record['UID'] . ');">Edit</a>
+';
+
+                $Actions[] = '   <a class="dropdown-item" onclick="ProfileDetail(' . $record['UID'] . ');">Detail</a>';
+
+            if( $Users->checkAccessKey('extended_profiles_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteProfile(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
 
             $cnt++;
             $data = array();
@@ -121,20 +131,14 @@ class Extended extends BaseController
             $data[] = $smsCredits;
 
             $data[] = '
-<td class="text-end">
-    <div class="dropdown">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-            Actions
-        </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="UpdateProfile(' . $record['UID'] . ');">Edit</a>
-            <a class="dropdown-item" onclick="ProfileDetail(' . $record['UID'] . ');">Detail</a>
-            <a class="dropdown-item" onclick="DeleteProfile(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
-
-            $data[] .= '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
         </div>
-    </div>
-</td>';
+    </td>';
             $dataarr[] = $data;
         }
 
@@ -158,6 +162,15 @@ class Extended extends BaseController
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
+            $Users = new SystemUser();
+            $Actions = [];
+            if( $Users->checkAccessKey('extended_default_lookup_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="UpdateDefaultLookup(' . $record['UID'] . ');">Edit</a>
+';
+
+
+            if( $Users->checkAccessKey('extended_default_lookup_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteDefaultLookup(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
 
             $cnt++;
             $data = array();
@@ -168,19 +181,14 @@ class Extended extends BaseController
 
 
             $data[] = '
-<td class="text-end">
-    <div class="dropdown">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-            Actions
-        </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="UpdateDefaultLookup(' . $record['UID'] . ');">Edit</a>
-            <a class="dropdown-item" onclick="DeleteDefaultLookup(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
-
-            $data[] .= '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
         </div>
-    </div>
-</td>';
+    </td>';
             $dataarr[] = $data;
         }
 
@@ -204,6 +212,15 @@ class Extended extends BaseController
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
+            $Users = new SystemUser();
+            $Actions = [];
+            if( $Users->checkAccessKey('extended_default_configration_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="UpdateDefaultConfig(' . $record['UID'] . ');">Edit</a>
+';
+
+
+            if( $Users->checkAccessKey('extended_default_configration_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteDefaultconfig(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
 
             $cnt++;
             $data = array();
@@ -214,19 +231,14 @@ class Extended extends BaseController
 
 
             $data[] = '
-<td class="text-end">
-    <div class="dropdown">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-            Actions
-        </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="UpdateDefaultConfig(' . $record['UID'] . ');">Edit</a>
-            <a class="dropdown-item" onclick="DeleteDefaultconfig(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
-
-            $data[] .= '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
         </div>
-    </div>
-</td>';
+    </td>';
             $dataarr[] = $data;
         }
 
