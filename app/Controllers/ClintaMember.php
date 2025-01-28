@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Models\ClintaMemberModel;
 use App\Models\Crud;
 use App\Models\Main;
+use App\Models\SystemUser;
 
 class ClintaMember extends BaseController
 {
@@ -44,6 +45,7 @@ class ClintaMember extends BaseController
     public function fetch_members()
     {
         $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+        $system = new SystemUser();
 
         $Members = new ClintaMemberModel();
         $Data = $Members->get_datatables($keyword);
@@ -51,6 +53,12 @@ class ClintaMember extends BaseController
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $CM) {
+            $Actions = [];
+
+            if( $system->checkAccessKey('healthcare_clinta_member_shift_to_premium') )
+                $Actions[] = (($CM['Membership'] == 0) ? '<a class="dropdown-item" onclick="ShiftToPremium(' . htmlspecialchars($CM['UID']) . ')">Shift To Premium</a>' : '');
+            if( $system->checkAccessKey('healthcare_clinta_member_details') )
+                $Actions[] = '<a class="dropdown-item" onclick="CheckUserDetails(' . htmlspecialchars($CM['UID']) . ')">View Details</a>';
 
             $cnt++;
             $data = array();
@@ -68,10 +76,7 @@ class ClintaMember extends BaseController
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                     Actions
                 </button>
-                <div class="dropdown-menu">
-                    ' . (($CM['Membership'] == 0) ? '<a class="dropdown-item" onclick="ShiftToPremium(' . htmlspecialchars($CM['UID']) . ')">Shift To Premium</a>' : '') . '
-                    <a class="dropdown-item" onclick="CheckUserDetails(' . htmlspecialchars($CM['UID']) . ')"><i class="fa fa-user"></i> View Details</a>
-                </div>
+                  <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
             </div>
         </td>';
 

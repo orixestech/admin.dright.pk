@@ -7,6 +7,7 @@ use App\Models\Crud;
 use App\Models\CustomerModel;
 use App\Models\LookupModal;
 use App\Models\Main;
+use App\Models\SystemUser;
 
 class Customers extends BaseController
 {
@@ -80,6 +81,7 @@ class Customers extends BaseController
         $Data = $Users->get_datatables();
         $totalfilterrecords = $Users->count_datatables();
 //            print_r($Data);exit();
+        $system = new SystemUser();
 
         $dataarr = array();
         $cnt = $_POST['start'];
@@ -87,6 +89,14 @@ class Customers extends BaseController
             $City = $Lookup->LookupOptionBYID($record['City']);
 //            $Speciality = $Lookup->LookupOptionBYID($record['Speciality']);
 //            $Category = $Lookup->LookupOptionBYID($record['Category']);
+            $Actions = [];
+
+            if( $system->checkAccessKey('healthcare_customer_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="UpdateCustomer(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+            if( $system->checkAccessKey('healthcare_customer_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteCustomer(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+ if( $system->checkAccessKey('healthcare_customer_profile') )
+                $Actions[] = '<a class="dropdown-item" onclick="CustomerProfile(' . htmlspecialchars($record['UID']) . ')">Profile</a>';
 
             $cnt++;
             $data = array();
@@ -101,12 +111,8 @@ class Customers extends BaseController
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 Actions
             </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="UpdateCustomer(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="DeleteCustomer(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-                <a class="dropdown-item" onclick="CustomerProfile(' . htmlspecialchars($record['UID']) . ')">Profile</a>
+                                   <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
 
-            </div>
         </div>
     </td>';
             $dataarr[] = $data;

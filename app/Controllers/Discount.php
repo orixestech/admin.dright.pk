@@ -8,6 +8,7 @@ use App\Models\DiscountModel;
 use App\Models\InvestigationModel;
 use App\Models\LookupModal;
 use App\Models\Main;
+use App\Models\SystemUser;
 
 class Discount extends BaseController
 {
@@ -119,6 +120,7 @@ class Discount extends BaseController
     {
         $DiscountModel = new DiscountModel();
         $Lookup = new LookupModal();
+        $system = new SystemUser();
 
 
         $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
@@ -133,6 +135,17 @@ class Discount extends BaseController
             $cnt++;
             $data = array();
             $data[] = $cnt;
+            $Actions = [];
+
+            if( $system->checkAccessKey('healthcare_discount_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="EditDiscountCenter(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+            if( $system->checkAccessKey('healthcare_discount_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteDiscountCenter(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+ if( $system->checkAccessKey('healthcare_discount_offer_list') )
+                $Actions[] = '<a class="dropdown-item" onclick="discount_offer(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+            if( $system->checkAccessKey('healthcare_discount_center_doctor_list') )
+                $Actions[] = '<a class="dropdown-item" onclick="discount_center_doctor(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+
             $data[] = isset($record['Department']) ? htmlspecialchars($record['Department']) : '';
 
             $data[] = isset($record['Image'])
@@ -149,13 +162,8 @@ class Discount extends BaseController
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 Actions
             </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="EditDiscountCenter(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="DeleteDiscountCenter(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-                <a class="dropdown-item" onclick="discount_offer(' . htmlspecialchars($record['UID']) . ')">Discount Offer</a>
-                <a class="dropdown-item" onclick="discount_center_doctor(' . htmlspecialchars($record['UID']) . ')">Discount Doctor</a>
+                                    <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
 
-            </div>
         </div>
     </td>';
             $dataarr[] = $data;

@@ -6,6 +6,7 @@ use App\Models\BuilderModel;
 use App\Models\Crud;
 use App\Models\HealthcareModel;
 use App\Models\Main;
+use App\Models\SystemUser;
 
 class Home extends BaseController
 {
@@ -84,12 +85,20 @@ class Home extends BaseController
         $totalfilterrecords = $Healthcare->count_frenchises_datatables($keyword);
 //        print_r($Data);
 //        exit();
+        $system = new SystemUser();
 
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
             $cnt++;
             $data = array();
+            $Actions = [];
+
+            if( $system->checkAccessKey('healthcare_branches_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="UpdateBranches(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+            if( $system->checkAccessKey('healthcare_branches_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteBranches(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+
             $data[] = $cnt;
             $data[] = (isset($record['ProfileImage']) && $record['ProfileImage'] != '')
                 ? '<img src="' . PATH . 'upload/franchise/' . $record['ProfileImage'] . '" class="img-thumbnail" style="height:80px;">'
@@ -113,10 +122,8 @@ class Home extends BaseController
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 Actions
             </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="UpdateBranches(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="DeleteBranches(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-            </div>
+                         <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
+
         </div>
     </td>';
 

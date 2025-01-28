@@ -63,6 +63,7 @@ class Representatives extends BaseController
         $PharmacyModal = new PharmacyModal();
 
         $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $system = new SystemUser();
 
         $Data = $Users->get_representatives_datatables($keyword);
         $totalfilterrecords = $Users->count_representatives_datatables($keyword);
@@ -71,6 +72,14 @@ class Representatives extends BaseController
         foreach ($Data as $record) {
             $count= count($Users->get_rcc_receipts_data_by_id($record['UID']));
             $city = $PharmacyModal->getcitybyid($record['City']);
+            $Actions = [];
+
+            if( $system->checkAccessKey('healthcare_rcc_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="Updaterepresentatives(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+            if( $system->checkAccessKey('healthcare_rcc_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="Deleterepresentatives(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+ if( $system->checkAccessKey('healthcare_rcc_receipts') )
+                $Actions[] = '<a class="dropdown-item" onclick="AlotReceiptNo(' . htmlspecialchars($record['UID']) . ')">Add Receipts</a>';
 
             $cnt++;
             $data = array();
@@ -89,12 +98,8 @@ class Representatives extends BaseController
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 Actions
             </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="Updaterepresentatives(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="Deleterepresentatives(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-                <a class="dropdown-item" onclick="AlotReceiptNo(' . htmlspecialchars($record['UID']) . ')">Add Receipts</a>
+                                     <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
 
-            </div>
         </div>
     </td>';
             $dataarr[] = $data;

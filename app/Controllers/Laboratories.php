@@ -8,6 +8,7 @@ use App\Models\LaboratoriesModel;
 use App\Models\LookupModal;
 use App\Models\Main;
 use App\Models\DiseasesModel;
+use App\Models\SystemUser;
 
 class Laboratories extends BaseController
 {
@@ -48,12 +49,20 @@ class Laboratories extends BaseController
         $Users = new LaboratoriesModel();
         $Lookup = new LookupModal();
         $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $system = new SystemUser();
 
         $Data = $Users->get_datatables($keyword);
         $totalfilterrecords = $Users->count_datatables($keyword);
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
+            $Actions = [];
+
+            if( $system->checkAccessKey('laboratories_laboratories_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="Updatelaboratories(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+            if( $system->checkAccessKey('laboratories_laboratories_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="Deletelaboratories(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+
             $inquiry = $Users->GetLabInquiryCount($record['UID']);
             $City= $Lookup->LookupOptionBYID($record['City']);
 //            print_r($City);exit();
@@ -77,11 +86,7 @@ class Laboratories extends BaseController
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 Actions
             </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="Updatelaboratories(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="Deletelaboratories(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-
-            </div>
+             <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
         </div>
     </td>';
             $dataarr[] = $data;

@@ -7,6 +7,7 @@ use App\Models\BuilderModel;
 use App\Models\Crud;
 use App\Models\Main;
 use App\Models\PharmacyModal;
+use App\Models\SystemUser;
 
 class Builder extends BaseController
 {
@@ -255,6 +256,8 @@ class Builder extends BaseController
     {
         $BuilderModel = new BuilderModel();
         $PharmacyModal = new PharmacyModal();
+        $Users = new SystemUser();
+
         $type = 'doctors';
         $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
@@ -267,6 +270,16 @@ class Builder extends BaseController
         $cnt = $_POST['start'];
 //            echo 'ddddd00';exit();
         foreach ($Data as $record) {
+            $Actions = [];
+            if( $Users->checkAccessKey('builder_doctor_profiles_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="EditDoctors(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+
+            if( $Users->checkAccessKey('builder_doctor_profiles_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteDoctor(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+
+            if( $Users->checkAccessKey('builder_doctor_profiles_add_theme') )
+                $Actions[] = '<a class="dropdown-item" onclick="AddTheme(' . htmlspecialchars($record['UID']) . ')">Add Theme</a>';
+
             $cnt++;
             $SmsCredits = $BuilderModel->get_profile_options_data_by_id_option($record['UID'], 'sms_credits');
             $TeleMedicineCredits = $BuilderModel->get_profile_options_data_by_id_option($record['UID'], 'telemedicine_credits');
@@ -318,22 +331,8 @@ class Builder extends BaseController
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
             Actions
         </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="EditDoctors(' . $record['UID'] . ');">Edit</a>
-            <a class="dropdown-item" onclick="DeleteDoctor(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-            <a class="dropdown-item" onclick="AddTheme(' . htmlspecialchars($record['UID']) . ')">Add Theme</a>';
-
-            if ($record['SubDomain'] != '') {
-                $data[] .= '
-            <a class="dropdown-item" href="http://' . $record['SubDomain'] . '/" target="_blank">Website Link</a>
-       
-            <a class="dropdown-item" href="' . PATH . 'module/websites_profile/meta/' . $record['UID'] . '">Add Profile Meta</a>
-           ';
-            }
-
-            $data[] .= '
-        </div>
-    </div>
+                <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
+</div>
 </td>';
 
 
@@ -359,13 +358,22 @@ class Builder extends BaseController
 
         $Data = $BuilderModel->get_doct_datatables($type, $keyword);
         $totalfilterrecords = $BuilderModel->count_doct_datatables($type, $keyword);
-//        $SmsCredits = $BuilderModel->get_profile_options_data_by_id_option(315, 'sms_credits');
+        $Users = new SystemUser();
 
-//        print_r($Data);exit();
         $dataarr = array();
         $cnt = $_POST['start'];
-//            echo 'ddddd00';exit();
         foreach ($Data as $record) {
+            $Actions = [];
+                $Actions[] = '<a class="dropdown-item" onclick="Updatehospital(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+
+            if( $Users->checkAccessKey('builder_hospital_profiles_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteHospital(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+
+            if( $Users->checkAccessKey('builder_hospital_profiles_add_theme') )
+                $Actions[] = '<a class="dropdown-item" onclick="AddTheme(' . htmlspecialchars($record['UID']) . ')">Add Theme</a>';
+  if( $Users->checkAccessKey('builder_banners_add') )
+                $Actions[] = '<a class="dropdown-item" onclick="AddBanner(' . htmlspecialchars($record['UID']) . ')">Add Individualized Banner</a>';
+
             $cnt++;
             $SmsCredits = $BuilderModel->get_profile_options_data_by_id_option($record['UID'], 'sms_credits');
             $city = $PharmacyModal->getcitybyid($record['City']);
@@ -394,20 +402,8 @@ class Builder extends BaseController
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
             Actions
         </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="Updatehospital(' . $record['UID'] . ');">Edit</a>
-            <a class="dropdown-item" onclick="DeleteHospital(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-            <a class="dropdown-item" onclick="AddTheme(' . htmlspecialchars($record['UID']) . ')">Add Theme</a> <a class="dropdown-item" onclick="AddBanner(' . $record['UID'] . ');">Add Individualized Banner</a>';
-
-            if ($record['SubDomain'] != '') {
-                $data[] .= '
-            <a class="dropdown-item" href="http://' . $record['SubDomain'] . '/" target="_blank">Website Link</a>
-           ';
-            }
-
-            $data[] .= '
-        </div>
-    </div>
+                   <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
+</div>
 </td>';
 
 
@@ -428,6 +424,7 @@ class Builder extends BaseController
     {
         $BuilderModel = new BuilderModel();
         $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+        $Users = new SystemUser();
 
         $Data = $BuilderModel->get_specialities_datatables($keyword);
         $totalfilterrecords = $BuilderModel->count_specialities_datatables($keyword);
@@ -436,6 +433,19 @@ class Builder extends BaseController
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
+            $Actions = [];
+            if( $Users->checkAccessKey('builder_specialities_update') )
+
+                $Actions[] = '<a class="dropdown-item" onclick="Editspecialities(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+
+            if( $Users->checkAccessKey('builder_specialities_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="Deletespecialities(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+
+            if( $Users->checkAccessKey('builder_specialities_heading') )
+                $Actions[] = '<a class="dropdown-item" onclick="Addheading(' . htmlspecialchars($record['UID']) . ')">Add heading</a>';
+            if( $Users->checkAccessKey('builder_specialities_gallery') )
+                $Actions[] = '<a class="dropdown-item" onclick="AddGallery(' . htmlspecialchars($record['UID']) . ')">Add Gallery</a>';
+
             $cnt++;
             if ($record['Icon'] != '') {
                 if (file_exists(ROOT . "/upload/specialities/" . $record['Icon'])) {
@@ -463,12 +473,7 @@ class Builder extends BaseController
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
             Actions
         </button>
-        <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="Editspecialities(' . htmlspecialchars($record['UID']) . ');">Edit</a>
-            <a class="dropdown-item" onclick="Deletespecialities(' . htmlspecialchars($record['UID']) . ');">Delete</a>
-            <a class="dropdown-item" onclick="Addheading(' . htmlspecialchars($record['UID']) . ');">Add Heading</a>
-            <a class="dropdown-item" onclick="AddGallery(' . htmlspecialchars($record['UID']) . ');">Add Gallery</a>
-        </div>
+            <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
     </div>
 </td>';
 

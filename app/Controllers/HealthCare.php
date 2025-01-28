@@ -6,6 +6,7 @@ use App\Models\Crud;
 use App\Models\HealthcareModel;
 use App\Models\Main;
 use App\Models\PharmacyModal;
+use App\Models\SystemUser;
 
 
 class HealthCare extends BaseController
@@ -142,10 +143,18 @@ class HealthCare extends BaseController
         $totalfilterrecords = $Healthcare->count_diet_category_datatables();
 //        print_r($Data);
 //        exit();
+        $Users = new SystemUser();
 
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
+            $Actions = [];
+
+            if( $Users->checkAccessKey('healthcare_diet_category_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="UpdateDietCategory(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+            if( $Users->checkAccessKey('healthcare_diet_category_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteDietCategory(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+
             $cnt++;
             $data = array();
             $data[] = $cnt;
@@ -161,10 +170,8 @@ class HealthCare extends BaseController
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 Actions
             </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="UpdateDietCategory(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="DeleteDietCategory(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-            </div>
+                         <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
+
         </div>
     </td>';
 
@@ -188,11 +195,19 @@ class HealthCare extends BaseController
         $Data = $Healthcare->get_support_videos_datatables();
         $totalfilterrecords = $Healthcare->count_support_videos_datatables();
 //        print_r($Data);
-//        exit();
+//        exit();        $Users = new SystemUser();
+        $Users = new SystemUser();
 
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
+            $Actions = [];
+
+            if( $Users->checkAccessKey('healthcare_supportvideos_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="UpdateSupportVideo(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+            if( $Users->checkAccessKey('healthcare_supportvideos_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteSupportVideo(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+
             $cnt++;
             $data = array();
             $data[] = $cnt;
@@ -205,10 +220,7 @@ class HealthCare extends BaseController
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 Actions
             </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="UpdateSupportVideo(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="DeleteSupportVideo(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-            </div>
+            <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
         </div>
     </td>';
 

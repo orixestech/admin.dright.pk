@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Models\Crud;
 use App\Models\Main;
 use App\Models\DiseasesModel;
+use App\Models\SystemUser;
 
 class Disease extends BaseController
 {
@@ -44,6 +45,7 @@ class Disease extends BaseController
     {
         $Users = new DiseasesModel();
         $keyword = ( (isset($_POST['search']['value'])) ? $_POST['search']['value'] : '' );
+        $system= new SystemUser();
 
         $Data = $Users->get_diseases_datatables($keyword);
 //        print_r($Data);exit();
@@ -51,6 +53,11 @@ class Disease extends BaseController
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
+            if( $system->checkAccessKey('healthcare_diseases_update') )
+                $Actions[] = '<a class="dropdown-item" onclick="UpdateDisease(' . htmlspecialchars($record['UID']) . ')">Update</a>';
+            if( $system->checkAccessKey('healthcare_diseases_delete') )
+                $Actions[] = '<a class="dropdown-item" onclick="DeleteDisease(' . htmlspecialchars($record['UID']) . ')">Delete</a>';
+
             $cnt++;
             $data = array();
             $data[] = $cnt;
@@ -58,16 +65,13 @@ class Disease extends BaseController
             $data[] = isset($record['Title']) ? htmlspecialchars($record['Title']) : '';
             $data[] = '
     <td class="text-end">
-        <div class="dropdown">
+                  <div class="dropdown">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 Actions
             </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" onclick="UpdateDisease(' . htmlspecialchars($record['UID']) . ')">Update</a>
-                <a class="dropdown-item" onclick="DeleteDisease(' . htmlspecialchars($record['UID']) . ')">Delete</a>
-
-            </div>
+             <div class="dropdown-menu">' . implode(" ", $Actions) . '</div>
         </div>
+
     </td>';
             $dataarr[] = $data;
         }
