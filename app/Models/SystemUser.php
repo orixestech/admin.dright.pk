@@ -36,6 +36,16 @@ class SystemUser extends Model
         $SQL .= ' ORDER BY `SystemDate` DESC';
         return $SQL;
     }
+    public function customer($keyword)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `invoice_customers` where `Archive`=\'0\'  ';
+        if ($keyword != '') {
+            $SQL .= ' AND  ( `Name` LIKE \'%' . $keyword . '%\'  OR `Email` LIKE \'%' . $keyword . '%\' OR `PhoneNumber` LIKE \'%' . $keyword . '%\') ';
+        }
+        $SQL .= ' ORDER BY `SystemDate` DESC';
+        return $SQL;
+    }
 
     public function items()
     {
@@ -43,6 +53,15 @@ class SystemUser extends Model
         $SQL = 'SELECT * FROM `items` where 1=1  ';
 
         $SQL .= ' ORDER BY `Name` DESC';
+        $records = $Crud->ExecuteSQL($SQL);
+
+        return $records;
+    }      public function allcustomer()
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM `invoice_customers`where `Archive`=\'0\'  ';
+
+        $SQL .= ' ORDER BY `Name` ASC';
         $records = $Crud->ExecuteSQL($SQL);
 
         return $records;
@@ -140,6 +159,28 @@ class SystemUser extends Model
         return count($records);
     }
 
+    public
+    function get_invoice_customer_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->customer($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+        $records = $Crud->ExecuteSQL($SQL);
+        return $records;
+    }
+
+    public
+    function count_invoice_customer_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->customer($keyword);
+        $records = $Crud->ExecuteSQL($SQL);
+        return count($records);
+    }
+
     public function get_admin_activity_datatables($keyword)
     {
         $Crud = new Crud();
@@ -182,7 +223,7 @@ class SystemUser extends Model
 
     public function checkAccessKey($key)
     {
-        if($_SESSION['Email'] == 'info@orixestech.com') {
+        if ($_SESSION['Email'] == 'info@orixestech.com') {
             return true;
         } else {
             $Crud = new Crud();

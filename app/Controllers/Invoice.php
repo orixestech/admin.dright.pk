@@ -30,6 +30,20 @@ class Invoice extends BaseController
 
         echo view('footer', $data);
     }
+    public function customer()
+    {
+        $data = $this->data;
+        $data['page'] = getSegment(2);
+        $Invoice = new SystemUser();
+
+        $data['AllCustomers'] = $Invoice->allcustomer();
+
+        echo view('header', $data);
+
+        echo view('invoice/customer', $data);
+
+        echo view('footer', $data);
+    }
 
     public function invoice_detail()
     {
@@ -90,6 +104,46 @@ class Invoice extends BaseController
         );
         echo json_encode($response);
     }
+  public function fetch_invoice_customer()
+    {
+        $Users = new SystemUser();
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
+
+        $Data = $Users->get_invoice_customer_datatables($keyword);
+        $totalfilterrecords = $Users->count_invoice_customer_datatables($keyword);
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
+            $data[] = isset($record['Email']) ? htmlspecialchars($record['Email']) : '';
+            $data[] = isset($record['PhoneNumber']) ? htmlspecialchars($record['PhoneNumber']) : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="UpdateCustomer(' . htmlspecialchars($record['UID']) . ')">Update</a>
+                <a class="dropdown-item" onclick="DeleteCustomer(' . htmlspecialchars($record['UID']) . ')">Delete</a>
+
+            </div>
+        </div>
+    </td>';
+            $dataarr[] = $data;
+        }
+
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
+        echo json_encode($response);
+    }
 
     public function invoice_detail_form_submit()
     {
@@ -99,14 +153,18 @@ class Invoice extends BaseController
         $record = array();
 
         $id = $this->request->getVar('UID');
-        $User = $this->request->getVar('Invoice');
+        $Name = $this->request->getVar('Name');
 
 
         if ($id == 0) {
-            foreach ($User as $key => $value) {
-                $record[$key] = ((isset($value)) ? $value : '');
-            }
-
+//            foreach ($User as $key => $value) {
+//                $record[$key] = ((isset($value)) ? $value : '');
+//            }
+            $customer = $Crud->SingleRecord("invoice_customers", array("UID" => $Name));
+            $record['Name']=$customer['Name'];
+            $record['PhoneNumber']=$customer['PhoneNumber'];
+            $record['Address']=$customer['Address'];
+            $record['Email']=$customer['Email'];
             $RecordId = $Crud->AddRecord("invoices", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $record2['InvoiceID'] = Code($RecordId, 'INV-');
@@ -124,14 +182,61 @@ class Invoice extends BaseController
                 $response['message'] = 'Data Didnt Submitted Successfully...!';
             }
         } else {
-            foreach ($User as $key => $value) {
-                $record[$key] = $value;
-            }
+            $customer = $Crud->SingleRecord("invoice_customers", array("UID" => $Name));
+            $record['Name']=$customer['Name'];
+            $record['PhoneNumber']=$customer['PhoneNumber'];
+            $record['Address']=$customer['Address'];
+            $record['Email']=$customer['Email'];
 
             $msg = $_SESSION['FullName'] . ' Update Invoice Detail Through Admin Dright';
             $logesegment = 'Users';
             $Main->adminlog($logesegment, $msg, $this->request->getIPAddress());
             $Crud->UpdateRecord("invoices", $record, array("UID" => $id));
+            $response['status'] = 'success';
+            $response['message'] = 'User Updated Successfully...!';
+        }
+
+        echo json_encode($response);
+    }
+   public function customer_detail_form_submit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+
+        $id = $this->request->getVar('UID');
+        $User = $this->request->getVar('Invoice');
+
+
+        if ($id == 0) {
+            foreach ($User as $key => $value) {
+                $record[$key] = ((isset($value)) ? $value : '');
+            }
+
+            $RecordId = $Crud->AddRecord("invoice_customers", $record);
+            if (isset($RecordId) && $RecordId > 0) {
+
+                $Main = new Main();
+
+                $msg = $_SESSION['FullName'] . ' Add Customer Detail Through Admin Dright';
+                $logesegment = 'Users';
+                $Main->adminlog($logesegment, $msg, $this->request->getIPAddress());
+                $response['status'] = 'success';
+                $response['message'] = 'Customer Added Successfully...!';
+            } else {
+                $response['status'] = 'fail';
+                $response['message'] = 'Data Didnt Submitted Successfully...!';
+            }
+        } else {
+            foreach ($User as $key => $value) {
+                $record[$key] = $value;
+            }
+
+            $msg = $_SESSION['FullName'] . ' Update  Detail Through Admin Dright';
+            $logesegment = 'Customer';
+            $Main->adminlog($logesegment, $msg, $this->request->getIPAddress());
+            $Crud->UpdateRecord("invoice_customers", $record, array("UID" => $id));
             $response['status'] = 'success';
             $response['message'] = 'User Updated Successfully...!';
         }
@@ -151,6 +256,18 @@ class Invoice extends BaseController
         $response['status'] = 'success';
         $response['message'] = 'Deleted Successfully...!';
     }
+    public function delete_invoice_customers()
+    {
+        $data = $this->data;
+        $UID = $this->request->getVar('id');
+        $Crud = new Crud();
+        $table = "invoice_customers";
+        $record['Archive'] = 1;
+        $where = array('UID' => $UID);
+        $Crud->UpdateRecord($table, $record, $where);
+        $response['status'] = 'success';
+        $response['message'] = 'Deleted Successfully...!';
+    }
 
     public function get_record_invoice()
     {
@@ -158,6 +275,17 @@ class Invoice extends BaseController
         $id = $_POST['id'];
 
         $record = $Crud->SingleRecord("invoices", array("UID" => $id));
+        $response = array();
+        $response['status'] = 'success';
+        $response['record'] = $record;
+        $response['message'] = 'Record Get Successfully...!';
+        echo json_encode($response);
+    }  public function get_record_invoice_customers()
+    {
+        $Crud = new Crud();
+        $id = $_POST['id'];
+
+        $record = $Crud->SingleRecord("invoice_customers", array("UID" => $id));
         $response = array();
         $response['status'] = 'success';
         $response['record'] = $record;

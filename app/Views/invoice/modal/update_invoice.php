@@ -1,10 +1,10 @@
 <link rel="stylesheet" href="<?= $template ?>vendors/select2/css/select2.min.css" type="text/css">
 
 
-<div class="modal" id="UpdateCustomerModal" tabindex="-1" role="dialog">
+<div class="modal" id="UpdateInvoiceModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="post" action="" name="UpdateCustomerForm" id="UpdateCustomerForm" class="needs-validation" novalidate=""
+            <form method="post" action="" name="UpdateInvoiceForm" id="UpdateInvoiceForm" class="needs-validation" novalidate=""
                   enctype="multipart/form-data">
                 <input type="hidden" name="UID" id="UID" value="0">
                 <div class="modal-header">
@@ -40,7 +40,7 @@
                         <div class="col-md-12 mb-3">
                             <label for="validationCustom01">Address</label>
                             <textarea type="text" class="form-control" id="Address" name="Invoice[Address]"
-                                   placeholder="Enter Address"
+                                      placeholder="Enter Address"
                                       required=""></textarea>
 
                         </div>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="UpdateCustomerFormFunction()">Save changes</button>
+                    <button type="button" class="btn btn-primary" onclick="UpdateInvoiceFormFunction()">Save changes</button>
                 </div>
             </form>
             <div class="mt-4" id="ajaxResponse"></div>
@@ -68,10 +68,10 @@
     // });
 
 
-    function UpdateCustomerFormFunction() {
-        var formdata = new window.FormData($("form#UpdateCustomerForm")[0]);
+    function UpdateInvoiceFormFunction() {
+        var formdata = new window.FormData($("form#UpdateInvoiceForm")[0]);
 
-        response = AjaxUploadResponse("invoice/customer_detail_form_submit", formdata);
+        response = AjaxUploadResponse("invoice/invoice_detail_form_submit", formdata);
         if (response.status === 'success') {
             $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
             setTimeout(function () {
