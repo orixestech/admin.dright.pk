@@ -27,7 +27,19 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
 
 define('FCPATH', __DIR__ . DIRECTORY_SEPARATOR);
 
-if ($_SERVER['HTTP_HOST'] == 'localhost') {
+if ($_SERVER['HTTP_HOST'] == 'admin.dright.dev') {
+    define('PATH', 'https://admin.dright.dev/');
+    define('TEMPLATE', 'https://admin.dright.dev/template/');
+    define('ROOT', dirname(__FILE__) . "/");
+    define('PGDB_HOST', '127.0.0.1');
+    define('PGDB_USER', 'dright_maindb');
+    define('PGDB_PASS', 'drightPostgrSQL');
+
+    define('DB_HOST', '127.0.0.1');
+    define('DB_USER', 'root');
+    define('DB_PASS', 'ServBay.dev');
+    define('DB_NAME', 'dright_clintamaindb');
+} else if ($_SERVER['HTTP_HOST'] == 'localhost') {
     define('PATH', 'http://localhost/admin.dright.net/');
     define('TEMPLATE', 'http://localhost/admin.dright.net/template/');
     define('ROOT', dirname(__FILE__) . "/");
