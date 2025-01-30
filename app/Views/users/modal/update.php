@@ -47,8 +47,9 @@
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom02">User Type</label>
                             <select class="form-control" id="AccessLevel" name="User[AccessLevel]">
-                                <option value="editor">Editor</option>
+                                <option value="system_admin">System Admin</option>
                                 <option value="admin">Admin</option>
+                                <option value="support_department">Support Department</option>
                             </select>
                             <!--                        <select class="select2-example">-->
                             <!--                        <option>Select</option>-->

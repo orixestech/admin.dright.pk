@@ -211,6 +211,7 @@ class Users extends BaseController
             foreach ($User as $key => $value) {
                 $record[$key] = $value;
             }
+            $record['Password'] = $Main->CRYPT($record['Password'], 'hide');
 
             $msg = $_SESSION['FullName'] . ' Update User Through Admin Dright';
             $logesegment = 'Users';
@@ -266,8 +267,11 @@ class Users extends BaseController
     {
         $Crud = new Crud();
         $id = $_POST['id'];
+        $Main = new Main();
 
         $record = $Crud->SingleRecord("system_users", array("UID" => $id));
+        $record['Password'] = $Main->CRYPT($record['Password'], 'show');
+
         $response = array();
         $response['status'] = 'success';
         $response['record'] = $record;
