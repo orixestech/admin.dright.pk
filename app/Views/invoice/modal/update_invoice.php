@@ -1,4 +1,13 @@
 <link rel="stylesheet" href="<?= $template ?>vendors/select2/css/select2.min.css" type="text/css">
+<?php
+
+use App\Models\SystemUser;
+
+?><?php
+$Invoice = new SystemUser();
+
+$AllCustomers = $Invoice->allcustomer();
+?>
 
 
 <div class="modal" id="UpdateInvoiceModal" tabindex="-1" role="dialog">
@@ -16,35 +25,15 @@
                 <div class="modal-body">
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
-                            <label for="validationCustom01">Name</label>
-                            <input type="text" class="form-control" id="Name" name="Invoice[Name]"
-                                   placeholder="Enter name"
-                                   required="">
-
+                            <label for="validationCustom02">Name</label>
+                            <select class="form-control" id="Name" name="Name">
+                                <option value="">Please Select</option>
+                                <?php  foreach ($AllCustomers as $record) { ?>
+                                    <option value="<?= $record['UID'] ?>"
+                                    ><?= ucwords($record['Name']); ?></option>
+                                <?php } ?>
+                            </select>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="validationCustom01">Phone Number</label>
-                            <input type="text" class="form-control" id="PhoneNumber" name="Invoice[PhoneNumber]"
-                                   placeholder="Enter phone number"
-                                   required="">
-
-                        </div>
-
-                        <div class="col-md-12 mb-3">
-                            <label for="validationCustom01">Email</label>
-                            <input type="text" class="form-control" id="Email" name="Invoice[Email]"
-                                   placeholder="Enter Email"
-                                   required="">
-
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="validationCustom01">Address</label>
-                            <textarea type="text" class="form-control" id="Address" name="Invoice[Address]"
-                                      placeholder="Enter Address"
-                                      required=""></textarea>
-
-                        </div>
-
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -76,10 +76,7 @@
             var Items = AjaxResponse("invoice/get_record_invoice", "id=" + id);
 
             $('#UpdateInvoiceModal form#UpdateInvoiceForm input#UID').val(Items.record.UID);
-            $('#UpdateInvoiceModal form#UpdateInvoiceForm input#Name').val(Items.record.Name);
-            $('#UpdateInvoiceModal form#UpdateInvoiceForm input#PhoneNumber').val(Items.record.PhoneNumber);
-            $('#UpdateInvoiceModal form#UpdateInvoiceForm input#Email').val(Items.record.Email);
-            $('#UpdateInvoiceModal form#UpdateInvoiceForm textarea#Address').val(Items.record.Address);
+            $('#UpdateInvoiceModal form#UpdateInvoiceForm select#Name').val(Items.record.CustomerID);
             $('#UpdateInvoiceModal').modal('show');
         }
 

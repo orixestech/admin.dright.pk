@@ -153,18 +153,20 @@ class Invoice extends BaseController
         $record = array();
 
         $id = $this->request->getVar('UID');
-        $Name = $this->request->getVar('Name');
+        $customerID = $this->request->getVar('Name');
 
 
         if ($id == 0) {
 //            foreach ($User as $key => $value) {
 //                $record[$key] = ((isset($value)) ? $value : '');
 //            }
-            $customer = $Crud->SingleRecord("invoice_customers", array("UID" => $Name));
+            $customer = $Crud->SingleRecord("invoice_customers", array("UID" => $customerID));
             $record['Name']=$customer['Name'];
             $record['PhoneNumber']=$customer['PhoneNumber'];
             $record['Address']=$customer['Address'];
             $record['Email']=$customer['Email'];
+            $record['CustomerID']=$customer['UID'];
+
             $RecordId = $Crud->AddRecord("invoices", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $record2['InvoiceID'] = Code($RecordId, 'INV-');
@@ -182,7 +184,7 @@ class Invoice extends BaseController
                 $response['message'] = 'Data Didnt Submitted Successfully...!';
             }
         } else {
-            $customer = $Crud->SingleRecord("invoice_customers", array("UID" => $Name));
+            $customer = $Crud->SingleRecord("invoice_customers", array("UID" => $customerID));
             $record['Name']=$customer['Name'];
             $record['PhoneNumber']=$customer['PhoneNumber'];
             $record['Address']=$customer['Address'];
@@ -254,7 +256,9 @@ class Invoice extends BaseController
         $where = array('UID' => $UID);
         $Crud->UpdateRecord($table, $record, $where);
         $response['status'] = 'success';
-        $response['message'] = 'Deleted Successfully...!';
+        $response['delete_invoice'] = 'Deleted Successfully...!';
+        echo json_encode($response);
+
     }
     public function delete_invoice_customers()
     {
@@ -267,6 +271,8 @@ class Invoice extends BaseController
         $Crud->UpdateRecord($table, $record, $where);
         $response['status'] = 'success';
         $response['message'] = 'Deleted Successfully...!';
+        echo json_encode($response);
+
     }
 
     public function get_record_invoice()

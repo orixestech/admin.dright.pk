@@ -9,3 +9,5 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 
 
     ALTER TABLE `extended_profiles` ADD `PharmaName` VARCHAR(250) NULL AFTER `SubDomainUrl`; 
+
+    
