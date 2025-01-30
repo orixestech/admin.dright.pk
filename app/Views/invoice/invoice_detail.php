@@ -28,7 +28,7 @@
                 <div class="card-body">
                     <div class="invoice-title">
                         <h4 class="float-end font-size-15">Invoice #<?php echo isset($InvoiceDetail['InvoiceID'])?$InvoiceDetail['InvoiceID']:'00';?> <span style="float: right;">
-                <button type="button" onclick="AddItemforInvoice()"
+                <button type="button" onclick="AddItemforInvoice('<?php echo $InvoiceDetail['InvoiceID']?>')"
                         class="btn btn-primary "
                         data-toggle="modal" data-target="#exampleModal">
               Add Item
@@ -160,9 +160,12 @@
 <?php echo view('invoice/modal/invoice_detail_items'); ?>
 
 <script>
-    function AddItemforInvoice() {
-        $('#ItemInvoiceDetailModal').modal('show');
+    function AddItemforInvoice(id) {
+        // Set the value of the input field with id InvoiceID
+        $('#ItemInvoiceDetailModal form#AddItemInvoiceDetail input#InvoiceID').val(id);
 
+        // Show the modal
+        $('#ItemInvoiceDetailModal').modal('show');
     }
 
 </script>

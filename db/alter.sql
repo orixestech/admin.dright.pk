@@ -10,4 +10,34 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 
     ALTER TABLE `extended_profiles` ADD `PharmaName` VARCHAR(250) NULL AFTER `SubDomainUrl`; 
 
-    
+    DROP TABLE IF EXISTS `invoices`;
+CREATE TABLE `invoices` (
+  `UID` int(11) NOT NULL AUTO_INCREMENT,
+  `SystemDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `CustomerID` int(11) DEFAULT NULL,
+  `InvoiceID` varchar(250) NOT NULL,
+  `Name` varchar(250) NOT NULL,
+  `PhoneNumber` varchar(20) NOT NULL,
+  `Address` text DEFAULT NULL,
+  `Email` text DEFAULT NULL,
+  `Archive` smallint(6) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`UID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+INSERT INTO `invoices` (`UID`, `SystemDate`, `CustomerID`, `InvoiceID`, `Name`, `PhoneNumber`, `Address`, `Email`, `Archive`) VALUES
+(1,	'2025-01-20 11:32:09',	NULL,	'INV-000001',	'Riffa Sohaib Testing',	'03185301217',	'House A/675 Street no 3 arjan nagar city saddar road, rawalpindi\r\n',	'riffasohaib2222@gmail.com',	1),
+(2,	'2025-01-30 07:12:28',	NULL,	'INV-000002',	'Gage Rollins',	'+1 (588) 373-6252',	'Laboris enim officia',	'xitoc@mailinator.com',	1),
+(3,	'2025-01-30 10:58:40',	1,	'INV-000003',	'riffu sohaib',	'03185301217',	'House A/675 Street no 3 arjan nagar city saddar road, rawalpindi\r\nHouse A/675 Street no 3 arjan nagar city saddar road, rawalpindi',	'riffasohaib2222@gmail.com',	0);
+
+DROP TABLE IF EXISTS `invoice_customers`;
+CREATE TABLE `invoice_customers` (
+  `UID` int(11) NOT NULL AUTO_INCREMENT,
+  `SystemDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Name` varchar(50) NOT NULL,
+  `PhoneNumber` varchar(50) DEFAULT NULL,
+  `Address` text DEFAULT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  `Archive` smallint(6) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`UID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+

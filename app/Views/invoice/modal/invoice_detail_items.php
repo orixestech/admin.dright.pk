@@ -4,9 +4,10 @@
 <div class="modal" id="ItemInvoiceDetailModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="post" action="" name="A" id="AddItemInvoice" class="needs-validation" novalidate=""
+            <form method="post" action="" name="AddItemInvoiceDetail" id="AddItemInvoiceDetail" class="needs-validation" novalidate=""
                   enctype="multipart/form-data">
                 <input type="hidden" name="UID" id="UID" value="0">
+                <input type="hidden" name="Invoice[InvoiceID]" id="InvoiceID" value="0">
                 <div class="modal-header">
                     <h5 class="modal-title">Add </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -36,7 +37,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="AddItemInvoiceFunction()">Save changes</button>
+                    <button type="button" class="btn btn-primary" onclick="AddItemInvoiceDetailFunction()">Save changes</button>
                 </div>
             </form>
             <div class="mt-4" id="addajaxResponse"></div>
@@ -79,8 +80,8 @@
 
 
 
-    function AddItemInvoiceFunction() {
-        var formdata = new window.FormData($("form#AddItemInvoice")[0]);
+    function AddItemInvoiceDetailFunction() {
+        var formdata = new window.FormData($("form#AddItemInvoiceDetail")[0]);
 
         response = AjaxUploadResponse("invoice/invoice_detail_form_submit", formdata);
         if (response.status === 'success') {
