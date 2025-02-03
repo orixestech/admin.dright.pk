@@ -55,6 +55,32 @@ class SupportTickets extends BaseController
 
         }
         echo view('footer', $data);
+    }  public function builder_support()
+    {        $Crud = new Crud();
+
+        $data = $this->data;
+        $data['page'] = getSegment(2);
+        $data['PAGE'] = array();
+        $SupportTicketModel= new SupportTicketModel();
+
+
+        echo view('header', $data);
+        if ($data['page'] == 'pending') {
+            echo view('support_ticket/pending', $data);
+        }elseif ($data['page'] == 'builder_tickets_reply'){
+            $UID = getSegment(3);
+            $data['TicketID'] = $UID;
+            $Crud = new Crud();
+            $TicketData = $Crud->SingleeRecord('builder_support_ticket', array("UID" => $UID));
+            $data['TicketData'] = $TicketData;
+
+            echo view('support_ticket/builder_support_ticket_reply', $data);
+
+        } else {
+            echo view('support_ticket/builder_support_ticket', $data);
+
+        }
+        echo view('footer', $data);
     }
 
     public function dashboard()
@@ -114,50 +140,40 @@ class SupportTickets extends BaseController
             "data" => $dataarr
         );
         echo json_encode($response);
-    }
-
-    public function ticket_form_submit()
+    }    public function fetch_builder_data()
     {
-        $Crud = new Crud();
-        $Main = new Main();
-        $response = array();
-        $record = array();
+        $Users = new SupportTicketModel();
+        $keyword = ((isset($_POST['search']['value'])) ? $_POST['search']['value'] : '');
 
-        $id = $this->request->getVar('UID');
-        $Disease = $this->request->getVar('Disease');
-//print_r($Disease);exit();
-        if (!empty($Disease['DiseaseName'])) {
-            if ($id == 0) {
-                foreach ($Disease as $key => $value) {
-                    $record[$key] = ((isset($value)) ? $value : '');
-                }
+        $Data = $Users->get_builder_task_datatables($keyword);
+//        print_r($Data);exit();
+        $totalfilterrecords = $Users->count_builder_task_datatables($keyword);
+        $dataarr = array();
+        $cnt = $_POST['start'];
+        foreach ($Data as $record) {
+            $cnt++;
+            $data = array();
+            $data[] = $cnt;
+            $data[] = isset($record['ProfileName']) ? htmlspecialchars($record['ProfileName']) : '';
+            $data[] = isset($record['Module'])
+                ? '<a href="' . PATH . 'support-ticket/builder_tickets_reply/' . $record['UID'] . '">#' . $record['UID'] . ' - ' . $record['Module'] . '</a>'
+                : '';
+            $data[] = isset($record['SystemDate']) ? date("d M, Y h:i A", strtotime( $record['SystemDate'] )) : '';
+            $data[] = isset($record['Priority']) ? htmlspecialchars($record['Priority']) : '';
 
-                $RecordId = $Crud->AddRecord("diseases", $record);
-                if (isset($RecordId) && $RecordId > 0) {
-                    $response['status'] = 'success';
-                    $response['message'] = 'Added Successfully...!';
-                } else {
-                    $response['status'] = 'fail';
-                    $response['message'] = 'Data Didnt Submitted Successfully...!';
-                }
-            }
-            else {
-                foreach ($Disease as $key => $value) {
-                    $record[$key] = $value;
-                }
-                $Crud->UpdateRecord("diseases", $record, array("UID" => $id));
-                $response['status'] = 'success';
-                $response['message'] = 'Updated Successfully...!';
-            }
-
-        }
-        else{
-            $response['status'] = 'fail';
-            $response['message'] = 'Name Cant Be Empty...!';
+            $dataarr[] = $data;
         }
 
+        $response = array(
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => count($Data),
+            "recordsFiltered" => $totalfilterrecords,
+            "data" => $dataarr
+        );
         echo json_encode($response);
     }
+
+
     public function item_form_submit()
     {
         $Crud = new Crud();
@@ -246,6 +262,47 @@ class SupportTickets extends BaseController
         echo json_encode($response);
     }
 
+ public function BuilderTicketReplyFormSubmit()
+    {
+        $Crud = new Crud();
+        $Main = new Main();
+        $response = array();
+        $record = array();
+        $record2 = array();
+        $record3 = array();
+
+        $message = $this->request->getVar('message');
+        $TaskID = $this->request->getVar('TaskID');
+        $UserID = $_SESSION['FullName'];
+        if (!empty($_FILES['Image']['name'])) {
+            $fileID = $Crud->UploadFile('Image', 'public."files"."Image"');
+        }
+//          print_r($fileID);exit();
+
+
+      if ($message != '') {
+          $record['TaskID'] = $TaskID;
+          $record['User'] = $UserID;
+          $record['Message'] = $message;
+          $record['File'] = $fileID ;
+
+
+
+          $RecordId = $Crud->AddRecordPG("builder_task_attachments", $record);
+          if (isset($RecordId) && $RecordId > 0) {
+              $response['status'] = 'success';
+              $response['message'] = 'Added Successfully...!';
+          } else {
+              $response['status'] = 'fail';
+              $response['message'] = 'Data Didnt Submitted Successfully...!';
+          }
+
+
+      }
+
+        echo json_encode($response);
+    }
+
 
     public
     function UpdateDeadLineFormSubmit()
@@ -257,6 +314,20 @@ class SupportTickets extends BaseController
 //        print_r($TaskID);exit();
         $record['DeadLine']=date("Y-m-d H:i:s", strtotime($Date));
         $Crud->UpdateRecord("tasks", $record, array("UID" => $TaskID));
+        $response = array();
+        $response['status'] = 'success';
+        $response['msg'] = "DeadLine Updated SuccessFully";
+        echo json_encode($response);
+    } public
+    function UpdateBuilderDeadLineFormSubmit()
+    {
+        $Crud = new Crud();
+       $TaskID = $_POST['TaskID'];
+        $Date = $_POST['edit_deadline'];
+        $record=array();
+//        print_r($TaskID);exit();
+        $record['DeadLine']=date("Y-m-d ", strtotime($Date));
+        $Crud->UpdateeRecord("builder_support_ticket", $record, array("UID" => $TaskID));
         $response = array();
         $response['status'] = 'success';
         $response['msg'] = "DeadLine Updated SuccessFully";
@@ -352,6 +423,55 @@ class SupportTickets extends BaseController
 
         echo $html;
     }
+
+    public function load_builder_tickets_comments(){
+        $SupportTicketModel = new SupportTicketModel();
+        $html = ''; // Initialize $html only once.
+        $TicketID = $_POST['TicketID'];
+
+        $Data = $SupportTicketModel->GetTicketAllCommentsDataBuilder($TicketID);
+        $TicketData = $SupportTicketModel->GetBuilderTicketDataByID($TicketID);
+
+        if (count($Data) > 0) {
+            $html .= '<div class="card">
+                    <div class="card-header">
+                        <h4>Comments</h4>
+                    </div>
+                    <div class="card-body">';
+
+            foreach ($Data as $D) {
+                $User = ''; // Make sure to define or get the user if needed
+                $html .= '<div class="ks-comment">
+                        <div class="ks-body">
+                            <div class="ks-comment-box">
+                                <div class="ks-name">
+                                    <a href="javascript:void(0);" style="color: green; font-weight: bold;">' . $User . '</a>
+                                </div>
+                                <div class="ks-message">' . $D['Message'] . '</div>
+                            </div>
+                        </div>';
+
+                // Add download button if file exists
+                if (!empty($D['File'])) {
+                    $html .= '<button class="btn btn-sm btn-secondary" onclick="window.location.href=\'' . LoadFile($D['File']) . '\'">
+                            Download File
+                          </button>';
+                }
+
+                $html .= '<footer class="blockquote-footer">' . $User . '
+                        <cite title="Source Title">' . date("d M, Y h:i A", strtotime($D['SystemDate'])) . '</cite>
+                      </footer>
+                    </div><hr>';
+            }
+
+            $html .= '</div></div>'; // Closing card-body and card divs
+        } else {
+            $html .= '<p>No comments available.</p>'; // Message for no comments
+        }
+
+        echo $html; // Output the HTML content
+    }
+
     public
     function search_filter()
     {
@@ -392,6 +512,7 @@ class SupportTickets extends BaseController
         $response['message'] = ' Deleted Successfully...!';
         echo json_encode($response);
     }
+
     public
     function get_item_record()
     {

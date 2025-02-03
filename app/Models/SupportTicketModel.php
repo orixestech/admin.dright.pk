@@ -212,4 +212,61 @@ class SupportTicketModel extends Model
         $records = $Crud->ExecuteSQL($SQL);
         return count($records);
     }
+    public function AllQueriesFromBuilder($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = 'SELECT "public"."builder_support_ticket".*
+        FROM "public"."builder_support_ticket"  
+        WHERE 1=1
+      ';
+        if($keyword!=''){
+            $SQL .= ' AND "public"."builder_support_ticket"."Title"  LIKE \'%' . $keyword . '%\'   ';
+        }
+        $SQL .=' Order By "public"."builder_support_ticket"."SystemDate"  Desc';
+        return $SQL;
+    }
+    public function GetBuilderTicketDataByID($key)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM "public"."builder_support_ticket" where "public"."builder_support_ticket"."UID" = \'' . $key . '\'';
+        $Admin = $Crud->ExecutePgSQL($SQL);
+        return $Admin;
+    }
+    public function GetTicketAllCommentsDataBuilder($key)
+    {
+        $Crud = new Crud();
+        $SQL = 'SELECT * FROM "public"."builder_task_attachments" 
+            WHERE "builder_task_attachments"."TaskID" = \'' . $key . '\' 
+            ORDER BY "builder_task_attachments"."SystemDate" DESC';
+
+        $Admin = $Crud->ExecutePgSQL($SQL);
+        return $Admin;
+    }
+
+    public
+    function get_builder_task_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->AllQueriesFromBuilder($keyword);
+        if ($_POST['length'] != -1)
+            $SQL .= ' limit ' . $_POST['length'] . ' offset  ' . $_POST['start'] . '';
+//        echo nl2br($SQL); exit;
+        $records = $Crud->ExecutePgSQL($SQL);
+//        print_r($records);exit();
+
+        return $records;
+    }
+
+    public
+    function count_builder_task_datatables($keyword)
+    {
+        $Crud = new Crud();
+
+        $SQL = $this->AllQueriesFromBuilder($keyword);
+        $records = $Crud->ExecutePgSQL($SQL);
+        return count($records);
+    }
+
 }

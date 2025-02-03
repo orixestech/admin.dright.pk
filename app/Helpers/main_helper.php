@@ -95,8 +95,22 @@ if (!function_exists('promotion_material_file_download')) {
 
         $code = base64_encode($key);
         $code = str_replace("=", "", $code);
-        $URL = $path . 'module/promotion_material_file_download/' . $code;
+        $URL = $path . 'promotion_material_file_download/' . $code;
         return $URL;
+    }
+}
+
+if ( !function_exists( 'LoadFile' ) ) {
+    function LoadFile( $UID )
+    {
+        if ( $UID > 0 ) {
+            $Code = base64_encode( substr( md5( $UID ), 4, 10 ) . "_" . $UID );
+            $Code = str_replace( "=", "", $Code );
+            return PATH . "file-cdn/" . $Code;
+        } else {
+            return "";
+        }
+
     }
 }
 if (!function_exists('ping')) {
@@ -274,18 +288,7 @@ if (!function_exists('NUMBER')) {
 }
 
 
-if (!function_exists('LoadFile')) {
-    function LoadFile($UID)
-    {
-        if ($UID > 0) {
-            $Code = base64_encode(substr(md5($UID), 4, 10) . "_" . $UID);
-            $Code = str_replace("=", "", $Code);
-            return PATH . "file-cdn/" . $Code;
-        } else {
-            return "";
-        }
-    }
-}
+
 if (!function_exists('Code')) {
     function Code($id, $prefix = 'AIMS-')
     {

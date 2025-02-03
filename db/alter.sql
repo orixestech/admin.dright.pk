@@ -41,3 +41,31 @@ CREATE TABLE `invoice_customers` (
   PRIMARY KEY (`UID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+DROP TABLE IF EXISTS `product_item_invoice`;
+CREATE TABLE `product_item_invoice` (
+  `UID` int(11) NOT NULL AUTO_INCREMENT,
+  `SystemDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `InvoiceID` int(11) NOT NULL,
+  `ItemID` int(11) NOT NULL,
+  `ItemName` text NOT NULL,
+  `ItemPrice` text NOT NULL,
+  `Type` text NOT NULL,
+  `Archive` smallint(6) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`UID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
+
+DROP TABLE IF EXISTS "Files";
+DROP SEQUENCE IF EXISTS "Files_UID_seq";
+CREATE SEQUENCE "Files_UID_seq"  ;
+
+CREATE TABLE "public"."Files" (
+    "UID" bigint DEFAULT nextval('"Files_UID_seq"') NOT NULL,
+    "SystemDate" timestamp,
+    "Content" text,
+    "Ext" character varying,
+    "Size" bigint NOT NULL,
+    "DBRef" text NOT NULL,
+    CONSTRAINT "Files_pkey" PRIMARY KEY ("UID")
+) WITH (oids = false);

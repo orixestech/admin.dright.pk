@@ -208,56 +208,106 @@ class Home extends BaseController
             echo $image;
         }
         exit;
-    } public function promotion_material_file_download()
+    }
+    public function promotion_material_file_download()
     {
-        $code = getSegment(3);
+        $code = getSegment(2);
         $code = explode("_", base64_decode($code));
         $table = $code[0];
         $id = $code[1];
         $extension = $code[2];
 
-        if ($extension == 'pdf' || $extension == 'PDF') {
-            header('Content-Type: pdf');
-        } else if ($extension == 'jpeg' || $extension == 'jpg' || $extension == 'png' || $extension == 'PNG' || $extension == 'JPG' || $extension == 'JPEG') {
-            header('Content-Type: image');
-        } else if ($extension == 'doc' || $extension == 'docx' || $extension == 'DOC' || $extension == 'DOCX') {
-            header('Content-Type: application/msword');
-        } else if ($extension == 'xls' || $extension == 'xlsx') {
-            header('Content-Type: application/vnd.ms-excel');
+        // Set the correct Content-Type header based on the file extension
+        $contentType = 'application/octet-stream'; // Default MIME type
+        switch (strtolower($extension)) {
+            case 'pdf':
+                $contentType = 'application/pdf';
+                break;
+            case 'jpeg':
+            case 'jpg':
+                $contentType = 'image/jpeg';
+                break;
+            case 'png':
+                $contentType = 'image/png';
+                break;
+            case 'doc':
+                $contentType = 'application/msword';
+                break;
+            case 'docx':
+                $contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+                break;
+            case 'xls':
+                $contentType = 'application/vnd.ms-excel';
+                break;
+            case 'xlsx':
+                $contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                break;
         }
-        header('Content-Disposition: attachment; filename="temp.' . $extension . '"');
 
+        // Set headers
+        header('Content-Type: ' . $contentType);
+        header('Content-Disposition: attachment; filename="file.' . $extension . '"');
+
+        // Fetch file content from the database
         switch ($table) {
-
-            case 'product-material';
+            case 'product-material':
                 $dbtable = 'sponsors_products_promotional_material';
                 $column = 'File';
                 $defaultimg = 'no-sponsors.jpg';
                 $Crud = new Crud();
                 $data = $Crud->SingleRecord($dbtable, array("UID" => $id));
-                if ($data[$column] == '') {
+                if (empty($data[$column])) {
                     $fileURL = ROOT . "/upload/discount/" . $defaultimg;
-                    echo file_get_contents($fileURL);
+                    if (file_exists($fileURL)) {
+                        echo file_get_contents($fileURL);
+                    } else {
+                        http_response_code(404);
+                        echo "Default file not found.";
+                    }
                 } else {
-                    echo base64_decode($data[$column]);
+                    // Decode the base64-encoded data
+                    $decodedContent = base64_decode($data[$column]);
+                    if ($decodedContent === false) {
+                        http_response_code(500);
+                        echo "Failed to decode file content.";
+                    } else {
+                        echo $decodedContent;
+                    }
                 }
                 break;
-            case'task-attachments';
-                $dbtable = 'taskattachments';
+            case 'task-attachments':
+                $dbtable = 'builder_task_attachments';
                 $column = 'File';
                 $defaultimg = 'no-image.png';
                 $Crud = new Crud();
-                $data = $Crud->SingleRecord($dbtable, array("UID" => $id));
-                if ($data[$column] == '') {
+                $data = $Crud->SingleeRecord($dbtable, array("UID" => $id));
+                if (empty($data[$column])) {
                     $fileURL = ROOT . "/upload/" . $defaultimg;
-                    echo file_get_contents($fileURL);
+                    if (file_exists($fileURL)) {
+                        echo file_get_contents($fileURL);
+                    } else {
+                        http_response_code(404);
+                        echo "Default file not found.";
+                    }
                 } else {
-                    echo base64_decode($data[$column]);
+                    // Decode the base64-encoded data
+                    $decodedContent = base64_decode($data[$column]);
+                    if ($decodedContent === false) {
+                        http_response_code(500);
+                        echo "Failed to decode file content.";
+                    } else {
+                        echo $decodedContent;
+                    }
                 }
                 break;
+            default:
+                // Handle unknown table
+                http_response_code(404);
+                echo "File not found.";
+                break;
         }
-        ;
-    }public function load_image_meta()
+    }
+    public function load_image_meta()
     {
         $Code = getSegment(2);
         $Code = base64_decode($Code);
@@ -405,5 +455,29 @@ class Home extends BaseController
         }
 
         echo json_encode($response);
+    }
+    public function load_file()
+    {
+        $data = $this->data;
+        ini_set( 'memory_limit', '512M' );
+        ob_start();
+        $Code = (getSegment( 2 ) == '') ? 0 : getSegment( 2 );
+        $Code = explode( "_", base64_decode( $Code ) );
+        $UID = end( $Code );
+        $Crud = new Crud();
+//        print_r($UID);exit;
+        $File = $Crud->SingleeRecord( 'public."Files"', array ( "UID" => $UID ) );
+//        echo "Load File Details: " . $File['UID']; echo $File['Ext']; exit;
+        if ( !isset( $File[ 'UID' ] ) ) {
+            $File = $Crud->SingleeRecord( 'public."Files"', array ( "UID" => 0 ) );
+        }
+
+        // send headers then display image
+        header( 'Content-Type: ' . $File[ 'Ext' ] );
+//        header("Last-Modified: " . gmdate('D, d M Y H:i:s', $File['SystemDate']) . " GMT");
+        //header("Cache-Control: max-age=9999");
+//        header("Expires: " . gmdate("D, d M Y H:i:s", time() + 99999) . "GMT");
+        echo base64_decode( $File[ 'Content' ] );
+        exit;
     }
 }

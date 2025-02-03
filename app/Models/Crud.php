@@ -386,7 +386,7 @@ class Crud extends Model
             $file_content = file_get_contents($file["tmp_name"]);
             $file_content = base64_encode($file_content);
             $records['Content'] = $file_content;
-            $recordid = $this->AddRecord('public."Files"', $records);
+            $recordid = $this->AddRecordPG('public."Files"', $records);
         }
         return $recordid;
     }

@@ -24,23 +24,32 @@ $routes->post('vegetable-data', 'HealthCare::fetch_vegetable');
 $routes->post('miscellaneous-data', 'HealthCare::fetch_miscellaneous');
 $routes->post('/clear_session', 'Home::clear_session');
 $routes->post('/use-login-submit', 'Home::use_login_submit');
+$routes->get('/file-cdn/(.*)', 'Home::load_file');
 
 $routes->group('support-ticket', static function ($routes) {
     $routes->get('clinta_extended', 'SupportTickets::index');
     $routes->get('dashboard', 'SupportTickets::dashboard');
     $routes->get('items', 'SupportTickets::items');
     $routes->post('fetch-data', 'SupportTickets::fetch_data');
+    $routes->post('fetch-builder-task', 'SupportTickets::fetch_builder_data');
     $routes->post('fetch-items', 'SupportTickets::fetch_items');
     $routes->post('get-record-items', 'SupportTickets::get_item_record');
     $routes->post('update-deadline-form-submit', 'SupportTickets::UpdateDeadLineFormSubmit');
+    $routes->post('update-builder-deadline-form-submit', 'SupportTickets::UpdateBuilderDeadLineFormSubmit');
     $routes->post('TicketReplyFormSubmit', 'SupportTickets::TicketReplyFormSubmit');
+    $routes->post('BuilderTicketReplyFormSubmit', 'SupportTickets::BuilderTicketReplyFormSubmit');
     $routes->post('submit', 'SupportTickets::ticket_form_submit');
     $routes->post('submit-item', 'SupportTickets::item_form_submit');
     $routes->post('search_filter', 'SupportTickets::search_filter');
     $routes->post('load_tickets_comments', 'SupportTickets::load_tickets_comments');
+    $routes->post('load_builder_tickets_comments', 'SupportTickets::load_builder_tickets_comments');
     $routes->post('delete', 'SupportTickets::delete_ticket');
     $routes->post('delete-item', 'SupportTickets::delete_item');
     $routes->get('tickets_reply/(:num)', 'SupportTickets::index');
+    $routes->get('builder_tickets_reply/(:num)', 'SupportTickets::builder_support');
+    $routes->get('builder_support_ticket', 'SupportTickets::builder_support');
+    $routes->get('download/(:any)', 'SupportTickets::downloadFile');
+
 });
 $routes->group('builder', static function ($routes) {
     $routes->get('/', 'Builder::index');

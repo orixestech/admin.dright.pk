@@ -192,6 +192,16 @@ $doctor = $checknav->checkAccessKey('doctor');
                     </a>
                 </li>
                 <?php } ?>
+                <?php
+                if ($checknav->checkAccessKey('builder_support_ticket')) {
+                ?>
+                <li>
+                    <a href="<?= $path ?>support-ticket/builder_support_ticket">
+                        <span class="nav-link-icon" data-feather="file"></span>
+                        <span>Builder Ticket</span>
+                    </a>
+                </li>
+                <?php } ?>
 
             </ul>
             <ul id="invoice">
