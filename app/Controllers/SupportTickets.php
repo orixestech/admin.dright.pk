@@ -108,8 +108,9 @@ class SupportTickets extends BaseController
         $cnt = $_POST['start'];
         foreach ($Data as $record) {
             $Profile = $Users->GetExtendedProfielDataByID($record['ProductProfielID'] );
+
             $CreatedBy = $Users->GetExtendedUserDataByDBOrID($Profile[0]['DatabaseName'], $record['CreatedBY'] );
-//            print_r($CreatedBy);exit();
+//            print_r($Profile);exit();
 
             $LatestCommentData = $Users->GetLatestCommentDataByTicketID( $record['UID'] );
 //            $CreatedBy['FullName']='';

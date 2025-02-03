@@ -39,7 +39,7 @@
                                                 <tr class="ks-second-place">
                                                     <td class="ks-info" style="padding-bottom: 5px !important; ">
                                                         <p style="margin-left: 100px;"><strong>Submitted By</strong>
-                                                            <br> <?= isset($TicketData['ProfileName']) ? $CreatedBy['ProfileName'] : '' ?>
+                                                            <br> <?= isset($TicketData['ProfileName']) ? $TicketData['ProfileName'] : '' ?>
                                                         </p>
                                                     </td>
                                                 </tr>
