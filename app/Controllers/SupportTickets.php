@@ -431,7 +431,7 @@ class SupportTickets extends BaseController
 
         $Data = $SupportTicketModel->GetTicketAllCommentsDataBuilder($TicketID);
         $TicketData = $SupportTicketModel->GetBuilderTicketDataByID($TicketID);
-
+//        print_r($TicketData);exit();
         if (count($Data) > 0) {
             $html .= '<div class="card">
                     <div class="card-header">
@@ -440,12 +440,12 @@ class SupportTickets extends BaseController
                     <div class="card-body">';
 
             foreach ($Data as $D) {
-                $User = ''; // Make sure to define or get the user if needed
+                 // Make sure to define or get the user if needed
                 $html .= '<div class="ks-comment">
                         <div class="ks-body">
                             <div class="ks-comment-box">
                                 <div class="ks-name">
-                                    <a href="javascript:void(0);" style="color: green; font-weight: bold;">' . $User . '</a>
+                                    <a href="javascript:void(0);" style="color: green; font-weight: bold;">' . $D['User']  . '</a>
                                 </div>
                                 <div class="ks-message">' . $D['Message'] . '</div>
                             </div>
@@ -458,7 +458,7 @@ class SupportTickets extends BaseController
                           </button>';
                 }
 
-                $html .= '<footer class="blockquote-footer">' . $User . '
+                $html .= '<footer class="blockquote-footer">' . $D['User'] . '
                         <cite title="Source Title">' . date("d M, Y h:i A", strtotime($D['SystemDate'])) . '</cite>
                       </footer>
                     </div><hr>';
