@@ -137,13 +137,13 @@ class BuilderModel extends Model
       ';
         if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
             $Name = $SessionFilters['Name'];
-            $SQL .= ' AND  "public"."profiles"."Name"  LIKE \'%' . $Name . '%\'';
+            $SQL .= ' AND  "public"."profiles"."Name"  ILIKE \'%' . $Name . '%\'';
         } if (isset($SessionFilters['City']) && $SessionFilters['City'] != '') {
             $City= $SessionFilters['City'];
             $SQL .= ' AND  "public"."profiles"."City"  =' . $City . ' ';
         }
         if($keyword!=''){
-            $SQL .= ' AND "public"."profiles"."Name"  LIKE \'%' . $keyword . '%\'   ';
+            $SQL .= ' AND "public"."profiles"."Name"  ILIKE \'%' . $keyword . '%\'   ';
         }
         $SQL .=' Order By "public"."profiles"."Name"  ASC';
         return $SQL;

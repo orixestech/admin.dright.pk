@@ -69,3 +69,15 @@ CREATE TABLE "public"."Files" (
     "DBRef" text NOT NULL,
     CONSTRAINT "Files_pkey" PRIMARY KEY ("UID")
 ) WITH (oids = false);
+
+
+DROP TABLE IF EXISTS `files`;
+CREATE TABLE IF NOT EXISTS `files` (
+  `UID` int NOT NULL AUTO_INCREMENT,
+  `SystemDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Content` text NOT NULL,
+  `Ext` varchar(250) DEFAULT NULL,
+  `Size` int DEFAULT NULL,
+  `DBRef` text NOT NULL,
+  PRIMARY KEY (`UID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

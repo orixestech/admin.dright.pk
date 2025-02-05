@@ -711,7 +711,7 @@ $doctor = $checknav->checkAccessKey('doctor');
                 <li>
                     <a href="<?= $path ?>builder/images">
                         <span class="nav-link-icon" data-feather="layout"></span>
-                        <span>Images</span>
+                        <span>v1.0 Banners</span>
 
                     </a>
                 </li>

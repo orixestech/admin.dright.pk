@@ -46,7 +46,7 @@
 
         <hr>
 
-        <a href="javascript:void(0);" onclick="SubmitLogin()"
+        <a href="javascript:void(0);"  type="submit"
 
            class="btn btn-primary btn-block" style="color: white;">
 
@@ -56,13 +56,51 @@
 
     </form>
     <div class="text-center mt-5">
-        <div class="Status" id="Status">
+        <div class="ajaxResponse" id="ajaxResponse">
 
         </div>
     </div>
     <!-- ./ form -->
 </div>
 <script>
+
+        document.getElementById('UserForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        LoginSubmit();
+    });
+
+        // Detect Enter key inside input fields and trigger form submission
+        document.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+        event.preventDefault(); // Prevent default form submission
+        LoginSubmit(); // Call your submit function
+    }
+    });
+        function LoginSubmit() {
+        var Email = document.getElementById('UserName').value; // Use 'inputEmail' here
+        var Password = document.getElementById('Password').value; // Use 'inputPassword' here
+
+        if (Email == '') {
+        document.getElementById('UserName').focus();
+    } else if (Password == '') {
+        document.getElementById('Password').focus();
+    } else {
+
+        var formdata = new window.FormData($("form#UserForm")[0]);
+        response = AjaxUploadResponse("use-login-submit", formdata);
+
+        if (response.status === 'success') {
+        $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
+        setTimeout(function() {
+        // location.reload();
+        location.href = '<?= $path ?>';
+    }, 500);
+    } else {
+        $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');
+    }
+
+    }
+    }
 
     function SubmitLogin() {
 

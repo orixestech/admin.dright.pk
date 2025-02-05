@@ -47,7 +47,7 @@
             <!--            </div>-->
             <!--            <a class="small" href="">Reset password</a>-->
             <!--        </div>-->
-            <button class="btn btn-primary btn-block" type="button" onclick="LoginSubmit();">Sign in</button>
+            <button class="btn btn-primary btn-block" type="submit">Sign in</button>
             <div class="text-center mt-3">
                 <div class="ajaxResponse" id="ajaxResponse">
 
@@ -56,11 +56,18 @@
         <!-- ./ form -->
     </div>
     <script>
-        // document.getElementById('LoginForm').addEventListener('submit', function(event) {
-        //     event.preventDefault();
-        //     LoginSubmit();
-        // });
+        document.getElementById('LoginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            LoginSubmit();
+        });
 
+        // Detect Enter key inside input fields and trigger form submission
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevent default form submission
+                LoginSubmit(); // Call your submit function
+            }
+        });
         function LoginSubmit() {
             var Email = document.getElementById('inputEmail').value; // Use 'inputEmail' here
             var Password = document.getElementById('inputPassword').value; // Use 'inputPassword' here

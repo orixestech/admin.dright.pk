@@ -55,15 +55,16 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
                             </div>
                             <div class="form-group col-md-12" style="float: right">
                                  <span style="float: right;">
-                                    <button class="btn btn-outline-primary" onclick="ClearAllFilter('AllDoctorFilterForm');"
+                                    <button class="btn btn-outline-primary" onclick="ClearAllFilter('DoctorFilters');"
                                             type="button">Clear</button>
 
                                 <button class="btn btn-outline-success"
                                         onclick="SearchFilterFormSubmit('AllDoctorFilterForm');"
                                         type="button">Search!</button>
                                  </span>
+                                <div class="mt-5" id="FilterResponse"></div>
+
                             </div>
-                            <div class="mt-4" id="FilterResponse"></div>
 
                         </div>
                     </div>
@@ -216,7 +217,7 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
         function ClearAllFilter(Session) {
             var rslt = AjaxResponse('home/clear_session', 'SessionName=' + Session);
             if (rslt.status == 'success') {
-                $("#AllDoctorFilterForm form #FilterResponse").html(rslt.message);
+                $("#FilterResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Clear Successfully!</strong>  </div>')
                 location.reload();
             }
         }

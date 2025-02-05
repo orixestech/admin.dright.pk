@@ -77,7 +77,7 @@
         function Addheading(id) {
             LoadSpecialityMetaDiv( id, 'heading', 'SpecialityHeadingDiv' );
 
-            $('#AddheadingModal form#AddHeadingForm input#SpecialityID').val(id);
+            $('#AddheadingModal form#AdddHeadingForm input#SpecialityID').val(id);
             $('#AddheadingModal').modal('show');
 
         }

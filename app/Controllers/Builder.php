@@ -963,41 +963,42 @@ class Builder extends BaseController
 
                     }
 
+//
+//                    $message = 'Dear Clinta Support,
+//"' . $this->request->getVar('name') . '" New Hospital Added Successfully in Clinta Apanel,
+//Please Assign SubDomain.';
+//                    $Main->send('03155913609', $message);
 
-                    $message = 'Dear Clinta Support,
-"' . $this->request->getVar('name') . '" New Hospital Added Successfully in Clinta Apanel,
-Please Assign SubDomain.';
-                    $Main->send('03155913609', $message);
 
-
-                    if (isset($subdomain) && $subdomain != '') {
-                        $mobile = $this->request->getVar('contact_no');
-                        $message = 'Dear ' . $this->request->getVar('name') . ',
-Congratulations, your own website has been created.
-URL: http://' . $subdomain . '
-Email: ' . $this->request->getVar('email') . '
-Password: ' . $this->request->getVar('password');
-                        $Main->send($mobile, $message);
-                    }
+//                    if (isset($subdomain) && $subdomain != '') {
+//                        $mobile = $this->request->getVar('contact_no');
+//                        $message = 'Dear ' . $this->request->getVar('name') . ',
+//Congratulations, your own website has been created.
+//URL: http://' . $subdomain . '
+//Email: ' . $this->request->getVar('email') . '
+//Password: ' . $this->request->getVar('password');
+//                        $Main->send($mobile, $message);
+//                    }
 //                    echo 'sdvsdv';exit();
                     $msg=$_SESSION['FullName'].' Hospital Profile Submit Through Admin Dright';
                     $logesegment='Hospitals';
                     $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
-                    $data = array();
-                    $data['status'] = "success";
-                    $data['id'] = $website_profile_id;
-                    $data['message'] = "Hospitals Profile Added Successfully.....!";
+                    $responce = array();
+                    $responce['status'] = "success";
+                    $responce['id'] = $website_profile_id;
+                    $responce['message'] = "Hospitals Profile Added Successfully.....!";
 
 
                 } else {
 
-                    $data = array();
-                    $data['status'] = "fail";
-                    $data['message'] = "Error in Adding Hospitals Profile...!";
+                    $responce = array();
+                    $responce['status'] = "fail";
+                    $responce['message'] = "Error in Adding Hospitals Profile...!";
                 }
             }
 
-        } else {
+        }
+        else {
 //            $Data = $Crud->SingleeRecord('public."profiles"', array("Email" => $email, 'ContactNo' => $ContactNo));
 //
 //            if (!empty($Data) && $Data['UID'] > 0) {
@@ -1078,13 +1079,13 @@ Password: ' . $this->request->getVar('password');
             $logesegment='Hospitals';
             $Main->adminlog($logesegment,$msg, $this->request->getIPAddress());
 //            }
-            $data = array();
-            $data['status'] = "success";
-            $data['id'] = $id;
-            $data['message'] = "Hospitals Profile Updated Successfully.....!";
+            $responce = array();
+            $responce['status'] = "success";
+            $responce['id'] = $id;
+            $responce['message'] = "Hospitals Profile Updated Successfully.....!";
         }
 
-        echo json_encode($data);
+        echo json_encode($responce);
 
     }
 
@@ -1522,7 +1523,7 @@ Password: ' . $this->request->getVar('password');
         $Main = new Main();
         $response = array();
         $record = array();
-
+        $fileImage='';
         $id = $this->request->getVar('UID');
         $Sponsor = $this->request->getVar('Sponsor');
 
@@ -1536,8 +1537,10 @@ Password: ' . $this->request->getVar('password');
             foreach ($Sponsor as $key => $value) {
                 $record[$key] = ((isset($value)) ? $value : '');
             }
-            $record['Image'] = base64_encode($fileImage);
-            $RecordId = $Crud->AddRecord("sponsors", $record);
+            if ($fileImage !=''){
+                $record['Image'] = base64_encode($fileImage);
+
+            }            $RecordId = $Crud->AddRecord("sponsors", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $msg=$_SESSION['FullName'].' Submit Sponser Through Admin Dright';
                 $logesegment='Sponsors';
@@ -1552,8 +1555,10 @@ Password: ' . $this->request->getVar('password');
             foreach ($Sponsor as $key => $value) {
                 $record[$key] = $value;
             }
-            $record['Image'] = base64_encode($fileImage);
+            if ($fileImage !=''){
+                $record['Image'] = base64_encode($fileImage);
 
+            }
             $Crud->UpdateRecord("sponsors", $record, array("UID" => $id));
             $msg=$_SESSION['FullName'].' Update Sponsor Through Admin Dright';
             $logesegment='Sponsors';
@@ -1572,10 +1577,16 @@ Password: ' . $this->request->getVar('password');
         $Main = new Main();
         $response = array();
         $record = array();
+        $fileImage='';
 
         $id = $this->request->getVar('UID');
         $Sponsor = $this->request->getVar('SponsorProduct');
+        $Image = $this->request->getFile('Image');
+//print_r($Image);exit();
+        if ($Image->isValid() && !$Image->hasMoved()) {
+            $fileImage = file_get_contents($Image->getTempName());
 
+        }
 //        if ($this->request->getFile('Image')->isValid()) {
 //            $file = $Main->upload_image('Image', 1024);
 //        } else {
@@ -1588,8 +1599,10 @@ Password: ' . $this->request->getVar('password');
             foreach ($Sponsor as $key => $value) {
                 $record[$key] = ((isset($value)) ? $value : '');
             }
-            $record['Image'] = 'bb';
-            $RecordId = $Crud->AddRecord("sponsors_products", $record);
+            if ($fileImage !=''){
+                $record['Image'] = base64_encode($fileImage);
+
+            }            $RecordId = $Crud->AddRecord("sponsors_products", $record);
             if (isset($RecordId) && $RecordId > 0) {
                 $msg=$_SESSION['FullName'].' Submit Sponsor Product Through Admin Dright';
                 $logesegment='Sponsors Product';
@@ -1604,7 +1617,10 @@ Password: ' . $this->request->getVar('password');
             foreach ($Sponsor as $key => $value) {
                 $record[$key] = $value;
             }
-            $record['Image'] = 'bb';
+            if ($fileImage !=''){
+                $record['Image'] = base64_encode($fileImage);
+
+            }
 
             $Crud->UpdateRecord("sponsors_products", $record, array("UID" => $id));
             $msg=$_SESSION['FullName'].' Submit Sponsor Product Through Admin Dright';
@@ -1706,7 +1722,7 @@ Password: ' . $this->request->getVar('password');
             $data[] = $cnt;
             $data[] = isset($record['Name']) ? htmlspecialchars($record['Name']) : '';
             $data[] = isset($record['PackSize']) ? htmlspecialchars($record['PackSize']) : '';
-            $data[] = isset($record['Image']) ? "<img src='" . load_image('sponsor-product_' . $record['UID']) . "' style='width: 100px;'>" : '';
+            $data[] = isset($record['Image']) ? "<img src='" . load_image('mysql|sponsors_products|' . $record['UID']) . "' style='width: 100px;'>" : '';
 
             $data[] = '
     <td class="text-end">

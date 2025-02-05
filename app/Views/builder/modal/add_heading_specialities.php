@@ -4,7 +4,7 @@
 <div class="modal" id="AddheadingModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="post" action="" name="AddHeadingForm" id="AddHeadingForm" class="needs-validation" novalidate=""
+            <form method="post" action="" name="AdddHeadingForm" id="AdddHeadingForm" class="needs-validation" novalidate=""
                   enctype="multipart/form-data">
                 <input type="hidden" name="UID" id="UID" value="0">
                 <input type="hidden" name="SpecialityID" id="SpecialityID" value="">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="AddHeadingFormFunction()">Save changes</button>
+                        <button type="button" class="btn btn-primary" onclick="FormHeadingSubmit()">Save changes</button>
                     </div>
             </form>
             <div class="mt-4" id="ajaxResponse"></div>
@@ -42,16 +42,17 @@
 <script src="<?= $template ?>vendors/select2/js/select2.min.js"></script>
 
 <script>
-    function AddHeadingFormFunction() {
-        var formdata = new window.FormData($("form#AddHeadingForm")[0]);
+    function FormHeadingSubmit() {
+        var formdata = new window.FormData($("form#AdddHeadingForm")[0]);
         response = AjaxUploadResponse("builder/submit_specialities_meta", formdata);
         if (response.status === 'success') {
             $("#ajaxResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Success!</strong> ' + response.message + ' </div>');
-        else {
+        }else
+            {
                 $("#ajaxResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error!</strong> ' + response.message + ' </div>');
             }
-        }
 
+    }
 </script>
 <script>
     (function() {
