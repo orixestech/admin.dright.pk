@@ -359,7 +359,7 @@ class Builder extends BaseController
         $Data = $BuilderModel->get_doct_datatables($type, $keyword);
         $totalfilterrecords = $BuilderModel->count_doct_datatables($type, $keyword);
         $Users = new SystemUser();
-
+        print_r($Data);exit;
         $dataarr = array();
         $cnt = $_POST['start'];
         foreach ($Data as $record) {

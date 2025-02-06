@@ -3,11 +3,12 @@
 
 $session = session();
 $SessionFilters = $session->get('DoctorFilters');
-$Name='';
-$City='';
+$Name = '';
+$City = '';
 if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
     $Name = $SessionFilters['Name'];
-}if (isset($SessionFilters['City']) && $SessionFilters['City'] != '') {
+}
+if (isset($SessionFilters['City']) && $SessionFilters['City'] != '') {
     $City = $SessionFilters['City'];
 }
 ?>
@@ -35,7 +36,8 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
                             <div class="form-group col-md-3">
                                 <label class="form-control-label no-padding-right">Name:</label>
                                 <input type="text" id="Name" name="Name" placeholder="Name"
-                                       class="form-control "  value="<?=$Name;?>" data-validation-engine="validate[required]"
+                                       class="form-control " value="<?= $Name; ?>"
+                                       data-validation-engine="validate[required]"
                                        data-errormessage="MAC Address is required"/>
                             </div>
                             <div class="col-md-3">
@@ -75,154 +77,160 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
 
     </div>
     <div class="card-body">
-    <div class="table-responsive">
-        <table id="doctor" class="table table-striped table-bordered">
-            <thead>
-            <tr>
-                <div class="mt-5" id="Telemedicine"></div>
-                <div class="mt-5" id="AddSmsCreditsResponse"></div>
+        <div class="table-responsive">
+            <table id="doctor" class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <div class="mt-5" id="Telemedicine"></div>
+                    <div class="mt-5" id="AddSmsCreditsResponse"></div>
 
-                <th>Sr No</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>City</th>
-                <th>Telemedicine Credits</th>
-                <th>SMS Credits</th>
-                <th>Last Visit Date</th>
+                    <th>Sr No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Telemedicine Credits</th>
+                    <th>SMS Credits</th>
+                    <th>Last Visit Date</th>
 
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-            <tr>
-                <th>Sr No</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>City</th>
-                <th>Telemedicine Credits</th>
-                <th>SMS Credits</th>
-                <th>Last Visit Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>Telemedicine Credits</th>
+                    <th>SMS Credits</th>
+                    <th>Last Visit Date</th>
 
-                <th>Actions</th>
-            </tr>
-            <div class="mt-5" id="Response"></div>
+                    <th>Actions</th>
+                </tr>
+                <div class="mt-5" id="Response"></div>
 
-            </tfoot>
-        </table>
-    </div>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
-    <script>
-        $(document).ready(function () {
-            $('#doctor').DataTable({
-                "scrollY": "800px",
-                "scrollCollapse": true,
-                "searching": true,
-                "processing": true,
-                "serverSide": true,
-                "responsive": true,
-                "lengthMenu": [[100, 500, 1000, -1], [100, 500, 1000, 'All']],
-                "pageLength": 100,
-                "autoWidth": true,
-                "ajax": {
-                    "url": "<?= $path ?>builder/get-doctor",
-                    "type": "POST"
-                }
-            });
+<script>
+    $(document).ready(function () {
+        $('#doctor').DataTable({
+            "scrollY": "800px",
+            "scrollCollapse": true,
+            "searching": true,
+            "processing": true,
+            "serverSide": true,
+            "responsive": true,
+            "lengthMenu": [[100, 500, 1000, -1], [100, 500, 1000, 'All']],
+            "pageLength": 100,
+            "autoWidth": true,
+            "ajax": {
+                "url": "<?= $path ?>builder/get-doctor",
+                "type": "POST"
+            }
         });
+    });
 
-    </script>
-    <script>
-        function AddDoctor() {
-            location.href = "<?=$path?>builder/add-doctor";
+</script>
+<script>
+    function AddDoctor() {
+        location.href = "<?=$path?>builder/add-doctor";
 
 
-        }
-        function AddTheme(id) {
-            location.href = "<?=$path?>builder/add_theme/" + id;
+    }
 
-        }
-        function EditDoctors(id) {
-            location.href = "<?=$path?>builder/update-doctor/" + id;
+    function AddTheme(id) {
+        location.href = "<?=$path?>builder/add_theme/" + id;
 
-        }
-        function AddTeleMedicineCredits( id, newcredits ){
+    }
 
-            if( confirm( "Are You Want To Add " + newcredits + " Telemedicine Credits" ) ){
+    function EditDoctors(id) {
+        location.href = "<?=$path?>builder/update-doctor/" + id;
 
-                response = AjaxResponse( 'builder/add_telemedicine_credits', "id=" + id + "&newcredits=" + newcredits );
+    }
 
-                if (response.status == 'success') {
-                    $("#TelemedicineResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Add Successfully!</strong>  </div>')
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                } else {
-                    $("#TelemedicineResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Added</strong>  </div>')
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                }
-            }
-        }  function AddSmsCredits( id, newcredits ){
+    function AddTeleMedicineCredits(id, newcredits) {
 
-            if( confirm( "Are You Want To Add " + newcredits + " SMS Credits" ) ){
+        if (confirm("Are You Want To Add " + newcredits + " Telemedicine Credits")) {
 
-                response = AjaxResponse( 'builder/add_sms_credits', "id=" + id + "&newcredits=" + newcredits );
+            response = AjaxResponse('builder/add_telemedicine_credits', "id=" + id + "&newcredits=" + newcredits);
 
-                if (response.status == 'success') {
-                    $("#AddSmsCreditsResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Added Successfully!</strong>  </div>')
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                } else {
-                    $("#AddSmsCreditsResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Added</strong>  </div>')
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                }
+            if (response.status == 'success') {
+                $("#TelemedicineResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Add Successfully!</strong>  </div>')
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            } else {
+                $("#TelemedicineResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Added</strong>  </div>')
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
             }
         }
+    }
 
+    function AddSmsCredits(id, newcredits) {
 
-        function DeleteDoctor(id) {
-            if (confirm("Are you Sure U want to Delete this?")) {
-                response = AjaxResponse("builder/delete-doctor", "id=" + id);
-                if (response.status == 'success') {
-                    $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                } else {
-                    $("#Response").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Deleted</strong>  </div>')
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                }
+        if (confirm("Are You Want To Add " + newcredits + " SMS Credits")) {
 
+            response = AjaxResponse('builder/add_sms_credits', "id=" + id + "&newcredits=" + newcredits);
+
+            if (response.status == 'success') {
+                $("#AddSmsCreditsResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Added Successfully!</strong>  </div>')
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            } else {
+                $("#AddSmsCreditsResponse").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Added</strong>  </div>')
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
             }
         }
-        function SearchFilterFormSubmit(parent) {
+    }
 
-            var data = $("form#" + parent).serialize();
-            var rslt = AjaxResponse('builder/doctor_search_filter', data);
-            if (rslt.status == 'success') {
-                $("#AllDoctorFilterForm form #FilterResponse").html(rslt.message);
-                location.reload();
+
+    function DeleteDoctor(id) {
+        if (confirm("Are you Sure U want to Delete this?")) {
+            response = AjaxResponse("builder/delete-doctor", "id=" + id);
+            if (response.status == 'success') {
+                $("#Response").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Deleted Successfully!</strong>  </div>')
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            } else {
+                $("#Response").html('<div class="alert alert-danger mb-4" style="margin: 10px;" role="alert"> <strong>Error! Not Deleted</strong>  </div>')
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
             }
-        }
 
-        function ClearAllFilter(Session) {
-            var rslt = AjaxResponse('home/clear_session', 'SessionName=' + Session);
-            if (rslt.status == 'success') {
-                $("#FilterResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Clear Successfully!</strong>  </div>')
-                location.reload();
-            }
         }
-    </script>
+    }
 
-    <script src="<?= $template ?>vendors/dataTable/datatables.min.js"></script>
-    <script src="<?= $template ?>assets/js/examples/datatable.js"></script>
-    <script src="<?= $template ?>vendors/prism/prism.js"></script>
+    function SearchFilterFormSubmit(parent) {
+
+        var data = $("form#" + parent).serialize();
+        var rslt = AjaxResponse('builder/doctor_search_filter', data);
+        if (rslt.status == 'success') {
+            $("#AllDoctorFilterForm form #FilterResponse").html(rslt.message);
+            location.reload();
+        }
+    }
+
+    function ClearAllFilter(Session) {
+        var rslt = AjaxResponse('home/clear_session', 'SessionName=' + Session);
+        if (rslt.status == 'success') {
+            $("#FilterResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Clear Successfully!</strong>  </div>')
+            location.reload();
+        }
+    }
+</script>
+
+<script src="<?= $template ?>vendors/dataTable/datatables.min.js"></script>
+<script src="<?= $template ?>assets/js/examples/datatable.js"></script>
+<script src="<?= $template ?>vendors/prism/prism.js"></script>

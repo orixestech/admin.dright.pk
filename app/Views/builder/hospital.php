@@ -3,16 +3,17 @@
 
 $session = session();
 $SessionFilters = $session->get('HospitalFilters');
-$Name='';
-$City='';
+$Name = '';
+$City = '';
 if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
     $Name = $SessionFilters['Name'];
-}if (isset($SessionFilters['City']) && $SessionFilters['City'] != '') {
+}
+if (isset($SessionFilters['City']) && $SessionFilters['City'] != '') {
     $City = $SessionFilters['City'];
 }
 ?>
 <div class="card">
-    <div class="card-header mt-3" >
+    <div class="card-header mt-3">
         <h3>Hospital
             <span style="float: right;">
                 <button type="button" onclick="AddHospital()"
@@ -33,7 +34,8 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
                             <div class="form-group col-md-3">
                                 <label class="form-control-label no-padding-right">Name:</label>
                                 <input type="text" id="Name" name="Name" placeholder="Name"
-                                       class="form-control "  value="<?=$Name;?>" data-validation-engine="validate[required]"
+                                       class="form-control " value="<?= $Name; ?>"
+                                       data-validation-engine="validate[required]"
                                        data-errormessage="MAC Address is required"/>
                             </div>
                             <div class="col-md-3">
@@ -71,49 +73,52 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
         </div>
     </div>
     <div class="card-body">
-    <div class="table-responsive">
-        <table id="doctor" class="table table-striped table-bordered">
-            <thead>
-            <tr>
-                <div class="mt-5" id="AddSmsCreditsResponse"></div>
+        <div class="table-responsive">
+            <table id="hospital" class="table table-striped table-bordered">
 
-                <th>Sr No</th>
-                <!--                <th>Profile</th>-->
-                <th>Name</th>
-                <!--                <th>Sponsors</th>-->
-                <th>Email</th>
-                <th>City</th>
-                <th>SubDomain</th>
-                <th>SMS Credits</th>
+                <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <!--                <th>Profile</th>-->
+                    <th>Name</th>
+                    <!--                <th>Sponsors</th>-->
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>SubDomain</th>
+                    <th>SMS Credits</th>
 
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-            <tr>
-                <th>Sr No</th>
-                <!--                <th>Profile</th>-->
-                <th>Name</th>
-                <!--                <th>Sponsors</th>-->
-                <th>Email</th>
-                <th>City</th>
-                <th>SMS Credits</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>Sr No</th>
+                    <!--                <th>Profile</th>-->
+                    <th>Name</th>
+                    <!--                <th>Sponsors</th>-->
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>SubDomain</th>
 
-                <th>Actions</th>
-            </tr>
-            <div class="mt-5" id="Response"></div>
+                    <th>SMS Credits</th>
 
-            </tfoot>
-        </table>
-    </div>
+                    <th>Actions</th>
+                </tr>
+                <div class="mt-5" id="Response"></div>
+
+                </tfoot>
+            </table>
+        </div>
     </div>
     <?php echo view('builder/modal/add_banner'); ?>
 
+</div>
+
     <script>
         $(document).ready(function () {
-            $('#doctor').DataTable({
+            $('#hospital').DataTable({
                 "scrollY": "800px",
                 "scrollCollapse": true,
                 "searching": true,
@@ -124,7 +129,7 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
                 "pageLength": 100,
                 "autoWidth": true,
                 "ajax": {
-                    "url": "<?= $path ?>builder/get-hospital",
+                    "url": "<?= $path ?>builder/fetch_hospitals",
                     "type": "POST"
                 }
             });
@@ -135,16 +140,18 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
         function AddHospital() {
             location.href = "<?=$path?>builder/add-hospital";
 
-        } function Updatehospital(id) {
+        }
+
+        function Updatehospital(id) {
             location.href = "<?=$path?>builder/update-hospital/" + id;
 
         }
 
-          function AddSmsCredits( id, newcredits ){
+        function AddSmsCredits(id, newcredits) {
 
-            if( confirm( "Are You Want To Add " + newcredits + " SMS Credits" ) ){
+            if (confirm("Are You Want To Add " + newcredits + " SMS Credits")) {
 
-                response = AjaxResponse( 'builder/add_sms_credits', "id=" + id + "&newcredits=" + newcredits );
+                response = AjaxResponse('builder/add_sms_credits', "id=" + id + "&newcredits=" + newcredits);
 
                 if (response.status == 'success') {
                     $("#AddSmsCreditsResponse").html('<div class="alert alert-success mb-4" style="margin: 10px;" role="alert"> <strong>Added Successfully!</strong>  </div>')
@@ -164,6 +171,7 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
             location.href = "<?=$path?>builder/add_theme/" + id;
 
         }
+
         function DeleteHospital(id) {
             if (confirm("Are you Sure U want to Delete this?")) {
                 response = AjaxResponse("builder/delete-hospital", "id=" + id);
@@ -181,6 +189,7 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
 
             }
         }
+
         function SearchFilterFormSubmit(parent) {
 
             var data = $("form#" + parent).serialize();
@@ -198,6 +207,7 @@ if (isset($SessionFilters['Name']) && $SessionFilters['Name'] != '') {
                 location.reload();
             }
         }
+
         function AddBanner() {
             $('#AddBannerModal form#AddBannerForm input#ProfileUID').val(id);
 
