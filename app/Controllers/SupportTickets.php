@@ -271,7 +271,7 @@ class SupportTickets extends BaseController
         $record = array();
         $record2 = array();
         $record3 = array();
-
+        $fileID='';
         $message = $this->request->getVar('message');
         $TaskID = $this->request->getVar('TaskID');
         $UserID = $_SESSION['FullName'];
@@ -286,9 +286,6 @@ class SupportTickets extends BaseController
           $record['User'] = $UserID;
           $record['Message'] = $message;
           $record['File'] = $fileID ;
-
-
-
           $RecordId = $Crud->AddRecordPG("builder_task_attachments", $record);
           if (isset($RecordId) && $RecordId > 0) {
               $response['status'] = 'success';
@@ -297,8 +294,6 @@ class SupportTickets extends BaseController
               $response['status'] = 'fail';
               $response['message'] = 'Data Didnt Submitted Successfully...!';
           }
-
-
       }
 
         echo json_encode($response);
@@ -342,8 +337,6 @@ class SupportTickets extends BaseController
 
         $Data = $SupportTicketModel->GetTicketAllCommentsData( $TicketID );
         $TicketData = $SupportTicketModel->GetTicketDataByID( $TicketID );
-//                print_r($TicketData);exit();
-
         if( count( $Data ) > 0 ){
 
             $html ='';$User = '';
