@@ -15,6 +15,7 @@
                 <th>Module</th>
                 <th>Created Date</th>
                 <th>Status</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -27,6 +28,7 @@
 
                 <th>Created Date</th>
                 <th>Status</th>
+                <th>Action</th>
             </tr>
             <div class="mt-4" id="Response"></div>
 
@@ -53,7 +55,11 @@
 
     </script>
 
-
+<script>
+    function ReplyTicket(id) {
+        location.href = "<?=$path?>support-ticket/builder_tickets_reply/" + id;
+    }
+</script>
     <script src="<?= $template ?>vendors/dataTable/datatables.min.js"></script>
     <script src="<?= $template ?>assets/js/examples/datatable.js"></script>
     <script src="<?= $template ?>vendors/prism/prism.js"></script>

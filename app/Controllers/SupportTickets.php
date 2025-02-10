@@ -161,7 +161,18 @@ class SupportTickets extends BaseController
                 : '';
             $data[] = isset($record['SystemDate']) ? date("d M, Y h:i A", strtotime( $record['SystemDate'] )) : '';
             $data[] = isset($record['Priority']) ? htmlspecialchars($record['Priority']) : '';
+            $data[] = '
+    <td class="text-end">
+        <div class="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                Actions
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" onclick="ReplyTicket(' . htmlspecialchars($record['UID']) . ')">Ticket Reply</a>
 
+            </div>
+        </div>
+    </td>';
             $dataarr[] = $data;
         }
 
